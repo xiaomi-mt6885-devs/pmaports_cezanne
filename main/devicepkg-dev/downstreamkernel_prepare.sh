@@ -33,6 +33,11 @@ if [ -z "$_outdir" ]; then
 	_outdir="."
 fi
 
+# shellcheck disable=SC2154
+if [ -z "$_config" ]; then
+    _config="$_kconfig_name"."$CARCH"
+fi
+
 # Set _hostcc when HOSTCC is set
 [ -z "$HOSTCC" ] || _hostcc="HOSTCC=$HOSTCC"
 
@@ -51,8 +56,9 @@ done
 
 # Prepare kernel config ('yes ""' for kernels lacking olddefconfig)
 mkdir -p "$builddir/$_outdir"
-# shellcheck disable=SC2154
-cp "$srcdir/$_config" "$builddir"/"$_outdir"/.config
 # shellcheck disable=SC2086,SC2154
-yes "" | make -C "$builddir" ARCH="$_carch" O="$_outdir" \
-	$_hostcc oldconfig
+if [ -z "$_kconfig_name" ]; then
+	cp "$srcdir/$_config" "$builddir"/"$_outdir"/.config
+	yes "" | make -C "$builddir" ARCH="$_carch" O="$_outdir" \
+		$_hostcc oldconfig
+fi

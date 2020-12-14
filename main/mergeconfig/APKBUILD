@@ -1,0 +1,17 @@
+pkgname=mergeconfig
+pkgver=1
+pkgrel=0
+pkgdesc="A tool to merge kernel config fragments"
+url="https://kernel.org"
+arch="noarch"
+license="GPL-2.0"
+_commit="60bef52c7a68257048f34ce32b8300def71a3de0"
+source="mergeconfig::https://raw.githubusercontent.com/torvalds/linux/$_commit/scripts/kconfig/merge_config.sh"
+options="!check"
+builddir="$srcdir/"
+
+package() {
+	install -Dm755 "$builddir"/mergeconfig "$pkgdir"/usr/bin/mergeconfig
+}
+
+sha512sums="875d23429c5924317cc71f342558dcd26f622d2f72b6820c30364691d4c970d87f0b16d31203fd9131802daf150b1e946fba3aa583e0d999e10259ef8b8813ef  mergeconfig"
