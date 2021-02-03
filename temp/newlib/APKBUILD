@@ -1,0 +1,146 @@
+# Forked from Alpine, because it's only in edge. Needed for u-boot-librem5.
+_targets="arm-none-eabi"
+pkgname=newlib
+pkgver=3.3.0
+pkgrel=2
+pkgdesc="C standard library implementation intended for use on embedded systems"
+url="http://www.sourceware.org/newlib/"
+makedepends="texinfo"
+arch="all !s390x !mips !mips64" # Blocked by gcc-cross-embedded
+license="GPL-2.0-only AND LGPL-2.1-only AND 0BSD AND BSD-3-Clause AND GPL-3.0-only AND LGPL-3.0-only"
+source="ftp://sourceware.org/pub/newlib/newlib-$pkgver.tar.gz"
+options="!check"
+
+for target in $_targets; do
+	targetnorm="${target//-/_}"
+	subpackages="newlib-$target:$targetnorm $subpackages"
+	makedepends="binutils-$target gcc-$target $makedepends"
+done
+
+# This package installes two version of the newlib library to remain compatible
+# with projects expecting the GNU ARM Embedded Toolchain [1]. The nano version
+# appends the postix "_nano" to the libaries. The is not an arbitrary choice,
+# it matches the specs in "/usr/arm-none-eabi/lib/nano.specs", which is
+# part of the default newlib installation.
+# [1]: https://launchpad.net/gcc-arm-embedded/
+
+build() {
+	for target in $_targets; do
+		mkdir "$builddir/build-$target" "$builddir/build-$target-nano"
+		# nano version
+		cd "$builddir/build-$target-nano"
+		"$builddir"/configure \
+				--target=$target \
+				--prefix=/usr/ \
+				--infodir=/deleteme/info \
+				--mandir=/deleteme/man \
+				--htmldir=/deleteme/html \
+				--pdfdir=/deleteme/pdf \
+				--disable-newlib-supplied-syscalls \
+				--disable-nls \
+				--disable-newlib-fseek-optimization \
+				--disable-newlib-fvwrite-in-streamio \
+				--disable-newlib-unbuf-stream-opt \
+				--disable-newlib-wide-orient \
+				--enable-lite-exit \
+				--enable-newlib-global-atexit \
+				--enable-newlib-nano-formatted-io \
+				--enable-newlib-nano-malloc \
+				--enable-newlib-reent-small \
+				CC_FOR_TARGET="$target"-gcc \
+				GCC_FOR_TARGET="$target"-gcc \
+				AR_FOR_TARGET="$target"-ar \
+				AS_FOR_TARGET="$target"-as \
+				LD_FOR_TARGET="$target"-ld \
+				NM_FOR_TARGET="$target"-nm \
+				OBJDUMP_FOR_TARGET="$target"-objdump \
+				RANLIB_FOR_TARGET="$target"-ranlib \
+				READELF_FOR_TARGET="$target"-readelf \
+				STRIP_FOR_TARGET="$target"-strip \
+				CFLAGS="-Os -ffunction-sections -fdata-sections -fshort-wchar"
+		make
+
+		# regular version
+		cd "$builddir/build-$target"
+		"$builddir"/configure \
+				--host=$CHOST \
+				--target=$target \
+				--prefix=/usr \
+				--infodir=/deleteme/info \
+				--mandir=/deleteme/man \
+				--htmldir=/deleteme/html \
+				--pdfdir=/deleteme/pdf \
+				--disable-newlib-supplied-syscalls \
+				--disable-nls \
+				--enable-newlib-io-long-long \
+				--enable-newlib-register-fini \
+				CC_FOR_TARGET="$target"-gcc \
+				GCC_FOR_TARGET="$target"-gcc \
+				AR_FOR_TARGET="$target"-ar \
+				AS_FOR_TARGET="$target"-as \
+				LD_FOR_TARGET="$target"-ld \
+				NM_FOR_TARGET="$target"-nm \
+				OBJDUMP_FOR_TARGET="$target"-objdump \
+				RANLIB_FOR_TARGET="$target"-ranlib \
+				READELF_FOR_TARGET="$target"-readelf \
+				STRIP_FOR_TARGET="$target"-strip \
+				CFLAGS="-O2 -ffunction-sections -fdata-sections -pipe"
+		make
+	done
+}
+
+package() {
+	for target in $_targets; do
+		depends="$depends newlib-$target"
+	done
+	mkdir -p "$pkgdir"
+}
+
+_install_subpkg() {
+	target="${subpkgname#newlib-}"
+	pkgdesc="A C standard library implementation intended for $target"
+	depends="binutils-$target gcc-$target $depends"
+	mkdir -p "$subpkgdir"
+	# install nano version
+	cd "$builddir/build-$target-nano"
+	make -j1 DESTDIR="$subpkgdir" install
+	# rename nano version libs
+	cd "$subpkgdir/usr/$target/lib"
+	find . -regex ".*\(c\|g\|rdimon\|gloss\)\.a" | while read -r _file; do
+		mv "$_file" "${_file%%.a}_nano.a"
+	done
+	mkdir -p "$subpkgdir/usr/$target/include/nano"
+	mv "$subpkgdir/usr/$target/include/newlib.h" \
+	   "$subpkgdir/usr/$target/include/nano/"
+
+	# install regular version
+	cd "$builddir/build-$target"
+	make -j1 DESTDIR="$subpkgdir" install
+	rm -rf "$subpkgdir/deleteme"
+}
+
+arm_none_eabi() {
+	_install_subpkg
+}
+
+mips_mti_elf() {
+	_install_subpkg
+}
+
+msp430_elf() {
+	_install_subpkg
+}
+
+or1k_elf() {
+	_install_subpkg
+}
+
+riscv_none_elf() {
+	_install_subpkg
+}
+
+aarch64_none_elf() {
+	_install_subpkg
+}
+
+sha512sums="2f0c6666487520e1a0af0b6935431f85d2359e27ded0d01d02567d0d1c6479f2f0e6bbc60405e88e46b92c2a18780a01a60fc9281f7e311cfd40b8d5881d629c  newlib-3.3.0.tar.gz"
