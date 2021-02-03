@@ -1,0 +1,67 @@
+# Reference: <https://postmarketos.org/vendorkernel>
+# Maintainer:  Clayton Craft <clayton@craftyguy.net>
+pkgname=linux-purism-librem5
+pkgver=5.9.16
+pkgrel=0
+_purismrel=2
+# <kernel ver>.<purism kernel release>
+_purismver=${pkgver}+librem5.$_purismrel
+pkgdesc="Purism Librem 5 phone kernel fork"
+arch="aarch64"
+_carch="arm64"
+_flavor="purism-librem5"
+url="https://source.puri.sm/Librem5/linux-next"
+license="GPL-2.0-only"
+options="!strip !check !tracedeps pmb:cross-native"
+makedepends="
+	bash
+	bc
+	bison
+	devicepkg-dev
+	elfutils-dev
+	findutils
+	flex
+	gmp-dev
+	installkernel
+	linux-headers
+	openssl-dev
+	perl
+	sed
+	"
+
+# Source
+_repository="linux-next"
+# kconfig generated with: ARCH=arm64 make defconfig KBUILD_DEFCONFIG=librem5_defconfig
+_config="config-$_flavor.$arch"
+source="
+	$pkgname-$_purismver.tar.gz::https://source.puri.sm/Librem5/$_repository/-/archive/pureos/$_purismver/$_repository-pureos-$_purismver.tar.gz
+	8f11380ec32912370b8ae9134a0387a6f18862f7.patch
+	$_config
+"
+builddir="$srcdir/$_repository-pureos-$_purismver"
+
+prepare() {
+	default_prepare
+	REPLACE_GCCH=0 \
+		. downstreamkernel_prepare
+}
+
+build() {
+	unset LDFLAGS
+	make ARCH="$_carch" CC="${CC:-gcc}" \
+		KBUILD_BUILD_VERSION="$((pkgrel + 1 ))-postmarketOS" \
+		LOCALVERSION=".$_purismrel"
+}
+
+package() {
+	downstreamkernel_package "$builddir" "$pkgdir" "$_carch" "$_flavor"
+
+	make modules_install dtbs_install \
+		ARCH="$_carch" \
+		INSTALL_MOD_PATH="$pkgdir" \
+		INSTALL_DTBS_PATH="$pkgdir/usr/share/dtb"
+
+}
+sha512sums="9f1a05574c9e121ac4bd083a9951af53e454d53a7e5a72d928ca8196134d906cdda16d48a2fd6beaa7451598faf00031e19fe1926960c92e1fbfb3df1f778b94  linux-purism-librem5-5.9.16+librem5.2.tar.gz
+9870bff4b187188b519b23264c2634ee4232011fed6d2f66a7b4971db354ac3dffa0e1552bd0dc953c66ec622e18ce8899fdbcfba94f60867fc5004d6da96753  8f11380ec32912370b8ae9134a0387a6f18862f7.patch
+845c7af0aae1c02dfb670b2935ccb39fae9b37212c8d5de4e0b8d12f670a45924150bcf6bcf0021d9219a954fc5ff54d5d6c4a119db3fdf26a15cccdd82b850f  config-purism-librem5.aarch64"
