@@ -1,8 +1,12 @@
-# Forked from Alpine, because it's only in edge. Needed for crust.
-_targets="or1k-elf"
+# Forked from Alpine, because it's only in edge. Needed for crust and
+# u-boot-librem5.
+_targets="
+	arm-none-eabi
+	or1k-elf
+	"
 pkgname=gcc-cross-embedded
 pkgver=9.2.0
-pkgrel=2
+pkgrel=3
 pkgdesc="The GNU Compiler Collection for embedded targets"
 url="http://gcc.gnu.org"
 depends="gcc"
