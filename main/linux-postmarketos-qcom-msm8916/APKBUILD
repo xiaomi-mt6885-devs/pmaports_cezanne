@@ -9,27 +9,33 @@ pkgdesc="Mainline kernel fork for Qualcomm MSM8916 devices"
 arch="aarch64 armv7"
 url="https://github.com/msm8916-mainline/linux"
 license="GPL-2.0-only"
-options="!strip !check !tracedeps pmb:cross-native pmb:kconfigcheck-anbox"
-makedepends="bison findutils flex installkernel openssl-dev perl gmp-dev mpc1-dev mpfr-dev"
+options="!strip !check !tracedeps pmb:kconfig-fragments pmb:cross-native pmb:kconfigcheck-anbox"
+makedepends="bison findutils flex installkernel openssl-dev perl gmp-dev mpc1-dev mpfr-dev devicepkg-dev"
 
 # Architecture
 case "$CARCH" in
-	aarch64) _carch="arm64" ;;
-	arm*)    _carch="arm" ;;
+	aarch64)
+		_carch="arm64"
+		_kconfig_name="msm8916_defconfig"
+		;;
+	arm*)
+		_carch="arm"
+		_kconfig_name="qcom_defconfig"
+		;;
 esac
 
 # Source
 _tag=v${pkgver//_/-}-msm8916
 source="
 	$pkgname-$_tag.tar.gz::$url/archive/$_tag.tar.gz
-	config-$_flavor.aarch64
-	config-$_flavor.armv7
+	msm8916_defconfig.aarch64
+	qcom_defconfig.armv7
 "
 builddir="$srcdir/linux-${_tag#v}"
 
 prepare() {
 	default_prepare
-	cp "$srcdir/config-$_flavor.$CARCH" .config
+	. fragment_prepare
 }
 
 build() {
@@ -52,6 +58,8 @@ package() {
 		"$pkgdir"/usr/share/kernel/$_flavor/kernel.release
 }
 
-sha512sums="169d88a6fb61dd63d89330d6c5f76a208b49dbc777b7fa426da888c7d3f45356a4765a2096b3894b8c2606d97e2ca209f3ef244540094877c48533343999eb5a  linux-postmarketos-qcom-msm8916-v5.11.7-msm8916.tar.gz
-548bedd13d28a22e9a3049de6a906567a51e8ae76385858d5cfc599dfbbf5ca3371a230bcbaa31780f8dd53682e07ba8e7ab48788d24568003356172f209f8bc  config-postmarketos-qcom-msm8916.aarch64
-e579e8c8c8640219303efa270273fbb28caf7b45e51098a49bf0601cf5cff9b3f244c0cccefdd86cb93a2b39e796e572f2a28be9941d50b79f02a936118cf7ae  config-postmarketos-qcom-msm8916.armv7"
+sha512sums="
+169d88a6fb61dd63d89330d6c5f76a208b49dbc777b7fa426da888c7d3f45356a4765a2096b3894b8c2606d97e2ca209f3ef244540094877c48533343999eb5a  linux-postmarketos-qcom-msm8916-v5.11.7-msm8916.tar.gz
+8cf01afea0d3db1d9391aeb46b4cc905c733f7085aa64c4fdbeca149fa15f7a358f133c6b09b3e3cfe4ecc15aa5263cf86da03b65f50a16366cf5d77968e70b9  msm8916_defconfig.aarch64
+65f301ee93c282a7cbd097c3cf003be1b6984f16069c779ece916c87b1d00871bed6ec972de98af7de5f38d9301dc3873576ed124786a7b8e1527b2889a9509d  qcom_defconfig.armv7
+"
