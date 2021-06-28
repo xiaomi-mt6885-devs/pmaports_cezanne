@@ -1,0 +1,23 @@
+pkgname=diffconfig
+pkgver=1
+pkgrel=0
+pkgdesc="A tool to compare kernel config files"
+url="https://kernel.org"
+arch="noarch"
+license="GPL-2.0"
+depends="python3"
+_commit="b24413180f5600bcb3bb70fbed5cf186b60864bd"
+source="diffconfig::https://raw.githubusercontent.com/torvalds/linux/$_commit/scripts/diffconfig"
+options="!check"
+builddir="$srcdir/"
+
+prepare() {
+	default_prepare
+	sed -i 's/usr\/bin\/python/usr\/bin\/python3/' "$builddir"/diffconfig
+}
+
+package() {
+	install -Dm755 "$builddir"/diffconfig "$pkgdir"/usr/bin/diffconfig
+}
+
+sha512sums="1671873387a621f230153dfc615cdf2a848090285120828a0505984269aa19228c3d76fa12e67c127241264a8944cfb5ef65d45e07fff4b983ec9e3029d4eceb  diffconfig"
