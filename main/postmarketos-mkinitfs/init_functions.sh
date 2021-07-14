@@ -4,6 +4,34 @@ IP=172.16.42.1
 ROOT_PARTITION_UNLOCKED=0
 ROOT_PARTITION_RESIZED=0
 
+# In stowaway mode: mount partition specified in kernel
+# parameter that specified Android device's userdata
+# partition, (example: PMOS_STOWAWAY=/dev/sda31) to /data.
+# Then use postmarketos rootfs as image file stored on
+# userdata partition (like SailfishOS does it):
+#     /data/.stowaways/postmarketos.img.
+# Mount this image, chroot there and that's it! This way
+# user doesn't have to erase installed Android system
+# and A/B devices can even benefit from dual-boot with
+# postmarketOS by switching active slot.
+# Non-A/B devices can just reflash boot.img (and only
+# boot.img! nothing else!) to simulate dual-booting
+# with Android.
+
+# Stores detected mode (0 - not detected, 1 - detected)
+STOWAWAY_MODE=0
+
+# Stores partition (block device) to mount to acces the image.
+# This will typically be the userdata partition, the largest.
+STOWAWAY_PARTITION=""
+
+# Default image path inside the STOWAWAYS_PARTITION.
+# Can be overriden by cmdline param STOWAWAY_IMG=path/to/img.
+# Currently the image file is supposed to contain only rootfs
+# part (no subpartitions, use 'pmbootstrap install --split').
+# It is not resized, encryption is not supported, ...
+STOWAWAY_IMG=".stowaways/postmarketos.img"
+
 # Redirect stdout and stderr to logfile
 setup_log() {
 	# Bail out if PMOS_NO_OUTPUT_REDIRECT is set
@@ -74,6 +102,25 @@ setup_mdev() {
 get_uptime_seconds() {
 	# Get the current system uptime in seconds - ignore the two decimal places.
 	awk -F '.' '{print $1}' /proc/uptime
+}
+
+detect_stowaway_mode() {
+	# example: PMOS_STOWAWAY=/dev/sda31
+	CMDLINE=$( < /proc/cmdline tr ' ' '\n' | grep PMOS_STOWAWAY )
+	if [ -n "${CMDLINE}" ]; then
+		STOWAWAY_PARTITION=$( echo "${CMDLINE}" | cut -d '=' -f 2 )
+		STOWAWAY_MODE=1
+		STOWAWAY_IMG=".stowaways/postmarketos.img"
+		# user can override path to image to use in kernel cmdline
+		# example: STOWAWAY_IMG=media/0/vendor-codename-root.img
+		CMDLINE=$( < /proc/cmdline tr ' ' '\n' | grep STOWAWAY_IMG )
+		if [ -n "${CMDLINE}" ]; then
+			STOWAWAY_IMG=$( echo "${CMDLINE}" | cut -d '=' -f 2 )
+		fi
+		echo "Stowaway mode: using ${STOWAWAY_PARTITION}/${STOWAWAY_IMG} as rootfs image"
+	fi
+	# we don't need this var
+	unset CMDLINE
 }
 
 mount_subpartitions() {
@@ -149,6 +196,11 @@ find_root_partition() {
 				DEVICE="$next"
 			fi
 		fi
+	fi
+
+	# Stowaway mode is also a shortcut
+	if [ "$STOWAWAY_MODE" = 1 ]; then
+		DEVICE=${STOWAWAY_PARTITION}
 	fi
 
 	# Try partitions in /dev/mapper and /dev/dm-* first
@@ -351,6 +403,29 @@ resize_root_filesystem() {
 
 mount_root_partition() {
 	partition="$(find_root_partition)"
+
+	# Stowaway mode is special: we first mount the specified partition,
+	# then find specified image file on it, then mount that image as
+	# our /sysroot
+	if [ "$STOWAWAY_MODE" = 1 ]; then
+		echo "Mount stowaway partition ($partition) to /data"
+		mkdir -p /data
+		mount -o rw "$partition" /data
+		# Sanity check
+		if ! [ -e "/data/${STOWAWAY_IMG}" ]; then
+			echo "ERROR: path ${STOWAWAY_IMG} does not exist on ${STOWAWAY_PARTITION}!"
+			show_splash /splash-mounterror.ppm.gz
+			loop_forever
+		fi
+		# Mount the actual pmOS rootfs image to /sysroot
+		mount -o loop,rw "/data/${STOWAWAY_IMG}" /sysroot
+		# expose "/data" mountpoint to the rootfs in the same manner
+		#   as /boot, otherwise it looks weird from the booted OS
+		mkdir -p /sysroot/data
+		mount --bind /data /sysroot/data
+		return
+	fi
+
 	echo "Mount root partition ($partition) to /sysroot (read-only)"
 	type="$(get_partition_type "$partition")"
 	case "$type" in

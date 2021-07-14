@@ -34,6 +34,7 @@ done
 setup_usb_network
 start_unudhcpd
 
+detect_stowaway_mode
 mount_boot_partition /boot
 show_splash_loading
 extract_initramfs_extra /boot/initramfs-extra

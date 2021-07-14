@@ -2,7 +2,7 @@
 # Co-Maintainer: Clayton Craft <clayton@craftyguy.net>
 pkgname=postmarketos-mkinitfs
 pkgver=1.4.1
-pkgrel=1
+pkgrel=2
 pkgdesc="Tool to generate initramfs images for postmarketOS"
 url="https://postmarketos.org"
 depends="
@@ -66,10 +66,9 @@ package() {
 check() {
 	go test ./...
 }
-
 sha512sums="
 f827acb0a10c0e5c1631f1b712e91fde7eb4ade0f1174eb2ef1754018bf4518ea1ad3229fd335c25fb0c6fe46ae20890f5cf43e58c8143ae17b5ab9bb36f0199  postmarketos-mkinitfs-1.4.1.tar.gz
 08a3e79c6fa7d3839d43515b8da7817cb36f4ab014552fd0164957c232bb16fde337e57c47c9734d396a5fca3328fbf49ebabe4728c6071c80b04dad14886bba  00-default.modules
-0c6d2c749952ff027f1c435a7a3b2861fb632b81c16b6d69a92b47457da4af8cb80e50168b93f92b316377c8c1f5243029fca22ac49fef0940eb5ad6c3dff6ec  init.sh
-ddf1d545413cbf4bdd910c8bbd457ce46b1d0afe4c32ec204f3fee933386b08bc27af9f2907b0734b53d929b38352c5c8744d5828d60ffbc68f2a724b854d267  init_functions.sh
+b4e08583f4f32b68c7fb9c4b8b3f15f48112d98d1638890268b21276c9fcf3d1c865048a6e3599c051046f1acac69e3b3653c2387967a74cb6e58b08a4c49704  init.sh
+75c09a8cd8b8b6897144b7e17baed05d15c646f5acab9c1b9a94a7964accecb896910952bcfbf0f63b81de2669843ff44365f89943a858fb3cb1f1a79e9b4b88  init_functions.sh
 "
