@@ -1,5 +1,5 @@
 # Reference: <https://postmarketos.org/vendorkernel>
-# Kernel config based on: arch/arm64/configs/(CHANGEME!)
+# Kernel config based on: arch/arm64/configs/merge_hi6250_defconfig
 
 pkgname=linux-huawei-venus
 pkgver=4.1.18
