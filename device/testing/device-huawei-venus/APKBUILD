@@ -1,0 +1,29 @@
+# Reference: <https://postmarketos.org/devicepkg>
+pkgname=device-huawei-venus
+pkgdesc="Huawei P9 lite"
+pkgver=0.1
+pkgrel=0
+url="https://postmarketos.org"
+license="MIT"
+arch="aarch64"
+options="!check !archcheck"
+depends="
+	linux-huawei-venus
+	mesa-dri-gallium
+	mkbootimg
+	postmarketos-base
+"
+makedepends="devicepkg-dev"
+source="deviceinfo"
+
+build() {
+	devicepkg_build $startdir $pkgname
+}
+
+package() {
+	devicepkg_package $startdir $pkgname
+}
+
+sha512sums="
+5f8014f3301421a56896dbc40ae589c6de0191da29c10b54ed93e60f415c1151b23650ed6df69330ea982caea7292c24f91301766aacb1c37236b6cd9d4acff9  deviceinfo
+"
