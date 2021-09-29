@@ -1,0 +1,29 @@
+# Reference: <https://postmarketos.org/devicepkg>
+pkgname=device-askey-sti6140d360
+pkgdesc="Onn UHD"
+pkgver=0.1
+pkgrel=0
+url="https://postmarketos.org"
+license="MIT"
+arch="aarch64"
+options="!check !archcheck"
+depends="
+	linux-askey-sti6140d360
+	mesa-dri-gallium
+	mkbootimg
+	postmarketos-base
+"
+makedepends="devicepkg-dev"
+source="deviceinfo"
+
+build() {
+	devicepkg_build $startdir $pkgname
+}
+
+package() {
+	devicepkg_package $startdir $pkgname
+}
+
+sha512sums="
+8c796187c2c185b3ae5ba466b127963a9b385cb3ec265d12ef465b8981ccfd8a076eba56c3a4a2fb0acde5630d21812c5c06382c3bf8163fc4451b292eaa4e96  deviceinfo
+"
