@@ -1,9 +1,11 @@
 # Reference: <https://postmarketos.org/devicepkg>
 # Maintainer: Caleb Connolly <caleb@connolly.tech>
 
+_codename=oneplus-enchilada
+# TODO: allow using variables for pkgname
 pkgname=device-oneplus-enchilada
 pkgdesc="OnePlus 6"
-pkgver=4
+pkgver=5
 pkgrel=0
 url="https://postmarketos.org"
 license="MIT"
@@ -18,30 +20,26 @@ depends="
 	soc-qcom-sdm845-ucm
 "
 makedepends="devicepkg-dev"
-source="deviceinfo rootston.ini"
-subpackages="$pkgname-nonfree-firmware:nonfree_firmware $pkgname-phosh"
+source="deviceinfo.oneplus-enchilada"
+subpackages="
+	$pkgname-nonfree-firmware:nonfree_firmware
+"
 
 build() {
 	devicepkg_build $startdir $pkgname
 }
 
 package() {
-	devicepkg_package $startdir $pkgname
+	install -Dm644 "$srcdir/deviceinfo.$_codename" \
+	"$pkgdir/etc/deviceinfo.$_codename"
 }
 
 nonfree_firmware() {
-	pkgdesc="Modem, WiFi and GPU Firmware, also needed for osk-sdl"
-	depends="firmware-oneplus-sdm845 firmware-oneplus-sdm845-initramfs"
+	pkgdesc="GPU, venus, modem firmware"
+	depends="firmware-oneplus-sdm845"
 	mkdir "$subpkgdir"
 }
 
-phosh() {
-	install_if="$pkgname=$pkgver-r$pkgrel phosh"
-	install -Dm644 "$srcdir"/rootston.ini \
-		"$subpkgdir"/etc/phosh/rootston.ini
-}
-
 sha512sums="
-009e1cfc0ae2823bb82dbc39a1b9c1199e0e7691f0e95a6423bbfe941e07486297e0aad295f2ea44d43ed51b1440bf8e6a67867d0c1a6aad653399afbd006c1d  deviceinfo
-9fef488a655fcbad4fb28c11d7d6cbe385096e766cd99ca59802f1dbc4e3c99dac0ff682549e02fac0b73f7e95db953f3a87c453d1b19b229785e4ffeec515ed  rootston.ini
+03c4509760b782779ad1900c1695058b73e711de516e13103100176bb8ffb3618e445f1ce1a3fc20ea6609517ffd9e92b4f6b6f1fad8fc5f1ba893c56fc784fa  deviceinfo.oneplus-enchilada
 "

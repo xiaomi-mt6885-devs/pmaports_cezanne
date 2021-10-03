@@ -16,6 +16,8 @@ deviceinfo_external_storage="false"
 deviceinfo_screen_width="1080"
 deviceinfo_screen_height="2280"
 
+# FOR BACKWARDS COMPATIBILITY, OVERWRITTEN WHEN GENERIC SDM845 IS USED
+
 # Bootloader related
 deviceinfo_flash_method="fastboot"
 deviceinfo_kernel_cmdline="PMOS_NO_OUTPUT_REDIRECT console=ttyMSM0,115200"
