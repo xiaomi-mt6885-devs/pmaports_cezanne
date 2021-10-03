@@ -1,0 +1,62 @@
+# Reference: <https://postmarketos.org/devicepkg>
+# Maintainer: Caleb Connolly <caleb@connolly.tech>
+
+_codename=generic-sdm845
+pkgname=device-generic-sdm845
+pkgdesc="Generic SDM845"
+pkgver=1
+pkgrel=0
+url="https://postmarketos.org"
+license="MIT"
+arch="aarch64"
+options="!check !archcheck"
+devices="
+	oneplus-sdm845
+	xiaomi-beryllium
+"
+# TODO: allow using $devices here
+depends="
+	linux-postmarketos-qcom-sdm845
+	device-oneplus-enchilada
+	device-xiaomi-beryllium
+"
+makedepends="devicepkg-dev"
+source="
+	deviceinfo.$_codename
+	rootston.ini
+"
+subpackages="
+	$pkgname-nonfree-firmware:nonfree_firmware
+	$pkgname-phosh
+"
+install="$pkgname.post-install"
+
+build() {
+	devicepkg_build $startdir $pkgname
+}
+
+package() {
+	install -Dm644 "$srcdir/deviceinfo.$_codename" \
+	"$pkgdir/etc/deviceinfo.$_codename"
+}
+
+nonfree_firmware() {
+	pkgdesc="Modem, WiFi and GPU Firmware, also needed for osk-sdl"
+	_depends=""
+	for dev in $devices; do
+		_depends="$_depends firmware-$dev"
+	done
+	depends="$_depends"
+	mkdir "$subpkgdir"
+}
+
+phosh() {
+	install_if="$pkgname=$pkgver-r$pkgrel phosh"
+	install -Dm644 "$srcdir"/rootston.ini \
+		"$subpkgdir"/etc/phosh/rootston.ini
+}
+
+sha512sums="
+94a01903b942e76b57dd3e9160f216d6518ac597d8d001913d33d8413d576151614778b095376a6ba8be844036e70ea349fba81dd1402fee47dce9223d2abfc9  deviceinfo.generic-sdm845
+9fef488a655fcbad4fb28c11d7d6cbe385096e766cd99ca59802f1dbc4e3c99dac0ff682549e02fac0b73f7e95db953f3a87c453d1b19b229785e4ffeec515ed  rootston.ini
+"

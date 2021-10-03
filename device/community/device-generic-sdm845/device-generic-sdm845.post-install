@@ -1,0 +1,6 @@
+#!/bin/sh
+
+# Pmbootstrap needs to know which deviceinfo to use.
+# This is a hack and should be fixed by having pmbootstrap
+# be generic-aware.
+ln -s /etc/deviceinfo.generic-sdm845 /etc/deviceinfo
