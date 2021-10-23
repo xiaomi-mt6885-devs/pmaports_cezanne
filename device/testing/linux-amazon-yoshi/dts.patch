@@ -1,0 +1,109 @@
+Initial device tree for Kindle 4 (codename Yoshi) devices.
+
+Index: linux-5.15-rc6/arch/arm/boot/dts/imx50-amazon-yoshi.dts
+===================================================================
+--- /dev/null
++++ linux-5.15-rc6/arch/arm/boot/dts/imx50-amazon-yoshi.dts
+@@ -0,0 +1,90 @@
++// SPDX-License-Identifier: GPL-2.0+
++
++/dts-v1/;
++
++#include "imx50.dtsi"
++#include <dt-bindings/interrupt-controller/irq.h>
++#include <dt-bindings/gpio/gpio.h>
++#include <dt-bindings/input/input.h>
++
++#define PAD_CTL_HVE 			(1 << 13)
++#define PAD_CTL_HYS 			(1 << 8)
++#define PAD_CTL_PKE 			(1 << 7)
++#define PAD_CTL_PUE 			(1 << 6)
++#define PAD_CTL_PUS_100K_DOWN   (0 << 4)
++#define PAD_CTL_PUS_47K_UP  	(1 << 4)
++#define PAD_CTL_PUS_100K_UP 	(2 << 4)
++#define PAD_CTL_PUS_22K_UP  	(3 << 4)
++#define PAD_CTL_ODE 			(1 << 3)
++#define PAD_CTL_DSE_LOW 		(0 << 1)
++#define PAD_CTL_DSE_MED 		(1 << 1)
++#define PAD_CTL_DSE_HIGH    	(2 << 1)
++#define PAD_CTL_DSE_MAX 		(3 << 1)
++#define PAD_CTL_SRE_FAST    	(1 << 0)
++#define PAD_CTL_SRE_SLOW    	(0 << 0)
++#define SION					(1 << 30)
++
++/ {
++	model = "Amazon Kindle 4";
++	compatible = "fsl,imx50";
++
++	chosen {
++		stdout-path = "serial0:115200n8";
++	};
++
++	memory@70000000 {
++		device_type = "memory";
++		reg = <0x70000000 0x10000000>;
++	};
++};
++
++&iomuxc {
++	pinctrl_uart1: uart1grp {
++		fsl,pins = <
++			MX50_PAD_UART1_TXD__UART1_TXD_MUX (PAD_CTL_HYS | PAD_CTL_PKE | PAD_CTL_PUE | PAD_CTL_DSE_HIGH | PAD_CTL_PUS_100K_DOWN)
++			MX50_PAD_UART1_RXD__UART1_RXD_MUX (PAD_CTL_HYS | PAD_CTL_PKE | PAD_CTL_PUE | PAD_CTL_DSE_HIGH | PAD_CTL_PUS_100K_UP)
++		>;
++	};
++
++	pinctrl_esdhc3: esdhc3grp {
++		fsl,pins = <
++			MX50_PAD_SD3_CMD__ESDHC3_CMD (PAD_CTL_HYS | PAD_CTL_PKE | PAD_CTL_PUE | PAD_CTL_DSE_HIGH | PAD_CTL_PUS_100K_UP | SION)
++			MX50_PAD_SD3_CLK__ESDHC3_CLK (              PAD_CTL_PKE | PAD_CTL_PUE | PAD_CTL_DSE_HIGH | PAD_CTL_PUS_47K_UP  | SION)
++			MX50_PAD_SD3_D0__ESDHC3_DAT0 (PAD_CTL_HYS | PAD_CTL_PKE | PAD_CTL_PUE | PAD_CTL_DSE_HIGH | PAD_CTL_PUS_47K_UP)
++			MX50_PAD_SD3_D1__ESDHC3_DAT1 (PAD_CTL_HYS | PAD_CTL_PKE | PAD_CTL_PUE | PAD_CTL_DSE_HIGH | PAD_CTL_PUS_47K_UP)
++			MX50_PAD_SD3_D2__ESDHC3_DAT2 (PAD_CTL_HYS | PAD_CTL_PKE | PAD_CTL_PUE | PAD_CTL_DSE_HIGH | PAD_CTL_PUS_47K_UP)
++			MX50_PAD_SD3_D3__ESDHC3_DAT3 (PAD_CTL_HYS | PAD_CTL_PKE | PAD_CTL_PUE | PAD_CTL_DSE_HIGH | PAD_CTL_PUS_47K_UP)
++			MX50_PAD_SD3_D4__ESDHC3_DAT4 (PAD_CTL_HYS | PAD_CTL_PKE | PAD_CTL_PUE | PAD_CTL_DSE_HIGH | PAD_CTL_PUS_47K_UP)
++			MX50_PAD_SD3_D5__ESDHC3_DAT5 (PAD_CTL_HYS | PAD_CTL_PKE | PAD_CTL_PUE | PAD_CTL_DSE_HIGH | PAD_CTL_PUS_47K_UP)
++			MX50_PAD_SD3_D6__ESDHC3_DAT6 (PAD_CTL_HYS | PAD_CTL_PKE | PAD_CTL_PUE | PAD_CTL_DSE_HIGH | PAD_CTL_PUS_47K_UP)
++			MX50_PAD_SD3_D7__ESDHC3_DAT7 (PAD_CTL_HYS | PAD_CTL_PKE | PAD_CTL_PUE | PAD_CTL_DSE_HIGH | PAD_CTL_PUS_47K_UP)
++		>;
++	};
++};
++
++// Internal flash
++&esdhc3 {
++	bus-width = <8>;
++	pinctrl-names = "default";
++	pinctrl-0 = <&pinctrl_esdhc3>;
++	status = "okay";
++
++	partitions {
++		compatible = "fixed-partitions";
++		#address-cells = <1>;
++		#size-cells = <1>;
++
++		partition@0 {
++			label = "bootloader";
++			reg = <0x0000000 0x5E000>;
++			read-only;
++		};
++	};
++};
++
++// Serial port
++&uart1 {
++	pinctrl-names = "default";
++	pinctrl-0 = <&pinctrl_uart1>;
++	status = "okay";
++};
+Index: linux-5.15-rc6/arch/arm/boot/dts/Makefile
+===================================================================
+--- linux-5.15-rc6.orig/arch/arm/boot/dts/Makefile
++++ linux-5.15-rc6/arch/arm/boot/dts/Makefile
+@@ -402,6 +402,7 @@ dtb-$(CONFIG_SOC_IMX35) += \
+ 	imx35-eukrea-mbimxsd35-baseboard.dtb \
+ 	imx35-pdk.dtb
+ dtb-$(CONFIG_SOC_IMX50) += \
++	imx50-amazon-yoshi.dts \
+ 	imx50-evk.dtb \
+ 	imx50-kobo-aura.dtb
+ dtb-$(CONFIG_SOC_IMX51) += \
