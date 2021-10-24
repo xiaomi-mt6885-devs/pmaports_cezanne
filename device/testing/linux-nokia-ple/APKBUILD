@@ -1,0 +1,58 @@
+# Reference: <https://postmarketos.org/vendorkernel>
+# Kernel config based on: arch/arm64/configs/PLE_defconfig
+
+pkgname=linux-nokia-ple
+pkgver=3.18.137
+pkgrel=0
+pkgdesc="HMD Global Nokia 6 kernel fork"
+arch="aarch64"
+_carch="arm64"
+_flavor="nokia-ple"
+url="https://kernel.org"
+license="GPL-2.0-only"
+options="!strip !check !tracedeps pmb:cross-native"
+makedepends="
+	bash
+	bc
+	bison
+	devicepkg-dev
+	flex
+	openssl-dev
+	perl
+"
+
+# Source
+_repository="android_kernel_nokia_msm8937"
+_commit="ebda3ee184d9b3d254cdeee8ee2bbaa4a69b2113"
+_config="config-$_flavor.$arch"
+source="
+	$pkgname-$_commit.tar.gz::https://github.com/nokia-dev/$_repository/archive/$_commit.tar.gz
+	$_config
+	gcc10-extern_YYLOC_global_declaration.patch
+	wlan_nv_template_builtin.patch
+"
+builddir="$srcdir/$_repository-$_commit"
+_outdir="out"
+
+prepare() {
+	default_prepare
+	. downstreamkernel_prepare
+}
+
+build() {
+	unset LDFLAGS
+	make O="$_outdir" ARCH="$_carch" CC="${CC:-gcc}" \
+		KBUILD_BUILD_VERSION="$((pkgrel + 1 ))-postmarketOS"
+}
+
+package() {
+	downstreamkernel_package "$builddir" "$pkgdir" "$_carch" \
+		"$_flavor" "$_outdir"
+}
+
+sha512sums="
+3b38e3f5d7ef76da163e684d1e3f04561214fcf4c154398e09e8d85cd9bca79752ab7061d75f41c6f1b70a15c45cdea09bdd4b607eda563a7857ee37e12b2d66  linux-nokia-ple-ebda3ee184d9b3d254cdeee8ee2bbaa4a69b2113.tar.gz
+8e921bad3a07d52a7be2b58d68c88c64992823ea7f36e45adb23237173732e0608dde209be83942f1aaa6cd37ae877f0e62cf2c9311921d4609c879aa818c13f  config-nokia-ple.aarch64
+2b48f1bf0e3f70703d2cdafc47d5e615cc7c56c70bec56b2e3297d3fa4a7a1321d649a8679614553dde8fe52ff1051dae38d5990e3744c9ca986d92187dcdbeb  gcc10-extern_YYLOC_global_declaration.patch
+edebf62a38a558369eb914475bc341d1fedc1c0bbeb2989172f9f99a2bc57c231a995176702335cd754701449b145e0231c1f2860d9ea93e84f52916a64d8d98  wlan_nv_template_builtin.patch
+"
