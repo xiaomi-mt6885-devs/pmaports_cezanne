@@ -1,0 +1,65 @@
+# Maintainer: Caleb Connolly <caleb@connolly.tech>
+# Close to mainline kernel fork for the Dragonboard 845c
+# Kernel maintained by John Stultz @ Linaro
+
+_flavor="thundercomm-db845c"
+pkgname=linux-$_flavor
+pkgver=5.15.0_rc6
+pkgrel=3
+pkgdesc="Mainline Kernel fork for the DB845c"
+arch="aarch64"
+_carch="arm64"
+url="https://gitlab.com/sdm845-mainline/linux"
+license="GPL-2.0-only"
+options="!strip !check !tracedeps
+	pmb:cross-native
+	pmb:kconfigcheck-nftables
+	pmb:kconfigcheck-containers
+	pmb:kconfigcheck-zram
+	pmb:kconfigcheck-anbox"
+makedepends="bison findutils flex installkernel openssl-dev perl android-mkdtimg"
+
+_repo="linux"
+_config="config-$_flavor.$arch"
+_commit="75984aa3de398045a7b8d3b58f7758b816cb8ecb"
+
+# Source
+source="
+	$_repo-$_commit.tar.gz::https://gitlab.com/sdm845-mainline/$_repo/-/archive/$_commit/$_repo-$_commit.tar.gz
+	$_config
+"
+builddir="$srcdir/$_repo-$_commit"
+
+prepare() {
+	default_prepare
+	cp "$srcdir/config-$_flavor.$arch" .config
+}
+
+build() {
+	unset LDFLAGS
+	make ARCH="$_carch" CC="${CC:-gcc}" \
+		KBUILD_BUILD_VERSION="$((pkgrel + 1 ))-$_flavor"
+}
+
+package() {
+	mkdir -p "$pkgdir"/boot
+
+	install -Dm644 "$builddir/arch/$_carch/boot/Image.gz" \
+		"$pkgdir/boot/vmlinuz"
+
+	make modules_install dtbs_install \
+		ARCH="$_carch" \
+		INSTALL_PATH="$pkgdir"/boot/ \
+		INSTALL_MOD_PATH="$pkgdir" \
+		INSTALL_MOD_STRIP=1 \
+		INSTALL_DTBS_PATH="$pkgdir"/usr/share/dtb
+	rm -f "$pkgdir"/lib/modules/*/build "$pkgdir"/lib/modules/*/source
+
+	install -D "$builddir"/include/config/kernel.release \
+		"$pkgdir"/usr/share/kernel/$_flavor/kernel.release
+}
+
+sha512sums="
+eaa05392690c6031f33234ed71c24d0c5351b2e075f09513ddc67e5500dfe1698b12a6a6fee57fb8e4916cbebe246586a85798f133c2b14b511d8e122d302bcf  linux-75984aa3de398045a7b8d3b58f7758b816cb8ecb.tar.gz
+58ed72bd55f57bca178e73172db212436d32ff3c985b7285ceff830aa97313642dd37e64fa310a7ee6812efa286421b0fbe16781faa8f1c702f552e6a0542f34  config-thundercomm-db845c.aarch64
+"
