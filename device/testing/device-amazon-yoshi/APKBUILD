@@ -22,7 +22,7 @@ build() {
 
 package() {
 	devicepkg_package $startdir $pkgname
-	install -D -m755 ${srcdir}/amazon-yoshi-bootimg-hack.sh ${pkgdir}/usr/share/postmarketos-mkinitfs/amazon-yoshi-bootimg-hack.sh
+	install -D -m755 $srcdir/amazon-yoshi-bootimg-hack.sh $pkgdir/usr/share/postmarketos-mkinitfs/amazon-yoshi-bootimg-hack.sh
 }
 
 sha512sums="

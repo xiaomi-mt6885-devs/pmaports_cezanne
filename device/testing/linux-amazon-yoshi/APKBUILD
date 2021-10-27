@@ -25,15 +25,15 @@ makedepends="
 
 # Source
 _config="config-$_flavor.$arch"
-tag=5.15-rc6
+_tag=5.15-rc6
 source="
-	$pkgname-$tag.tar.gz::https://git.kernel.org/torvalds/t/linux-${tag}.tar.gz
+	$pkgname-$_tag.tar.gz::https://git.kernel.org/torvalds/t/linux-$_tag.tar.gz
 	$_config
 	initramfs.list
 	init
 	dts.patch
 "
-builddir="$srcdir/linux-${tag}"
+builddir="$srcdir/linux-${_tag}"
 _outdir="out"
 
 prepare() {
