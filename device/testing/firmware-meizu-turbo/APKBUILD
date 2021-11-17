@@ -1,0 +1,144 @@
+pkgname=firmware-meizu-turbo
+pkgver=3.10.100
+pkgrel=0
+_commit="a7f428b797a9b9a72307fa6c51c912295cd34782"
+pkgdesc="Firmware for Meizu Pro 5 (turbo/m86), ubuntu/ubports-based"
+url="https://github.com/elelel"
+_repository="meizu_m86_vendor_binary"
+source="$pkgname-$_commit.tar.gz::$url/$_repository/archive/$_commit.tar.gz"
+subpackages="$pkgname-media $pkgname-camera $pkgname-wireless $pkgname-modem $pkgname-nfc $pkgname-touchscreen $pkgname-audio"
+arch="noarch"
+license="proprietary"
+options="!check !archcheck !strip !spdx !tracedeps pmb:cross-native"
+builddir="$srcdir/$_repository-$_commit"
+_fwdir="/lib/firmware/postmarketos"
+
+# Package description
+#
+# The aim of this package is to provide non-free firmware for Meizu Pro 5 which
+# is as close to official Ubuntu-based (turbo) set as possible as
+# opposed to various Android-sourced files. This ensures
+# maximum compatibility of various closed-sourced binaries with
+# vendor-released Linux kernel sources, at the cost of being stuck around
+# kernel version 3.10.100.
+
+package() {
+	mkdir -p "$pkgdir"/vendor/firmware "$pkgdir"/android "$pkgdir/$_fwdir"
+	ln -s "$_fwdir" "$pkgdir"/android/factory
+	ln -s "$_fwdir" "$pkgdir"/android/firmware
+}
+
+# Media
+# - Samsung MFC (Multi Format Codec) (hw support for codecs like H.265)
+# - Other media
+_media_fw_files="
+mfc_fw.bin
+seiren_fw_dram.bin
+seiren_fw_sram.bin
+"
+media() {
+	mkdir -p "$subpkgdir"/vendor/firmware
+	local file
+	for file in $_media_fw_files; do
+		install -Dm644 "$builddir"/vendor/firmware/"$file" -t "$subpkgdir/$_fwdir"
+		echo "linking $subpkgdir/$_fwdir/$file to $subpkgdir"/vendor/firmware/"$file"
+		ln -s "$_fwdir/$file" "$subpkgdir"/vendor/firmware/"$file"
+	done
+}
+
+# Camera files
+# - Samsung FIMC (Fully Interactive Mobile Camera).
+# - Optical sensors
+_camera_fw_files="
+fimc_is_fw2.bin
+setfile_imx230.bin
+setfile_ov5670.bin
+"
+camera() {
+	mkdir -p "$subpkgdir"/vendor/firmware
+	local file
+	for file in $_camera_fw_files; do
+		install -Dm644 "$builddir"/vendor/firmware/"$file" -t "$subpkgdir/$_fwdir"
+		echo "linking $subpkgdir/$_fwdir/$file to $subpkgdir"/vendor/firmware/"$file"
+		ln -s "$_fwdir/$file" "$subpkgdir"/vendor/firmware/"$file"
+	done
+}
+
+# Bluetooth and WiFi on integrated Broadcom chip
+_wireless_fw_files="
+bcm43455.hcd
+bcm943455_pciehdr_follow_M8.bin
+fw_bcmdhd_apsta.bin
+fw_bcmdhd.bin
+mfg_fw.bin
+"
+wireless() {
+	mkdir -p "$subpkgdir"/vendor/firmware
+	local file
+	for file in $_wireless_fw_files; do
+		install -Dm644 "$builddir"/vendor/firmware/"$file" -t "$subpkgdir/$_fwdir"
+		echo "linking $subpkgdir/$_fwdir/$file to $subpkgdir"/vendor/firmware/"$file"
+		ln -s "$_fwdir/$file" "$subpkgdir"/vendor/firmware/"$file"
+	done
+}
+
+# Modem
+_modem_fw_files="
+modem.bin
+"
+modem() {
+	mkdir -p "$subpkgdir"/vendor/firmware
+	local file
+	for file in $_modem_fw_files; do
+		install -Dm644 "$builddir"/vendor/firmware/"$file" -t "$subpkgdir/$_fwdir"
+		echo "linking $subpkgdir/$_fwdir/$file to $subpkgdir"/vendor/firmware/"$file"
+		ln -s "$_fwdir/$file" "$subpkgdir"/vendor/firmware/"$file"
+	done
+}
+
+# Near Field Communication
+_nfc_fw_files="
+libpn547_fw.so
+"
+nfc() {
+	mkdir -p "$subpkgdir"/vendor/firmware
+	local file
+	for file in $_nfc_fw_files; do
+		install -Dm644 "$builddir"/vendor/firmware/"$file" -t "$subpkgdir/$_fwdir"
+		echo "linking $subpkgdir/$_fwdir/$file to $subpkgdir"/vendor/firmware/"$file"
+		ln -s "$_fwdir/$file" "$subpkgdir"/vendor/firmware/"$file"
+	done
+}
+
+# FingerTipS capacitive touchscreen
+_touchscreen_fw_files="
+st_fts.bin
+"
+touchscreen() {
+	mkdir -p "$subpkgdir"/vendor/firmware
+	local file
+	for file in $_touchscreen_fw_files; do
+		install -Dm644 "$builddir"/vendor/firmware/"$file" -t "$subpkgdir/$_fwdir"
+		echo "linking $subpkgdir/$_fwdir/$file to $subpkgdir"/vendor/firmware/"$file"
+		ln -s "$_fwdir/$file" "$subpkgdir"/vendor/firmware/"$file"
+	done
+}
+
+# Audio
+# Project.hex is used in pulseaudio glue code and maybe somewhere else
+_audio_fw_files="
+Project.hex
+"
+audio() {
+	mkdir -p "$subpkgdir"/vendor/firmware
+	local file
+	for file in $_audio_fw_files; do
+		install -Dm644 "$builddir"/vendor/firmware/"$file" -t "$subpkgdir/$_fwdir"
+		echo "linking $subpkgdir/$_fwdir/$file to $subpkgdir"/vendor/firmware/"$file"
+		ln -s "$_fwdir/$file" "$subpkgdir"/vendor/firmware/"$file"
+	done
+}
+
+sha512sums="
+8de870c812567d5abb970d0977c24364e2d20f58e05c83f6f25393a6043b9f1be53452283f7c499a71cbac7c8e11a5c7a38c7f20961774cf079d51f1f8adeb3f  firmware-meizu-turbo-a7f428b797a9b9a72307fa6c51c912295cd34782.tar.gz
+"
