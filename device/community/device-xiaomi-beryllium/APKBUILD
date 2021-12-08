@@ -2,10 +2,11 @@
 # Co-Maintainer: Joel Selvaraj <jo@jsfamily.in>
 
 # Reference: <https://postmarketos.org/devicepkg>
+_codename=xiaomi-beryllium
 pkgname=device-xiaomi-beryllium
 pkgdesc="Xiaomi Poco F1"
-pkgver=4
-pkgrel=2
+pkgver=5
+pkgrel=0
 url="https://postmarketos.org"
 license="MIT"
 arch="aarch64"
@@ -20,14 +21,10 @@ depends="
 makedepends="devicepkg-dev"
 subpackages="
 	$pkgname-nonfree-firmware:nonfree_firmware
-	$pkgname-kernel-tianma:kernel_tianma
-	$pkgname-kernel-ebbg:kernel_ebbg
-	$pkgname-phosh
 "
 
 source="
-	deviceinfo
-	rootston.ini
+	deviceinfo.xiaomi-beryllium
 "
 
 build() {
@@ -35,7 +32,8 @@ build() {
 }
 
 package() {
-	devicepkg_package $startdir $pkgname
+	install -Dm644 "$srcdir/deviceinfo.$_codename" \
+	"$pkgdir/etc/deviceinfo.$_codename"
 }
 
 nonfree_firmware() {
@@ -44,25 +42,6 @@ nonfree_firmware() {
 	mkdir "$subpkgdir"
 }
 
-kernel_tianma() {
-	pkgdesc="Tianma Panel. To know which panel your device use and the status of the port, Visit the Poco F1 wiki page: https://wiki.postmarketos.org/wiki/Xiaomi_Poco_F1_(xiaomi-beryllium)"
-	depends="linux-postmarketos-qcom-sdm845"
-	devicepkg_subpackage_kernel $startdir $pkgname $subpkgname
-}
-
-kernel_ebbg() {
-	pkgdesc="EBBG Panel. To know which panel your device use and the status of the port, Visit the Poco F1 wiki page: https://wiki.postmarketos.org/wiki/Xiaomi_Poco_F1_(xiaomi-beryllium)"
-	depends="linux-postmarketos-qcom-sdm845"
-	devicepkg_subpackage_kernel $startdir $pkgname $subpkgname
-}
-
-phosh() {
-	install_if="$pkgname=$pkgver-r$pkgrel phosh"
-	install -Dm644 "$srcdir"/rootston.ini \
-		"$subpkgdir"/etc/phosh/rootston.ini
-}
-
 sha512sums="
-29090e3d3fc16a752b33910abcfd8719af34bd257a7ca3cf25e9f1afc49e20582a7505bd7cd2ea2eb274c834eead277f31e5fb9384de8b444500518275e5a711  deviceinfo
-eb0cc845431cabdc81c518ac51af761864ed4d51b52842361850bb795582c3be48ecd041f543b08158a36fea12800b263b87cbe6393663c1b315f496504e6a5b  rootston.ini
+7884bb142d1853a456a3107a28e5c0c764afc8d3db273398d163b268e3473e8803fee4cc0e37587f2334e2bdc99ca5236af9072d6397be9cddd093233f7fdedd  deviceinfo.xiaomi-beryllium
 "

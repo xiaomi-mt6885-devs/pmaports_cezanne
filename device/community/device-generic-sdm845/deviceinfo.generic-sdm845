@@ -1,20 +1,11 @@
-# Reference: <https://postmarketos.org/deviceinfo>
-# Please use double quotes only. You can source this file in shell scripts.
-
-deviceinfo_format_version="0"
-deviceinfo_name="OnePlus 6"
-deviceinfo_manufacturer="OnePlus"
-deviceinfo_codename="oneplus-enchilada"
-deviceinfo_year="2018"
-deviceinfo_arch="aarch64"
-
-# Device related
-deviceinfo_gpu_accelerated="true"
+# Required for pmbootstrap
+# TODO: Make these not required for "generic" device ports
+deviceinfo_codename="generic-sdm845"
 deviceinfo_chassis="handset"
-deviceinfo_keyboard="false"
-deviceinfo_external_storage="false"
-deviceinfo_screen_width="1080"
-deviceinfo_screen_height="2280"
+deviceinfo_arch="aarch64"
+deviceinfo_no_framebuffer="true"
+
+# These overwrite device specific deviceinfo settings
 
 # Bootloader related
 deviceinfo_flash_method="fastboot"
@@ -31,7 +22,7 @@ deviceinfo_flash_pagesize="4096"
 deviceinfo_flash_sparse="true"
 
 # Kernel options
-deviceinfo_dtb="qcom/sdm845-oneplus-enchilada"
+deviceinfo_dtb="qcom/sdm845-oneplus-enchilada qcom/sdm845-xiaomi-beryllium-tianma qcom/sdm845-xiaomi-beryllium-ebbg"
 deviceinfo_append_dtb="true"
 deviceinfo_flash_kernel_on_update="true"
 
@@ -39,5 +30,5 @@ deviceinfo_flash_kernel_on_update="true"
 deviceinfo_rootfs_image_sector_size="4096"
 
 # osk-sdl
-deviceinfo_modules_initfs="i2c_qcom_geni rmi_core rmi_i2c qcom_spmi_fg qcom_spmi_haptics"
+deviceinfo_modules_initfs="i2c_qcom_geni rmi_core rmi_i2c qcom_spmi_fg qcom_spmi_haptics nt36xxx focaltech_ft8719"
 deviceinfo_mesa_driver="msm"

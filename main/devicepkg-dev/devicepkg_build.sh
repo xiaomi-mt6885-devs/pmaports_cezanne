@@ -10,15 +10,20 @@ fi
 
 srcdir="$startdir/src"
 
-if [ ! -f "$srcdir/deviceinfo" ]; then
+if [ ! -f $srcdir/deviceinfo* ]; then
 	echo "NOTE: $0 is intended to be used inside of the build() function"
 	echo "of a device package's APKBUILD only."
 	echo "ERROR: deviceinfo file missing!"
 	exit 1
 fi
 
+# For generic ports, source the deviceinfo file for the generic port afterwards to make
+# sure it overwrites any device specific values.
+
 # shellcheck disable=SC1090,SC1091
-. "$srcdir/deviceinfo"
+. "$srcdir"/deviceinfo*
+# shellcheck disable=SC1090,SC1091
+. "$srcdir"/deviceinfo.generic*
 
 # Create splash screens
 generate_splash_screens()
