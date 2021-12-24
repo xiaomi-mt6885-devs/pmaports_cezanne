@@ -1,0 +1,40 @@
+# Reference: <https://postmarketos.org/devicepkg>
+# Maintainer: Ben Wolsieffer <benwolsieffer@gmail.com>
+pkgname=device-hp-tenderloin
+pkgdesc="HP TouchPad"
+pkgver=0.1
+pkgrel=0
+url="https://postmarketos.org"
+license="MIT"
+arch="armv7"
+options="!check !archcheck"
+depends="
+	linux-hp-tenderloin
+	postmarketos-base
+	postmarketos-mkinitfs-hook-lvm-activate
+"
+makedepends="devicepkg-dev"
+subpackages="$pkgname-nonfree-firmware:nonfree_firmware"
+source="deviceinfo"
+
+build() {
+	devicepkg_build $startdir $pkgname
+
+	#mkimage -A arm -O linux -T kernel -C none -a 0x40208000 -e 0x40208000 -n kernel -d vmlinuz uImage.vmlinuz
+	#mkimage -A arm -O linux -T ramdisk -C none -a 0 -e 0 -n initramfs -d initramfs uImage.initramfs
+	#mkimage -A arm -O linux -T multi -C none -a 0 -e 0 -n postmarketOS -d uImage.vmlinuz:uImage.initramfs uImage.postmarketOS
+}
+
+package() {
+	devicepkg_package $startdir $pkgname
+}
+
+nonfree_firmware() {
+	pkgdesc="Wi-Fi, audio and charge controller firmware"
+	depends="firmware-hp-tenderloin linux-firmware-ath6k"
+	mkdir "$subpkgdir"
+}
+
+sha512sums="
+f8dfdec20ab046da62aa786ae16ecca82000b638fc434d9ded61ef1e77f80d82bd7b75a30317774952d23c486fe6212f24944f58c719f4a66e30157564ff5768  deviceinfo
+"
