@@ -18,6 +18,8 @@ setup_firmware_path
 # shellcheck disable=SC2154,SC2086
 [ -d /lib/modules ] && modprobe -a ${deviceinfo_modules_initfs} ext4 usb_f_rndis
 
+[ -e /etc/postmarketos-mkinitfs/hooks/30-lvm-activate.sh ] && /etc/postmarketos-mkinitfs/hooks/30-lvm-activate.sh
+
 setup_mdev
 mount_subpartitions
 setup_framebuffer
