@@ -12,6 +12,7 @@ depends="
 	linux-hp-tenderloin
 	postmarketos-base
 	postmarketos-mkinitfs-hook-lvm-activate
+	ts-srv
 "
 makedepends="devicepkg-dev"
 subpackages="$pkgname-nonfree-firmware:nonfree_firmware"
