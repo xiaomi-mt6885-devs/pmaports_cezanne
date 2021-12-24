@@ -1,0 +1,58 @@
+From 3ec95e955630d784a3fddd23852d0b8908eccd2f Mon Sep 17 00:00:00 2001
+From: Michael Street <mstreet@codeaurora.org>
+Date: Tue, 30 Oct 2012 12:45:44 -0700
+Subject: [PATCH] msm: kgsl: Update to match DRM driver function pointer
+ structure
+
+DRM for 3.4 kernel has changed the drm_driver function pointer
+structure.  Changed kgsl to match.
+
+Change-Id: Icc9b87284ddeaa356c8f5eabe950da1ab8b4c8dc
+Signed-off-by: Michael Street <mstreet@codeaurora.org>
+---
+ drivers/gpu/msm/kgsl_drm.c | 22 +++++++++++-----------
+ 1 file changed, 11 insertions(+), 11 deletions(-)
+
+diff --git a/drivers/gpu/msm/kgsl_drm.c b/drivers/gpu/msm/kgsl_drm.c
+index 2a5a5fac2969..fc832eeb0522 100644
+--- a/drivers/gpu/msm/kgsl_drm.c
++++ b/drivers/gpu/msm/kgsl_drm.c
+@@ -1447,6 +1447,16 @@ struct drm_ioctl_desc kgsl_drm_ioctls[] = {
+ 		      DRM_MASTER),
+ };
+ 
++static const struct file_operations kgsl_drm_driver_fops = {
++	.owner = THIS_MODULE,
++	.open = drm_open,
++	.release = drm_release,
++	.unlocked_ioctl = drm_ioctl,
++	.mmap = msm_drm_gem_mmap,
++	.poll = drm_poll,
++	.fasync = drm_fasync,
++};
++
+ static struct drm_driver driver = {
+ 	.driver_features = DRIVER_GEM,
+ 	.load = kgsl_drm_load,
+@@ -1458,17 +1468,7 @@ static struct drm_driver driver = {
+ 	.gem_init_object = kgsl_gem_init_object,
+ 	.gem_free_object = kgsl_gem_free_object,
+ 	.ioctls = kgsl_drm_ioctls,
+-
+-	.fops = {
+-		 .owner = THIS_MODULE,
+-		 .open = drm_open,
+-		 .release = drm_release,
+-		 .unlocked_ioctl = drm_ioctl,
+-		 .mmap = msm_drm_gem_mmap,
+-		 .poll = drm_poll,
+-		 .fasync = drm_fasync,
+-		 },
+-
++	.fops = &kgsl_drm_driver_fops,
+ 	.name = DRIVER_NAME,
+ 	.desc = DRIVER_DESC,
+ 	.date = DRIVER_DATE,
+-- 
+2.33.0
+

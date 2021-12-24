@@ -1,0 +1,31 @@
+From 74a3e24f90cd079cb310b6fabea53bda8f34ebba Mon Sep 17 00:00:00 2001
+From: Deepak Kumar <dkumar@codeaurora.org>
+Date: Sat, 13 Jul 2013 00:32:43 +0530
+Subject: [PATCH] msm: kgsl: Fix memory leak of DRM GEM object structure.
+
+This changes frees the DRM GEM object structure in
+kgsl_gem_free_object function. kgsl_gem_free_object is
+called from DRM module after the last refrence to the
+object has been lost.
+
+Change-Id: I21d91e9706cf46909168ab99b130ef4d833886e6
+Signed-off-by: Deepak Kumar <dkumar@codeaurora.org>
+---
+ drivers/gpu/msm/kgsl_drm.c | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/drivers/gpu/msm/kgsl_drm.c b/drivers/gpu/msm/kgsl_drm.c
+index fc832eeb0522..75706ca81e42 100644
+--- a/drivers/gpu/msm/kgsl_drm.c
++++ b/drivers/gpu/msm/kgsl_drm.c
+@@ -332,6 +332,7 @@ kgsl_gem_free_object(struct drm_gem_object *obj)
+ 	kgsl_gem_free_mmap_offset(obj);
+ 	drm_gem_object_release(obj);
+ 	kfree(obj->driver_private);
++  kfree(obj);
+ }
+ 
+ static int
+-- 
+2.33.0
+

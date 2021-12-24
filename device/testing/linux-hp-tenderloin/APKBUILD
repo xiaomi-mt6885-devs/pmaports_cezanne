@@ -1,0 +1,74 @@
+# Reference: <https://postmarketos.org/vendorkernel>
+# Kernel config based on: arch/arm/configs/tenderloin_android_defconfig
+
+pkgname=linux-hp-tenderloin
+pkgver=3.4.113
+pkgrel=0
+pkgdesc="HP TouchPad Evervolv kernel fork"
+arch="armv7"
+_carch="arm"
+_flavor="hp-tenderloin"
+url="https://kernel.org"
+license="GPL-2.0-only"
+options="!strip !check !tracedeps pmb:cross-native"
+makedepends="
+	bash
+	bc
+	bison
+	devicepkg-dev
+	flex
+	openssl-dev
+	perl
+"
+
+# Source
+_repository="android_kernel_htc_msm8960"
+_commit="18e6439b6796639cc652b98118bd5eb9841c93ad"
+_config="config-$_flavor.$arch"
+source="
+	$pkgname-$_commit.tar.gz::https://github.com/Evervolv/$_repository/archive/$_commit.tar.gz
+	$_config
+	gcc7-give-up-on-ilog2-const-optimizations.patch
+	gcc8-fix-put-user.patch
+	gcc10-extern_YYLOC_global_declaration.patch
+	kernel-use-the-gnu89-standard-explicitly.patch
+	linux3.4-ptrace-fix-ptrace-defect-cause-by-a-merge-fail.patch
+	00_reduce_lzo_compression.patch
+	01_msm-kgsl-Update-to-match-DRM-driver-function-pointer.patch
+	02_msm-kgsl-Fix-memory-leak-of-DRM-GEM-object-structure.patch
+	03_kgsl-drm-remove-checking-on-active.patch
+	04_ipv4-pass-struct-flowi4-directly-to-rt_fill_info.patch
+"
+builddir="$srcdir/$_repository-$_commit"
+_outdir="out"
+
+prepare() {
+	default_prepare
+	. downstreamkernel_prepare
+}
+
+build() {
+	unset LDFLAGS
+	make O="$_outdir" ARCH="$_carch" CC="${CC:-gcc}" \
+		KBUILD_BUILD_VERSION="$((pkgrel + 1 ))-postmarketOS"
+}
+
+package() {
+	downstreamkernel_package "$builddir" "$pkgdir" "$_carch" \
+		"$_flavor" "$_outdir"
+}
+
+sha512sums="
+7681faea12eb9c01752ff2bf6dace4e3b05744a83c9bcf5ff1730f8e4bf596c514104a22c1d8a91b6771748b694aae83f04ff0167bd168ce100a1b9642dafe43  linux-hp-tenderloin-18e6439b6796639cc652b98118bd5eb9841c93ad.tar.gz
+4e64d39d9dedfc00be7740a2871955375bc490c127ce98ed4506e2e3215d10bf81d902823bc2b2799c25e8c509e54c944881b6fd363555f11650870eb99766e6  config-hp-tenderloin.armv7
+77eba606a71eafb36c32e9c5fe5e77f5e4746caac292440d9fb720763d766074a964db1c12bc76fe583c5d1a5c864219c59941f5e53adad182dbc70bf2bc14a7  gcc7-give-up-on-ilog2-const-optimizations.patch
+197d40a214ada87fcb2dfc0ae4911704b9a93354b75179cd6b4aadbb627a37ec262cf516921c84a8b1806809b70a7b440cdc8310a4a55fca5d2c0baa988e3967  gcc8-fix-put-user.patch
+2b48f1bf0e3f70703d2cdafc47d5e615cc7c56c70bec56b2e3297d3fa4a7a1321d649a8679614553dde8fe52ff1051dae38d5990e3744c9ca986d92187dcdbeb  gcc10-extern_YYLOC_global_declaration.patch
+ad0182a483791fc88e058838bc331b2f04a75ba291e763767babdb815efadfc3b4fda97e69e2e3f00a426cabea088e35297a92bd287592597d1e309be68ee92c  kernel-use-the-gnu89-standard-explicitly.patch
+13f82d1ca9b621f026f12f91bbe03d913be41ebed717e9c657e0f3a4d39c0201ba651a7352c2d27b98bb6641b77ccc1b3ee7d4a7c9e91ddb1e347adcb5c9a780  linux3.4-ptrace-fix-ptrace-defect-cause-by-a-merge-fail.patch
+ef5b912c26fea4ab882592bdf7487942c64b123de8d25d08d976f29743f311742ee2f773bf2d110ddb5095f254dbb0bd4487c5cfce77311929082599199e7ebd  00_reduce_lzo_compression.patch
+ff9bf64318df6d58e05b216828b733e2b425dbe9f190cd02bc68667e23cc0593fb965145843e399e14f29c0083e158f338dbd08b838edcf0d6f0027fc0a40d77  01_msm-kgsl-Update-to-match-DRM-driver-function-pointer.patch
+1d8492e724f76783edca063c9730eaa5dc57c3f0ae75ad97c12a261f8978ba2851b32ba94607b8078c005aacc208c4011d97fee72653e1713ac0ee7b4f60f120  02_msm-kgsl-Fix-memory-leak-of-DRM-GEM-object-structure.patch
+cfad6bf3b6cb5f971ec3f4e00941843498a3decbda553cdf8b5b4fa2688f59917fe74ff3d2abc9772b33044092614180df5709490330dcaded6c56e332323ce2  03_kgsl-drm-remove-checking-on-active.patch
+5c5cf63716aee6db1f722030811969ee9fd2d91e1ef22746137acdb2e954bef0d790237c0d2391208f8fee9e2758afec7d4f0c7d0eb7b5134e12ddd2488ce04d  04_ipv4-pass-struct-flowi4-directly-to-rt_fill_info.patch
+"
