@@ -1,0 +1,27 @@
+# Maintainer: Ben Wolsieffer <benwolsieffer@gmail.com>
+pkgname=postmarketos-mkinitfs-hook-lvm-activate
+pkgver=0.1
+pkgrel=0
+pkgdesc="Activate LVM volumes"
+url="https://postmarketos.org"
+depends="postmarketos-mkinitfs lvm2"
+source="lvm-activate.sh lvm-activate.files lvm-activate.modules"
+arch="noarch"
+license="GPL-2.0-or-later"
+options="!check" # No tests
+
+package() {
+	mkdir -p "$pkgdir"/etc/postmarketos-mkinitfs/hooks/
+	install -Dm644 "$srcdir"/lvm-activate.sh \
+		"$pkgdir"/etc/postmarketos-mkinitfs/hooks/30-lvm-activate.sh
+	install -Dm644 "$srcdir"/lvm-activate.files \
+		"$pkgdir"/etc/postmarketos-mkinitfs/files/30-lvm-activate.files
+	install -Dm644 "$srcdir"/lvm-activate.modules \
+		"$pkgdir"/etc/postmarketos-mkinitfs/modules/30-lvm-activate.modules
+}
+
+sha512sums="
+a41aadc78796204d901711f61953b7c980c910e897eb00ad1d586fddfbe8ce5057670abc1c9d5766d35b7c684c40afe7c4c2be044c502eb1db0300a1b849bd01  lvm-activate.sh
+c1b81bfae75988c37f9afe12e7bf4a6307b1e34ab4b08743d51a887780310beecb1438120d09876217c091cb31c792300116751fad74f86276cd679a61183d17  lvm-activate.files
+5fb2d3d28736a3e7369643e61da018d9530b843dde93d654f544f48db7dace61f82430953d91144a48b1d0979293a5fa108e1391c2aefaddc336b90614a14fa2  lvm-activate.modules
+"
