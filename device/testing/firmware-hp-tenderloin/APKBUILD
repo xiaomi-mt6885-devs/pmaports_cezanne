@@ -1,0 +1,21 @@
+pkgname=firmware-hp-tenderloin
+pkgver=1
+pkgrel=0
+pkgdesc="Firmware files for the HP TouchPad (hp-tenderloin)"
+url="https://postmarketos.org"
+arch="armv7"
+license="proprietary"
+options="!check !strip !archcheck !tracedeps pmb:cross-native"
+
+# source
+_repo="android_vendor_hp"
+_commit="d235aa8c15cc5fc45efe6a00922867eccc4724ac"
+source="https://github.com/Evervolv/$_repo/archive/$_commit.tar.gz"
+
+package() {
+	install -d "$pkgdir/lib/firmware"
+	cp -rv "$srcdir/$_repo-$_commit/tenderloin/proprietary/etc/firmware" "$pkgdir/lib/firmware/postmarketfs/"
+}
+sha512sums="
+ed4edcf279b4dbe14d503386b68b881427fd3a077bbf36bdca3422754f782a9d289c7bf9c54c5df0343dfcd17507c2512eb755ede0b6e7178d218605812cc761  d235aa8c15cc5fc45efe6a00922867eccc4724ac.tar.gz
+"
