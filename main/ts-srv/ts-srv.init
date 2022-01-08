@@ -1,0 +1,8 @@
+#!/sbin/openrc-run
+
+command="/usr/sbin/ts_srv"
+supervisor="supervise-daemon"
+
+depend() {
+	after bootmisc
+}

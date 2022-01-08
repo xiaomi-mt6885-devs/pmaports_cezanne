@@ -1,0 +1,42 @@
+# Maintainer: Ben Wolsieffer <benwolsieffer@gmail.com>
+pkgname=ts-srv
+pkgver=10.0_git20190729
+pkgrel=0
+pkgdesc="Userspace touchscreen driver for the HP TouchPad"
+arch="armv7"
+url="https://github.com/Evervolv/android_device_hp_tenderloin-common"
+license="GPL-3.0-or-later"
+makedepends="linux-headers"
+install="$pkgname.post-install"
+_commit="af457915f04ec92cd1e29e1162082090890a0771"
+source="
+	$pkgname-$pkgver.tar.gz::https://github.com/Evervolv/android_device_hp_tenderloin-common/archive/$_commit.tar.gz
+	ts-srv.init
+	remove-android-dependencies-and-fix-warnings.patch
+	90-touchscreen.rules
+"
+builddir="$srcdir"/android_device_hp_tenderloin-common-$_commit
+
+build() {
+	cd hardware/touchscreen
+	gcc -Wall -lm -o ts_srv digitizer.c ts_srv.c
+	gcc -Wall -o ts_srv_set ts_srv_set.c
+}
+
+package() {
+	cd hardware/touchscreen
+	install -Dm755 ts_srv \
+		"$pkgdir"/usr/sbin/ts_srv
+	install -Dm755 ts_srv \
+		"$pkgdir"/usr/sbin/ts_srv_set
+	install -Dm755 "$srcdir"/ts-srv.init \
+		"$pkgdir"/etc/init.d/ts-srv
+	install -Dm644 "$srcdir"/90-touchscreen.rules \
+	    "$pkgdir"/etc/udev/rules.d/90-touchscreen.rules
+}
+sha512sums="
+d182a7dac855ca0bf41cce8a4de8a11a1fe5bf075e995414306dccfdf8862add6ebdd873ef56cc2d0dd48ca52bd34264f6226fec34987803359697b3f852b869  ts-srv-10.0_git20190729.tar.gz
+da7361d468e2b61dec92420ea322c32bb8adc394200bda30a1f4a2e78b9b82ad623d728329cc1a2eadc3d1bd10933278809243620a404462f71c03477cc72d7e  ts-srv.init
+bab6eaee149fd511b684cac0cd842e8b5e74ffd48584ddb2297e22730da2a840c37a105df0993e6c2fd21cdb3ba8fb698d158cba379f145d013a6c494ca9dc58  remove-android-dependencies-and-fix-warnings.patch
+3a6b27c8a49319ce1e652ca99c6cf8561979779d61e3ee91dff147328fc2427971aa15828047dc849bdc9b35fa04a52a047fa673926899f8a692ea101c81de46  90-touchscreen.rules
+"
