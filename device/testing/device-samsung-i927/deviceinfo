@@ -6,6 +6,9 @@ deviceinfo_name="Samsung Captivate Glide"
 deviceinfo_manufacturer="Samsung"
 deviceinfo_codename="samsung-i927"
 deviceinfo_year="2011"
+deviceinfo_dtb="tegra20-glide"
+deviceinfo_append_dtb="true"
+deviceinfo_modules_initfs="max17040-battery max8903-charger panel-samsung-s6e63m0 panel-samsung-s6e63m0-spi atmel-mxt-ts stmpe"
 deviceinfo_arch="armv7"
 
 # Device related
@@ -14,7 +17,6 @@ deviceinfo_keyboard="true"
 deviceinfo_external_storage="true"
 deviceinfo_screen_width="480"
 deviceinfo_screen_height="800"
-deviceinfo_dev_touchscreen="/dev/input/event2"
 
 # Bootloader related
 deviceinfo_flash_method="heimdall-bootimg"

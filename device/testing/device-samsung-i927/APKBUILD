@@ -1,14 +1,14 @@
 # Reference: <https://postmarketos.org/devicepkg>
 pkgname=device-samsung-i927
 pkgdesc="Samsung Captivate Glide"
-pkgver=0.3
-pkgrel=11
+pkgver=0.4
+pkgrel=0
 url="https://postmarketos.org"
 license="MIT"
 arch="armv7"
 options="!check !archcheck"
 depends="postmarketos-base
-	linux-samsung-i927
+	linux-postmarketos-grate
 	mkbootimg
 	alsa-utils
 	setxkbmap
@@ -72,7 +72,7 @@ x11() {
 }
 
 sha512sums="
-4fe0d1abdcdfc347cf07022a47cb74ab00a19a7f8af69042c06084e01ce6d88a4a8a6cec27b6b8ddfa0a75cfab88081c4dac8875863ccaffee2a5c80bf367772  deviceinfo
+d3a240fe2c6ad1b56353503c3f6e0794bc498ca3af0f6710bf6755a8a5a8b1968631021eb3c388a7bf664dd757f623e69d29ec5d5d02a6edc2008707ebd687ee  deviceinfo
 d8ce60ea7acaabf627ddca2f0887a4cda46f313b7aaf7934bef2fef8a6e0798ccefab849e4571e4e3fcd06ae34c1a6efe3b58b401e2e443416f6200e6d4ea769  modules-load.conf
 97780fe04738a88afa2bc8bd96de5f053861d1ecb83185fc8af4534e77f365c0cbaaffdb2ee579aa0940db7ec3df74cbb90aa122d5fc97a2e3977432010f254f  HiFi.conf
 a790d9f06ab32a36ecfaf7f43e5b3c6d12e383f54ba0bad649edcf177f97d053d53de993a7df297bae91807f648c43ba69b2d1cf24969669155df89d6a7ad36c  Voice.conf
