@@ -1,15 +1,16 @@
 # Reference: <https://postmarketos.org/devicepkg>
 pkgname=device-meizu-turbo
-pkgdesc="Meizu Pro 5"
-pkgver=0.1
-pkgrel=5
+pkgdesc="Meizu Pro 5 (m86/turbo)"
+pkgver=0.2
+pkgrel=0
 url="https://postmarketos.org"
 license="MIT"
 arch="aarch64"
 options="!check !archcheck"
 depends="postmarketos-base linux-meizu-turbo mkbootimg mesa-dri-swrast msm-fb-refresher"
 makedepends="devicepkg-dev"
-source="deviceinfo"
+source="deviceinfo udev_block_60-persistent-v4l.rules"
+subpackages="$pkgname-nonfree-firmware:nonfree_firmware"
 
 build() {
 	devicepkg_build $startdir $pkgname
@@ -17,9 +18,16 @@ build() {
 
 package() {
 	devicepkg_package $startdir $pkgname
+	install -Dm644 "$srcdir"/udev_block_60-persistent-v4l.rules "$pkgdir"/etc/udev/rules.d/60-persistent-v4l.rules
 }
 
+nonfree_firmware() {
+	pkgdesc="Firmware required for startup and subpackages with optional firmware"
+	depends="firmware-meizu-turbo"
+	mkdir "$subpkgdir"
+}
 
 sha512sums="
 232e5e4b258a84873c1e572142a07f5480f1fa5009948b6dda07381b8f48613b18f993224c27ea160b1a965b9c3847033fac75eba4f4b69f55d1edfa7ddbbc6a  deviceinfo
+aae1345081334f6720c49f08b815bf780b11d1c6e927f5c2a758ae48e850f9d49a255faff81b97612a09cdfc299e9ffa58e83a07007fb6600a628bb905acbb13  udev_block_60-persistent-v4l.rules
 "
