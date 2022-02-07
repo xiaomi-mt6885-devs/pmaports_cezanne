@@ -1,0 +1,49 @@
+# Maintainer: Oliver Smith <ollieparanoid@postmarketos.org>
+pkgname=postmarketos-apparmor-profiles
+pkgver=0.2.0
+pkgrel=0
+pkgdesc="Common files of postmarketOS AppArmor profiles"
+url="https://gitlab.com/postmarketOS/postmarketos-apparmor-profiles"
+arch="noarch"
+license="GPL-2.0-only"
+depends="apparmor"
+makedepends="apparmor-utils"
+source="https://gitlab.com/postmarketOS/postmarketos-apparmor-profiles/-/archive/$pkgver/postmarketos-apparmor-profiles-$pkgver.tar.bz2"
+_profiles="
+	gnome-calculator
+	gnome-clocks
+	kgx
+	megapixels
+	pmos-tweaks
+	postmarketos-welcome-gtk3
+"
+
+for i in $_profiles; do
+	subpackages="apparmor-profile-$i:_profile $subpackages"
+done
+
+build() {
+	make
+}
+
+check() {
+	./check-apkbuild.sh "$_profiles"
+}
+
+package() {
+	make DESTDIR="$pkgdir" install
+}
+
+_profile() {
+	local profile=${subpkgname##apparmor-profile-}
+
+	pkgdesc="$profile AppArmor profile ($pkgname)"
+	install_if="$pkgname=$pkgver-r$pkgrel $profile"
+
+	amove etc/apparmor.d/"$profile"
+	amove etc/apparmor.d/local/"$profile"
+}
+
+sha512sums="
+2ce5d81b75a7c11df59bac325f3d6e9534346738c7402ad05524f7f3201615a6ed9c645b8646b5ce49a9c88e4419d53ee600625994d864aa4ab597779b810980  postmarketos-apparmor-profiles-0.2.0.tar.bz2
+"
