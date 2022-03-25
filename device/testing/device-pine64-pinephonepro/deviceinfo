@@ -26,3 +26,7 @@ deviceinfo_dev_internal_storage_repartition="true"
 deviceinfo_flash_method="none"
 deviceinfo_sd_embed_firmware="u-boot/pine64-pinephonepro/u-boot-rockchip.bin:32"
 deviceinfo_boot_part_start="32768"
+
+# USB related
+deviceinfo_usb_idVendor="0x2207"   # Fuzhou Rockchip Electronics Co., Ltd.
+deviceinfo_usb_idProduct="0x330c"  # RK3399 in Mask ROM mode
