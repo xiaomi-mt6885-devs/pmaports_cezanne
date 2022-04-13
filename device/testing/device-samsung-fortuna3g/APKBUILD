@@ -1,0 +1,51 @@
+# Reference: <https://postmarketos.org/devicepkg>
+
+pkgname=device-samsung-fortuna3g
+pkgdesc="Samsung Galaxy Grand Prime 3G (G530H)"
+pkgver=1
+pkgrel=0
+url="https://postmarketos.org"
+license="MIT"
+arch="aarch64"
+options="!check !archcheck"
+depends="postmarketos-base mkbootimg linux-postmarketos-qcom-msm8916
+	 soc-qcom-msm8916 soc-qcom-msm8916-rproc"
+makedepends="devicepkg-dev dtbtool"
+source="
+	20-zinitix-input.rules
+	deviceinfo
+	rootston.ini
+"
+subpackages="
+	$pkgname-nonfree-firmware:nonfree_firmware
+	$pkgname-phosh
+"
+_pmb_select="soc-qcom-msm8916-rproc"
+
+build() {
+	devicepkg_build $startdir $pkgname
+	install -Dm644 "$srcdir"/20-zinitix-input.rules \
+		"$pkgdir"/lib/udev/rules.d/20-zinitix-input.rules
+}
+
+package() {
+	devicepkg_package $startdir $pkgname
+}
+
+nonfree_firmware() {
+	pkgdesc="GPU/WiFi/BT/Modem/Video firmware"
+	depends="firmware-qcom-adreno-a300 msm-firmware-loader firmware-samsung-fortuna3g-wcnss-nv"
+	mkdir "$subpkgdir"
+}
+
+phosh() {
+	install_if="$pkgname postmarketos-ui-phosh"
+	install -Dm644 "$srcdir"/rootston.ini \
+		"$subpkgdir"/etc/phosh/rootston.ini
+}
+
+sha512sums="
+b897d5102ec2f4c8515435fd2cd815aa5bcb0175db05ac55b9a63f814cee879581c104748d558ec1fb652e9cc6086b2545ba02c22460a69445947b87d07035e7  20-zinitix-input.rules
+78e2fbbbad50f23eef73c6c3b1e16591af4fa6d59240000d3250d61d61d713a64e604427d5c8936ebe53c388d3255121ebff527e687d9ae2e430b18eedc00187  deviceinfo
+94c866b6583faadc4a96a4d737983ba7838ede52afa5e29e261ef0ad0f2afe29fd3b793c9208ae74c7d48db6b991ad21800b9e457fbba4c69ce9dec2cda268ea  rootston.ini
+"
