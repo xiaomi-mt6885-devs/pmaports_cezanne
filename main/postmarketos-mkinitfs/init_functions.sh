@@ -162,6 +162,21 @@ find_root_partition() {
 		done
 	fi
 
+	# Try using the tow-boot BOOT_IMAGE variable
+	if [ -z "$DEVICE" ] && [ -n "$BOOT_IMAGE" ]; then
+		case "$BOOT_IMAGE" in
+			"(hd0,gpt1)/"*) base_path="/dev/mmcblk1" ;; # sd
+			"(hd1,gpt1)/"*) base_path="/dev/mmcblk0" ;; # emmc
+		esac
+		if [ -n "$base_path" ]; then
+			for id in pmOS_install pmOS_root crypto_LUKS; do
+				DEVICE="$(blkid | grep "$base_path" | grep "$id" \
+					| cut -d ":" -f 1 | head -n 1)"
+				[ -z "$DEVICE" ] || break
+			done
+		fi
+	fi
+
 	# Then try all devices
 	if [ -z "$DEVICE" ]; then
 		for id in pmOS_install pmOS_root crypto_LUKS; do
