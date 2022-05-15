@@ -5,7 +5,7 @@
 
 _flavor="postmarketos-qcom-sdm845"
 pkgname=linux-$_flavor
-pkgver=5.17.0
+pkgver=5.17.5
 pkgrel=0
 pkgdesc="Mainline Kernel fork for SDM845 devices"
 arch="aarch64"
@@ -23,7 +23,7 @@ makedepends="bison findutils flex installkernel openssl-dev perl"
 
 _repo="linux"
 _config="config-$_flavor.$arch"
-_tag="sdm845-5.17.0"
+_tag="sdm845-5.17.5"
 
 # Source
 source="
@@ -60,8 +60,7 @@ package() {
 	install -D "$builddir"/include/config/kernel.release \
 		"$pkgdir"/usr/share/kernel/$_flavor/kernel.release
 }
-
 sha512sums="
-1d473d4901fe4ffb354c5cd05ac24875621908d3f50bd4130fe905859c15bf5f243ad0748649770cd513a3c61c04a422cf7f7449eeb2a651134316c8ba6e0fed  linux-sdm845-5.17.0.tar.gz
-adff5d8d37984322a26bc6d87ca8b26ba1a70537597c382d2b8fc829bee0004c568dbcf38ad4f510b83b42db9c325d91e1d3a134531766bebc40ce5a00f77a69  config-postmarketos-qcom-sdm845.aarch64
+7fdeb034628c2440d015b68dfff7bf491ba170d365b604e59e79885da440a6d37bb1042cb8e35893cd9277c463b60c7a9a1fe8434d24be9cd0e169a34091e559  linux-sdm845-5.17.5.tar.gz
+11e1176e01e3199ad6f5da76e8c436c2452a520f354cfc51848faa41521c079d935b70c8284018dfa93602d39ec4a7922c15e81d32e4f38b17971c90fc234a0a  config-postmarketos-qcom-sdm845.aarch64
 "
