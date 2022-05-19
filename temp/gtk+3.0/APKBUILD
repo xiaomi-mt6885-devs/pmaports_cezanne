@@ -1,16 +1,16 @@
 # Forked from Alpine to apply Purism's patches for responsivness
+
 pkgname=gtk+3.0
-pkgver=9999_git20210602
+pkgver=9999_git20220310
+_pkgver=3.24.29
 pkgrel=0
-# pureos/byzantium branch
-_commit="f05e4021ed82bfbabf566398d0511b6745a5745e"
 pkgdesc="The GTK+ Toolkit (v3)"
 url="https://www.gtk.org/"
 install="$pkgname.post-install $pkgname.post-upgrade $pkgname.post-deinstall"
 arch="all"
 license="LGPL-2.1-or-later"
 options="!check" # Most glade tests fail :c
-subpackages="$pkgname-demo $pkgname-dev $pkgname-lang $pkgname-dbg"
+subpackages="$pkgname-demo $pkgname-dev $pkgname-doc $pkgname-lang $pkgname-dbg"
 depends="shared-mime-info gtk-update-icon-cache"
 
 replaces="gtk+"
@@ -33,7 +33,6 @@ makedepends="
 	cups-dev
 	expat-dev
 	gettext-dev
-	gnutls-dev
 	gobject-introspection-dev
 	libice-dev
 	tiff-dev
@@ -59,50 +58,70 @@ checkdepends="
 	librsvg
 	gdk-pixbuf
 	"
-source="https://source.puri.sm/Librem5/gtk/-/archive/$_commit/gtk-$_commit.tar.gz
+
+_purism_tag="pureos/v3.24.27-1pureos4"
+_purism_patches="https://source.puri.sm/Librem5/debs/gtk/-/raw/$_purism_tag/debian/patches"
+_adaptive_patches="$_purism_patches/pureos/adaptive"
+_libhandy_patches="$_adaptive_patches/libhandy"
+
+source="https://download.gnome.org/sources/gtk+/${_pkgver%.*}/gtk+-$_pkgver.tar.xz
+	0001.patch::$_libhandy_patches/Add-GtkHdyViewSwitcherButton.patch
+	0002.patch::$_libhandy_patches/Add-GtkHdyViewSwitcher.patch
+	0003.patch::$_libhandy_patches/Add-GtkHdyViewSwitcherBar.patch
+	$_libhandy_patches/Add-GtkHdyAnimation.patch
+	$_libhandy_patches/Add-GtkHdySqueezer.patch
+	$_libhandy_patches/Add-GtkHdyViewSwitcherTitle.patch
+	$_libhandy_patches/Add-GtkHdyShadowHelper.patch
+	$_libhandy_patches/Add-GtkHdyNavigationDirection.patch
+	$_libhandy_patches/Add-GtkHdySwipeable-and-GtkHdySwipeTracker.patch
+	$_libhandy_patches/Add-GtkHdyClamp.patch
+	$_libhandy_patches/Add-GtkHdyFlap.patch
+	$_libhandy_patches/theme-Add-libhandy-styles.patch
+	$_libhandy_patches/Add-padding-for-HdyViewSwitcherTitle.patch
+	$_purism_patches/pureos/events-Compress-touch-update-events.patch
+	$_adaptive_patches/Add-org.gtk.Settings.Purism.patch
+	$_adaptive_patches/Add-the-view-sidebar-symbolic-icon.patch
+	$_adaptive_patches/Port-file-chooser-to-phones.patch
+	$_adaptive_patches/Reduce-the-font-chooser-minimum-size.patch
+	$_adaptive_patches/aboutdialog-Port-to-phones.patch
+	$_adaptive_patches/dialog-Maximize-resizable-dialogs-on-phones.patch
+	$_adaptive_patches/gtkprivate-Add-an-API-to-check-if-phone.patch
+	$_adaptive_patches/headerbar-Use-a-back-button-in-dialogs-on-mobile.patch
+	$_adaptive_patches/infobar-Move-the-action-area-below-on-the-phone.patch
+	$_adaptive_patches/librem5-Make-GtkShortcutsWindow-adaptive.patch
+	$_adaptive_patches/messagedialog-Set-orientation-based-on-device.patch
+	$_adaptive_patches/printunixdialog-Adapt-for-phones.patch
+	$_adaptive_patches/scrolledwindow-Set-deceleration-value-based-on-the-device.patch
+	$_adaptive_patches/window-Disable-window-dragging-on-phones.patch
+	$_adaptive_patches/window-Maximize-resizable-pseudo-dialogs-on-mobile.patch
+	$_libhandy_patches/hdy-flap-Use-natural-size-for-folding-instead-of-minimum.patch
+	10-Revert-gdkseatdefault-Grab-touch-events-where-applic.patch
 	"
 
-builddir="$srcdir/gtk-$_commit"
+builddir="$srcdir/gtk+-$_pkgver"
 
 prepare() {
 	default_prepare
-
-	# Purism patches
-	grep "\.patch$" debian/patches/series \
-		| xargs -I {} -t -r -n1 patch -p1 -i debian/patches/{}
-
-	# Prevent unexpected downgrade: 3.90.99 is higher than Alpine's version
-	# (pma#694), but still passes the libportal check (pma#841)
-	for _ver in gtk_minor_version gtk_micro_version gtk_interface_age; do
-		sed -i "s/m4_define(\[$_ver\], \[.*\])/m4_define([$_ver], [90])/g" configure.ac
-	done
-	sed -i "s/        version: '.*',/        version: '3.90.99',/g" meson.build
-	sed -i "s/^gtk_interface_age = .*/gtk_interface_age = 90/g" meson.build
 }
 
 build() {
-	# postmarketOS specific: disable stuff that takes forever to (cross)compile:
+	# postmarketOS-specific: disable things that takes forever to (cross)compile:
 	# man=false, gtk_doc=false, tests=false
-	meson \
-		--prefix=/usr \
-		--sysconfdir=/etc \
-		--mandir=/usr/share/man \
-		--localstatedir=/var \
-		--buildtype=plain \
+	abuild-meson \
 		-Dman=false \
 		-Dgtk_doc=false \
-		-Dtests=false \
 		-Dbroadway_backend=true \
+		-Dtests=false \
 		output
-	ninja -C output
+	meson compile ${JOBS:+-j ${JOBS}} -C output
 }
 
 check() {
-	xvfb-run ninja -C output test
+	xvfb-run meson test --no-rebuild -v -C output
 }
 
 package() {
-	DESTDIR="$pkgdir" ninja -C output install
+	DESTDIR="$pkgdir" meson install --no-rebuild -C output
 
 	# use gtk-update-icon-cache from gtk+2.0 for now
 	rm -f "$pkgdir"/usr/bin/gtk-update-icon-cache
@@ -111,19 +130,16 @@ package() {
 
 demo() {
 	pkgdesc="$pkgdesc (demonstration application)"
-	install -Dm755 "$pkgdir"/usr/bin/gtk3-demo \
-				   "$pkgdir"/usr/bin/gtk3-widget-factory \
-				   "$pkgdir"/usr/bin/gtk3-demo-application \
-				   -t "$subpkgdir"/usr/bin
-	install -Dm644 "$pkgdir"/usr/share/gtk-3.0/gtkbuilder.rng \
-				   -t "$subpkgdir"/usr/share/gtk-3.0
-	install -Dm644 "$pkgdir"/usr/share/glib-2.0/schemas/org.gtk.Demo.gschema.xml \
-				   -t "$subpkgdir"/usr/share/glib-2.0/schemas
-	install -Dm644 "$pkgdir"/usr/share/applications/gtk3-widget-factory.desktop \
-				   "$pkgdir"/usr/share/applications/gtk3-demo.desktop \
-				   -t "$subpkgdir"/usr/share/applications
-	mkdir -p "$subpkgdir"/usr/share
-	mv "$pkgdir"/usr/share/icons "$subpkgdir"/usr/share
+	amove usr/bin/gtk3-demo \
+		usr/bin/gtk3-widget-factory \
+		usr/bin/gtk3-demo-application
+
+	amove usr/share/gtk-3.0/gtkbuilder.rng \
+		usr/share/glib-2.0/schemas/org.gtk.Demo.gschema.xml \
+		usr/share/applications/gtk3-widget-factory.desktop \
+		usr/share/applications/gtk3-demo.desktop
+
+	amove usr/share/icons
 }
 
 dev() {
@@ -137,5 +153,36 @@ doc() {
 }
 
 sha512sums="
-942d2e24bdb4e9fea7fc5bbd3d41ab203b69f6352566f43164e59842d49163e37d638858032cf2322b9b4c279c8c9a07a63d58fa7ec8554f3194c17ae3185fd7  gtk-f05e4021ed82bfbabf566398d0511b6745a5745e.tar.gz
+00f71024686c2d11d5c0cdd683365c35fe4d28b5eaad4937e79690777500788818faa5bd0c483e54ba8ce734aa6411388a39e398dc638cfcf0ec0e542aae6c2b  gtk+-3.24.29.tar.xz
+3b1dd6c4a28bbc4443b830595550a482bf33fafc8cb95a929678ae0348fed38c45951748d4c68e4bdde59dc6f3f48db9c2da05e049d201a51218f3545c4db8c6  0001.patch
+29cf25c0560ac9e2a90945aaba9d03af704880b83c70ae2ec395de8eb41d4e6d1bfa7c4169696d56f75219f7e37d31d239804d0ed93d6a25099471d1fb554905  0002.patch
+0c039a9dfc39f3ff5639df28ee1c7588eeff98110329026327fb552fc5037d34a1cdad8869cd03bef88d49ee379e63cd0d882658af4f1e47402504867579b423  0003.patch
+84dc206689212352482dc2cf8b1ce3de91d76d59e3b8a93f83b8b720ccd05a8f1c8460f7258d0d4c3af28fd9c56c455ffb82f9a89cb96888eeb5b95555a65ffa  Add-GtkHdyAnimation.patch
+06796dd5aef45ac4c432c5021b38afd34cb78cafc802c2ad590fbc9935dc04dba4c3a5850b51d9f3f6dbfcf0e87d63ab703029ba8c9e94079abeac513599e4e6  Add-GtkHdySqueezer.patch
+b3b9fd8ba7eb9fde9e3bcd6e3785d8657c071e023b30c38728a73adb8590b7576e8c93babf6eb792064bc44663758d256e2b809057cf68c4e3ced0e8b787c051  Add-GtkHdyViewSwitcherTitle.patch
+76ffed28f6cf3ad4ffa9747d6e135bc6e706034eb1b02e083fe742d21bdd22884e809f266fc05b8746136e233bdd5d7ddddc278ea3a58bd8deddbefdf03e3fa5  Add-GtkHdyShadowHelper.patch
+c3bf6206c9064e682b80beaecb888d9d55d04f15ac84bd1b3cc62d8542d7d58c861f4d5e5b05b0f62e98ab74225446aee70cd10542cffc42a71cd33572010e43  Add-GtkHdyNavigationDirection.patch
+90864a7cf909a593b753496e99d464fea98ab91ad5b2dd45dfff901e20dfb872f95cac5bfe8112485e0371f09a12876fa30c3cab197519426ab760f9fc6f5372  Add-GtkHdySwipeable-and-GtkHdySwipeTracker.patch
+273a7b3f6777e2af661dd3910f1f04128cbf482f43b165ce91f5fbea38e6a5d5cf72193a256c748a9744b863cc735cbbaad9d13ee7910b8d7b2fcdd9cb2c04e5  Add-GtkHdyClamp.patch
+2375b98bcd466f8037b555c6fa2476025b538af229a4dc417325cd67b8084d6b02597e32323fbc733b7af7715caa1074efa76f1998494ba5904f0f4d43cfd378  Add-GtkHdyFlap.patch
+eb64a16d38c99419ad49d7279e6daeef85ddfd2c7480ff1ad10b35979de0b29bf79328018506ff2119d1a7174f3827ab119ed590f3fc3ded74e2bb13d8d21ad1  theme-Add-libhandy-styles.patch
+139779b9aef33653da421fb728ee048bee7505cd195038da3be44ad837a808c8c4a4e6a2a97668dcb55e1c55b0d9aeb67ba7444f5e12a897aefdd22f68418024  Add-padding-for-HdyViewSwitcherTitle.patch
+7d2c34eda4c2a4268b7ecba4a3d273c2c6114dfcc105da2e24c3ab3810b5c801ed86fed6106e2f4dfdc7bfd298141ca65dc179cf36d21af841065f845ae3bb81  events-Compress-touch-update-events.patch
+57c656fbb9eee796ed2046733d5474cf9a6d1d037da33bab768ac4443be4d0bf41f674d02921d13a2f70fc18443c16d3ca7b71434f1c7cc85549564b10a61c09  Add-org.gtk.Settings.Purism.patch
+3b614b1826c29a304c9990b5596475f4a9ad484b67c81243741c3c4ec125bc807efebcbdc1842f47b4a33257c110b5995915553ced6a00492f2bec6f248cec05  Add-the-view-sidebar-symbolic-icon.patch
+251ed5c7cb9776e584eed8ad0beade4d53806ab78070d5ecc6d1ee9f5974e2f9da90da250e3b4550bfc544a783abd3c1b4716016b7749601e6cf3027b68a10d7  Port-file-chooser-to-phones.patch
+b3fd2e474671e867eb79db9074debc10c13cd440006ca491ba3535eef861a2670470e3146c247e6b547e0a366eeec2b0e3d2dd555029e4b35d93bdba99bc4171  Reduce-the-font-chooser-minimum-size.patch
+bd2100258c56e5696401feff6f963eb1e23c77bc6c33463e1a6dc7e3ec6592eb857578aff3c083d7ef65525a616db3dae4ef3cc4ec4019921f207cf7a120fc13  aboutdialog-Port-to-phones.patch
+f9b095797a28caf7cace3436ea38a0d9165e1532b51dee38e019ccd2b4ca764ebf6762ab9053cbb36bfafb7010cd4b3359b40d9cbcca1da4e254e1a314510ae8  dialog-Maximize-resizable-dialogs-on-phones.patch
+2c3003a7e19355401dcec85ae4fa3c41253c9c0a375c60cc19d7313dd6700d399323ca08411930ee36346b1b9cdaee3b5e98af18e1117455519d1bb9a9e38ef6  gtkprivate-Add-an-API-to-check-if-phone.patch
+36ebfc74a7afd8228a4653a6e168639f9f8a3dc8b5c9dc9244f254d42253a87ff6608913d34ac6f180284114cc5c566c5d123dc9a6dd68b84af4a939066a5249  headerbar-Use-a-back-button-in-dialogs-on-mobile.patch
+0a12ff59cfd78d3f04252a41ac217b85721c8fcb1d67bd7947fcb8facc22e14204541648c9ffc5a9cd1ef121a20cee497329145577ae3880fe33e425df3f4b48  infobar-Move-the-action-area-below-on-the-phone.patch
+5ffea357c1e9d7d2cb6300fa05d1bb211f3aab697cf71b1c8e074719d1b8c640aaf93b2ca32510123e5d941ccd0b7b673d218e537ed690b26160d3d4f4813d63  librem5-Make-GtkShortcutsWindow-adaptive.patch
+f4336c0a5da8bf5c0b81c4c4b53d45e90fb0261ec32311710c58dd6942cc375dd7e29cc3303aa7ffb1d58815c1a086ea6de3d75351bc70c9f469f98bb57de763  messagedialog-Set-orientation-based-on-device.patch
+95988ed6aabd045bb790578f2012ee4e4f20e51d2a6ae3da59bce20c80dab29d31146cf3dd49cf70591eb447f7d52f4cf2ec4ff87cfdd2f96a697094aa523937  printunixdialog-Adapt-for-phones.patch
+09539e078a43ffbc4454008f4c39317bfada267cf759e4cce1d73aad5816787fe25d39c9f6f99b0fa6c1f466ad6aaec147f479fbd1852e52d53b0758bd76d804  scrolledwindow-Set-deceleration-value-based-on-the-device.patch
+88b00bdd724171c68ad39940bd2e94c074efa5019aef49ca511e3cfa536f1dfede4faa9c3602bef1f453a20fb06b7c40e5263b9a2b37ce0208f43960b8e0eef0  window-Disable-window-dragging-on-phones.patch
+4711b3cb3389a2f7f4f3f0b5bc62e346a1e8c66b32f532ab0fd301843fb0bde9d7eca9406e5f75b2371476e6458620dcfe9b47c3c093083745f8670824f658fc  window-Maximize-resizable-pseudo-dialogs-on-mobile.patch
+ac46a1da62e07d0ced8e646f7284d5c4cdcd6de0e27aacb9f8a5ae367141e459ef5db9b9ab90282d012ee49506a1d3d6499e03d44afc8f287b2d363108fe955b  hdy-flap-Use-natural-size-for-folding-instead-of-minimum.patch
+e4ea76484b70bd9beb65b2964bbcff3b3f78f5f6fe70b12309a7721ca134e3735e8aaac09803f93b393a6130a703f8f346c0df89ad45d18c580dac1e0e922276  10-Revert-gdkseatdefault-Grab-touch-events-where-applic.patch
 "
