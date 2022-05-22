@@ -1,0 +1,19 @@
+pkgname=postmarketos-mkinitfs-files-libinput
+pkgver=0.1
+pkgrel=0
+pkgdesc="Extra tools for libinput debugging in the initramfs"
+url="https://postmarketos.org"
+depends="postmarketos-mkinitfs libinput libinput-tools"
+source="20-libinput.files"
+arch="noarch"
+license="GPL-3.0-or-later"
+options="!check"
+
+package() {
+	install -Dm644 "$srcdir"/20-libinput.files \
+		"$pkgdir"/etc/postmarketos-mkinitfs/files/20-libinput.files
+}
+
+sha512sums="
+ff731300500e86c8041874bca6813fb0ca6bfd1046b6c67e088ebe2e0b60dcc3df6be07d948bc6b2b0584a98492387fe9d808d2e1d0fe0da7a830641e9e5093b  20-libinput.files
+"
