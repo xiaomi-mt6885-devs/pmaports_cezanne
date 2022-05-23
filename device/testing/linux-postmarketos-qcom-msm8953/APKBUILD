@@ -4,7 +4,7 @@
 _flavor="postmarketos-qcom-msm8953"
 pkgname=linux-$_flavor
 pkgver=5.16
-pkgrel=0
+pkgrel=1
 pkgdesc="Mainline kernel fork for Qualcomm MSM8953 devices"
 arch="aarch64"
 url="https://github.com/msm8953-mainline/linux"
