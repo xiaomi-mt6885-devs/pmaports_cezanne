@@ -1,0 +1,38 @@
+# Reference: <https://postmarketos.org/devicepkg>
+pkgname=device-thundercomm-db845c
+pkgdesc="Thundercomm Dragonboard 845c"
+pkgver=0.1
+pkgrel=4
+url="https://postmarketos.org"
+license="MIT"
+arch="aarch64"
+options="!check !archcheck"
+depends="
+	linux-thundercomm-db845c
+	mesa-dri-gallium
+	mkbootimg
+	postmarketos-base
+	linux-firmware-qcom
+	linux-firmware-ath10k
+	linux-firmware-qca
+	rmtfs
+	rmtfs-openrc
+	pd-mapper
+	pd-mapper-openrc
+	tqftpserv
+	tqftpserv-openrc
+"
+makedepends="devicepkg-dev"
+source="deviceinfo"
+
+build() {
+	devicepkg_build $startdir $pkgname
+}
+
+package() {
+	devicepkg_package $startdir $pkgname
+}
+
+sha512sums="
+83d26d0e641a8d86baf5ad6ef4af259edb15dcef69fb376dc3704dec5537f94b774489a009dbca66e71f94798ae46ca1cfa06028d79bd877596fd6b38bd94719  deviceinfo
+"
