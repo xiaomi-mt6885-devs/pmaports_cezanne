@@ -1,0 +1,61 @@
+# Reference: <https://postmarketos.org/vendorkernel>
+# Kernel config based on: arch/arm/configs/(CHANGEME!)
+
+pkgname=linux-alcatel-pixi4-4
+pkgver=3.18.19
+pkgrel=0
+pkgdesc="Alcatel Pixi 4 (4) kernel fork"
+arch="armv7"
+_carch="arm"
+_flavor="alcatel-pixi4-4"
+url="https://kernel.org"
+license="GPL-2.0-only"
+options="!strip !check !tracedeps pmb:cross-native"
+makedepends="
+	bash
+	bc
+	bison
+	devicepkg-dev
+	flex
+	openssl-dev
+	perl
+"
+
+# Source
+_repository="android_kernel_alcatel_4034"
+_commit="ebc53de1724a8ae489cb5c32fd678aa351d24ce9"
+_config="config-$_flavor.$arch"
+source="
+	$pkgname-$_commit.tar.gz::https://github.com/getakgt1/$_repository/archive/$_commit.tar.gz
+	$_config
+	gcc7-give-up-on-ilog2-const-optimizations.patch
+	gcc8-fix-put-user.patch
+	gcc10-extern_YYLOC_global_declaration.patch
+	python3dct.patch
+"
+builddir="$srcdir/$_repository-$_commit"
+_outdir="out"
+
+prepare() {
+	default_prepare
+	. downstreamkernel_prepare
+}
+
+build() {
+	unset LDFLAGS
+	make O="$_outdir" ARCH="$_carch" CC="${CC:-gcc}" \
+		KBUILD_BUILD_VERSION="$((pkgrel + 1 ))-postmarketOS"
+}
+
+package() {
+	downstreamkernel_package "$builddir" "$pkgdir" "$_carch" "$_flavor" "$_outdir"
+}
+
+sha512sums="
+081e93e941a4bad3dd1199769590cfbd04650b95f3b0d754eda11bff2f3e8ec2db645d1d975871cd2cfd09c5df5e48c2c251bc2a977586bdaaaec5c45eb12072  linux-alcatel-pixi4-4-ebc53de1724a8ae489cb5c32fd678aa351d24ce9.tar.gz
+0247b95f9017b112b1864081e8bf8b8d28a89caeebb59f50ae2324848f228ec94f007552c6e9e55cb321f1f43d821de1bba68dd1763a415a7ab3666f19a2c0f2  config-alcatel-pixi4-4.armv7
+77eba606a71eafb36c32e9c5fe5e77f5e4746caac292440d9fb720763d766074a964db1c12bc76fe583c5d1a5c864219c59941f5e53adad182dbc70bf2bc14a7  gcc7-give-up-on-ilog2-const-optimizations.patch
+197d40a214ada87fcb2dfc0ae4911704b9a93354b75179cd6b4aadbb627a37ec262cf516921c84a8b1806809b70a7b440cdc8310a4a55fca5d2c0baa988e3967  gcc8-fix-put-user.patch
+2b48f1bf0e3f70703d2cdafc47d5e615cc7c56c70bec56b2e3297d3fa4a7a1321d649a8679614553dde8fe52ff1051dae38d5990e3744c9ca986d92187dcdbeb  gcc10-extern_YYLOC_global_declaration.patch
+a2990a27436d3ffe40f1fd1e388486727042cc5fa5be23b19dad623a18731c94c07ac4a89be1e59e6214593d2b03d38702b60a7475807e8cda0811c4e5d50a9b  python3dct.patch
+"
