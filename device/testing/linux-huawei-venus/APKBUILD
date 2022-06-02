@@ -1,0 +1,59 @@
+# Reference: <https://postmarketos.org/vendorkernel>
+# Kernel config based on: arch/arm64/configs/merge_hi6250_defconfig
+
+pkgname=linux-huawei-venus
+pkgver=4.1.18
+pkgrel=0
+pkgdesc="Huawei P9 lite kernel fork"
+arch="aarch64"
+_carch="arm64"
+_flavor="huawei-venus"
+url="https://kernel.org"
+license="GPL-2.0-only"
+options="!strip !check !tracedeps pmb:cross-native"
+makedepends="
+	bash
+	bc
+	bison
+	devicepkg-dev
+	flex
+	openssl-dev
+	perl
+"
+
+# Source
+_repository="android_kernel_huawei_vns"
+_commit="c93d7f0aedb5c5ea608a891a530979976d537998"
+_config="config-$_flavor.$arch"
+source="
+	$pkgname-$_commit.tar.gz::https://github.com/Huawei-Dev/$_repository/archive/$_commit.tar.gz
+	$_config
+	01_keyboard_fix.patch
+	02_fix_undeclared_AID_INET.patch
+	04_make_rdr_hisi_adapter_compileable.patch
+"
+builddir="$srcdir/$_repository-$_commit"
+_outdir="out"
+
+prepare() {
+	default_prepare
+	. downstreamkernel_prepare
+}
+
+build() {
+	unset LDFLAGS
+	make O="$_outdir" ARCH="$_carch" CC="${CC:-gcc}" \
+		KBUILD_BUILD_VERSION="$((pkgrel + 1 ))-postmarketOS"
+}
+
+package() {
+	downstreamkernel_package "$builddir" "$pkgdir" "$_carch" "$_flavor" "$_outdir"
+}
+
+sha512sums="
+40088336cdc249140ead9cf9278204995b4283440531aa5e5dc7c3f20ac947e9cc3cadebcb3171f4e778df0828cf433294ae63554ff560f8eb0bdd7bc02c9934  linux-huawei-venus-c93d7f0aedb5c5ea608a891a530979976d537998.tar.gz
+6217e0aa4dd60632472a951d5a1324390c5a8490ed47d0c4f5f65561f258ee7d9a0dd346eeddb780f30148c8d72a26de56c073557d169150319a64b061360218  config-huawei-venus.aarch64
+2300cd172cad77262804e16deba4f7e028bad638c3dea1d85074eec0289bac3f6e6922b4b31f42a24d075c4954a742b3444b69819765595037c163f56a371dbc  01_keyboard_fix.patch
+33599989d5088bb58bcbebe1b33f324fca130fac7f4938e848c07abafb119af9cebf94ef4acf786b5e43e9199a8200aa216a4238a0331d426861651204aea8c8  02_fix_undeclared_AID_INET.patch
+cdc60b6c829df3b014226b9cb506ed71cf005cf5fec8d4339b54a23f052465501aaa4983ec00f33ef301db2e6a70b24a30439b3f6ce8f7c00348c05d3132ec3f  04_make_rdr_hisi_adapter_compileable.patch
+"
