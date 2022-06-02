@@ -1,0 +1,29 @@
+# Reference: <https://postmarketos.org/devicepkg>
+pkgname=device-nokia-ple
+pkgdesc="HMD Global Nokia 6"
+pkgver=0.1
+pkgrel=0
+url="https://postmarketos.org"
+license="MIT"
+arch="aarch64"
+options="!check !archcheck"
+depends="
+	linux-nokia-ple
+	mesa-dri-gallium
+	mkbootimg
+	postmarketos-base
+"
+makedepends="devicepkg-dev"
+source="deviceinfo"
+
+build() {
+	devicepkg_build $startdir $pkgname
+}
+
+package() {
+	devicepkg_package $startdir $pkgname
+}
+
+sha512sums="
+e095ca13b47d1198c02539b29e1dd2a6eac575bd894552ca5bd9836050cccb5e96a52378c46b86297d2ad5d7fa797d2f099cd4d24cdfbb0b4853d0e198e02ac1  deviceinfo
+"
