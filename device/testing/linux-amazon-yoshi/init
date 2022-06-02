@@ -1,0 +1,16 @@
+#!/bin/busybox sh
+set -uexo pipefail
+busybox mount -t proc proc /proc
+busybox mount -t sysfs sysfs /sys
+
+# kernel runs init in parallel with device probing, flash may not have been discovered yet.
+busybox sleep 1
+
+# initramfs was stuffed into emmc @ 0xA41000 by amazon-yoshi-bootimg-hack.sh in device-amazon-yoshi.
+busybox dd bs=512 if=/dev/mmcblk0 skip=21000 count=8192 \
+    | busybox gunzip \
+    | busybox cpio -viu || true
+
+busybox umount /sys
+busybox umount /proc
+exec /init

@@ -1,0 +1,70 @@
+# Reference: <https://postmarketos.org/vendorkernel>
+# Kernel config based on: https://github.com/jmacato/linux-kindle4nt/blob/v5.8.0-kindle-4nt/arch/arm/configs/imx50_kindle4nt_defconfig
+
+pkgname=linux-amazon-yoshi
+pkgver=5.15_rc6
+pkgrel=0
+pkgdesc="Amazon Kindle 4 kernel fork"
+arch="armv7"
+_carch="arm"
+_flavor="amazon-yoshi"
+url="https://kernel.org"
+license="GPL-2.0-only"
+options="!strip !check !tracedeps pmb:cross-native"
+makedepends="
+	bash
+	bc
+	bison
+	devicepkg-dev
+	lzop
+	flex
+	openssl-dev
+	perl
+	busybox-static-armv7
+"
+
+# Source
+_config="config-$_flavor.$arch"
+_tag=5.15-rc6
+source="
+	$pkgname-$_tag.tar.gz::https://git.kernel.org/torvalds/t/linux-$_tag.tar.gz
+	$_config
+	initramfs.list
+	init
+	dts.patch
+"
+builddir="$srcdir/linux-${_tag}"
+_outdir="out"
+
+prepare() {
+	default_prepare
+	REPLACE_GCCH=0 \
+		.  downstreamkernel_prepare
+	mkdir out/usr
+	cp -v /usr/$(arch_to_hostspec $arch)/bin/busybox.static out/usr/
+	cp -v $srcdir/initramfs.list out/usr/
+	cp -v $srcdir/init out/usr/
+}
+
+build() {
+	unset LDFLAGS
+	make O="$_outdir" ARCH="$_carch" CC="${CC:-gcc}" \
+		KBUILD_BUILD_VERSION="$((pkgrel + 1 ))-postmarketOS" \
+		zImage imx50-amazon-yoshi.dtb
+}
+
+package() {
+	(
+		cd $_outdir/arch/arm/boot/
+		cat zImage dts/imx50-amazon-yoshi.dtb > zImage-dtb
+	)
+	downstreamkernel_package "$builddir" "$pkgdir" "$_carch" "$_flavor" "$_outdir"
+}
+
+sha512sums="
+d8fb2914c2547c66ce99f74ee374d61249bad6cd880abd24e66a3e3457fe2f4a65a503a0c4787c94fb0a1b728ec83b8020cb50fd2f4ef653b0eaea15812a041c  linux-amazon-yoshi-5.15-rc6.tar.gz
+bedc21b5f585ff5c9fe37a3fec0a17c8cccd64c51180e3e0dbe7a58dbd190deb275a35cba9f57316349d61fe7b69e274c38618381aff2b3252d855247b657fbb  config-amazon-yoshi.armv7
+159b5f59c40e2a65d21bcc4c54a8559e1c18c1e30326274d7f6a0281770278f86214f526a027310e09c2c559aa0edd418586e17daf779a22ad418204fe2e971b  initramfs.list
+8a468c6d27bb41fab25a60994ee78c35bbd02d54c1be9f448f97293e890003a146946efaf0942bce6fcc09be485e3266ac33a6b1120b690bf7b4a26946dbb900  init
+74d1e7058a9d6ce8464824153eab3d82511bd10757c279b2d8428165a4da4683424853bdef22cda6747b4e57abaf7bc5a9e62f0e8561cdb26b20b6cca4bcc495  dts.patch
+"

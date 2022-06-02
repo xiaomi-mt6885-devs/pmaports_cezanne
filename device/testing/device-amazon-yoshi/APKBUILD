@@ -1,0 +1,31 @@
+# Reference: <https://postmarketos.org/devicepkg>
+pkgname=device-amazon-yoshi
+pkgdesc="Amazon Kindle 4"
+pkgver=0.1
+pkgrel=0
+url="https://postmarketos.org"
+license="MIT"
+arch="armv7"
+options="!check !archcheck"
+depends="
+	linux-amazon-yoshi
+	mesa-dri-gallium
+	postmarketos-base
+	u-boot-tools
+"
+makedepends="devicepkg-dev"
+source="deviceinfo amazon-yoshi-bootimg-hack.sh"
+
+build() {
+	devicepkg_build $startdir $pkgname
+}
+
+package() {
+	devicepkg_package $startdir $pkgname
+	install -D -m755 $srcdir/amazon-yoshi-bootimg-hack.sh $pkgdir/usr/share/postmarketos-mkinitfs/amazon-yoshi-bootimg-hack.sh
+}
+
+sha512sums="
+70a704c53eddb2bb95a365da8c07fae9248363434c31536a8343baf7008bfbf30b6fbb02cc05954a3751f1e61d450dbc83699c7c56793d65f5723c9e0c768c53  deviceinfo
+2ea50168d0055ddafaa8465825bc7d736dbab6a274089f9c7621058b60856cf45651189a724edb5924dd9e5daab8fcc3d970f8ed8d3eea5f13d5bddef9084328  amazon-yoshi-bootimg-hack.sh
+"
