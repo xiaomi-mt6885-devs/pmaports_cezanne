@@ -1,0 +1,22 @@
+From 4ec11887b7d3c46e8473dc3bc17d5dcfef16da96 Mon Sep 17 00:00:00 2001
+From: Anton Bambura <jenneron@protonmail.com>
+Date: Tue, 7 Jun 2022 03:03:19 +0300
+Subject: [PATCH] add efi support
+
+---
+ configs/chromebook_jerry_defconfig | 2 ++
+ 1 file changed, 2 insertions(+)
+
+diff --git a/configs/chromebook_jerry_defconfig b/configs/chromebook_jerry_defconfig
+index 8f33bb8316..3abaed14d3 100644
+--- a/configs/chromebook_jerry_defconfig
++++ b/configs/chromebook_jerry_defconfig
+@@ -79,3 +79,5 @@ CONFIG_USE_TINY_PRINTF=y
+ CONFIG_CMD_DHRYSTONE=y
+ CONFIG_ERRNO_STR=y
+ # CONFIG_SPL_OF_LIBFDT is not set
++CONFIG_CMD_BOOTEFI=y
++CONFIG_EFI_LOADER=y
+-- 
+2.36.1
+

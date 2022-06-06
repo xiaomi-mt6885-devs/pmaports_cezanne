@@ -1,0 +1,45 @@
+diff --git a/disk/part_efi.c b/disk/part_efi.c
+index 2973d52f6a..562c5e5b1d 100644
+--- a/disk/part_efi.c
++++ b/disk/part_efi.c
+@@ -80,10 +80,10 @@ static int validate_gpt_header(gpt_header *gpt_h, lbaint_t lba,
+ 
+ 	/* Check the GPT header signature */
+ 	if (le64_to_cpu(gpt_h->signature) != GPT_HEADER_SIGNATURE) {
+-		printf("%s signature is wrong: 0x%llX != 0x%llX\n",
++		/* printf("%s signature is wrong: 0x%llX != 0x%llX\n",
+ 		       "GUID Partition Table Header",
+ 		       le64_to_cpu(gpt_h->signature),
+-		       GPT_HEADER_SIGNATURE);
++		       GPT_HEADER_SIGNATURE); */
+ 		return -1;
+ 	}
+ 
+@@ -281,15 +281,15 @@ int part_get_info_efi(struct blk_desc *dev_desc, int part,
+ 	/* This function validates AND fills in the GPT header and PTE */
+ 	if (is_gpt_valid(dev_desc, GPT_PRIMARY_PARTITION_TABLE_LBA,
+ 			gpt_head, &gpt_pte) != 1) {
+-		printf("%s: *** ERROR: Invalid GPT ***\n", __func__);
++		/* printf("%s: *** ERROR: Invalid GPT ***\n", __func__); */
+ 		if (is_gpt_valid(dev_desc, (dev_desc->lba - 1),
+ 				 gpt_head, &gpt_pte) != 1) {
+ 			printf("%s: *** ERROR: Invalid Backup GPT ***\n",
+ 			       __func__);
+ 			return -1;
+ 		} else {
+-			printf("%s: ***        Using Backup GPT ***\n",
+-			       __func__);
++			/* printf("%s: ***        Using Backup GPT ***\n",
++			       __func__); */
+ 		}
+ 	}
+ 
+@@ -940,7 +940,7 @@ static int is_gpt_valid(struct blk_desc *dev_desc, u64 lba,
+ 	/* Read and allocate Partition Table Entries */
+ 	*pgpt_pte = alloc_read_gpt_entries(dev_desc, pgpt_head);
+ 	if (*pgpt_pte == NULL) {
+-		printf("GPT: Failed to allocate memory for PTE\n");
++		/* printf("GPT: Failed to allocate memory for PTE\n"); */
+ 		return 0;
+ 	}
+ 

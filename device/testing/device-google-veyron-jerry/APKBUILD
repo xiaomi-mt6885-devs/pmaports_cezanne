@@ -1,34 +1,62 @@
 # Reference: <https://postmarketos.org/devicepkg>
 # Maintainer: Timothy Valldeperas <tvall43@gmail.com>
+# Co-Maintainer: Jenneron <jenneron@protonmail.com>
 pkgname=device-google-veyron-jerry
 pkgdesc="Google Veyron Jerry Chromebook"
-pkgver=0.6
+pkgver=1
 pkgrel=0
 url="https://postmarketos.org"
 license="MIT"
 arch="armv7"
-options="!check !archcheck"
+# pmb:strict: avoid grub-related install error during build with pmbootstrap
+options="!check !archcheck pmb:strict"
 depends="
 	alsa-ucm-conf-google-veyron
 	linux-postmarketos-rockchip
+	u-boot-veyron-jerry
 	mesa-dri-gallium
 	postmarketos-base
 "
-makedepends="devicepkg-dev"
+makedepends="devicepkg-dev grub grub-efi"
 subpackages="$pkgname-nonfree-firmware:nonfree_firmware"
 source="
 	deviceinfo
 	extlinux.conf
+	grub.cfg
 "
 
 build() {
 	devicepkg_build $startdir $pkgname
+
+	grub-mkimage \
+		--prefix="/grub" \
+		--output="bootarm.efi" \
+		--format="arm-efi" \
+		--compression="xz" \
+		\
+		all_video \
+		disk \
+		efi_gop \
+		fat \
+		gzio \
+		iso9660 \
+		linux \
+		normal \
+		part_gpt \
+		part_msdos
 }
 
 package() {
 	devicepkg_package $startdir $pkgname
+
+	# Keep extlinux.conf to not break previous installations without FAT32 for EFI
 	install -D -m644 "$srcdir"/extlinux.conf \
 		"$pkgdir"/boot/extlinux/extlinux.conf
+
+	install -D "$srcdir"/grub.cfg \
+		"$pkgdir"/boot/grub/grub.cfg
+	install -D "$srcdir"/bootarm.efi \
+		"$pkgdir"/boot/EFI/Boot/bootarm.efi
 }
 
 nonfree_firmware() {
@@ -38,6 +66,7 @@ nonfree_firmware() {
 }
 
 sha512sums="
-f03a663bdf5af04b0270a4c004877cc80496e9a11c6a144e62f5bffb93f8eaef0a0b9b55c6b3a85e13e2539f0e24781148c9676e1c8be50961aaf49fed224424  deviceinfo
+2006a76d5fee3a4bcbbb7006db4fe57673e947a3f4368ada20fc55ba843a211a06184367b64b0f18328996299d88860b4109b89808763580fbd6aaeb00c837d1  deviceinfo
 9633b95a87d74a6668d2f2c30aaf187149a3a72c8c5734c5fb4094bcbc2fa9a519d35f6b8992a402aa3e003ce94b430b43ad5a8be774bfb2b4a353701c807f28  extlinux.conf
+71846ad341412e13c1cf36cc120f0b4e2e94c40ec987a8fe49cec1bed1ad79cc0719e953a9f35b1abba09d697ea50956fdf204e5f7e376792f7c4f1f61fd4a5f  grub.cfg
 "
