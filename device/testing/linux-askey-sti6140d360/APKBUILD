@@ -1,0 +1,77 @@
+# Reference: <https://postmarketos.org/vendorkernel>
+# Kernel config based on: arch/arm64/configs/g12a_defconfig)
+
+pkgname=linux-askey-sti6140d360
+pkgver=4.9.180
+pkgrel=0
+pkgdesc="Onn UHD kernel fork"
+arch="aarch64"
+_carch="arm64"
+_flavor="askey-sti6140d360"
+url="https://kernel.org"
+license="GPL-2.0-only"
+options="!strip !check !tracedeps pmb:cross-native"
+makedepends="
+	bash
+	bc
+	bison
+	devicepkg-dev
+	flex
+	openssl-dev
+	perl
+"
+
+# Source
+_repository="android_kernel_amlogic_linux-4.9"
+_commit="adc31fd9dc21b26399038b07e78847aa9a0b030d"
+_config="config-$_flavor.$arch"
+source="
+	$pkgname-$_commit.tar.gz::https://github.com/LineageOS/$_repository/archive/$_commit.tar.gz
+	$_config
+	gcc10-extern_YYLOC_global_declaration.patch
+"
+subpackages="$pkgname-dev"
+builddir="$srcdir/$_repository-$_commit"
+
+prepare() {
+	default_prepare
+	. downstreamkernel_prepare
+}
+
+build() {
+	unset LDFLAGS
+	make ARCH="$_carch" \
+		KBUILD_BUILD_VERSION="$((pkgrel + 1 ))-postmarketOS"
+}
+
+package() {
+	downstreamkernel_package "$builddir" "$pkgdir" "$_carch" "$_flavor"
+
+	make -j1 modules_install dtbs_install \
+		ARCH="$_carch" \
+		INSTALL_MOD_STRIP=1 \
+		INSTALL_MOD_PATH="$pkgdir" \
+		INSTALL_DTBS_PATH="$pkgdir/usr/share/dtb/"
+
+	gzip -v "$pkgdir"/boot/vmlinuz
+	mv "$pkgdir"/boot/vmlinuz.gz "$pkgdir"/boot/vmlinuz
+
+}
+
+dev() {
+	provides="linux-headers"
+	replaces="linux-headers"
+
+	cd $builddir
+
+	# https://github.com/torvalds/linux/blob/master/Documentation/kbuild/headers_install.rst
+	make -j1 headers_install \
+	ARCH="$_carch" \
+		INSTALL_HDR_PATH="$subpkgdir"/usr
+}
+
+sha512sums="
+a9eb46cba822519087b28440eb2525f3965d1ef1cd3010838aaa299abc5b8c87785c18dd331f52e08e589398801663a96dc11a650b49800cb966837863ecc6d8  linux-askey-sti6140d360-adc31fd9dc21b26399038b07e78847aa9a0b030d.tar.gz
+4a03aec2f0b3d77dc1638548c3ccf2310155a19c90aa2759ab03cf0c45fb8a680b43b62b1c323a77d3ae5a20c222e8e49fce0cae1a8eee2f1d4751333dd82609  config-askey-sti6140d360.aarch64
+1cc55d4fbb675968e625763d38ac3039d96b1bfc99b0e2d29c6073260e38a2c075f5f4360c8d48dd48e68f4eb1fd3ff137c3441fcb89da82dac5c4d45d193afc  gcc10-extern_YYLOC_global_declaration.patch
+"
