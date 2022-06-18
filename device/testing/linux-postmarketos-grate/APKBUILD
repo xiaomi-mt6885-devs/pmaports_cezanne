@@ -1,6 +1,6 @@
 pkgname=linux-postmarketos-grate
 pkgver=5.17.0
-pkgrel=0
+pkgrel=1
 arch="armv7"
 pkgdesc="Linux kernel with experimental patches for Tegra"
 url="https://postmarketos.org"
@@ -13,7 +13,7 @@ license="GPL-2.0-only"
 
 # Source
 _flavor=postmarketos-grate
-_commit="f52bb34f778b5775d5541943129d1fd2c31a5e7f"
+_commit="999564eab65e01ef0099b6e533b2c388b1f02439"
 _carch="arm"
 _config="config-$_flavor.$arch"
 source="$pkgname-$pkgver-$_commit.tar.gz::https://github.com/grate-driver/linux/archive/$_commit.tar.gz
@@ -44,6 +44,6 @@ package() {
 }
 
 sha512sums="
-bc73f00ea4bc8f1e204e969e9d778646ee6f7a4414d42d352b46b44b41e4cbf2083ef7990c5225d870abbd16cb2871980799f01de010cd76e90335c92c3d0789  linux-postmarketos-grate-5.15.0_rc4-64b369377d2b502b79a12b6c3c1b6b27d0320015.tar.gz
-fcb67ac00de88824080f85acc552c6fb55d5076b39ac5db320529fa13335c418e5ef0745bb8fab474639e28947211b085c28a5376ee4bf954f9d0a003db04712  config-postmarketos-grate.armv7
+70035fb28a507831793fb0d62ead2993b08ef1cacab5e929cc982d4333c8aabd9524ae89a741c62cf9226ea9dd793700ae2faeb171522f309c805b0cf5565bbe  linux-postmarketos-grate-5.17.0-999564eab65e01ef0099b6e533b2c388b1f02439.tar.gz
+7ccc75aa7db1d1f713ab53bf436ea3611293e6ed01f8cbe0ccf9e39bb790dab53c0be87d51119da2d28c486a709a7aa96b4811f8c7d0675fc6c1ba92e7bfa77e  config-postmarketos-grate.armv7
 "
