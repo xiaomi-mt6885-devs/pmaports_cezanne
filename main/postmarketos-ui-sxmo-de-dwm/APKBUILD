@@ -2,7 +2,7 @@
 # Maintainer: Miles Alan <m@milesalan.com>
 pkgname=postmarketos-ui-sxmo-de-dwm
 pkgver=1.8.2
-pkgrel=0
+pkgrel=1
 pkgdesc="Simple Mobile: Mobile environment based on SXMO and running on dwm"
 url="http://sr.ht/~mil/Sxmo"
 arch="noarch !armhf"
@@ -13,6 +13,7 @@ depends="
 	autocutsel
 	conky
 	dunst
+	postmarketos-upgrade-gtk3
 	svkbd
 	sxiv
 	sxmo-dmenu

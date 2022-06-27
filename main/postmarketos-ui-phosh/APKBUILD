@@ -2,7 +2,7 @@
 # Maintainer: Bart Ribbers <bribbers@disroot.org>
 pkgname=postmarketos-ui-phosh
 pkgver=17
-pkgrel=1
+pkgrel=2
 pkgdesc="(Wayland) Mobile UI developed for the Librem 5"
 url="https://puri.sm"
 arch="noarch !armhf"
@@ -21,6 +21,7 @@ depends="
 	phosh
 	polkit-elogind
 	postmarketos-base-ui
+	postmarketos-upgrade-gtk3
 	pulseaudio
 	tinydm
 	tinydm-openrc
