@@ -1,0 +1,79 @@
+# Reference: <https://postmarketos.org/vendorkernel>
+# Kernel config based on: arch/arm/configs/(CHANGEME!)
+
+pkgname=linux-samsung-hl3g
+pkgver=3.4.39
+pkgrel=1
+pkgdesc="Samsung Galaxy Note 3 Neo kernel fork"
+arch="armv7"
+_carch="arm"
+_flavor="samsung-hl3g"
+url="https://kernel.org"
+license="GPL-2.0-only"
+options="!strip !check !tracedeps pmb:cross-native"
+makedepends="
+	bash
+	bc
+	bison
+	devicepkg-dev
+	flex
+	openssl-dev
+	perl
+	gcc4
+"
+if [ "${CC:0:5}" != "gcc4-" ]; then
+	CC="gcc4-$CC"
+	HOSTCC="gcc4-gcc"
+	CROSS_COMPILE="gcc4-$CROSS_COMPILE"
+fi
+
+# Source
+_repository="android_kernel_samsung_smdk5260"
+_commit="24f8d720a31ff72dfe5941f2b65c369debe24a4f"
+_config="config-$_flavor.$arch"
+source="
+	$pkgname-$_commit.tar.gz::https://github.com/FireLord/android_kernel_samsung_smdk5260/archive/24f8d720a31ff72dfe5941f2b65c369debe24a4f.tar.gz
+	$_config
+	gcc7-give-up-on-ilog2-const-optimizations.patch
+	gcc8-fix-put-user.patch
+	gcc10-extern_YYLOC_global_declaration.patch
+	
+"
+builddir="$srcdir/$_repository-$_commit"
+_outdir="out"
+
+prepare() {
+	default_prepare
+	. downstreamkernel_prepare
+	
+	# Remove -Werror from all makefiles
+	local i
+	local makefiles="$(find . -type f -name Makefile)
+        $(find . -type f -name Kbuild)"
+	for i in $makefiles; do
+    	sed -i 's/-Werror-/-W/g' "$i"
+    	sed -i 's/-Werror//g' "$i"
+	done
+}
+
+build() {
+	unset LDFLAGS
+	make O="$_outdir" ARCH="$_carch" CC="${CC:-gcc}" \
+		KBUILD_BUILD_VERSION="$((pkgrel + 1 ))-postmarketOS"
+}
+
+package() {
+	downstreamkernel_package "$builddir" "$pkgdir" "$_carch" \
+		"$_flavor" "$_outdir"
+		
+
+}
+
+sha512sums="
+ac2af338eb897ad541b11a4fecec5b8ce7b39d1ec7f7f97f400d3cc549d9cc67a552d402bfadead1b0fbfd1f5547790de782c3b0a0a05e8469ae2e7deb7db7e5  linux-samsung-hl3g-24f8d720a31ff72dfe5941f2b65c369debe24a4f.tar.gz
+aae1ed805cb2fba0104de16287e5cbf08f9bc1c687638403ece9880e6c6a896da5250beeb007a49a1b660bd3513d28257380e565d8b179129a49d756a22390e9  config-samsung-hl3g.armv7
+77eba606a71eafb36c32e9c5fe5e77f5e4746caac292440d9fb720763d766074a964db1c12bc76fe583c5d1a5c864219c59941f5e53adad182dbc70bf2bc14a7  gcc7-give-up-on-ilog2-const-optimizations.patch
+197d40a214ada87fcb2dfc0ae4911704b9a93354b75179cd6b4aadbb627a37ec262cf516921c84a8b1806809b70a7b440cdc8310a4a55fca5d2c0baa988e3967  gcc8-fix-put-user.patch
+2b48f1bf0e3f70703d2cdafc47d5e615cc7c56c70bec56b2e3297d3fa4a7a1321d649a8679614553dde8fe52ff1051dae38d5990e3744c9ca986d92187dcdbeb  gcc10-extern_YYLOC_global_declaration.patch
+
+"

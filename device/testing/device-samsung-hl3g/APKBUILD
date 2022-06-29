@@ -1,0 +1,31 @@
+# Reference: <https://postmarketos.org/devicepkg>
+pkgname=device-samsung-hl3g
+pkgdesc="Samsung Galaxy Note 3 Neo"
+pkgver=0.1
+pkgrel=0
+url="https://postmarketos.org"
+license="MIT"
+arch="armv7"
+options="!check !archcheck"
+depends="
+	linux-samsung-hl3g
+	mesa-dri-gallium
+	mkbootimg
+	postmarketos-base
+"
+makedepends="devicepkg-dev"
+source="deviceinfo"
+build() {
+	devicepkg_build $startdir $pkgname
+}
+
+package() {
+	
+	devicepkg_package $startdir $pkgname
+
+	
+}
+
+sha512sums="
+61de28f76c321d7f55508998630dc27ec4ef06f27fd08c1aa10a232038bda7a9a887310dea1016f4ee2bebe6f6dae481a2cafb33d3d9181cc5350e65fc12b55f  deviceinfo
+"
