@@ -1,0 +1,60 @@
+# Maintainer: Timothy Valldeperas <tvall43@gmail.com>
+# Co-Maintainer: Jenneron <jenneron@protonmail.com>
+pkgname=u-boot-veyron-jerry
+pkgver=2017.07
+pkgrel=0
+pkgdesc="U-Boot for Google Veyron Jerry Chromebook"
+url="https://www.denx.de/wiki/U-Boot/"
+arch="armv7"
+license="GPL-2.0-or-later OFL-1.1 BSD-2-Clause BSD-3-Clause eCos-2.0 IBM-pibs
+	ISC LGPL-2.0-only LGPL-2.1-only X11"
+options="!check" # no tests in upstream
+makedepends="$depends_dev bc dtc python2-dev swig bison flex openssl-dev
+	py2-setuptools linux-headers u-boot-tools vboot-utils"
+source="
+	https://ftp.denx.de/pub/u-boot/u-boot-${pkgver//_/-}.tar.bz2
+	0001-chainloading.patch
+	0002-supress-efi-errors.patch
+	0003-add-efi-support.patch
+	chromebook_jerry.its
+"
+
+builddir="$srcdir"/u-boot-${pkgver//_/-}
+
+prepare() {
+	default_prepare
+}
+
+build() {
+	make chromebook_jerry_defconfig
+	make
+
+	cp "$srcdir"/chromebook_jerry.its ./
+	mkimage -f chromebook_jerry.its u-boot-dtb.img
+
+	echo -e "\n" > dummy_config
+	echo -e "\n" > dummy_bootloader
+
+	vbutil_kernel \
+		--pack u-boot-dtb.img.kpart \
+		--keyblock /usr/share/vboot/devkeys/kernel.keyblock \
+		--signprivate /usr/share/vboot/devkeys/kernel_data_key.vbprivk \
+		--version 1 \
+		--arch arm \
+		--config dummy_config \
+		--bootloader dummy_bootloader \
+		--vmlinuz u-boot-dtb.img
+}
+
+package() {
+	install -D -m644 "$builddir"/u-boot-dtb.img.kpart \
+		"$pkgdir"/usr/share/u-boot/google-veyron-jerry/u-boot-dtb.img.kpart
+}
+
+sha512sums="
+821175dd414e1fd0e5b6d9293a5766cbc8ae63a2361e82309f67e92c02b881263a7832dba0bcfc820b036a582981ddc20a8f484f2995d110f3240907a3ff7a95  u-boot-2017.07.tar.bz2
+a99bfc5b559663241f605a3be5a29bea6d99b7d1470ead221b8d2014b6967ee2c02c107b2386ac44a30986b5488aef32f2ebce6630fc382da0b275d1d2cfcadb  0001-chainloading.patch
+b025f4e0c744edaabe487a493fa112ac4dab79fa47f8c7568046595aab2250df5c60d55278b42cb822285592976c49fc57d0241640a1b9864392291c1bb64936  0002-supress-efi-errors.patch
+e40ae7fa5dedb8527878e32d70f53c0d2954d8cecdacf71b6ac00310b6a62911d3d298dbf393cceafd7a2ca9ff76c96e9c6b7505814f20a754836564853f2e44  0003-add-efi-support.patch
+2944e710882522748816e2027eee9a9bfd16385ffa6ab051c385ad7ff04b663863e69273972c5988ad64ca7b3b71ee46937818490b1dbad6eb75928c1db7440a  chromebook_jerry.its
+"

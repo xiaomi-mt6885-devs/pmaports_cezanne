@@ -20,3 +20,7 @@ deviceinfo_gpu_accelerated="true"
 
 # Bootloader related
 deviceinfo_flash_method="none"
+deviceinfo_boot_filesystem="fat32"
+deviceinfo_cgpt_kpart="/usr/share/u-boot/google-veyron-jerry/u-boot-dtb.img.kpart"
+deviceinfo_cgpt_kpart_start="8192"
+deviceinfo_cgpt_kpart_size="32768"
