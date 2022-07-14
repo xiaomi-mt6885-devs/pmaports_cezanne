@@ -1,0 +1,56 @@
+pkgname=firmware-samsung-treltexx
+pkgver=1
+pkgrel=0
+pkgdesc="Firmware for Galaxy Note 4 (treltexx)"
+url="https://github.com/universal5433/proprietary_vendor_samsung"
+arch="armv7"
+license="proprietary"
+options="!check !strip !archcheck !spdx !tracedeps pmb:cross-native"
+
+# Source
+_commit="5fe78ced24ecf0cff06b53d6d050ed59544572fa"
+_url="$url/raw/$_commit"
+
+_treltexx_wifi_files="
+  bcmdhd_apsta.bin
+	bcmdhd_ibss.bin
+  bcmdhd_mfg.bin
+  bcmdhd_sta.bin
+  cred.conf
+	nvram_mfg.txt
+  nvram_mfg.txt_a0
+	nvram_mfg.txt_murata
+  nvram_net.txt
+  nvram_net.txt_a0
+  nvram_net.txt_murata
+  olsrd.conf
+"
+
+
+for _i in $_treltexx_wifi_files; do
+	source="$source $pkgname-$_commit-$_i::$_url/trelte-common/proprietary/system/vendor/etc/wifi/$_i";
+done
+
+package() {
+	local file
+	for file in $_treltexx_wifi_files; do
+		install -Dm644 "$srcdir/$pkgname-$_commit-$file" \
+		    "$pkgdir/lib/firmware/postmarketos/$file"
+	done
+}
+
+
+sha512sums="
+43afbd2754a5f6cf8e27af95ac850574a8fede7265388fc37eca5b5b37a0a11f4838ce144b39f39d1c16874e9ff420f9e3e9a49dbffda9a210b2d68d222aae9a  firmware-samsung-treltexx-5fe78ced24ecf0cff06b53d6d050ed59544572fa-bcmdhd_apsta.bin
+76786f4debd03ea83d4552dd602d32426b27e1f0d82f39ba241cc26bfdce58f9ae94e64be0b5a78d0de054f68c38ca28b83ce53f83e23c3f55c51709c43c2f41  firmware-samsung-treltexx-5fe78ced24ecf0cff06b53d6d050ed59544572fa-bcmdhd_ibss.bin
+fa4ab6bcbe5fcaf769f954d5f19fd5f58219ce9e10d49c18213b30b7a29f3805608492ce0c7586865f5300cf026af04e08c017de72d28b03c185e2dde2d231bf  firmware-samsung-treltexx-5fe78ced24ecf0cff06b53d6d050ed59544572fa-bcmdhd_mfg.bin
+e5c5271cd556fdf3658a8a18dfe687f163f79bf4c81e3aafbbb46f58877eb682ef3cce6e266df603eaa984c3f1d3210f15740003469f02dc2420e41d38b4c7f1  firmware-samsung-treltexx-5fe78ced24ecf0cff06b53d6d050ed59544572fa-bcmdhd_sta.bin
+0cf5139ebc1803c44ac5e443f568122e2022eb7b3cc8b64aeb315efee30494f044e032c478c11c2b131c962b19e70e49434a6f5ed7d286317b8f018bf5e0f98a  firmware-samsung-treltexx-5fe78ced24ecf0cff06b53d6d050ed59544572fa-cred.conf
+4aff130b9d88da3a2a2b9a57273d59cb7812ec3776b42ff29a0fea8495daeb055718626b16405069d56f7e556b7809e0797d56b120cde3ed4fc2577fa869c528  firmware-samsung-treltexx-5fe78ced24ecf0cff06b53d6d050ed59544572fa-nvram_mfg.txt
+38167bf3b025681635fe4255a345ca19e8457e4c65d714e738f139f8fdb37b01dd8e23c8e1cc93bfa1979cd757500b67c74eac53f389e49972e104dd48c9d50d  firmware-samsung-treltexx-5fe78ced24ecf0cff06b53d6d050ed59544572fa-nvram_mfg.txt_a0
+cb5d9b677b8d1626bf20cea556c8dc54348083ad83c149173381ca061e7b2e9a862e3bc60b643d1f2556f11d188af90865286d889625795b7b409b485164dab7  firmware-samsung-treltexx-5fe78ced24ecf0cff06b53d6d050ed59544572fa-nvram_mfg.txt_murata
+ea5ed78b4e300274318c5f5db535df28693a67e5bc349253b34af2f49dd70d68ec6f48ba5df7bde673dc16af4c59780581f475e93da5f07a767240a431143c0e  firmware-samsung-treltexx-5fe78ced24ecf0cff06b53d6d050ed59544572fa-nvram_net.txt
+ba0ca4cbaa35be69cfd94b57e040b79d29c558ddb128a63b9208aa283009972178721a300aec39e54f44e7470718093dc592ca9bab631c3806b0e5fbf1da1774  firmware-samsung-treltexx-5fe78ced24ecf0cff06b53d6d050ed59544572fa-nvram_net.txt_a0
+9c9f2275933728d9a4357e739a00c4ffe08fbf06e22b5469ab674e112dfbb993ef1895b8925c9ee0df1d637a156ccf54d9d041d5cdb2ec7d1a60c90cdaca64e5  firmware-samsung-treltexx-5fe78ced24ecf0cff06b53d6d050ed59544572fa-nvram_net.txt_murata
+83d391f1b7d8552a8e87db8d5a4fbf39ae0f45cc9b1576967ace158dd175d1269d96d2cdbbd475c6419646d898e6755b348599aeab3c0b9a23beb1c2dfc486b6  firmware-samsung-treltexx-5fe78ced24ecf0cff06b53d6d050ed59544572fa-olsrd.conf
+"
