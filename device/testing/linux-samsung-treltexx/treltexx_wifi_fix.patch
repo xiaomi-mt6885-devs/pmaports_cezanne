@@ -1,0 +1,13 @@
+diff --git a/drivers/net/wireless/bcmdhd4358/dhd.h b/drivers/net/wireless/bcmdhd4358/dhd.h
+index 80a9c583918..60e29a685cb 100644
+--- a/drivers/net/wireless/bcmdhd4358/dhd.h
++++ b/drivers/net/wireless/bcmdhd4358/dhd.h
+@@ -1332,7 +1332,7 @@ extern void dhdpcie_stop_runtimepm(dhd_pub_t *pub);
+ extern void dhdpcie_start_runtimepm(dhd_pub_t *pub);
+ extern int dhdpcie_set_suspend_resume(struct pci_dev *dev, bool state);
+ #endif /* DHD_USE_IDLECOUNT && BCMPCIE */
+-
++#define PLATFORM_PATH "/lib/firmware/postmarketos/"
+ /*
+  * Enable this macro if you want to track the calls to wake lock
+  * This records can be printed using the following command
