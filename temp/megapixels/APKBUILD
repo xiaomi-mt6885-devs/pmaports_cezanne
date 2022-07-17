@@ -1,0 +1,37 @@
+# Forked from Alpine for stable
+pkgname=megapixels
+pkgver=1.5.2
+pkgrel=0
+pkgdesc="GTK+4 camera app for mobile devices"
+url="https://gitlab.com/postmarketOS/megapixels"
+# s390x and riscv64 blocked by gtk4.0
+arch="all !s390x !riscv64"
+license="GPL-3.0-only"
+# Required by postprocess.sh
+# depends="cmd:dcraw_emu cmd:convert cmd:exiftool"
+depends="libraw-tools imagemagick exiftool"
+makedepends="glib-dev gtk4.0-dev tiff-dev zbar-dev meson"
+subpackages="$pkgname-tools"
+source="https://gitlab.com/postmarketOS/megapixels/-/archive/$pkgver/megapixels-$pkgver.tar.bz2"
+options="!check" # There's no testsuite
+
+build() {
+	abuild-meson . output
+	meson compile ${JOBS:+-j ${JOBS}} -C output
+}
+
+package() {
+	DESTDIR="$pkgdir" meson install --no-rebuild -C output
+}
+
+tools() {
+	pkgdesc="Extra megapixels utilities for debugging"
+	depends=""
+
+	amove usr/bin/megapixels-list-devices
+	amove usr/bin/megapixels-camera-test
+}
+
+sha512sums="
+067d5a39ca5e7fb9c1d90b1766830f1d4330b791705caf4287a7d862b4644258c7fa167b8d707083cd4dac3939b43ce3e1f1ec4ba87e632133dae83408096169  megapixels-1.5.2.tar.bz2
+"
