@@ -3,19 +3,20 @@
 pkgname=device-pine64-pinebookpro
 pkgdesc="PINE64 Pinebook Pro"
 pkgver=10
-pkgrel=0
+pkgrel=1
 url="https://postmarketos.org"
 license="MIT"
 arch="aarch64"
 options="!check !archcheck"
 depends="
 	alsa-ucm-conf>=1.2.7
+	iw
 	linux-postmarketos-rockchip>=5.14
 	mesa-dri-gallium
 	nvme-cli
 	postmarketos-base
+	towboot-flasher-pinebookpro
 	u-boot-pinebookpro
-	iw
 	"
 makedepends="devicepkg-dev"
 subpackages="$pkgname-nonfree-firmware:nonfree_firmware"
