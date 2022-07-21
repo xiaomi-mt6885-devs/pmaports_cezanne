@@ -1,14 +1,21 @@
 # https://docs.gitlab.com/ee/user/project/code_owners.html
 
+device/*/*-htc-golfu/               @Newbyte
 device/*/*-pine64-pinephone/        @craftyguy @milesalan @bshah @proycon @anjandev @StacyHarper
+device/*/*-htc-m8qlul/              @Newbyte
 device/*/*-purism-librem5/          @craftyguy @bshah
-main/osk-sdl/                       @craftyguy
-main/postmarketos-ui-plasma-mobile/ @bshah
-temp/u-boot-librem5/                @craftyguy @bshah
+device/*/device-lg-judyln/          @Newbyte
+device/*/device-samsung-m0/         @Newbyte
+device/*/linux-postmarketos-exynos4/        @Newbyte
+device/*/linux-postmarketos-msm8939/        @Newbyte
+device/*/linux-postmarketos-stericsson/     @Newbyte
 device/community/*-qcom-sdm845      @calebccff @joelselvaraj
+device/community/*-xiaomi-berrylium @joelselvaraj
 device/community/device-oneplus-enchilada   @calebccff
 device/community/device-oneplus-fajita      @calebccff
+main/osk-sdl/                       @craftyguy
+main/postmarketos-ui-plasma-mobile/ @bshah
 main/ttyescape                      @calebccff
-device/community/*-xiaomi-berrylium @joelselvaraj
+temp/u-boot-librem5/                @craftyguy @bshah
 
 # vim: ts=4 sw=4 et
