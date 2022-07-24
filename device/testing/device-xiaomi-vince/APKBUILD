@@ -1,9 +1,9 @@
 # Maintainer: m0rf30 <morf3089@gmail.com>
 # Reference: <https://postmarketos.org/devicepkg>
 pkgname=device-xiaomi-vince
-pkgdesc="Xiaomi Redmi Note 5 Plus"
+pkgdesc="Xiaomi Redmi 5 Plus"
 pkgver=3
-pkgrel=1
+pkgrel=2
 url="https://postmarketos.org"
 license="MIT"
 arch="aarch64"
@@ -71,7 +71,7 @@ alsa() {
 }
 
 sha512sums="
-cce2edf56b821550cc783cf9e31a824d1e695a36781269802517c4bb63f6633141b3c2486396800df24ebeff668828c26a9811d030d942c9eea2b0effbb646e9  deviceinfo
+23a66bb2754e10d11a89f0b1ee4ab3ef92ff6c9757bbeeb098815a2a4b184b450e62cbd8b7f82c404abc073752ce51e27ee0e5fefa48238abfdf61f95d1276ee  deviceinfo
 9b888f3a4ef3ed3c0b2e9c6a6e8a6c686909c530c3d95be797b47b4eb9deb55d64190b7a3736e44139630bfff5e295625a855052923369fdd37889060a3220ca  fb.modes
 4fa63c184f00033fbae2e4b140c9655061b3b662e337f7bdf5f8e26f7b57d6c66ad01fc93da05ce7d330f0f05bb0d36cc9b356ebfc7eb4200be4d4cc03afc975  pointercal
 b6951e2f8d2e21aa58f15b600a67289900d645b9dcff9992d0864dea383528539fc8b0140bff6af4eba4bb729db79a3d5d88ba248fcf2b579dd8c3cd0e20ae4e  100-charging.rules
