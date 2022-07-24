@@ -5,7 +5,7 @@
 # Co-Maintainer: Dylan Van Assche <me@dylanvanassche.be>
 pkgname=device-pine64-pinephone
 pkgver=0.41
-pkgrel=3
+pkgrel=4
 pkgdesc="PINE64 PinePhone"
 url="https://postmarketos.org"
 license="MIT"
@@ -25,17 +25,18 @@ depends="
 	atinout
 	eg25-manager
 	eg25-manager-openrc
+	fwupd
+	fwupd-plugin-fastboot
+	fwupd-plugin-modem_manager
 	gpsd
 	iw
 	linux-postmarketos-allwinner>=5.14
 	mesa-dri-gallium
 	mesa-egl
 	postmarketos-base
+	towboot-flasher-pinephone
 	u-boot-pinephone>=2021.01_git20201228-r2
 	u-boot-tools
-	fwupd
-	fwupd-plugin-modem_manager
-	fwupd-plugin-fastboot
 	"
 makedepends="devicepkg-dev dtc"
 install="$pkgname.post-install $pkgname.post-upgrade $pkgname.pre-upgrade"

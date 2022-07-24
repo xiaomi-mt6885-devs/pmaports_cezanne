@@ -1,0 +1,57 @@
+# Contributor: Bart Ribbers <bribbers@disroot.org>
+# Maintainer: Bart Ribbers <bribbers@disroot.org>
+pkgname=towboot-flasher
+pkgver=2021.10.004
+_pkgver=${pkgver%.*}-${pkgver##*.}
+pkgrel=0
+pkgdesc="A package to install Tow-Boot on existing pmOS installations"
+url="https://tow-boot.org/"
+arch="aarch64"
+license="GPL-3.0-or-later"
+depends="mmc-utils"
+subpackages="
+	$pkgname-pinephone
+	$pkgname-pinebookpro
+	$pkgname-rockpro64
+	"
+source="flash-towboot.sh
+	https://github.com/Tow-Boot/Tow-Boot/releases/download/release-$_pkgver/pine64-pinephoneA64-$_pkgver.tar.xz
+	https://github.com/Tow-Boot/Tow-Boot/releases/download/release-$_pkgver/pine64-pinebookPro-$_pkgver.tar.xz
+	https://github.com/Tow-Boot/Tow-Boot/releases/download/release-$_pkgver/pine64-rockpro64-$_pkgver.tar.xz
+	"
+install="$pkgname.post-install"
+options="!check" # No tests to run
+
+package() {
+	install -Dm755 flash-towboot.sh "$pkgdir"/usr/bin/flash-towboot
+}
+
+pinephone() {
+	depends="$pkgname"
+
+	install -Dm644 \
+		"$srcdir/pine64-pinephoneA64-$_pkgver/binaries/Tow-Boot.mmcboot.bin" \
+		-t "$subpkgdir"/usr/share/towboot-flasher
+}
+
+pinebookpro() {
+	depends="$pkgname"
+
+	install -Dm644 \
+		"$srcdir/pine64-pinebookPro-$_pkgver/binaries/Tow-Boot.spi.bin" \
+		-t "$subpkgdir"/usr/share/towboot-flasher
+}
+
+rockpro64() {
+	depends="$pkgname"
+
+	install -Dm644 \
+		"$srcdir/pine64-rockpro64-$_pkgver/binaries/Tow-Boot.spi.bin" \
+		-t "$subpkgdir"/usr/share/towboot-flasher
+}
+sha512sums="
+390ebd63771de5e0f01e29dba8dc472d572d163209fe3d42442c0858f88cfa8a99b21c626978118f9b7b32c2eef906e936e4b42df2f915e6787628ad17eb6bcc  flash-towboot.sh
+02c6503d44364fa0f7d40fbc56c4ddf1b915832e30ecdc1953d92c00641636f2176eaeabc4f9d85f9210672fb5a9d55cce2213c19cc95fc1530aca1658bba1bb  pine64-pinephoneA64-2021.10-004.tar.xz
+6b7d3edaf8853eebdb3ee283bd5c7e3f5f0623ffab8bb34de91287a816b0958fca32e6f7303328b2dad1e8d4109ad2209c048c6704b644a9e53fb05c12c24eec  pine64-pinebookPro-2021.10-004.tar.xz
+78bd13317751a13dc25b0f19e92d24e3cd7f69cc46e7e03003ae95e2b7063123aba8b284be7f88c587f5e5f7d49c5fc922a5a3aa59606f74200c346a7fcfef21  pine64-rockpro64-2021.10-004.tar.xz
+"
