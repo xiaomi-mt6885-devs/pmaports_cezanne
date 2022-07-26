@@ -1,0 +1,28 @@
+# Contributor: Chuang Zhu <pmos@chuang.cz>
+pkgname=gotktrix
+pkgver=0.1.3
+pkgrel=0
+pkgdesc="Matrix client in Go and GTK4"
+url="https://github.com/diamondburned/gotktrix"
+arch="all"
+license="AGPL-3.0-or-later"
+depends="gtk4.0 glib gobject-introspection"
+makedepends="go pkgconf gtk4.0-dev glib-dev gobject-introspection-dev"
+options="!check"
+source="https://github.com/diamondburned/gotktrix/archive/refs/tags/v$pkgver/gotktrix-$pkgver.tar.gz"
+
+build() {
+	go build -v -ldflags="-s -w"
+	sed -i '/DBusActivatable/d' .nix/com.github.diamondburned.gotktrix.desktop
+	echo 'X-Purism-FormFactor=Workstation;Mobile;' >> .nix/com.github.diamondburned.gotktrix.desktop
+}
+
+package() {
+	install -Dm755 gotktrix -t "$pkgdir/usr/bin/"
+	install -Dm644 .nix/com.github.diamondburned.gotktrix.desktop -t "$pkgdir/usr/share/applications/"
+	install -Dm644 .github/logo-256.png "$pkgdir/usr/share/icons/hicolor/256x256/apps/gotktrix.png"
+}
+
+sha512sums="
+7c9ebd12181c3753a719dc7dc65cc011b6721eb4aa2b53e5ebd1d41a43b5d2eb7e9324fca64c93569f5f9d016e9b44efbbdd543e5cee97cb05eadd76551f9757  gotktrix-0.1.3.tar.gz
+"
