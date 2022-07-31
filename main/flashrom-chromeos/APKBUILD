@@ -1,0 +1,30 @@
+# Fork of flashrom for flashing firmware on Chrome OS devices.
+# Maintainer: Jenneron <jenneron@protonmail.com>
+pkgname=flashrom-chromeos
+pkgver=105.14989
+pkgrel=0
+pkgdesc="A utility for identifying, reading, writing, verifying and erasing flash chips"
+url="https://www.flashrom.org/Flashrom"
+arch="all"
+license="GPL-2.0-or-later"
+depends="dmidecode"
+makedepends="pciutils-dev libusb-compat-dev linux-headers"
+options="!check" # no test suite
+source="flashrom-$pkgver.tar.gz::https://github.com/jenneron/flashrom/archive/refs/heads/release-R${pkgver/\./-}.B.tar.gz
+	musl-ffs.patch
+	"
+
+builddir="$srcdir/flashrom-release-R${pkgver/\./-}.B"
+
+build() {
+	make PREFIX=/usr/
+}
+
+package() {
+	install -Dm755 flashrom "$pkgdir"/usr/sbin/flashrom-chromeos
+}
+
+sha512sums="
+7783cf628f73841c02fe2228b3607eb65a173ae4b46e6de77831998edef706da87c29bcf794006d6d60ae6a6045fdbc587bc0d4f9b7f3ab29ac30f198d3386bd  flashrom-105.14989.tar.gz
+371131e37ee0f2ce31b5dd264707b91817a2f0a3654943e6b3430df862d4bb64f27117c1c94276cb447f5b45f1771b9997f9c96423d68c6dd4565c1e1f442a5e  musl-ffs.patch
+"
