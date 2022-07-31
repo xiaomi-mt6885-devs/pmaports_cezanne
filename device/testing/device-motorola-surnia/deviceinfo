@@ -29,3 +29,4 @@ deviceinfo_flash_offset_tags="0x00000100"
 deviceinfo_flash_pagesize="2048"
 
 
+deviceinfo_flash_sparse="true"
