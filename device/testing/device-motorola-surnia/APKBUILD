@@ -5,7 +5,7 @@ pkgver=0.1
 pkgrel=10
 url="https://postmarketos.org"
 license="MIT"
-arch="armhf"
+arch="armv7"
 options="!check !archcheck"
 depends="postmarketos-base linux-motorola-surnia mkbootimg mesa-dri-gallium"
 makedepends="devicepkg-dev"
@@ -38,5 +38,5 @@ nonfree_firmware_modem() {
 }
 
 sha512sums="
-76cf306abef564fdf06974352af8a725934f3eda4f8a7009c39cc3d1e73c285a7ed35f8dd485b191465f27378d9e8ebd0f8ab30d6bf93a8c90a58e52ac49ac5b  deviceinfo
+5d6435ab975ed6acbf57d9b042b7c97b1dbebbd0400072e24a24a1136bb23a6da576ae081c22b57c379ecc92a0bef775869763dc16bb5225ca2dc783081fafae  deviceinfo
 "
