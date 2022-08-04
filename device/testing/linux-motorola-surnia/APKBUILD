@@ -3,7 +3,7 @@
 
 pkgname=linux-motorola-surnia
 pkgver=3.10.49
-pkgrel=6
+pkgrel=7
 pkgdesc="Motorola Moto E (2nd Gen) kernel fork"
 arch="armv7"
 _carch="arm"

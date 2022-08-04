@@ -1,6 +1,6 @@
 pkgname=firmware-motorola-surnia
 pkgver=0.1
-pkgrel=0
+pkgrel=1
 pkgdesc="Firmware for Motorola Moto E 2015 (2nd gen)"
 url="https://github.com/linuxgorl/vendor_motorola_surnia"
 subpackages="$pkgname-wcnss $pkgname-venus $pkgname-modem"
