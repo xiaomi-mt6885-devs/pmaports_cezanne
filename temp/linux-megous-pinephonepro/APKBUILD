@@ -1,0 +1,74 @@
+_flavor=megous-pinephonepro
+_config="config-$_flavor.$CARCH"
+pkgname=linux-$_flavor
+pkgver=5.19.0_git20220818
+pkgrel=0
+_tag="orange-pi-5.19-20220818-0237"
+pkgdesc="Kernel fork with Pine64 patches (megi's tree, slightly patched)"
+arch="aarch64"
+url="https://megous.com/git/linux/"
+license="GPL-2.0-only"
+makedepends="
+	bash
+	bison
+	findutils
+	flex
+	gmp-dev
+	gzip
+	linux-headers
+	mpc1-dev
+	mpfr-dev
+	openssl-dev
+	perl
+	postmarketos-installkernel
+	rsync
+	xz
+	"
+replaces="linux-pine64-pinephonepro"
+options="!strip !check !tracedeps
+	pmb:cross-native
+	pmb:kconfigcheck-anbox
+	pmb:kconfigcheck-nftables
+	pmb:kconfigcheck-containers
+	pmb:kconfigcheck-zram
+	"
+source="$pkgname-$_tag.tar.gz::https://github.com/megous/linux/archive/$_tag.tar.gz
+	config-$_flavor.aarch64
+	"
+builddir="$srcdir/linux-$_tag"
+
+case "$CARCH" in
+	aarch64*) _carch="arm64" ;;
+	arm*) _carch="arm" ;;
+esac
+
+
+prepare() {
+	default_prepare
+	cp "$srcdir/config-$_flavor.$CARCH" .config
+}
+
+build() {
+	unset LDFLAGS
+	make ARCH="$_carch" CC="${CC:-gcc}" \
+		KBUILD_BUILD_VERSION="$((pkgrel + 1 ))-$_flavor"
+}
+
+package() {
+	mkdir -p "$pkgdir"/boot
+	make zinstall modules_install dtbs_install \
+		ARCH="$_carch" \
+		INSTALL_MOD_PATH="$pkgdir" \
+		INSTALL_MOD_STRIP=1 \
+		INSTALL_PATH="$pkgdir"/boot \
+		INSTALL_DTBS_PATH="$pkgdir"/boot/dtbs-$_flavor
+	rm -f "$pkgdir"/lib/modules/*/build "$pkgdir"/lib/modules/*/source
+
+	install -D "$builddir"/include/config/kernel.release \
+		"$pkgdir"/usr/share/kernel/$_flavor/kernel.release
+}
+
+sha512sums="
+f7aa9f2f9d481bcd553563c8e287756e112a3b0062c30673d2072ffcd5c47e4dca3640b467a52bfd6227721baca8a71aa703cb9a23b66c2de4c9f6ca773695d7  linux-megous-pinephonepro-orange-pi-5.19-20220818-0237.tar.gz
+921c8c64283606a3bbf850db94e57017650cc8c13cf48f70fad2f04c86f25a57347d8b89ea20e2852248d3b1a6e1113aa481412eb9ce70c207537786b691a167  config-megous-pinephonepro.aarch64
+"
