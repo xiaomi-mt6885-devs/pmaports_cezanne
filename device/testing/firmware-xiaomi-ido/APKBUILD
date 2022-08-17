@@ -5,7 +5,7 @@ pkgdesc="Firmware files for Xiaomi Redmi 3 (ido)"
 url="https://postmarketos.org"
 arch="aarch64"
 license="proprietary"
-depends="wcnss-wlan alsa-ucm-conf soc-qcom-msm8916"
+depends="wcnss-wlan alsa-ucm-conf firmware-qcom-adreno-a420 soc-qcom-msm8916"
 options="!strip !tracedeps"
 
 # Source
