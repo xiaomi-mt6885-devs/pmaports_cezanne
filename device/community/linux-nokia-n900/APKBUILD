@@ -2,7 +2,7 @@
 # Co-Maintainer: Danct12 <danct12@disroot.org>
 
 pkgname=linux-nokia-n900
-pkgver=5.18.16
+pkgver=5.18.19
 pkgrel=0
 pkgdesc="Mainline kernel fork for Nokia N900"
 arch="armv7"
@@ -32,6 +32,7 @@ source="
 	0005-iio-accel-st-accel-add-lis302dl.patch
 	0006-ARM-dts-N900-use-iio-driver-for-accelerometer.patch
 	0007-Revert-ARM-omap3-enable-off-mode-automatically.patch
+	remove-mtdblock-warning.patch
 "
 builddir="$srcdir/linux-$_kernver"
 
@@ -61,8 +62,8 @@ package() {
 
 sha512sums="
 dbbc9d1395898a498fa4947fceda1781344fa5d360240f753810daa4fa88e519833e2186c4e582a8f1836e6413e9e85f6563c7770523b704e8702d67622f98b5  linux-5.18.tar.xz
-86b9fcaf7d441b5185730be480211c1e819f16077e65b7324e13ffcbb506bc9f92cffbf1b79dc65b1b2fab80ccdb071a78e581f4fbd484283c2765901ba296f6  linux-5.18.16.patch.xz
-9906dae3f34fdece4fec76713065554f200de8819b88d62adee6987c7e77ac86912458e358ba93c4ba8ba13cd55754b7b8412b54dfc94d5893ec447ed46c26de  config-nokia-n900.armv7
+1a7d046899870ef33571cea418ee764f3316bb9561b055bca44462e204534b66a8ca1b7428b7a28a17a47bae4253691e447e318826dfd03f70cfe13b29c49ed7  linux-5.18.19.patch.xz
+d6d6d4b55b1fe981e6206367ff1d57d04348293ae0401ae4dbd27702315e73cf2903033ccf20b359e503573576606ade307121ee0d712fbd3ab47995e94125dd  config-nokia-n900.armv7
 04a39253afd25a7de03dc45ff322161672005406543c44b97d2dc293f202de7de446aee9707a690a290641c55c7bed6e78bbe096ca323dd7d88d3207427c8d31  0001-ARM-dts-n900-increase-charge-current-limit-to-950mA.patch
 3cc2036ba264bd855358361aacb309ad1cf1660cb82a0978523508d1b3fe513676c58f6efc5bb64f7601b77392c19d2c609b6d83541db7e418c1737cff3973e8  0002-power-supply-bq27xxx-expose-battery-data-when-CI.patch
 991237276bee4ff7bca24cf3a26afe3f12a2a604452793ad905a605890f761ac98374b5509cfbcab33c7b7ccf3da5cc286e70afe27b8e201387f403bf5025ae9  0003-wip-Revert-dma-direct-Fix-potential-NULL-pointer-der.patch
@@ -70,4 +71,5 @@ ea33adda06e1fb64b763c34f1f598bb00ccfdba5400d0996871138284b4cb8a51e021c7c0ace9d4b
 d5a78e68c10a51f4354a420475db2d10e0be92632df9588c9136dba5b0e5e0c8757f0d8e1bd4fdf99cbbf2f93c54d20eacee1c3a668070037afeac1fded1531a  0005-iio-accel-st-accel-add-lis302dl.patch
 302aa8e6677e7ecfae473553806cdf5d47687c4f8e73322d0ace78486f9290ba503069ed6b41250fe38802b6c6091c7c4eac06ab387e011f1316b84ad5e2641d  0006-ARM-dts-N900-use-iio-driver-for-accelerometer.patch
 acf3beef5448da7f3be19b862ac2fef65379d9f1617246baaab296083901174d891526cd9bf781162d4406089969c311701dfded04219bafd3c5c7784bc4c2e6  0007-Revert-ARM-omap3-enable-off-mode-automatically.patch
+69fe88f4b5fcb6c0d435a6da40b19c39022567ce224373b11a9d564ab3f79e7fd77c4dabddaf1aab6cced255642e31097e4725a8fda8ecd7a4de1476334e02f8  remove-mtdblock-warning.patch
 "
