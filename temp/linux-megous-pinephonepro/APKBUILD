@@ -1,6 +1,4 @@
-_flavor=megous-pinephonepro
-_config="config-$_flavor.$CARCH"
-pkgname=linux-$_flavor
+pkgname=linux-megous-pinephonepro
 pkgver=5.19.0_git20220818
 pkgrel=0
 _tag="orange-pi-5.19-20220818-0237"
@@ -33,7 +31,7 @@ options="!strip !check !tracedeps
 	pmb:kconfigcheck-zram
 	"
 source="$pkgname-$_tag.tar.gz::https://github.com/megous/linux/archive/$_tag.tar.gz
-	config-$_flavor.aarch64
+	config-megous-pinephonepro.aarch64
 	0001-Revert-usb-quirks-Add-USB_QUIRK_RESET-for-Quectel-EG.patch
 	0002-Backport-USB-WWAN-resume.patch
 	"
@@ -47,7 +45,7 @@ esac
 
 prepare() {
 	default_prepare
-	cp "$srcdir/config-$_flavor.$CARCH" .config
+	cp "$srcdir/config-megous-pinephonepro.aarch64" .config
 }
 
 build() {
@@ -63,11 +61,11 @@ package() {
 		INSTALL_MOD_PATH="$pkgdir" \
 		INSTALL_MOD_STRIP=1 \
 		INSTALL_PATH="$pkgdir"/boot \
-		INSTALL_DTBS_PATH="$pkgdir"/boot/dtbs-$_flavor
+		INSTALL_DTBS_PATH="$pkgdir"/boot/dtbs
 	rm -f "$pkgdir"/lib/modules/*/build "$pkgdir"/lib/modules/*/source
 
 	install -D "$builddir"/include/config/kernel.release \
-		"$pkgdir"/usr/share/kernel/$_flavor/kernel.release
+		"$pkgdir"/usr/share/kernel/megous-pinephonepro/kernel.release
 }
 
 sha512sums="
