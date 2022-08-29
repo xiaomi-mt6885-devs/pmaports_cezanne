@@ -1,0 +1,28 @@
+From 18057bcd9627b4eb8659bd1fb66c0c88ab0e8e90 Mon Sep 17 00:00:00 2001
+From: Bobby The Builder <bob@najdan.com>
+Date: Mon, 29 Aug 2022 00:22:35 -0400
+Subject: [PATCH] Revert "usb: quirks: Add USB_QUIRK_RESET for Quectel EG25G
+ Modem"
+
+This reverts commit 1ef49582accf23015263dfc57260a2e73b598ecc.
+---
+ drivers/usb/core/quirks.c | 3 ---
+ 1 file changed, 3 deletions(-)
+
+diff --git a/drivers/usb/core/quirks.c b/drivers/usb/core/quirks.c
+index 17c3d472fb13..f99a65a64588 100644
+--- a/drivers/usb/core/quirks.c
++++ b/drivers/usb/core/quirks.c
+@@ -519,9 +519,6 @@ static const struct usb_device_id usb_quirk_list[] = {
+ 	/* INTEL VALUE SSD */
+ 	{ USB_DEVICE(0x8086, 0xf1a5), .driver_info = USB_QUIRK_RESET_RESUME },
+ 
+-	/* Quectel EG25G Modem */
+-	{ USB_DEVICE(0x2c7c, 0x0125), .driver_info = USB_QUIRK_RESET },
+-
+ 	{ }  /* terminating entry must be last */
+ };
+ 
+-- 
+2.37.2
+

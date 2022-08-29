@@ -34,6 +34,8 @@ options="!strip !check !tracedeps
 	"
 source="$pkgname-$_tag.tar.gz::https://github.com/megous/linux/archive/$_tag.tar.gz
 	config-$_flavor.aarch64
+	0001-Revert-usb-quirks-Add-USB_QUIRK_RESET-for-Quectel-EG.patch
+	0002-Backport-USB-WWAN-resume.patch
 	"
 builddir="$srcdir/linux-$_tag"
 
@@ -71,4 +73,6 @@ package() {
 sha512sums="
 f7aa9f2f9d481bcd553563c8e287756e112a3b0062c30673d2072ffcd5c47e4dca3640b467a52bfd6227721baca8a71aa703cb9a23b66c2de4c9f6ca773695d7  linux-megous-pinephonepro-orange-pi-5.19-20220818-0237.tar.gz
 918af893ab10c9050df50650b0b5d5159efa5a4a5e622fc1e6c60696c91fa0e0cd3a2bad4ab5faa1b4132d45e83906280bff8f9ba38785cff29dbcc8a71aca67  config-megous-pinephonepro.aarch64
+ad21efd9e7ea58b2551307ae333710f4e114569d53baa91e3a0b67a95025bd02d1ee383c64eb3c1ba0808d0f04578716f2e7f99c668003b95c1f84bdd9b87154  0001-Revert-usb-quirks-Add-USB_QUIRK_RESET-for-Quectel-EG.patch
+86e342229eb15e1130c7cb3d1207e59ba5cc270b3ec39074e6d1a2c9351e64d1be0c6b17a2fdd27838b60e2c88bc209491092fcbd76fb5d3bae689d6c0bbfc74  0002-Backport-USB-WWAN-resume.patch
 "
