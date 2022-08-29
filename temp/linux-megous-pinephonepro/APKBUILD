@@ -34,6 +34,7 @@ source="$pkgname-$_tag.tar.gz::https://github.com/megous/linux/archive/$_tag.tar
 	config-megous-pinephonepro.aarch64
 	0001-Revert-usb-quirks-Add-USB_QUIRK_RESET-for-Quectel-EG.patch
 	0002-Backport-USB-WWAN-resume.patch
+	0003-Revert-arm64-dts-rk3399-pinephone-pro-Add-support-fo.patch
 	"
 builddir="$srcdir/linux-$_tag"
 
@@ -73,4 +74,5 @@ f7aa9f2f9d481bcd553563c8e287756e112a3b0062c30673d2072ffcd5c47e4dca3640b467a52bfd
 918af893ab10c9050df50650b0b5d5159efa5a4a5e622fc1e6c60696c91fa0e0cd3a2bad4ab5faa1b4132d45e83906280bff8f9ba38785cff29dbcc8a71aca67  config-megous-pinephonepro.aarch64
 ad21efd9e7ea58b2551307ae333710f4e114569d53baa91e3a0b67a95025bd02d1ee383c64eb3c1ba0808d0f04578716f2e7f99c668003b95c1f84bdd9b87154  0001-Revert-usb-quirks-Add-USB_QUIRK_RESET-for-Quectel-EG.patch
 86e342229eb15e1130c7cb3d1207e59ba5cc270b3ec39074e6d1a2c9351e64d1be0c6b17a2fdd27838b60e2c88bc209491092fcbd76fb5d3bae689d6c0bbfc74  0002-Backport-USB-WWAN-resume.patch
+14258e90cb30de637e6daf4b706dc63ae40fecdb17a754bdda47442767fe25a5e8823b77fa6683c54704d7468289f003df33671f5abd085c8e575d67da664cbf  0003-Revert-arm64-dts-rk3399-pinephone-pro-Add-support-fo.patch
 "
