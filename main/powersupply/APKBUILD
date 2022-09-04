@@ -1,30 +1,26 @@
 # Maintainer: Martijn Braam <martijn@brixit.nl>
 pkgname=powersupply
-pkgver=0.6.0
+pkgver=0.8.0
 pkgrel=0
-pkgdesc="GTK3 tool for displaying battery and power info"
+pkgdesc="GTK3 app to display power status of phones"
 url="https://gitlab.com/MartijnBraam/powersupply"
-arch="noarch"
+arch="noarch !s390x !riscv64" # blocked by libhandy1
 license="MIT"
-depends="python3 py3-gobject3 py3-setuptools gtk+3.0 libhandy1"
-makedepends="py3-setuptools"
-source="
-	$pkgname-$pkgver.tar.gz::https://gitlab.com/MartijnBraam/powersupply/-/archive/$pkgver/powersupply-$pkgver.tar.gz
-"
-options="!check"
+source="https://gitlab.com/MartijnBraam/powersupply/-/archive/$pkgver/powersupply-$pkgver.tar.gz"
+depends="python3 py3-gobject3 gtk+3.0 libhandy1"
+makedepends="meson libhandy1-dev"
+options="!check" # There's no testsuite
 
 build() {
-	python3 setup.py build
+	abuild-meson . output
+	meson compile ${JOBS:+-j ${JOBS}} -C output
 }
 
 package() {
-	python3 setup.py install --prefix=/usr --root="$pkgdir"
-	install -Dm644 "$builddir"/data/nl.brixit.powersupply.desktop \
-		"$pkgdir"/usr/share/applications/nl.brixit.powersupply.desktop
-	install -Dm644 "$builddir"/data/nl.brixit.powersupply.svg \
-		"$pkgdir"/usr/share/icons/hicolor/scalable/apps/nl.brixit.powersupply.svg
-
+	DESTDIR="$pkgdir" meson install --no-rebuild -C output
 }
+
+
 sha512sums="
-d89d75b2da75cfb7dbe15c7c3e1f4e613563395a05c40055f079a283abd77c2903d9f097da21cea26cea823c0b6e3f941f527be5e50ee27901921beb4191ec49  powersupply-0.6.0.tar.gz
+1c0e16b8b7bca93e34bfcf604c897bdf7a3bba0a85dab4c875e80d710827b8b8e13b2bc1d210d7f2e81c66005bfd8dd8d9a0fe7aab60215085ef254abc7d827d  powersupply-0.8.0.tar.gz
 "

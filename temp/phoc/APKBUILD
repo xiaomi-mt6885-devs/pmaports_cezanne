@@ -1,0 +1,84 @@
+# Backport from alpine for stable
+pkgname=phoc
+pkgver=0.21.1
+pkgrel=0
+_wlrootsver="0.15.1-2pureos1_oct3"
+pkgdesc="wlroots based Phone compositor for the Phosh shell"
+arch="all !s390x !riscv64" # blocked by gnome-desktop
+url="https://gitlab.gnome.org/World/Phosh/phoc"
+license="GPL-3.0-only"
+depends="
+	dbus
+	mutter-schemas
+	gsettings-desktop-schemas
+	"
+makedepends="
+	glib-dev
+	gnome-desktop-dev
+	libdrm-dev
+	libinput-dev
+	libxkbcommon-dev
+	mesa-dev
+	meson
+	pixman-dev
+	wayland-dev
+	wayland-protocols
+	eudev-dev
+	libcap-dev
+	libseat-dev
+	libxcb-dev
+	xcb-util-image-dev
+	xcb-util-renderutil-dev
+	xcb-util-wm-dev
+	xkeyboard-config
+	xwayland-dev
+	"
+checkdepends="xvfb-run"
+subpackages="$pkgname-dbg"
+options="!check" # Needs fullblown EGL
+source="
+	https://gitlab.gnome.org/World/Phosh/phoc/-/archive/v$pkgver/phoc-v$pkgver.tar.gz
+	https://source.puri.sm/Librem5/wlroots/-/archive/pureos/$_wlrootsver/wlroots-pureos-$_wlrootsver.tar.gz
+	"
+replaces="wlroots-phosh"
+
+builddir="$srcdir/$pkgname-v$pkgver"
+
+prepare() {
+	default_prepare
+
+	rm -rf "$builddir/subprojects/wlroots"
+	ln -s "$srcdir/wlroots-pureos-$_wlrootsver" "$builddir/subprojects/wlroots"
+
+	# apply wlroots patches
+	cd "$builddir/subprojects/wlroots"
+	grep "\.patch$" debian/patches/series | \
+		xargs -I {} -t -r -n1 patch -p1 -i debian/patches/{}
+}
+
+build() {
+	abuild-meson \
+		-Dembed-wlroots=enabled \
+		--default-library=static \
+		. output
+	meson compile ${JOBS:+-j ${JOBS}} -C output
+}
+
+check() {
+	xvfb-run -a meson test --no-rebuild --print-errorlogs -C output
+}
+
+package() {
+	DESTDIR="$pkgdir/" meson install --no-rebuild -C output
+	install -Dm755 helpers/scale-to-fit \
+		-t "$pkgdir"/usr/bin
+
+	# remove unneeded wlroots dev. files
+	rm -r "$pkgdir"/usr/include
+	rm -r "$pkgdir"/usr/lib/libwlroots.a
+	rm -r "$pkgdir"/usr/lib/pkgconfig
+}
+sha512sums="
+94b93fa524e5be953851764b19f0da5deed11ede988fed8757b66649e4700d2f659d4dc32226c73055f63d69d7f9c066d84f23c6338c9b5998217fd2fed2bedd  phoc-v0.21.1.tar.gz
+b71a8e81473841b45e0c718ca97454a8f95649d08d5b2ddd5766e55fbaa4e103cf3ee28c38953e48ed81d0ab0060646a3aaf57c5d39f46bac7e20ba2d007e338  wlroots-pureos-0.15.1-2pureos1_oct3.tar.gz
+"

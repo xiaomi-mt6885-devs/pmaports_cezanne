@@ -1,0 +1,84 @@
+# Backport from alpine to stable
+pkgname=phosh
+pkgver=0.21.0
+pkgrel=0
+pkgdesc="Shell PoC for the Librem5"
+# Blocked on s390x by gnome-session, gnome-settings-daemon, squeekboard and libhandy
+# Blocked on ppc64le by gnome-session
+# riscv64 disabled due to missing rust in recursive dependency
+arch="all !s390x !ppc64le !riscv64"
+url="https://gitlab.gnome.org/World/Phosh/phosh"
+license="GPL-3.0-only"
+depends="
+	bash
+	dbus-x11
+	dbus:org.freedesktop.Secrets
+	font-adobe-source-code-pro
+	gnome-control-center
+	gnome-session
+	gnome-settings-daemon
+	gnome-shell-schemas
+	adwaita-icon-theme
+	gnome-themes-extra
+	gsettings-desktop-schemas
+	phoc
+	squeekboard
+	ttf-cantarell
+	xwayland
+	"
+makedepends="
+	callaudiod-dev
+	elogind-dev
+	evolution-data-server-dev
+	feedbackd-dev
+	gcr-dev
+	gettext-dev
+	glib-dev
+	gnome-desktop-dev
+	gtk+3.0-dev
+	libgudev-dev
+	libhandy1-dev
+	libsecret-dev
+	linux-pam-dev
+	networkmanager-dev
+	meson
+	polkit-elogind-dev
+	pulseaudio-dev
+	upower-dev
+	wayland-dev
+	wayland-protocols
+	"
+checkdepends="xvfb-run"
+subpackages="$pkgname-dbg $pkgname-lang"
+source="https://download.gnome.org/sources/phosh/${pkgver%.*}/phosh-$pkgver.tar.xz
+	phosh.desktop
+	sm.puri.OSK0.desktop
+	"
+
+build() {
+	# phoc tests need a running Wayland compositor
+	abuild-meson \
+		-Dphoc_tests=disabled \
+		. output
+	meson compile ${JOBS:+-j ${JOBS}} -C output
+}
+
+check() {
+	xvfb-run -a meson test --no-rebuild --print-errorlogs -C output
+}
+
+package() {
+	DESTDIR="$pkgdir/" meson install --no-rebuild -C output
+
+	install -D -m644 "$srcdir"/phosh.desktop \
+		"$pkgdir"/usr/share/wayland-sessions/phosh.desktop
+
+	install -D -m644 "$srcdir"/sm.puri.OSK0.desktop \
+		"$pkgdir"/usr/share/applications/sm.puri.OSK0.desktop
+
+}
+sha512sums="
+ce15eb687008463246ce80a72eb88ca69c93db1be457252926564f9a94e25f1b20d6b6a07705635aa1393696788140cc3cbc994bdeb679e05837dba6af51135c  phosh-0.21.0.tar.xz
+aef856033ae17bc8e18963ea56aad34e6e0d262d0060f9b5aa9f072c7598d531ee9a55b189d6fadf7e6f3c5dd113b77de51a64bcf17ad5764ff57a4be8472dc7  phosh.desktop
+52a670893bd5027d6a45d7ff18258d634dc5d98371a7cdc094261ccc12a15d0b46e96d572ae8882ae27eb90418f2dc4f0fb1a45ce95f8d70eadc51d284780916  sm.puri.OSK0.desktop
+"
