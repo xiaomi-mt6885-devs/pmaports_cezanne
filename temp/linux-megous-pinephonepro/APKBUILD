@@ -1,0 +1,78 @@
+pkgname=linux-megous-pinephonepro
+pkgver=5.19.0_git20220818
+pkgrel=0
+_tag="orange-pi-5.19-20220818-0237"
+pkgdesc="Kernel fork with Pine64 patches (megi's tree, slightly patched)"
+arch="aarch64"
+url="https://megous.com/git/linux/"
+license="GPL-2.0-only"
+makedepends="
+	bash
+	bison
+	findutils
+	flex
+	gmp-dev
+	gzip
+	linux-headers
+	mpc1-dev
+	mpfr-dev
+	openssl-dev
+	perl
+	postmarketos-installkernel
+	rsync
+	xz
+	"
+replaces="linux-pine64-pinephonepro"
+options="!strip !check !tracedeps
+	pmb:cross-native
+	pmb:kconfigcheck-anbox
+	pmb:kconfigcheck-nftables
+	pmb:kconfigcheck-containers
+	pmb:kconfigcheck-zram
+	"
+source="$pkgname-$_tag.tar.gz::https://github.com/megous/linux/archive/$_tag.tar.gz
+	config-megous-pinephonepro.aarch64
+	0001-Revert-usb-quirks-Add-USB_QUIRK_RESET-for-Quectel-EG.patch
+	0002-Backport-USB-WWAN-resume.patch
+	0003-Revert-arm64-dts-rk3399-pinephone-pro-Add-support-fo.patch
+	"
+builddir="$srcdir/linux-$_tag"
+
+case "$CARCH" in
+	aarch64*) _carch="arm64" ;;
+	arm*) _carch="arm" ;;
+esac
+
+
+prepare() {
+	default_prepare
+	cp "$srcdir/config-megous-pinephonepro.aarch64" .config
+}
+
+build() {
+	unset LDFLAGS
+	make ARCH="$_carch" CC="${CC:-gcc}" \
+		KBUILD_BUILD_VERSION="$((pkgrel + 1 ))-$_flavor"
+}
+
+package() {
+	mkdir -p "$pkgdir"/boot
+	make zinstall modules_install dtbs_install \
+		ARCH="$_carch" \
+		INSTALL_MOD_PATH="$pkgdir" \
+		INSTALL_MOD_STRIP=1 \
+		INSTALL_PATH="$pkgdir"/boot \
+		INSTALL_DTBS_PATH="$pkgdir"/boot/dtbs
+	rm -f "$pkgdir"/lib/modules/*/build "$pkgdir"/lib/modules/*/source
+
+	install -D "$builddir"/include/config/kernel.release \
+		"$pkgdir"/usr/share/kernel/megous-pinephonepro/kernel.release
+}
+
+sha512sums="
+f7aa9f2f9d481bcd553563c8e287756e112a3b0062c30673d2072ffcd5c47e4dca3640b467a52bfd6227721baca8a71aa703cb9a23b66c2de4c9f6ca773695d7  linux-megous-pinephonepro-orange-pi-5.19-20220818-0237.tar.gz
+918af893ab10c9050df50650b0b5d5159efa5a4a5e622fc1e6c60696c91fa0e0cd3a2bad4ab5faa1b4132d45e83906280bff8f9ba38785cff29dbcc8a71aca67  config-megous-pinephonepro.aarch64
+ad21efd9e7ea58b2551307ae333710f4e114569d53baa91e3a0b67a95025bd02d1ee383c64eb3c1ba0808d0f04578716f2e7f99c668003b95c1f84bdd9b87154  0001-Revert-usb-quirks-Add-USB_QUIRK_RESET-for-Quectel-EG.patch
+86e342229eb15e1130c7cb3d1207e59ba5cc270b3ec39074e6d1a2c9351e64d1be0c6b17a2fdd27838b60e2c88bc209491092fcbd76fb5d3bae689d6c0bbfc74  0002-Backport-USB-WWAN-resume.patch
+14258e90cb30de637e6daf4b706dc63ae40fecdb17a754bdda47442767fe25a5e8823b77fa6683c54704d7468289f003df33671f5abd085c8e575d67da664cbf  0003-Revert-arm64-dts-rk3399-pinephone-pro-Add-support-fo.patch
+"
