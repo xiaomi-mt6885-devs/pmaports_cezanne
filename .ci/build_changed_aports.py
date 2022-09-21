@@ -15,7 +15,8 @@ import pmb.helpers.pmaports
 
 def build_strict(packages, arch):
     common.run_pmbootstrap(["build_init"])
-    common.run_pmbootstrap(["--details-to-stdout", "--no-ccache", "build",
+    common.run_pmbootstrap(["--timeout", "3600",
+                            "--details-to-stdout", "--no-ccache", "build",
                             "--strict", "--force",
                             "--arch", arch, ] + list(packages))
 
