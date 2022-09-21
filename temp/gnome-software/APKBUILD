@@ -6,7 +6,7 @@ pkgrel=0
 pkgdesc="Software lets you install and update applications and system extensions"
 url="https://wiki.gnome.org/Apps/Software"
 # s390x and riscv64 blocked by polkit
-arch="all !s390x !riscv64"
+arch="all !s390x !riscv64 !armhf"
 license="GPL-2.0-or-later"
 makedepends="
 	appstream-dev
