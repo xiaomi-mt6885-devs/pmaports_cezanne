@@ -50,10 +50,6 @@ package() {
 
 sha512sums="
 8255fe212429de8cc8c99421ed2b8b369e849885cc8758eae1d280fdb8dbb00a7c99027015b7be37691a045a1b9a0ae787ed2f5a9c0d534af8d09189f555ab5c  linux-samsung-beyond1lte-f7194c1d15eded1c2a1a4dc63825b26103435cc0.tar.gz
-<<<<<<< HEAD
 f0d19b6e07f592dd611fd47ed84c5957b45df006aaccd1b960c1c6d4923cf05a203194ca4678a740b820f3514f5b6e0c6417bb351290feb0f96297430ae68cf7  config-samsung-beyond1lte.aarch64
-=======
-8dcbb8177c109b74ba8f788b94aed103f65425251bc51f5363dc056a31e2f1f5f05a3b4210b1a8dc503c0ecad76492747393b2a30817bf3d3a628a5653ff1641  config-samsung-beyond1lte.aarch64
->>>>>>> 0d33e5922 (added bridge support)
 6ab9db01d35f7f5cc2c19ebe5f65a7dc479a1c68de587300cdde9a6c759d34610666c72f0f321cd450cf56c13df3b54a774e0f7ebdbf0f8608fbfd66b49d04e7  selinux_include_generated_headers.patch
 "
