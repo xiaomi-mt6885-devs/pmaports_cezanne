@@ -1,8 +1,8 @@
 # Maintainer: Daniele Debernardi <drebrez@gmail.com>
 # Reference: <https://postmarketos.org/devicepkg>
 pkgname=device-raspberry-pi4
-pkgver=0.3
-pkgrel=1
+pkgver=0.4
+pkgrel=0
 pkgdesc="Raspberry Pi 4"
 url="https://postmarketos.org"
 license="MIT"
@@ -11,7 +11,13 @@ options="!check !archcheck"
 depends="postmarketos-base raspberrypi-bootloader linux-rpi4 mesa-dri-gallium"
 makedepends="devicepkg-dev"
 install="$pkgname.post-install $pkgname.post-upgrade"
-source="deviceinfo config.txt usercfg.txt cmdline.txt 95-vchiq-permissions.rules"
+subpackages="$pkgname-nonfree-firmware:nonfree_firmware"
+source="deviceinfo
+	config.txt
+	usercfg.txt
+	cmdline.txt
+	95-vchiq-permissions.rules
+	"
 
 build() {
 	devicepkg_build $startdir $pkgname
@@ -26,11 +32,19 @@ package() {
 		"$pkgdir"/etc/udev/rules.d/95-vchiq-permissions.rules
 }
 
+nonfree_firmware() {
+	pkgdesc="WiFi/Bluetooth firmware"
+	depends="linux-firmware-brcm"
+	mkdir -p "$subpkgdir"/lib/firmware/brcm
+	ln -s "/lib/firmware/brcm/brcmfmac43455-sdio.bin" \
+		"$subpkgdir"/lib/firmware/brcm/brcmfmac43455-sdio.raspberrypi,4-model-b.bin
+}
+
 
 sha512sums="
 439c2700066589c72a8b83d4eeefca07f42acf0f2297724079e7d03c25f29d48e866106872142bc5fc373447a12ae389ee15e5a1ff811cb2146c296aa6f7b802  deviceinfo
 5dcc5fb223c4e0a2ffca7da92c8d9b87c230ac9f53d21d1e0d8f49fb3419b7f8d44a3116769bf20ab8a8f0595eee041970e1a0661a8a5feb60e94dc3307c75dc  config.txt
-a2db3354ce5ab7dde8a2a276f24cb7230294db25a18cb2702636bfee54f3a0fd659ae4c789d117c353d5e2fd028e39ea57405aa454d06b5325b839ec7c83070b  usercfg.txt
+18c5809f939260281637c1493009b724cfdc80efba8321fcad7bb4c252833eb75596326df06dcf8986693a501fa11d54680393ceccdec42e347fdd78d37417c9  usercfg.txt
 ae3de0b8fec07d3a283dc3c06bf8678eec1e65c9faf0b7f4fdc9fb92751e324d1f8e2fb224dbbf561b7e5a6fb34769bfa1657858375f74b101a130d78e0737e2  cmdline.txt
 7e5505cb07d5b4a81bd28443d508336b5c547356538f1c06f91ed93ad0d7d456d4f74f1d24df5a2e08c17e74f0a66607352ac4874e967e9a91dfec9522d2d58d  95-vchiq-permissions.rules
 "
