@@ -1,32 +1,55 @@
 # Forked from Alpine to apply adaptiveness patches
 pkgname=evince
-pkgver=9999_git20211009
-_pkgver=41.2
-pkgrel=2
+pkgver=9999_git20220918
+_pkgver=43.0
+pkgrel=0
 pkgdesc="simple document viewer for GTK+"
 url="https://wiki.gnome.org/Apps/Evince"
 arch="all !s390x !mips !mips64" # Limited by adwaita-icon-theme needing librsvg
 license="GPL-2.0-or-later"
-depends="adwaita-icon-theme gsettings-desktop-schemas"
-depends_dev="gtk+3.0-dev poppler-dev libsm-dev libevent-dev libxrandr-dev
-	libx11-dev libxcursor-dev libxcomposite-dev libxi-dev util-linux-dev
-	tiff-dev gobject-introspection-dev libxml2-dev libspectre-dev"
-makedepends="$depends_dev itstool meson nautilus-dev
-	adwaita-icon-theme-dev gtk-doc yelp-tools appstream-glib-dev
-	libgxps-dev gspell-dev gstreamer-dev libsecret-dev gst-plugins-base-dev
-	djvulibre-dev libhandy1-dev"
-subpackages="$pkgname-dev $pkgname-doc $pkgname-lang $pkgname-nautilus $pkgname-libs"
+depends="$pkgname-libs=$pkgver-r$pkgrel
+	adwaita-icon-theme
+	gsettings-desktop-schemas
+	"
+depends_dev="
+	gobject-introspection-dev
+	gtk+3.0-dev
+	libspectre-dev
+	libxml2-dev
+	poppler-dev
+	tiff-dev
+	"
+makedepends="
+	$depends_dev
+	adwaita-icon-theme-dev
+	cairo-dev
+	dbus-dev
+	djvulibre-dev
+	gdk-pixbuf-dev
+	glib-dev
+	gnome-desktop-dev
+	gspell-dev
+	gst-plugins-base-dev
+	gstreamer-dev
+	itstool
+	libarchive-dev
+	libgxps-dev
+	libhandy1-dev
+	libsecret-dev
+	meson
+	"
+subpackages="$pkgname-dev $pkgname-doc $pkgname-lang $pkgname-libs"
 
 _purism_commit="8bb5c846bbb36bac47fbfba0f0e5a29802d133b8"
 _purism_patches="https://source.puri.sm/Librem5/evince/-/raw/$_purism_commit/debian/patches"
 
 # Order is important "toolbar-Allow-to-toggle" must go before "toolbar-Allow-hiding"
+# Those two had to be modified from original Purism patches
 source="https://download.gnome.org/sources/evince/${_pkgver%.*}/evince-$_pkgver.tar.xz
 	0001-data-List-compatible-form-factors.patch
-	0002-remove-incorrect-args-for-i18n.merge_file.patch
 	$_purism_patches/properties-view-Reduce-the-label-width-chars.patch
-	$_purism_patches/toolbar-Allow-to-toggle-the-sidebar-button.patch
-	$_purism_patches/toolbar-Allow-hiding-zoom-annotation-and-page-widgets.patch
+	toolbar-Allow-to-toggle-the-sidebar-button.patch
+	toolbar-Allow-hiding-zoom-annotation-and-page-widgets.patch
 	$_purism_patches/window-Port-it-to-phones.patch"
 builddir="$srcdir/$pkgname-$_pkgver"
 
@@ -38,9 +61,11 @@ builddir="$srcdir/$pkgname-$_pkgver"
 
 build() {
 	abuild-meson \
+		-Db_lto=true \
 		-Dsystemduserunitdir=no \
 		-Dgtk_doc=false \
-		output
+		-Dnautilus=false \
+		. output
 	meson compile ${JOBS:+-j ${JOBS}} -C output
 }
 
@@ -73,11 +98,10 @@ doc() {
 }
 
 sha512sums="
-6ea6b823ee9742b3a666c9d68993e057a032e4a841edbf16c7c4bccf38b5af13295bcbee0ad0bc8fab11d76186294917dff3bbe40ba271e1a550b6a562a67f0f  evince-41.2.tar.xz
+dd50ba45c4eb56f8af1df38f7a12c3c13747a1053bb97c8600d85cbc398e340d7bc5db73f441b68cfb8294ab985be361e48605cdc5e3dccb051d917869a12ba9  evince-43.0.tar.xz
 a00c1c11b94bf2035051e1e0319016ddaec74c2b7156b6c2b94e7b45e73174bc3612b50006bd14baa7f7da9dc80c96eb944395226856eb3234902f4886668c18  0001-data-List-compatible-form-factors.patch
-d66898c917eb34a042cdbad58e9122678372479228340180269e0f479f8743ddc83f59c7ea2a813fc2662dd2ff1b9da9dd194e1a879885d054dec5c5fd1b2877  0002-remove-incorrect-args-for-i18n.merge_file.patch
 f13c96ec09cb7d63796ce7f5e3fae0dc997ae654450dc627cbb8ab24faca78d07ac466118e0b57d533e909071adc0b8634a85ed51d7137ab8ff60ea8478ab81b  properties-view-Reduce-the-label-width-chars.patch
-90e44a422258822fb303dd5985d1757507e99ee9631c217b66820cb4683db487f51cfd9b0577971c37f81086217a4b1a15663652c76a831099f293f85048bd64  toolbar-Allow-to-toggle-the-sidebar-button.patch
-0331cb2dfc3ad09fbf41aaff09f0ea0742fbd9e9736797f7f37e13d7bfa1f54504897252a07f2e75983f5706f8421b593037f254fc2179afc007a6380f88ac36  toolbar-Allow-hiding-zoom-annotation-and-page-widgets.patch
+043ec704eddf45f93ef6a39a13043135bafae8193f582dbd8a97e4b130720063b5801893c1b66e2f61ca5cb3f035e96d37309ebf293e68672005fd25b14a49c7  toolbar-Allow-to-toggle-the-sidebar-button.patch
+dc9b45fd892c8b057a1ec7537fbc5c3b910f9f0cec937646499749ae906bbd1e95e49e6ffc0eb31076f0c8dda37350b53a74783efe87c607da6c11c6d1cd5530  toolbar-Allow-hiding-zoom-annotation-and-page-widgets.patch
 9fd3ba5e97ed54c6df262f310a6ce7138cb1601b969e506a4add099f6b195a40040a3fd594cd269c07f70f05638687dbc33b9cf707ac57242b75cc8bc6726817  window-Port-it-to-phones.patch
 "
