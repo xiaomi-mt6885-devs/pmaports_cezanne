@@ -876,26 +876,6 @@ index b2a68bc9f0b4d..b86de1312512b 100644
  	{ 0x05ef, 0x8888, "AVB Top Shot Force Feedback Racing Wheel",	btn_wheel, abs_wheel, ff_iforce }, //?
  	{ 0x061c, 0xc0a4, "ACT LABS Force RS",                          btn_wheel, abs_wheel, ff_iforce }, //?
  	{ 0x061c, 0xc084, "ACT LABS Force RS",				btn_wheel, abs_wheel, ff_iforce },
-diff --git a/drivers/input/touchscreen/goodix.c b/drivers/input/touchscreen/goodix.c
-index aa45a9fee6a01..3020ddc1ca48b 100644
---- a/drivers/input/touchscreen/goodix.c
-+++ b/drivers/input/touchscreen/goodix.c
-@@ -95,6 +95,7 @@ static const struct goodix_chip_data gt9x_chip_data = {
- 
- static const struct goodix_chip_id goodix_chip_ids[] = {
- 	{ .id = "1151", .data = &gt1x_chip_data },
-+	{ .id = "1158", .data = &gt1x_chip_data },
- 	{ .id = "5663", .data = &gt1x_chip_data },
- 	{ .id = "5688", .data = &gt1x_chip_data },
- 	{ .id = "917S", .data = &gt1x_chip_data },
-@@ -1514,6 +1515,7 @@ MODULE_DEVICE_TABLE(acpi, goodix_acpi_match);
- #ifdef CONFIG_OF
- static const struct of_device_id goodix_of_match[] = {
- 	{ .compatible = "goodix,gt1151" },
-+	{ .compatible = "goodix,gt1158" },
- 	{ .compatible = "goodix,gt5663" },
- 	{ .compatible = "goodix,gt5688" },
- 	{ .compatible = "goodix,gt911" },
 diff --git a/drivers/iommu/intel/iommu.c b/drivers/iommu/intel/iommu.c
 index 40ac3a78d90ef..c0464959cbcdb 100644
 --- a/drivers/iommu/intel/iommu.c
