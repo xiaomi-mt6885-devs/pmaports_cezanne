@@ -4,7 +4,7 @@
 # Note: cannot upstream to Alpine until:
 # https://gitlab.alpinelinux.org/alpine/apk-tools/-/issues/10712
 pkgname=osk-sdl
-pkgver=0.67
+pkgver=0.68
 pkgrel=0
 pkgdesc="Onscreen keyboard for unlocking LUKS devices"
 url="https://gitlab.com/postmarketOS/osk-sdl"
@@ -13,10 +13,10 @@ license="GPL-3.0-or-later"
 depends="
 	cryptsetup-libs
 	directfb
+	font-dejavu
 	mesa-egl
 	mesa-gl
 	mesa-gles
-	ttf-dejavu
 	"
 makedepends="
 	cryptsetup-dev
@@ -57,7 +57,7 @@ package() {
 }
 
 sha512sums="
-eeed4f861c664d88302ad59e2dca6d4167bbc487f5054477e303b5bc3a4a5e821d68c627007dcd3be8ce79d50b70201273ed76c63de13f2456abbe6d43703048  osk-sdl-0.67.tar.gz
+f89e09a95c572f447ae433136bddf0359ff2f1404405da85fe5e0b055a2046598e102eff6c13402100d4b6f8455b2afd9ed8f1d2e156ece77b1f4472051d83e2  osk-sdl-0.68.tar.gz
 e1017bc0667756b82527d88f47a77e2f5a44e0769b5ccdea0c6c1f86bd3d0a1df9d9f5bbb224888748cfef5edc3375036a25099eb02c963302f155c3b2e8fefd  osk-sdl.files
 5e2de0da40f3b409cb01c388ab61e8072db30789af6f8a7fec817699dcb928b8aec25288fb1e59403e99769dec032f1b446bcc5f761d9a6504e238fa205281fd  unlock.sh
 "
