@@ -6,8 +6,8 @@
 _flavor=postmarketos-allwinner
 _config="config-$_flavor.$CARCH"
 pkgname=linux-$_flavor
-pkgver=5.19.8_git20220909
-pkgrel=2
+pkgver=5.19.14_git20220909
+pkgrel=1
 _tag="orange-pi-5.19-20220909-1622"
 pkgdesc="Kernel fork with Pine64 patches (megi's tree, slightly patched)"
 arch="aarch64 armv7"
@@ -47,6 +47,12 @@ source="$pkgname-$_tag.tar.gz::https://github.com/megous/linux/archive/$_tag.tar
 	0010-ARM-dts-sun6i-Add-Lark-FreeMe-70.2S-tablet.patch
 	0011-sunxi-mmc-h6-fix.patch
 	0012-arm64-dts-allwinner-orangepi-3-fix-ethernet.patch
+	patch-5.19.8-9.patch
+	patch-5.19.9-10.patch
+	patch-5.19.10-11.patch
+	patch-5.19.11-12.patch
+	patch-5.19.12-13.patch
+	patch-5.19.13-14.patch
 	"
 subpackages="$pkgname-dev"
 builddir="$srcdir/linux-$_tag"
@@ -109,4 +115,10 @@ c61d4f86eddecca99df1ea1323f988e575f9c49130b64a0c50d61028ff96e24aaa3131fb3731e62e
 902708a5a8dd8a815d3d1793933d307c551e3c10368d1805431b70691ee5d4438b7146c466549f457468e365f94073a35ae3304928af7581e5dc91ba5c8fa682  0010-ARM-dts-sun6i-Add-Lark-FreeMe-70.2S-tablet.patch
 2feeab0a6c3db46e514d45c9708f351c6d7dfb0bf951a5cb6f2dc01b4bdc8d4c46931000758a819a6d7317b16cb1933bb3946e6a78cbf448cc77f57a56c503bf  0011-sunxi-mmc-h6-fix.patch
 22af33264090dac027ee054b4345a07f0b2ee077e2ae1620e83960bfeea096169aec710973fdd50531ed4f1db6cfd59b5796cd235316cb3512aee034f741a694  0012-arm64-dts-allwinner-orangepi-3-fix-ethernet.patch
+69d7c59e72fca1fc3a1353a121daefa3407081a67f3d33ec687b2ebcabead7ad81da2399cd8d3f1d4f904d63c642b965fad21f1c98969ab9a7a8ab1f5f01e142  patch-5.19.8-9.patch
+a795d05ed28c64ff0cdfce40fab47bbefb5fff3d56b42d72f715f36f6a5ba46fc70d7d7acd5149c28a1e331bec852e34ab99afe0586c3fcefd59d3e19736bf2e  patch-5.19.9-10.patch
+d27352c40c4b3a4a95a81e72c68899b9481a1b5b97fffcc96b4599909bf7f0d86ed4bb8ff02e35d11c930d704eda41ef9627e63c10f6d972e754d1b9291e008a  patch-5.19.10-11.patch
+03a8ba3277523b0fa204f02c328ecb8e1e706161759fa38db02cb8af6071476f0796b9ae122030b9f83971904bfe9eddc69ff89eb7a8fa241b1031f6543bd546  patch-5.19.11-12.patch
+b913dfe320098d53efd5872371fcb3aa00c8ff0a42ae0812324a3626a30c2e2981e399bb21dc6f808289ff1d30c24987c902b212f2435b8a4c43801f5dfb4751  patch-5.19.12-13.patch
+793d150800ca970d2a1f1792fa81e01e131a9716bfa8f23f38f19f455b65eff274de79626571249f98b48e6939406acc28a7e6d2eebf37fdfe22f9ad2aebe5fc  patch-5.19.13-14.patch
 "
