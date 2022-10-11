@@ -1,39 +1,40 @@
-From 2c8a691d2a52b047ab21aab3ba3764ba224210ed Mon Sep 17 00:00:00 2001
+From 9af6db610a340c17f067f2364518eb8eb2441905 Mon Sep 17 00:00:00 2001
 From: Henrik Grimler <henrik@grimler.se>
-Date: Wed, 31 Mar 2021 21:45:11 +0200
-Subject: [PATCH 14/16] ARM: dts: Add support for Samsung Klimt WiFi
+Date: Sun, 16 Jan 2022 16:29:43 +0100
+Subject: [PATCH 33/33] ARM: dts: Add support for Samsung Klimt LTE
 
-Klimt WiFi has the product name Samsung Galaxy Tab S 8.4".  Board is
-based on Exynos 5420, and has similar hardware to Chagall WiFi.
+Klimt LTE has the product name Samsung Galaxy Tab S 8.4".  Board is
+based on Exynos 5420, and has similar hardware to Klimt WiFi and
+Chagall WiFi.
 
 Signed-off-by: Henrik Grimler <henrik@grimler.se>
 ---
- arch/arm/boot/dts/Makefile                  |  1 +
- arch/arm/boot/dts/exynos5420-klimt-wifi.dts | 75 +++++++++++++++++++++
- 2 files changed, 76 insertions(+)
- create mode 100644 arch/arm/boot/dts/exynos5420-klimt-wifi.dts
+ arch/arm/boot/dts/Makefile                 |  1 +
+ arch/arm/boot/dts/exynos5420-klimt-lte.dts | 83 ++++++++++++++++++++++
+ 2 files changed, 84 insertions(+)
+ create mode 100644 arch/arm/boot/dts/exynos5420-klimt-lte.dts
 
 diff --git a/arch/arm/boot/dts/Makefile b/arch/arm/boot/dts/Makefile
-index 088fcedb3212..336b725195d7 100644
+index 7c16f8a2b738..ea6f652612d8 100644
 --- a/arch/arm/boot/dts/Makefile
 +++ b/arch/arm/boot/dts/Makefile
-@@ -221,6 +221,7 @@ dtb-$(CONFIG_ARCH_EXYNOS5) += \
+@@ -225,6 +225,7 @@ dtb-$(CONFIG_ARCH_EXYNOS5) += \
  	exynos5420-peach-pit.dtb \
  	exynos5420-smdk5420.dtb \
  	exynos5420-chagall-wifi.dtb \
-+	exynos5420-klimt-wifi.dtb \
++	exynos5420-klimt-lte.dtb \
+ 	exynos5420-klimt-wifi.dtb \
  	exynos5422-odroidhc1.dtb \
  	exynos5422-odroidxu3.dtb \
- 	exynos5422-odroidxu3-lite.dtb \
-diff --git a/arch/arm/boot/dts/exynos5420-klimt-wifi.dts b/arch/arm/boot/dts/exynos5420-klimt-wifi.dts
+diff --git a/arch/arm/boot/dts/exynos5420-klimt-lte.dts b/arch/arm/boot/dts/exynos5420-klimt-lte.dts
 new file mode 100644
-index 000000000000..7c3ba5abd7bf
+index 000000000000..2a9af1f18de7
 --- /dev/null
-+++ b/arch/arm/boot/dts/exynos5420-klimt-wifi.dts
-@@ -0,0 +1,75 @@
++++ b/arch/arm/boot/dts/exynos5420-klimt-lte.dts
+@@ -0,0 +1,83 @@
 +// SPDX-License-Identifier: GPL-2.0
 +/*
-+ * Samsung's Exynos5420 Klimt WiFi board device tree source
++ * Samsung's Exynos5420 Klimt LTE board device tree source
 + *
 + * Copyright (c) 2012-2013 Samsung Electronics Co., Ltd.
 + *		http://www.samsung.com
@@ -44,16 +45,19 @@ index 000000000000..7c3ba5abd7bf
 +#include "exynos5420-galaxy-tab-common.dtsi"
 +
 +/ {
-+	model = "Samsung Klimt WiFi based on Exynos5420";
-+	compatible = "samsung,klimt-wifi", "samsung,exynos5420", \
++	model = "Samsung Klimt LTE based on Exynos5420";
++	compatible = "samsung,klimt-lte", "samsung,exynos5420", \
 +		     "samsung,exynos5";
 +};
 +
 +&ldo15_reg {
-+	/* Unused */
-+	regulator-name = "VDD_LDO15";
++	regulator-name = "VDD_LEDA_2V8";
 +	regulator-min-microvolt = <2800000>;
 +	regulator-max-microvolt = <2800000>;
++
++	regulator-state-mem {
++		regulator-on-in-suspend;
++	};
 +};
 +
 +&ldo17_reg {
@@ -87,10 +91,15 @@ index 000000000000..7c3ba5abd7bf
 +};
 +
 +&ldo31_reg {
-+	/* Unused */
-+	regulator-name = "VDD_LDO31";
++	regulator-name = "VDD_GRIP_1V8";
 +	regulator-min-microvolt = <1800000>;
 +	regulator-max-microvolt = <1800000>;
++	regulator-always-on;
++	regulator-boot-on;
++
++	regulator-state-mem {
++		regulator-off-in-suspend;
++	};
 +};
 +
 +&ldo32_reg {
@@ -107,5 +116,5 @@ index 000000000000..7c3ba5abd7bf
 +	sd-uhs-sdr104;
 +};
 -- 
-2.34.1
+2.38.0
 
