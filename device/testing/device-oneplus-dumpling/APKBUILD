@@ -2,7 +2,7 @@
 # Reference: <https://postmarketos.org/devicepkg>
 pkgname=device-oneplus-dumpling
 pkgdesc="OnePlus 5T"
-pkgver=3
+pkgver=4
 pkgrel=0
 url="https://postmarketos.org"
 license="MIT"
@@ -34,6 +34,7 @@ package() {
 }
 
 kernel_alpine() {
+	# FIXME: msm-modem-uim-selection hangs boot for some 20 seconds when installed with non-free FW
 	pkgdesc="Pure mainline kernel, unpatched Alpine linux-edge"
 	depends="linux-edge linux-firmware-none"
 	devicepkg_subpackage_kernel $startdir $pkgname $subpkgname
@@ -41,8 +42,7 @@ kernel_alpine() {
 
 kernel_mainline() {
 	pkgdesc="Close to mainline kernel, plenty of working features and fixes"
-	# NOTE: soc-qcom-sdm845 is also applicable to msm8998
-	depends="linux-postmarketos-qcom-msm8998 soc-qcom-sdm845"
+	depends="linux-postmarketos-qcom-msm8998 soc-qcom-msm8998"
 	devicepkg_subpackage_kernel $startdir $pkgname $subpkgname
 }
 
@@ -54,11 +54,12 @@ nonfree_firmware() {
 
 phosh() {
 	install_if="$pkgname postmarketos-ui-phosh"
+	# some scaling tweaks
 	install -Dm644 "$srcdir"/phoc.ini \
 		"$subpkgdir"/etc/phosh/phoc.ini
 }
 
 sha512sums="
-affbfb887c9f590d93b0234b3997b6de6e10a067d8d4ecf382548eb39f15d4036f8bea20f94c5cf04f357ad5f26a67f09c189fb6695e38fe9da1942e0c3a95e4  deviceinfo
+cf52087ee21e05d6b9851c6d5b582277ebc631cf36dd48570a5553cdc16d8381c5c7f84ebe38a1f8c4dfe83ab2a7bc66a4e0e8b19314a17472349fae8ee03164  deviceinfo
 2288f08a44aae5136c0c0c846501c2bd4bcb10f05454b40c6e4490d398385b8a7129216047b5eb7982ca6d62d3aa71f3e18bfb8661d0cd32c8a600685ca0da48  phoc.ini
 "
