@@ -63,8 +63,11 @@ def test_aports_unreferenced_files(args):
     Raise an error if an unreferenced file is found
     """
     for apkbuild_path in glob.iglob(args.aports + "/**/APKBUILD", recursive=True):
-        # pmbootstrap parser has some issues with complicated APKBUILDs, skip those.
-        if apkbuild_path.startswith(args.aports + "/cross/"):
+        # In gcc 12.2.1_git20220924-r3, a $pkgname-go.post-install was added.
+        # The $pkgname gets changed from gcc to e.g. gcc-aarch64 in aportgen,
+        # and so the post-install file doesn't get found and the test errors
+        # here. We don't build gcc-go, so just ignore it here. See pmb!3541.
+        if apkbuild_path.startswith(args.aports + "/cross/gcc-"):
             continue
 
         apkbuild = pmb.parse.apkbuild(apkbuild_path)
