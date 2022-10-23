@@ -2,19 +2,19 @@
 
 pkgname=gnome-software-plugin-apk
 pkgver=9999
-_pkgver=0.10.0
-pkgrel=2
+_commit=53b7afc72da0cc60a00f0f8666bfeae110dd889a
+pkgrel=3
 pkgdesc="APK plugin for GNOME Software"
 url="https://github.com/Cogitri/gnome-software-plugin-apk"
-arch="x86_64 armv7 armhf aarch64 x86 ppc64le" # apk-polkit-rs
+arch="x86_64 armv7 aarch64 x86 ppc64le" # apk-polkit-rs
 license="GPL-2.0-or-later"
 makedepends="meson gnome-software-dev apk-polkit-rs-dev"
 checkdepens="py3-dbusmock"
 options="!check" # tests will fail if gnome-software-plugin-apk is installed
 subpackages="$pkgname-dbg"
-source="$pkgname-$_pkgver.tar.gz::https://github.com/Cogitri/gnome-software-plugin-apk/archive/v$_pkgver.tar.gz"
+source="https://github.com/Cogitri/gnome-software-plugin-apk/archive/$_commit.tar.gz"
 install_if="gnome-software"
-builddir="$srcdir/$pkgname-$_pkgver"
+builddir="$srcdir/$pkgname-$_commit"
 
 build() {
 	abuild-meson . output
@@ -30,5 +30,5 @@ check() {
 }
 
 sha512sums="
-070812ebd5da29f0b88dab3875600f2a17bb9df30dea4db8682d9c4a3878006b4e25c28b1b58bc12e6712b10c4c708da70368695d82ab8e5ed07543ba3406955  gnome-software-plugin-apk-0.10.0.tar.gz
+b4ac56ec0d5fe4c8704bfa70c0e81827aec118b4b45cfebc5395c5860852bdc4b35d39dc941711a9b03128cb463f4a8167ecab411d4faee5a88180a880d8fcf3  53b7afc72da0cc60a00f0f8666bfeae110dd889a.tar.gz
 "

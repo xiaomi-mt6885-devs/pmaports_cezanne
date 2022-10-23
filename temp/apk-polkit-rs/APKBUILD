@@ -1,0 +1,40 @@
+# Forked from Alpine to allow testing of GNOME Software stack update
+
+pkgname=apk-polkit-rs
+pkgver=1.0.0_rc0
+_commit=55e065e63245991c857f397f3a57c74784d71a08
+pkgrel=0
+pkgdesc="apk-polkit-rs exposes a DBus API for APK, the Alpine Package Keeper"
+url="https://gitlab.alpinelinux.org/Cogitri/apk-polkit-rs"
+arch="x86_64 armv7 aarch64 x86 ppc64le"
+license="GPL-3.0-or-later"
+depends="polkit"
+makedepends="meson cargo polkit-dev glib-dev clang-dev apk-tools-dev"
+checkdepends="appstream bash"
+subpackages="$pkgname-dev $pkgname-dbg $pkgname-lang"
+source="https://gitlab.alpinelinux.org/Cogitri/apk-polkit-rs/-/archive/$_commit/apk-polkit-rs-$_commit.tar.gz"
+builddir="$srcdir/$pkgname-$_commit"
+options="!check" #Takes forever to cross-compile and run the tests
+
+prepare() {
+	default_prepare
+
+	sed '/CBUILD/d' -i meson.build
+}
+
+build() {
+	abuild-meson . output
+	meson compile ${JOBS:+-j ${JOBS}} -C output
+}
+
+check() {
+	meson test --no-rebuild --print-errorlogs -C output
+}
+
+package() {
+	DESTDIR="$pkgdir" meson install --no-rebuild -C output
+}
+
+sha512sums="
+8477bb93151310b3b6d7d9d8903aa25e2ebb095557b4305ad07b5bb665abf9086cfa248867161481378e1a30e95a26260fea1c05dd4d129c17f78a4dcfa96652  apk-polkit-rs-55e065e63245991c857f397f3a57c74784d71a08.tar.gz
+"
