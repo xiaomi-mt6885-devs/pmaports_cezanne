@@ -3,7 +3,7 @@
 # Co-Maintainer: Bhushan Shah <bshah@kde.org>
 pkgname=linux-purism-librem5
 pkgver=5.17.2
-pkgrel=0
+pkgrel=1
 _purismrel=1
 # <kernel ver>.<purism kernel release>
 _purismver=${pkgver}pureos$_purismrel
@@ -43,6 +43,11 @@ source="
 	0004-usb-quirks-hub_slow_reset-for-usb2642.patch
 	0005-usb-xhci-increase-XHCI_MAX_REXIT_TIMEOUT_MS.patch
 	0006-hack-usb-add-quirk-to-skip-reset_resume-in-hub_activ.patch
+	CVE-2022-41674.patch
+	CVE-2022-42719.patch
+	CVE-2022-42720.patch
+	CVE-2022-42721.patch
+	CVE-2022-42722.patch
 	$_config
 "
 builddir="$srcdir/$_repository-pureos-$_purismver"
@@ -89,5 +94,10 @@ c52f9e7e17f876697000a0c3b959a0d571ca506ba55ee5158e30ac00e148372097c88951a354190f
 e449c1213fa49bbb5cb5c73b9a18f7506ac6e4305ebfc5bb2315a7a6cb5110d0138214dc0168a0078a8f98c2d442e117826b78d98a0ca7247b606c7119e3d6b2  0004-usb-quirks-hub_slow_reset-for-usb2642.patch
 79f12e245d0f3ca962a559a1b3112855284c9315c031bf6e1f51c59309a9f588f4e86b6cbb121856e588e5d48d43f4ad1c5235049afa0d19fb638a0ce27c6896  0005-usb-xhci-increase-XHCI_MAX_REXIT_TIMEOUT_MS.patch
 2f0c69e90c2270e517abccd97cc7ab2bbef0d69f5aae6004944f9a534e3983765a3f2b5b6e8779dc0ce44d2eada00b04f9b38a44e6fa630978d591ea83527155  0006-hack-usb-add-quirk-to-skip-reset_resume-in-hub_activ.patch
+967ce8182838f62c89dfc9cce2378465c8d4db1c4186f08e0e7ef38f2fc5e9b01a88dd6323028fd88c39c6778b7b662c01b49652f0c116f25c79ff52a34403ea  CVE-2022-41674.patch
+90b2a6ec2d83dd532a25c4c70c03cf6a544ea11533cdf631a3b1e5008edc488850074c27ff49aa9fc16edf3f45a293b85cda38f4ad8832eae38f7b399946d336  CVE-2022-42719.patch
+a935ab7743ecb55b55dc8c8e4bea0349aefa2da6d1abe9c66466e82fd28147be4866cfe1bc0cdb0e3487b08b74fed4d9cfa0c8a0516d9834ca8c0fb227c026bf  CVE-2022-42720.patch
+82b168de132d7038e0759b42d095ff78eb3c2bc182498ffbc5e8a71a7095dda8aedb0889dce996854820582028353594c1f11294e8565c3134e9c87279387332  CVE-2022-42721.patch
+85e00353048b74fd7345a101ad9146ab18b59bf9a3c699de5a753291f0e9946aa5ff871bd0a69aba5f799647c0c34fd20878b6eb7bfd2377232ef29baf0871da  CVE-2022-42722.patch
 68a5a0e530df543a444ced60ecca6a07ed70824ea23fd89d01240426127a3017b97c06605876196199e9f1d9c035156825fad1ed84cfbf6db8dc8c25fbeb3a20  config-purism-librem5.aarch64
 "

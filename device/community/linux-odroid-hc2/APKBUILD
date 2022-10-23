@@ -4,7 +4,7 @@
 
 pkgname=linux-odroid-hc2
 pkgver=5.18.1
-pkgrel=0
+pkgrel=1
 pkgdesc="ODROID XU3/XU4/HC1/HC2/MC1 kernel fork"
 arch="armv7"
 _carch="arm"
@@ -33,6 +33,11 @@ _pkgname="linux"
 source="
 	$_pkgname-$pkgver.tar.xz::https://cdn.kernel.org/pub/linux/kernel/v5.x/linux-$pkgver.tar.xz
 	$_config
+	CVE-2022-41674.patch
+	CVE-2022-42719.patch
+	CVE-2022-42720.patch
+	CVE-2022-42721.patch
+	CVE-2022-42722.patch
 "
 subpackages="$pkgname-dev"
 builddir="$srcdir/$_pkgname-$pkgver"
@@ -74,4 +79,9 @@ dev() {
 sha512sums="
 1d3f676403b7f21c6790cac568e9655f95012c250a7d0f35cb8223c8a36ce561b414a25cd85be6892607facb617247d4983f4be426388dd6c6817991a6da928d  linux-5.18.1.tar.xz
 22d641b681dffd5348076e8dc095d3a1b402bc496e05156356d0be7a77b8e7a270a66dedc1d6197320806740508589d359ea7335859972f4cadd9ebf1d81212d  config-odroid-hc2.armv7
+967ce8182838f62c89dfc9cce2378465c8d4db1c4186f08e0e7ef38f2fc5e9b01a88dd6323028fd88c39c6778b7b662c01b49652f0c116f25c79ff52a34403ea  CVE-2022-41674.patch
+90b2a6ec2d83dd532a25c4c70c03cf6a544ea11533cdf631a3b1e5008edc488850074c27ff49aa9fc16edf3f45a293b85cda38f4ad8832eae38f7b399946d336  CVE-2022-42719.patch
+0770f0e49a449d1f6ff72f862a2caba15ba4d4d5df33c7e3b24bab51bc292aa02c1cabb9380c11b8c37184ee7574075421465f7423e79aa5304466bc722c83b1  CVE-2022-42720.patch
+82b168de132d7038e0759b42d095ff78eb3c2bc182498ffbc5e8a71a7095dda8aedb0889dce996854820582028353594c1f11294e8565c3134e9c87279387332  CVE-2022-42721.patch
+85e00353048b74fd7345a101ad9146ab18b59bf9a3c699de5a753291f0e9946aa5ff871bd0a69aba5f799647c0c34fd20878b6eb7bfd2377232ef29baf0871da  CVE-2022-42722.patch
 "

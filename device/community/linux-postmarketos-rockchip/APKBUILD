@@ -10,21 +10,20 @@
 # boot failure
 
 pkgname=linux-postmarketos-rockchip
-pkgver=5.18
-pkgrel=1
+pkgver=6.0.2
+pkgrel=0
 pkgdesc="Mainline kernel for rockchip devices"
-arch="aarch64 armv7"
+arch="aarch64"
+_carch="arm64"
 _flavor="${pkgname#linux-}"
 url="https://kernel.org"
 license="GPL-2.0-only"
 options="!strip !check !tracedeps
 	pmb:cross-native
-	pmb:kconfigcheck-anbox
-	pmb:kconfigcheck-nftables
-	pmb:kconfigcheck-containers
-	pmb:kconfigcheck-zram
+	pmb:kconfigcheck-community
 	"
 makedepends="
+	bash
 	bison
 	devicepkg-dev
 	findutils
@@ -40,13 +39,8 @@ makedepends="
 	mpfr-dev
 	"
 
-case "$CARCH" in
-	aarch64*) _carch="arm64" ;;
-	arm*) _carch="arm" ;;
-esac
-
 # Source
-_config="config-$_flavor.$CARCH"
+_config="config-$_flavor.$arch"
 case $pkgver in
 	*.*.*)	_kernver=${pkgver%.0};;
 	*.*)	_kernver=$pkgver;;
@@ -54,10 +48,7 @@ esac
 
 source="
 	https://cdn.kernel.org/pub/linux/kernel/v${_kernver%%.*}.x/linux-$_kernver.tar.xz
-	0007-block-partitions-efi-Add-support-for-IGNOREME-GPT-si.patch
-
-	config-$_flavor.aarch64
-	config-$_flavor.armv7
+	$_config
 "
 builddir="$srcdir/linux-$_kernver"
 
@@ -71,7 +62,6 @@ build() {
 	unset LDFLAGS
 	make ARCH="$_carch" \
 		KBUILD_BUILD_VERSION="$((pkgrel + 1 ))-$_flavor"
-
 }
 
 package() {
@@ -83,19 +73,11 @@ package() {
 		INSTALL_MOD_PATH="$pkgdir" \
 		INSTALL_DTBS_PATH="$pkgdir/boot/dtbs-$_flavor"
 
-	# not all armv7 devices (google-veyon-jerry) support booting gzipped kernels yet
-	if [ $_carch = arm64 ]; then
-		gzip -v "$pkgdir"/boot/vmlinuz
-		mv "$pkgdir"/boot/vmlinuz.gz "$pkgdir"/boot/vmlinuz
-	else
-		mv "$pkgdir"/boot/vmlinuz "$pkgdir"/boot/vmlinuz
-	fi
+	gzip -v "$pkgdir"/boot/vmlinuz
+	mv "$pkgdir"/boot/vmlinuz.gz "$pkgdir"/boot/vmlinuz
 }
 
-
 sha512sums="
-dbbc9d1395898a498fa4947fceda1781344fa5d360240f753810daa4fa88e519833e2186c4e582a8f1836e6413e9e85f6563c7770523b704e8702d67622f98b5  linux-5.18.tar.xz
-265b05bc542edb290ec15cd5f50132698a32e80d30ce28ce3ad7e990b7c07df92c4556122505b07a6aa582a919459872d1d874f4ed422d2aff2cdfb51889e720  0007-block-partitions-efi-Add-support-for-IGNOREME-GPT-si.patch
-9633e576fa04ed0ca38797082c15413016d273d6b601aa2f424001e7c33d2887090e27badb9d32ff6b3bf931ca0a994afda1b8971f14be76f64149b87db562de  config-postmarketos-rockchip.aarch64
-c3144d302ae68ee9d6ef3cc77951808c61ff59ce0fcaef1a4829f11ccdb680e5a78b32697918700e9b6e1c25ccdd19002b096aed3b649197d31eed7cd2239ac4  config-postmarketos-rockchip.armv7
+cee8ce158881ef84d475befec58f21f3e5e71e760b012db597204c5693501ec0de2904957ccbc6156bcc697125a44c45fdb0e9d11c844d245eab455b858944f0  linux-6.0.2.tar.xz
+db32d09836cf9bc933a865355cb6f7cbcac884085f22e50fe06ee40945ada3eb0753475af014a8f27bd9f499e85e1b5f26506b06d6d6f9f30d5222228ce4e041  config-postmarketos-rockchip.aarch64
 "
