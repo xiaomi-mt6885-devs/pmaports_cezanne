@@ -4,18 +4,18 @@ Date: Sun, 23 Sep 2018 18:29:53 +0200
 Subject: [PATCH 1/1] Patch for usability on postmarketOS
 
 ---
- src/appengine.cpp         | 37 +++++++++++++++++++++++++
- src/appengine.h           |  2 ++
- src/main.cpp              | 41 +++++++++++++++-------------
- src/qml/BrowserWindow.qml | 15 +++++++++--
- src/qml/NavigationBar.qml | 69 ++++++++++++++++++++++-------------------------
- src/qml/PageView.qml      | 42 +++++++++++++----------------
+ appengine.cpp         | 37 +++++++++++++++++++++++++
+ appengine.h           |  2 ++
+ main.cpp              | 41 +++++++++++++++-------------
+ qml/BrowserWindow.qml | 15 +++++++++--
+ qml/NavigationBar.qml | 69 ++++++++++++++++++++++-------------------------
+ qml/PageView.qml      | 42 +++++++++++++----------------
  6 files changed, 125 insertions(+), 81 deletions(-)
 
-diff --git a/src/appengine.cpp b/src/appengine.cpp
+diff --git a/appengine.cpp b/appengine.cpp
 index f48325d..b32078a 100644
---- a/src/appengine.cpp
-+++ b/src/appengine.cpp
+--- a/appengine.cpp
++++ b/appengine.cpp
 @@ -33,6 +33,7 @@
  #include <QtCore/QStandardPaths>
  #include <QStringBuilder>
@@ -64,10 +64,10 @@ index f48325d..b32078a 100644
 +        else
 +        return "";
 +    }    
-diff --git a/src/appengine.h b/src/appengine.h
+diff --git a/appengine.h b/appengine.h
 index c5ad20e..c7a374e 100644
---- a/src/appengine.h
-+++ b/src/appengine.h
+--- a/appengine.h
++++ b/appengine.h
 @@ -83,6 +83,8 @@ public:
      Q_INVOKABLE QString fallbackColor();
      Q_INVOKABLE QString restoreSetting(const QString &name, const QString &defaultValue = QString());
@@ -77,10 +77,10 @@ index c5ad20e..c7a374e 100644
  
  private:
      QSettings m_settings;
-diff --git a/src/main.cpp b/src/main.cpp
+diff --git a/main.cpp b/main.cpp
 index 2181f15..e462b9b 100644
---- a/src/main.cpp
-+++ b/src/main.cpp
+--- a/main.cpp
++++ b/main.cpp
 @@ -31,15 +31,17 @@
  #include "navigationhistoryproxymodel.h"
  #include "touchtracker.h"
@@ -166,10 +166,10 @@ index 2181f15..e462b9b 100644
 +    view.showMaximized();
      app.exec();
  }
-diff --git a/src/qml/BrowserWindow.qml b/src/qml/BrowserWindow.qml
+diff --git a/qml/BrowserWindow.qml b/qml/BrowserWindow.qml
 index 05ddcff..d1d0c73 100644
---- a/src/qml/BrowserWindow.qml
-+++ b/src/qml/BrowserWindow.qml
+--- a/qml/BrowserWindow.qml
++++ b/qml/BrowserWindow.qml
 @@ -189,7 +189,7 @@ Item {
                  return false
              return true
@@ -201,10 +201,10 @@ index 05ddcff..d1d0c73 100644
          }
          onCurrentIndexChanged: {
              if (!tabView.get(tabView.currentIndex))
-diff --git a/src/qml/NavigationBar.qml b/src/qml/NavigationBar.qml
+diff --git a/qml/NavigationBar.qml b/qml/NavigationBar.qml
 index 742ca47..0ee6388 100644
---- a/src/qml/NavigationBar.qml
-+++ b/src/qml/NavigationBar.qml
+--- a/qml/NavigationBar.qml
++++ b/qml/NavigationBar.qml
 @@ -40,6 +40,7 @@ ToolBar {
  
      property alias addressBar: urlBar
@@ -370,10 +370,10 @@ index 742ca47..0ee6388 100644
              }
          }
      }
-diff --git a/src/qml/PageView.qml b/src/qml/PageView.qml
+diff --git a/qml/PageView.qml b/qml/PageView.qml
 index f7e0448..d31bc69 100644
---- a/src/qml/PageView.qml
-+++ b/src/qml/PageView.qml
+--- a/qml/PageView.qml
++++ b/qml/PageView.qml
 @@ -49,6 +49,7 @@ Rectangle {
      property alias count: pathView.count
  
