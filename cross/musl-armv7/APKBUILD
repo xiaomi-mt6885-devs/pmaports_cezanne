@@ -8,7 +8,7 @@ fi
 
 pkgname=musl-armv7
 pkgver=1.2.3
-pkgrel=0
+pkgrel=1
 arch="x86_64"
 subpackages="musl-dev-armv7:package_dev"
 
@@ -23,8 +23,8 @@ pkgdesc="the musl library (lib c) implementation for $_arch"
 _target="$(arch_to_hostspec $_arch)"
 
 source="
-	musl-$pkgver-r$pkgrel-$_arch-edge.apk::$_mirror/edge/main/$_arch/musl-$pkgver-r$pkgrel.apk
-	musl-dev-$pkgver-r$pkgrel-$_arch-edge.apk::$_mirror/edge/main/$_arch/musl-dev-$pkgver-r$pkgrel.apk
+	musl-$pkgver-r$pkgrel-$_arch-edge.apk::$_mirror/v3.16/main/$_arch/musl-$pkgver-r$pkgrel.apk
+	musl-dev-$pkgver-r$pkgrel-$_arch-edge.apk::$_mirror/v3.16/main/$_arch/musl-dev-$pkgver-r$pkgrel.apk
 "
 
 package() {
@@ -57,6 +57,6 @@ package_dev() {
 }
 
 sha512sums="
-88b034bc37d800e0f279437a1a1a5973e994873ab0e44d372ac6cd49c999d6c1f834266d646fb17777d9a018a9bfd0cc9346d7525d1726ffe96cc56096d70281  musl-1.2.3-r0-armv7-edge.apk
-c865bde907a17accf33a4cd7b8caad496c510b3227d8cf5e12a597613df7a629778eb08a32692e67bfead3422a2add2833e4e49df1e970d2067c2f65a372dc46  musl-dev-1.2.3-r0-armv7-edge.apk
+c1f047e3a491bcbcf3c476d8cd21c6fadd68f986d580a7dd41be881bbe8c34689ea951f93365ab0ee01281cd2498a59a5c959c992adcdfb9dddb56b8c1983954  musl-1.2.3-r1-armv7-edge.apk
+be0f555e1d1141055832b6af868b48cc89968c3a82e7cd024a2ea5f70f2672c01fc280a2f4deee8a0e2bd7fa64ad70a4a3d14436500c485ce6b24e12d5a6fef0  musl-dev-1.2.3-r1-armv7-edge.apk
 "

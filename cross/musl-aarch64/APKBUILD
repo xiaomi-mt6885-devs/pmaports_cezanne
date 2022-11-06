@@ -8,7 +8,7 @@ fi
 
 pkgname=musl-aarch64
 pkgver=1.2.3
-pkgrel=0
+pkgrel=1
 arch="x86_64"
 subpackages="musl-dev-aarch64:package_dev"
 
@@ -23,8 +23,8 @@ pkgdesc="the musl library (lib c) implementation for $_arch"
 _target="$(arch_to_hostspec $_arch)"
 
 source="
-	musl-$pkgver-r$pkgrel-$_arch-edge.apk::$_mirror/edge/main/$_arch/musl-$pkgver-r$pkgrel.apk
-	musl-dev-$pkgver-r$pkgrel-$_arch-edge.apk::$_mirror/edge/main/$_arch/musl-dev-$pkgver-r$pkgrel.apk
+	musl-$pkgver-r$pkgrel-$_arch-edge.apk::$_mirror/v3.16/main/$_arch/musl-$pkgver-r$pkgrel.apk
+	musl-dev-$pkgver-r$pkgrel-$_arch-edge.apk::$_mirror/v3.16/main/$_arch/musl-dev-$pkgver-r$pkgrel.apk
 "
 
 package() {
@@ -57,6 +57,6 @@ package_dev() {
 }
 
 sha512sums="
-a21d0c879f36c42da82c384403bb31a9562521a7a68b965d3fab6fcf133734ee93fccc6dc5131b99c54c7eb6fbe4329829b915bb801e6ac602d4091617ac03ed  musl-1.2.3-r0-aarch64-edge.apk
-a5742520f5a8aaf3fea931697126b777fed7a58d08be64e30e5ea2dfde571d7b317e40f4fea31979325d9c1d407c18a46cb354483aa906dae08301e563db5f4f  musl-dev-1.2.3-r0-aarch64-edge.apk
+d03bc574fabe04358a51cb06565770ed7a8731cc6f2e3c41e7c11d2acb971c8aa9ce67446107162c938665311147133330e232ad685f1f8a829931d8a0ba6042  musl-1.2.3-r1-aarch64-edge.apk
+36ce45d6877b0b3c292f98d1f47a6b5f207fd38e2ae44a621551e6d4953cbfbb0478aa4961ecda3dbb0bf62e5038e1648be2c461250d05632e2d2f32272cb4ad  musl-dev-1.2.3-r1-aarch64-edge.apk
 "
