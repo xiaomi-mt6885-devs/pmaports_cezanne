@@ -35,10 +35,18 @@ build() {
 	unset LDFLAGS
 	make ARCH="$_carch" CC="${CC:-gcc}" \
 		KBUILD_BUILD_VERSION="$((pkgrel + 1 ))-postmarketOS"
+	make ARCH="$_carch" CC="${CC:-gcc}" CFLAGS_MODULE="-fno-pic" \
+    	KBUILD_BUILD_VERSION="$((pkgrel + 1 ))-postmarketOS" modules
 }
 
 package() {
 	downstreamkernel_package "$builddir" "$pkgdir" "$_carch" "$_flavor"
+	cd "$builddir"
+	unset LDFLAGS
+	make ARCH="$_carch" CC="${CC:-gcc}" \
+		KBUILD_BUILD_VERSION="$((pkgrel + 1))-postmarketOS" \
+		INSTALL_MOD_PATH="$pkgdir" INSTALL_MOD_STRIP=1 \
+		modules_install
 }
 
 sha512sums="d7a290e676aa40d35289cedbad5dd077accff4e1a2467223765a79f101ff4c1313315cbffd574ad74c648c4b8f5751d16a1fa1607c9939b373d3f2974a7b2326  linux-xiaomi-santoni-2dd8017f40290eb326e352cca254cd8bdd1614c9.tar.gz
