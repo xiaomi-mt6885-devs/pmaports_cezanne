@@ -1,0 +1,65 @@
+# Contributor: The one with the braid <the-one@with-the-braid.cf>
+# Maintainer: The one with the braid <the-one@with-the-braid.cf>
+pkgname=fluffychat
+pkgver=1.6.2
+pkgrel=0
+_pkgver="1.6.2"
+_pkgver_images_vendor="1.6.2"
+pkgdesc="Open. Nonprofit. Cute. Easy to use (matrix) messenger. Secure and decentralized."
+url="https://gitlab.com/famedly/fluffychat"
+# Only x86_64 and aarch64 supported upstream
+arch="x86_64 aarch64"
+license="AGPL-3"
+depends="olm"
+# as it unfortunately relies on external binaries, skip strip and check
+options="!strip !check !tracedeps" # pmb:cross-native"
+source="
+	https://gitlab.com/api/v4/projects/16112282/packages/generic/fluffychat/$_pkgver/fluffychat-linux-x86.tar.gz
+	https://gitlab.com/api/v4/projects/16112282/packages/generic/fluffychat/$_pkgver/fluffychat-linux-arm64.tar.gz
+	"
+case "$CARCH" in
+	aarch64) _imgarch="arm64" ;;
+	x86_64) _imgarch="x86" ;;
+esac
+
+unpack() {
+	mkdir "$srcdir/$pkgname"
+	tar -xf "$srcdir"/fluffychat-linux-$_imgarch.tar.gz -C "$srcdir/$pkgname"
+}
+
+package() {
+	mkdir -p "$pkgdir"/usr/lib/fluffychat
+	# install
+
+	install -dm755 $pkgdir/usr/lib/$pkgname/
+	mv $srcdir/$pkgname/$pkgname $pkgdir/usr/lib/$pkgname/
+	mv $srcdir/$pkgname/data $pkgdir/usr/lib/$pkgname/
+	mv $srcdir/$pkgname/lib $pkgdir/usr/lib/$pkgname/
+
+	# link
+	install -dm755 $pkgdir/usr/bin
+	ln -s /usr/lib/$pkgname/$pkgname $pkgdir/usr/bin/$pkgname
+
+	# icon
+	install -Dm 644 $pkgdir/usr/lib/$pkgname/data/flutter_assets/assets/favicon.png $pkgdir/usr/share/pixmaps/$pkgname.png
+
+	# desktop entry
+
+	install -dm 755 "$pkgdir/usr/share/applications"
+	cat > $pkgdir/usr/share/applications/$pkgname.desktop << EOF
+[Desktop Entry]
+Type=Application
+Version=$pkgver
+Name=FluffyChat
+Comment=Matrix Client. Chat with your friends
+Exec=/usr/lib/$pkgname/$pkgname
+Icon=$pkgname
+Terminal=false
+EOF
+
+}
+
+sha512sums="
+9a79d6d2372d4d89c0b83a5dcead668ff8071374b65400458df394315f10dbc079e2d43df1430b3b5b6b406e0ce966353b83341949a67f7fa4fcf0e56b7fc053  fluffychat-linux-x86.tar.gz
+8132fab6717c3a17e81a9f44db046f81d2a17f3da574c9e572c114fec9ae60c6a831b5cb74a95bfb13e1f05b75dec2e8df338d6a0b1d6f33513927d46e6592c2  fluffychat-linux-arm64.tar.gz
+"
