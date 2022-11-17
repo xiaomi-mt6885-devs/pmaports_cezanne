@@ -3,7 +3,7 @@
 # global settings
 image: alpine:latest
 after_script:
-  - .ci/move_logs.sh $CI_PROJECT_DIR
+  - .ci/lib/move_logs.sh $CI_PROJECT_DIR
 stages:
   - lint
   - build
@@ -31,13 +31,12 @@ wiki:
       - merge_requests
     changes:
       - device/*/device-*/*
-  before_script:
-    - apk -q add python3
   script:
-    - .ci/check_devices_in_wiki.py --booting
+    - .ci/lib/gitlab_prepare_ci.sh
+    - .ci/wiki.sh
 
 # testcases linting
-testcases-linting:
+flake8:
   stage: lint
   <<: *only-default
   only:
@@ -49,38 +48,35 @@ testcases-linting:
   before_script:
     - apk -q add py-flake8
   script:
-    - flake8 --ignore E501,F401,E722,W504,W605
+    - .ci/lib/gitlab_prepare_ci.sh
+    - .ci/flake8.sh
 
-# shellcheck
-shellcheck:
+# shellcheck and various grep checks
+shellcheck-grep:
   stage: lint
   <<: *only-default
   image: alpine:edge
-  before_script:
-    - apk -q add shellcheck
   script:
+    - .ci/lib/gitlab_prepare_ci.sh
     - .ci/shellcheck.sh
+    - .ci/grep.sh
 
 editor-config:
   stage: lint
   <<: *only-default
   image: alpine:edge
-  before_script:
-    - apk -q add editorconfig-checker
   script:
-    - ec
+    - .ci/lib/gitlab_prepare_ci.sh
+    - .ci/ec.sh
 
 # aports checks (generic)
-aports-static:
+pytest-commits:
   stage: lint
   <<: *only-default
-  before_script:
-    - wget "https://gitlab.com/postmarketOS/ci-common/-/raw/master/install_pmbootstrap.sh"
-    - sh ./install_pmbootstrap.sh pytest
   script:
-    - su pmos -c ".ci/run_testcases.sh"
-    - su pmos -c ".ci/check_changed_aports_versions.py"
-    - su pmos -c ".ci/check-dtb-install-location.sh"
+    - .ci/lib/gitlab_prepare_ci.sh
+    - .ci/pytest.sh
+    - .ci/commits.sh
   artifacts:
     when: on_failure
     paths:
@@ -89,26 +85,12 @@ aports-static:
       - pmbootstrap.cfg
     expire_in: 1 week
 
-distfile-check:
-  stage: lint
-  <<: *only-default
-  before_script:
-    - apk -q add make findutils
-    - wget "https://gitlab.com/postmarketOS/ci-common/-/archive/master/ci-common-master.tar.bz2"
-    - tar -xf ci-common-master.tar.bz2
-    - mv ci-common-master/distfile-check/*.sh ci-common-master/distfile-check/Makefile .
-    - rm -r ci-common-master ci-common-master.tar.bz2
-  script:
-    - make -j999
-
 # APKBUILD linting
 aport-lint:
   stage: lint
-  before_script:
-    - wget "https://gitlab.com/postmarketOS/ci-common/-/raw/master/install_pmbootstrap.sh"
-    - sh ./install_pmbootstrap.sh
   script:
-    - su pmos -c ".ci/apkbuild-linting.py"
+    - .ci/lib/gitlab_prepare_ci.sh
+    - .ci/apkbuild-lint.sh
   only:
     - merge_requests
   allow_failure: true
@@ -123,11 +105,9 @@ kernel-kconfig:
     changes:
       - device/*/linux-*/config-*
       - main/linux-*/config-*
-  before_script:
-    - wget "https://gitlab.com/postmarketOS/ci-common/-/raw/master/install_pmbootstrap.sh"
-    - sh ./install_pmbootstrap.sh pytest
   script:
-    - su pmos -c "pmbootstrap kconfig check"
+    - .ci/lib/gitlab_prepare_ci.sh
+    - .ci/kconfig.sh
 
 # MR settings
 # (Checks for "Allow commits from members who can merge to the target branch")
@@ -146,10 +126,8 @@ mr-settings:
   stage: build
   <<: *only-default
   before_script:
-    - wget "https://gitlab.com/postmarketOS/ci-common/-/raw/master/install_pmbootstrap.sh"
-    - sh ./install_pmbootstrap.sh
-  script:
-    - .ci/build.sh
+    - .ci/lib/gitlab_prepare_ci.sh
+  after_script:
     - cp -r /home/pmos/.local/var/pmbootstrap/packages/ packages/ || true
   artifacts:
     expire_in: 1 week
@@ -159,18 +137,30 @@ mr-settings:
 
 build-x86_64:
   extends: .build
+  script:
+    - .ci/build-x86_64.sh
 
 build-x86:
   extends: .build
+  script:
+    - .ci/build-x86.sh
 
 build-aarch64:
   extends: .build
+  script:
+    - .ci/build-aarch64.sh
 
 build-armv7:
   extends: .build
+  script:
+    - .ci/build-armv7.sh
 
 build-armhf:
   extends: .build
+  script:
+    - .ci/build-armhf.sh
 
 build-riscv64:
   extends: .build
+  script:
+    - .ci/build-riscv64.sh
