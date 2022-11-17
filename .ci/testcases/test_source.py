@@ -1,11 +1,13 @@
 #!/usr/bin/env python3
-# Copyright 2021 Oliver Smith
+# Copyright 2022 Oliver Smith
 # SPDX-License-Identifier: GPL-3.0-or-later
+# Various checks on source= in the APKBUILDs
 
 import glob
+import logging
+import os
 import pytest
 import sys
-import os
 
 import add_pmbootstrap_to_import_path
 import pmb.parse
@@ -21,12 +23,13 @@ def parse_source_from_checksums(args, apkbuild_path):
     to parse shell code (like in postmarketos-base).
 
     :param apkbuild_path: full path to the APKBUILD
-    :returns: list of parsed "source" files, e.g.:
-              ["first.patch", "second.patch"]
+    :returns: dict of parsed "source" filenames and checksums, e.g.:
+              {"first.patch": "b4dc4f3…",
+               "second.patch": "b4dc4f3…"}
     """
     start = 'sha512sums="'
     in_block = False
-    ret = []
+    ret = {}
 
     with open(apkbuild_path, encoding="utf-8") as handle:
         for line in handle.readlines():
@@ -43,18 +46,21 @@ def parse_source_from_checksums(args, apkbuild_path):
                 continue
 
             try:
-                _, filename = line.rstrip().split("  ", 2)
+                checksum, filename = line.rstrip().split("  ", 2)
             except ValueError:
                 raise ValueError("Failed to parse checksums. Try to delete the"
                                  " checksums and generate them again with"
                                  f" 'pmbootstrap checksum': {apkbuild_path}")
 
+            # Cut off 'sha512sums="' if the first checksum is in that line
+            if checksum.startswith(start):
+                checksum = checksum[len(start):]
+
             # Find end
             if filename.endswith('"'):
-                ret += [filename[:-1]]
-                break
+                filename = filename[:-1]
 
-            ret += [filename]
+            ret[filename] = checksum
     return ret
 
 
@@ -97,3 +103,50 @@ def test_aports_unreferenced_files(args):
                     and rel_file_path not in subpackage_installs \
                     and rel_file_path not in trigger_sources:
                 raise RuntimeError(f"{apkbuild_path}: found unreferenced file: {rel_file_path}")
+
+
+def test_distfiles_conflict(args):
+    """
+    Make sure that each filename mentioned in any source= of any APKBUILD
+    always has the same checksum. This is important because apk caches
+    downloaded source files in a flat distfiles directory. So if two APKBUILDs
+    both download a file with the same filename but different checksum, and the
+    user builds both after each other, abuild will fail on the second build
+    with a checksum error.
+    """
+    source_all = {}
+    for apkbuild_path in glob.iglob(f"{args.aports}/**/APKBUILD", recursive=True):
+        source = parse_source_from_checksums(args, apkbuild_path)
+        dir_path = os.path.dirname(apkbuild_path)
+        apkbuild_rel = os.path.relpath(apkbuild_path, args.aports)
+        for filename, checksum in source.items():
+            # Files bundled with the APKBUILD don't get copied to the distfiles
+            # cache, so not relevant for this check. Use glob.glob here and not
+            # iglob, because we don't want an iterator.
+            if glob.glob(f"{dir_path}/**/{filename}", recursive=True):
+                continue
+
+            # First time seeing this file
+            if filename not in source_all:
+                source_all[filename] = {"checksum": checksum,
+                                        "apkbuild_rel": apkbuild_rel}
+                continue
+
+            # Saw this file already with same checksum
+            if checksum == source_all[filename]["checksum"]:
+                continue
+
+            # Saw this file already with different checksum
+            logging.error("")
+            logging.error(f"ERROR: the source file '{filename}' has different"
+                          " checksums in the following files:")
+            logging.error(f"- {source_all[filename]['apkbuild_rel']}:")
+            logging.error(f"  {source_all[filename]['checksum']}")
+            logging.error(f"- {apkbuild_rel}:")
+            logging.error(f"  {checksum}")
+            logging.error("")
+            logging.error("Fix this by setting a different target filename in"
+                          " the package you modified:")
+            logging.error("https://wiki.alpinelinux.org/wiki/APKBUILD_Reference#source")
+            logging.error("")
+            raise RuntimeError(f"Conflict with source file '{filename}'")
