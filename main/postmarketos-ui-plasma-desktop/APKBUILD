@@ -20,6 +20,7 @@ _pmb_recommends="
 	dolphin
 	ffmpegthumbs
 	firefox
+	fwupd
 	gwenview
 	kate
 	kdialog
@@ -40,6 +41,11 @@ _pmb_recommends="
 	print-manager
 	qt5-qtvirtualkeyboard
 	spectacle
+	"
+# For the KInfocenter page in system settings
+_pmb_recommends="$_pmb_recommends
+	aha
+	pciutils
 	"
 install="$pkgname.post-install $pkgname.post-upgrade"
 options="!check" # No tests for a metapkg
