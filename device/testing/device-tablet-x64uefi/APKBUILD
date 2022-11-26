@@ -2,17 +2,25 @@
 pkgname=device-tablet-x64uefi
 pkgdesc="Various tablets with atom CPU"
 pkgver=0.4
-pkgrel=0
+pkgrel=1
 url="https://postmarketos.org"
 license="MIT"
 arch="x86_64"
 # pmb:strict: avoid grub-related install error during build with pmbootstrap
 options="!check !archcheck pmb:strict"
-depends="postmarketos-base"
-makedepends="devicepkg-dev grub grub-efi"
+depends="
+	postmarketos-base
+	"
+makedepends="
+	devicepkg-dev
+	grub
+	grub-efi
+	"
 subpackages="
+	$pkgname-libva
 	$pkgname-kernel-lts:kernel_lts
 	$pkgname-kernel-edge:kernel_edge
+	$pkgname-vulkan
 	"
 source="
 	deviceinfo
@@ -59,6 +67,12 @@ package() {
 		"$pkgdir"/boot/EFI/Boot/bootx64.efi
 }
 
+libva() {
+	install_if="$pkgname libva"
+	depends="intel-media-driver libva-intel-driver"
+	mkdir "$subpkgdir"
+}
+
 kernel_edge() {
 	pkgdesc="Alpine Edge kernel"
 	depends="linux-edge"
@@ -75,6 +89,12 @@ kernel_lts() {
 
 	install -Dm644 "$srcdir"/grub_lts.cfg \
 		"$pkgdir"/boot/grub/grub.cfg
+}
+
+vulkan() {
+	install_if="$pkgname vulkan-loader"
+	depends="mesa-vulkan-intel"
+	mkdir "$subpkgdir"
 }
 
 sha512sums="
