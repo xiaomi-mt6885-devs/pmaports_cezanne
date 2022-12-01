@@ -2,7 +2,7 @@
 # Maintainer: Miles Alan <m@milesalan.com>
 pkgname=postmarketos-ui-sxmo-de-sway
 pkgver=1.11.1
-pkgrel=1
+pkgrel=2
 pkgdesc="Simple Mobile: Mobile environment based on SXMO and running on sway"
 url="http://sr.ht/~mil/Sxmo"
 arch="noarch !armhf"
@@ -51,12 +51,12 @@ provider_priority=10
 options="!check" # has no tests
 
 # bonsai requires hare which doesnt work on all arches
-# refer to https://pkgs.alpinelinux.org/packages?name=hare&branch=edge&repo=&arch=&maintainer=
+# refer to https://pkgs.alpinelinux.org/packages?name=hare&branch=v3.17&repo=&arch=&maintainer=
 # and add arches here as they become available. Bonsai should always be preferred
 # cause it fixes alot of issues. If bonsai is not installed, sxmo will fallback
 # to the old buggy shell script.
 case "$CARCH" in
-	x86_64|aarch64)
+	x86_64)
 		depends="$depends bonsai"
 	;;
 esac
