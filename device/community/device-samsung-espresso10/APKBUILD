@@ -1,9 +1,8 @@
 # Maintainer: Mighty17 <mightymb17@gmail.com>
-# Co-Maintainer: Antoni Aloy <aaloytorrens@gmail.com>
 # Reference: <https://postmarketos.org/devicepkg>
-pkgname=device-samsung-espresso3g
-pkgdesc="Samsung Galaxy Tab 2 (7.0 inch)"
-pkgver=3.1
+pkgname=device-samsung-espresso10
+pkgdesc="Samsung Galaxy Tab 2 (10.1 inch)"
+pkgver=1
 pkgrel=0
 url="https://postmarketos.org"
 license="MIT"
@@ -24,10 +23,10 @@ package() {
 
 nonfree_firmware() {
 	pkgdesc="$pkgdesc (WiFi firmware)"
-	depends="firmware-samsung-espresso3g"
+	depends="firmware-samsung-espresso"
 	mkdir "$subpkgdir"
 }
 
 sha512sums="
-641b86a92f203784852202165871d316c5fdd071c5069e23e76e95a9e9800ea7860a5022b9456c9632ff9aabf1af67e0c7db2bd777f81577d8969f7a3087358b  deviceinfo
+e0f270451abf1d3b67dad9f7a46cd399e08c74c52ac152dfffde46ec3151ef44982302d53e58dc48fd24e5a01f5796d36fc22a85d182bc0df8eaf3f880025579  deviceinfo
 "
