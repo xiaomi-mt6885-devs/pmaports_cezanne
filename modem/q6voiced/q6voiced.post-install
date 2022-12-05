@@ -1,0 +1,6 @@
+#!/bin/sh
+
+addgroup -S q6voiced 2>/dev/null
+adduser -S -D -H -s /sbin/nologin -g "Q6Voiced daemon" -G q6voiced q6voiced 2>/dev/null
+adduser q6voiced audio 2>/dev/null
+adduser q6voiced plugdev 2>/dev/null
