@@ -3,7 +3,7 @@
 # Co-Maintainer: Alistair Francis <alistair@alistair23.me>
 pkgname=device-purism-librem5
 pkgdesc="Purism Librem 5 Phone"
-pkgver=1.38
+pkgver=1.39
 pkgrel=0
 _confver=54
 _purismrel=1
@@ -45,6 +45,8 @@ source="
 	l5-lockdown-support.initd
 	org.freedesktop.GeoClue2.service
 	brcmfmac-no-powersave.conf
+	l5-xhci-reset
+	70-l5-xhci-bus-recover.rules
 "
 subpackages="
 	$pkgname-geoclue
@@ -177,6 +179,12 @@ package() {
 		-t "$pkgdir"/etc/NetworkManager/conf.d
 
 	devicepkg_package $startdir $pkgname
+
+	# ugly workaround for: https://source.puri.sm/Librem5/linux/-/issues/303
+	install -Dm755 "$srcdir/"l5-xhci-reset \
+		-t "$pkgdir"/usr/sbin
+	install -Dm644 "$srcdir"/70-l5-xhci-bus-recover.rules \
+		-t "$pkgdir"/usr/lib/udev/rules.d
 }
 
 nonfree_firmware() {
@@ -204,4 +212,6 @@ c723764d507ccd4b04aa5ce79b1d1ebc131873cdc37a943cb0f92b8a08a3c69eb9e0d31fcd4589fd
 f4b314d553655f7975445ac0a33099923e20dabb082c07e2cf6a78e4118c143d777dd4ad2c09cbc388600bdefe8deb3073fbd15b238772ddf09c66ac46415590  l5-lockdown-support.initd
 fd91bcd8cecd509587f0a26d454157a1df094d2d86c75329d1002e9474946494d4d1b5407e055fbd5f21e22394eeb1bbd4b3439ae6925db50a3427b4fac101cf  org.freedesktop.GeoClue2.service
 7e679cbd0970d017790e4217a027128a0c99c20a1b757cbce49d92eb0df9fa54148017313dc27bcd1029ab6c904f98c5c4032a1f5db7849401a55cb2e564add1  brcmfmac-no-powersave.conf
+539d62447ef967bea5a2e030eabcbd6017d3df5de6640e6ee3dcc702935ae11ef8ef65209ba7a0b663a31fa66ffbae90e9c74ff8b35b017e12f82c9d7115ce92  l5-xhci-reset
+8dd78dba9b908cc3038a285562bb418b8b7a1086f686de47245ca979c1b3d778fbfcec443efbea146c917d4d020d48f7e906ba19f1b478525350b870e35f10bd  70-l5-xhci-bus-recover.rules
 "

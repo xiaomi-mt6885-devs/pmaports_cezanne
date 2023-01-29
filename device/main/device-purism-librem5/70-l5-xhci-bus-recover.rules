@@ -1,0 +1,1 @@
+SUBSYSTEM=="platform", DEVPATH=="/devices/platform/soc@0/38200000.usb/xhci-hcd.4.auto", ACTION=="remove", RUN+="/usr/sbin/l5-xhci-reset"

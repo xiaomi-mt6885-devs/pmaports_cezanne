@@ -1,0 +1,12 @@
+#!/bin/sh
+
+set -x
+rmmod xhci_plat_hcd xhci_hcd
+
+echo 0 > /sys/class/leds/wwan_en/brightness
+
+sleep 2
+modprobe xhci_plat_hcd
+sleep 2
+
+echo 1 > /sys/class/leds/wwan_en/brightness
