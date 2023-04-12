@@ -1,0 +1,38 @@
+# Reference: <https://postmarketos.org/devicepkg>
+pkgname=device-lenovo-yoga-c630
+pkgdesc="Lenovo Yoga C630"
+pkgver=1
+pkgrel=0
+url="https://postmarketos.org"
+license="MIT"
+arch="aarch64"
+options="!check !archcheck"
+depends="postmarketos-base
+	linux-postmarketos-qcom-sdm845
+	soc-qcom-sdm845
+	systemd-boot
+"
+makedepends="devicepkg-dev grub grub-efi"
+subpackages="$pkgname-nonfree-firmware:nonfree_firmware"
+source="
+	deviceinfo
+"
+
+build() {
+	devicepkg_build $startdir $pkgname
+}
+
+package() {
+	devicepkg_package $startdir $pkgname
+}
+
+nonfree_firmware() {
+	pkgdesc="Modem, WiFi, GPU and other device-specific firmware"
+	depends="firmware-lenovo-yoga-c630
+		 soc-qcom-sdm845-nonfree-firmware"
+	mkdir "$subpkgdir"
+}
+
+sha512sums="
+f6218ea9875836b9ad285db0bb8a3c1e116b73d2f745767f9445fd802266ffb11a48d9bb91e67c0895cd444ba3404178b0ee976edf90b18595207e16f1d15259  deviceinfo
+"
