@@ -1,0 +1,36 @@
+# Maintainer: Petr Hodina <phodina@protonmail.com>
+pkgname=amlogic-usbdl-payload-s905-s905x-s905w
+pkgver=0_git20231903
+_commit="7e4e405a91b89f94a00e5da20c57da891c5c0cbd"
+pkgrel=0
+pkgdesc="Dump Bootrom BL1"
+url="https://github.com/Raxone/amlogic-usbdl_s905_s905x_s905w"
+arch="aarch64"
+license="GPL-3.0-or-later"
+source="$pkgname-$_commit.tar.gz::https://github.com/Raxone/amlogic-usbdl_s905_s905x_s905w/archive/$_commit.tar.gz"
+builddir="$srcdir/amlogic-usbdl_s905_s905x_s905w-$_commit/payloads/"
+options="!check" # No tests
+
+build() {
+	export CROSS_COMPILER=""
+	cd s905/src
+	make
+	cd ../../s905w/src
+	make
+	cd ../../s905x-h/src
+	make
+	cd ../..
+}
+
+package() {
+	install -Dm644 s905/src/memdump_BL1.bin "$pkgdir"/usr/share/"$pkgname"/s905
+	install -Dm644 s905/src/memdump_efuse.bin "$pkgdir"/usr/share/"$pkgname"/s905
+
+	install -Dm644 s905w/src/memdump_BL1.bin "$pkgdir"/usr/share/"$pkgname"/s905w
+	install -Dm644 s905w/src/memdump_efuse.bin "$pkgdir"/usr/share/"$pkgname"/s905w
+
+	install -Dm644 s905x-h/src/memdump_BL1.bin "$pkgdir"/usr/share/"$pkgname"/s905x-h
+	install -Dm644 s905x-h/src/memdump_efuse.bin "$pkgdir"/usr/share/"$pkgname"/s905x-h
+}
+
+sha512sums="45d47d378f4a1a9425331fc0b8c7b7cc94cff815536400b1334de658bec115ab7d2fdd01e2af3cf50502bbfe39b534b2813f8b9ca38fc2b46cb59b6de96ff9a3  amlogic-usbdl-payload-s905-s905x-s905w-7e4e405a91b89f94a00e5da20c57da891c5c0cbd.tar.gz"
