@@ -1,0 +1,23 @@
+# Maintainer: Petr Hodina <phodina@protonmail.com>
+pkgname=amlogic-usbdl
+pkgver=0_git20222708
+_commit="fb99cfe359118e6619d03cbce9e32d724671f4d1"
+pkgrel=0
+pkgdesc="Dump Bootrom BL1 from AMlogic devices"
+url="https://github.com/frederic/amlogic-usbdl"
+arch="all"
+makedepends="libusb-dev"
+license="GPL-3.0-or-later"
+source="$pkgname-$_commit.tar.gz::https://github.com/frederic/amlogic-usbdl/archive/$_commit.tar.gz"
+builddir="$srcdir/amlogic-usbdl-$_commit"
+options="!check" # No tests
+
+build() {
+	make
+}
+
+package() {
+	install -Dm755 amlogic-usbdl "$pkgdir"/usr/bin
+}
+
+sha512sums="8c5d55f4679220e37869a0a7a3c20b38d54df4c19b7679075183157f0c6971a035d19493cb66ce73ffe26eb0cb73be46aff9ad36a9e25ad56aeed29941fd04e1  amlogic-usbdl-fb99cfe359118e6619d03cbce9e32d724671f4d1.tar.gz"
