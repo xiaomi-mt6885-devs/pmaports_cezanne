@@ -3,7 +3,7 @@
 pkgname=device-librecomputer-lepotato
 pkgdesc="Libre Computer AML-S905X-CC-V1.0"
 pkgver=0.1
-pkgrel=0
+pkgrel=1
 url="https://postmarketos.org"
 license="MIT"
 arch="aarch64"
@@ -15,11 +15,17 @@ depends="
 	u-boot-librecomputer-lepotato
 "
 makedepends="devicepkg-dev"
+
+_ucm_commit="465b5d8f79dfa962b442451baeedb37269f057f1"
 source="
 	deviceinfo
 	modules-initfs
+	alsa-ucm-conf-$_ucm_commit::https://github.com/libre-computer-project/alsa-ucm-conf/archive/$_ucm_commit.zip
 "
-subpackages="$pkgname-nonfree-firmware:nonfree_firmware"
+subpackages="
+	$pkgname-nonfree-firmware:nonfree_firmware
+	$pkgname-ucm:ucm
+"
 
 build() {
 	devicepkg_build $startdir $pkgname
@@ -35,7 +41,16 @@ nonfree_firmware() {
 	mkdir "$subpkgdir"
 }
 
+ucm() {
+	provides="alsa-ucm-conf"
+	provider_priority=1
+
+	mkdir -p "$subpkgdir"/usr/share/alsa/ucm2
+	cp -r "$srcdir/alsa-ucm-conf-$_ucm_commit"/ucm2 "$subpkgdir"/usr/share/alsa
+}
+
 sha512sums="
 20bac100d75b678654e8e2695f9621032fd8e397c3e8adeecee21713ff20e24443327c4a2d14bd7a4ab8489aff926f950963c01d66367942f7a53edc1acdc885  deviceinfo
 52948c2884a6f6384e12b7a598f70878526d0d3293c214425170145231144ec7de805c038641741a4a5d75b50e554f6a3fa3769784a674217ed032f9b6a233c8  modules-initfs
+1dbed660a638ecae6b25203d3a6461dd00647ef88b074c1e842fcc3fa38b42ca16b1de4de861e0a24d5efd3f4a4f22e5915cdedceae2bd09ca9185d501576494  alsa-ucm-conf-465b5d8f79dfa962b442451baeedb37269f057f1
 "
