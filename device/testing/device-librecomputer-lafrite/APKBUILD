@@ -3,12 +3,13 @@
 pkgname=device-librecomputer-lafrite
 pkgdesc="Libre Computer AML-S805X-AC-V1.0"
 pkgver=0.1
-pkgrel=0
+pkgrel=1
 url="https://postmarketos.org"
 license="MIT"
 arch="aarch64"
 options="!check !archcheck"
 depends="
+	device-librecomputer-lepotato-ucm
 	linux-postmarketos-amlogic
 	postmarketos-base
 	soc-amlogic-s905
