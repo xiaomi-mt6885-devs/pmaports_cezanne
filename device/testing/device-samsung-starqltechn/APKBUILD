@@ -1,15 +1,24 @@
 # Reference: <https://postmarketos.org/devicepkg>
 pkgname=device-samsung-starqltechn
 pkgdesc="Samsung Galaxy S9 SM-G9600"
-pkgver=0.2
-pkgrel=2
+pkgver=0.3
+pkgrel=0
 url="https://postmarketos.org"
 license="MIT"
 arch="aarch64"
 options="!check !archcheck"
 depends="postmarketos-base linux-postmarketos-qcom-sdm845 mkbootimg u-boot-starqltechn u-boot-tools dtc"
 makedepends="devicepkg-dev dtc"
-source="deviceinfo boot_image.its payload_mock.dts bootscript.sh"
+source="
+	android_boot_image.its
+	boot_image.its
+	bootscript.sh
+	bootscript_android.sh
+	deviceinfo
+	find_image_and_boot.its
+	find_image_and_boot.sh
+	payload_mock.dts
+"
 
 build() {
 	devicepkg_build $startdir $pkgname
@@ -27,12 +36,20 @@ package() {
 		"$pkgdir"/usr/share/u-boot/starqltechn/
 	install -D -m644 "$srcdir/"bootscript.sh \
 		"$pkgdir"/usr/share/u-boot/starqltechn/
+	install -D -m644 "$srcdir/"bootscript_android.sh \
+		"$pkgdir"/usr/share/u-boot/starqltechn/
+	install -D -m644 "$srcdir/"find_image_and_boot.sh \
+		"$pkgdir"/usr/share/u-boot/starqltechn/
 }
 
 
 sha512sums="
-1a51b1a75a7ab23b0011d2952e716b6d98a3a395578a99e278d8eda4c921ce015ce1f0e386a88b89e9f657edc867f00fffd11e550a91ec9ede2769d8cbfd1718  deviceinfo
+31dc6cf933881ac4f9512d3e78e73c151420a307058227028c4a62f8121d6b37d0f89eb9ffa3d871a0cc50767ca1ee16e0167e82021ba61562222e94969c233b  android_boot_image.its
 8ecd6621738b14fecfb8bb32f06fa86053649f46d6ef7e50cdc6dd44175d459a8b5f185e0b1d6168d23d6b8474ea31ae9aaf306385eb106df6489e6838b4fbe1  boot_image.its
+0b70e43e7a0d27f04fa82bcf4f6c787f28741ac02ef24baf76eddc55e09cb98022631ba1f55301074dc60dd4333995a60570ad409fe9b264b3e3d4cc4de26e6f  bootscript.sh
+a7d41523cd6cdab5b3904ab0d83647f4b5d70c49c8ae39792903b107a62a37c7094d7c4d37ded210a53c1795f3e3a8771cec8a0fc50648f72c47e57889d9db6f  bootscript_android.sh
+c6df794c1da78d8ab0d5ddf31a7591d6fb98d15a5c72e9b335c1c21004ef78648b1b8b18c3c960fed80dc698494f8d00e2d12ec0af60820d3ddce99824dea0b3  deviceinfo
+26bb890f50b6430917bb0c79fe198aa2ca8e36c618560d3867f3135bec57fd8b2dd6467c7e5d9389ac8159ccbe24f629a9c845488741fba2aa53e38b7887f6a1  find_image_and_boot.its
+072bf1f3110ba57c8ee8a60c5698d0c4418c1adb7ceda894e700a098132be5b3db32e56d195022e0f059e23f7d55b7c983c611919c7ea056818a4f272e56f108  find_image_and_boot.sh
 ba782c324c14cf0947c752b51a607ae1b08def885b0cf0afe89d1fcade3491ab2f547551eb08bd8074f608dac46bdcdf75c5c633bd7a15e6eb63a10f30994c82  payload_mock.dts
-fc9a353946a061b964b8d85ba40a55aabd5dc51ad079ce9013473fb2031f2bea7f987dc437f3e7b515e7f1eccc16c7ba0c616926f59f98382b1193e6875b50f3  bootscript.sh
 "

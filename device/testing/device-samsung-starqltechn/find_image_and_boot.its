@@ -1,0 +1,32 @@
+/dts-v1/;
+
+/ {
+        description = "Samsung S9 SM-G9600 starqltechn boot script";
+        #address-cells = <1>;
+
+        images {
+                bootscript {
+                        description = "Boot script";
+                        data = /incbin/("find_image_and_boot.sh");
+                        type = "script";
+                        compression = "none";
+                        load = <0x90000000>;
+                        entry = <0x90000000>;
+                        hash {
+                                algo = "sha1";
+                        };
+                };
+
+                 prebootscript {
+                         description = "pre boot script";
+                         data = /incbin/("find_image_and_boot.sh");
+                         type = "script";
+                         compression = "none";
+                         load = <0x90000000>;
+                         entry = <0x90000000>;
+                         hash {
+                                 algo = "sha1";
+                         };
+                 };
+        };
+};

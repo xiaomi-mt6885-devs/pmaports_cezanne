@@ -29,6 +29,7 @@ sh_files="
 	./main/unl0kr/unlock.sh
 	./main/msm-firmware-loader/*.post-install
 	./device/community/soc-qcom-sdm845/call_audio_idle_suspend_workaround.sh
+	./device/testing/device-samsung-starqltechn/*.sh
 
 	$(find . -path './main/postmarketos-ui-*/*.sh')
 	$(find . -path './main/postmarketos-ui-*/*.pre-install')
