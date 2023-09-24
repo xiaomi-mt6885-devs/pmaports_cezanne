@@ -1,0 +1,125 @@
+# Reference: <https://postmarketos.org/devicepkg>
+# Maintainer: phodina <phodina@protonmail.com>
+pkgname=device-amediatech-x96-max-plus
+pkgver=1
+pkgrel=0
+pkgdesc="Amediatech X96 Air/Max plus"
+url="https://postmarketos.org"
+license="MIT"
+arch="aarch64"
+options="!check !archcheck"
+depends="postmarketos-base u-boot-amediatech-x96-max-plus soc-amlogic-s905"
+makedepends="devicepkg-dev"
+subpackages="
+	$pkgname-kernel-max-default:max_kernel_default
+	$pkgname-kernel-max-100m:max_kernel_100m
+	$pkgname-kernel-max-2101:max_kernel_2101
+	$pkgname-kernel-max-ip1001m:max_kernel_ip1001m
+	$pkgname-kernel-max-ip1001m-2:max_kernel_ip1001m_2
+	$pkgname-kernel-max-oc:max_kernel_oc
+	$pkgname-kernel-max-q1:max_kernel_q1
+	$pkgname-kernel-max-q1:max_kernel_q1
+	$pkgname-kernel-max-q2:max_kernel_q2
+	$pkgname-kernel-air-100m:air_kernel_100m
+	$pkgname-kernel-air-gbit:air_kernel_gbit
+	$pkgname-nonfree-firmware:nonfree_firmware"
+source="asound.state deviceinfo"
+
+build() {
+	devicepkg_build $startdir $pkgname
+}
+
+package() {
+	devicepkg_package $startdir $pkgname
+	install -Dm644 "$srcdir"/asound.state \
+		"$pkgdir"/var/lib/alsa/asound.state
+}
+
+max_kernel_default() {
+	pkgdesc="Amediatech X96 Max Plus"
+	depends="linux-postmarketos-amlogic"
+
+	devicepkg_subpackage_kernel $startdir $pkgname $subpkgname
+}
+
+max_kernel_100m() {
+	pkgdesc="Amediatech X96 Max Plus (100Mbit LAN)"
+	depends="linux-postmarketos-amlogic"
+
+	devicepkg_subpackage_kernel $startdir $pkgname $subpkgname
+}
+
+max_kernel_2101() {
+	pkgdesc="Amediatech X96 Max Plus 2101"
+	depends="linux-postmarketos-amlogic linux-openvfd vfd-configurations"
+
+	devicepkg_subpackage_kernel $startdir $pkgname $subpkgname
+
+	mkdir -p $subpkgname/etc/conf.d/
+	mkdir -p $subpkgname/etc/runlevels/default/
+	mkdir -p $subpkgname/etc/init.d/
+
+	ln -s /usr/share/vfd-configuration/x96-max-vfd.conf \
+	 $subpkgname/etc/conf.d/vfd.conf
+}
+
+max_kernel_ip1001m() {
+	pkgdesc="Amediatech X96 Max Plus IP1001m"
+	depends="linux-postmarketos-amlogic"
+
+	devicepkg_subpackage_kernel $startdir $pkgname $subpkgname
+}
+
+max_kernel_ip1001m_2() {
+	pkgdesc="Amediatech X96 Max Plus IP1001m 2"
+	depends="linux-postmarketos-amlogic"
+
+	devicepkg_subpackage_kernel $startdir $pkgname $subpkgname
+}
+
+max_kernel_oc() {
+	pkgdesc="Amediatech X96 Max Plus OC"
+	depends="linux-postmarketos-amlogic"
+
+	devicepkg_subpackage_kernel $startdir $pkgname $subpkgname
+}
+
+max_kernel_q1() {
+	pkgdesc="Amediatech X96 Max Plus Q1"
+	depends="linux-postmarketos-amlogic"
+
+	devicepkg_subpackage_kernel $startdir $pkgname $subpkgname
+}
+
+max_kernel_q2() {
+	pkgdesc="Amediatech X96 Max Plus Q2"
+	depends="linux-postmarketos-amlogic"
+
+	devicepkg_subpackage_kernel $startdir $pkgname $subpkgname
+}
+
+air_kernel_100m() {
+	pkgdesc="Amediatech X96 Air (100Mbit LAN)"
+	depends="linux-postmarketos-amlogic"
+
+	devicepkg_subpackage_kernel $startdir $pkgname $subpkgname
+}
+
+air_kernel_gbit() {
+	pkgdesc="Amediatech X96 Air (1Gbit LAN)"
+	depends="linux-postmarketos-amlogic"
+
+	devicepkg_subpackage_kernel $startdir $pkgname $subpkgname
+}
+
+nonfree_firmware() {
+	pkgdesc="Amediatech X96 max firmware"
+	depends="linux-firmware-meson"
+	mkdir "$subpkgdir"
+}
+
+
+sha512sums="
+8b1f5cba17135dad483577ebaf3ace6a0dcd5078af6900ef46a6c3dd3f49e32fa247b69b622d3209e272baa3f2b77dd7c65460de7647a3e34a3dd18353662a65  asound.state
+1fa36718f5c6a5b4e98a0de6ee15bf27f61af20c2c6c9d9d829e2ae90d580d97ec0740f363b4a31768819bc391cbd740185c5594df59a499cc682c7186b0fd47  deviceinfo
+"
