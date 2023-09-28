@@ -1,0 +1,73 @@
+# Reference: <https://postmarketos.org/vendorkernel>
+# Kernel config based on: arch/arm64/configs/defconfig
+
+pkgname=linux-realme-porsche
+pkgver=6.5.1
+pkgrel=0
+pkgdesc="Realme GT 2 kernel fork"
+arch="aarch64"
+_carch="arm64"
+_flavor="realme-porsche"
+url="https://kernel.org"
+license="GPL-2.0-only"
+options="!strip !check !tracedeps pmb:cross-native"
+makedepends="
+	bash
+	bc
+	bison
+	devicepkg-dev
+	findutils
+	flex
+	openssl-dev
+	perl
+	linux-headers
+	postmarketos-installkernel
+	xz
+"
+
+# Source
+_repository="linux-sm8350"
+_commit="e4d90d13d227ba9cc88e7e56b6039224290117da"
+_config="config-$_flavor.$arch"
+# Source
+
+source="
+	$pkgname-$_commit.tar.gz::https://github.com/Saikatsaha1996/$_repository/archive/$_commit.tar.gz
+	$_config
+"
+builddir="$srcdir/$_repository-$_commit"
+
+prepare() {
+	default_prepare
+	cp "$srcdir/config-$_flavor.$arch" .config
+}
+
+build() {
+	unset LDFLAGS
+	make ARCH="$_carch" CC="${CC:-gcc}" \
+		KBUILD_BUILD_VERSION="$((pkgrel + 1 ))-$_flavor"
+}
+
+package() {
+	mkdir -p "$pkgdir"/boot
+
+	install -Dm644 "$builddir/arch/$_carch/boot/Image.gz" \
+		"$pkgdir/boot/vmlinuz"
+
+	make zinstall modules_install dtbs_install \
+		ARCH="$_carch" \
+		INSTALL_PATH="$pkgdir"/boot/ \
+		INSTALL_MOD_PATH="$pkgdir" \
+		INSTALL_MOD_STRIP=1 \
+		INSTALL_DTBS_PATH="$pkgdir/boot/dtbs"
+	rm -f "$pkgdir"/lib/modules/*/build "$pkgdir"/lib/modules/*/source
+
+	install -D "$builddir"/include/config/kernel.release \
+		"$pkgdir"/usr/share/kernel/$_flavor/kernel.release
+}
+
+
+sha512sums="
+d6687087317f1b51811af06f32dc424201a704f8061dba60e5de0e97f9b1fb333118d422c3e7fffd1396d1318b158a8a28858de9d600a8f95976d56fd9c5b69a  linux-realme-porsche-e4d90d13d227ba9cc88e7e56b6039224290117da.tar.gz
+f88e10f9075a659ec26afb28347707ef1e28f269cd607f8b8b3ff8347ab79a286dcb133e7dd71f669ab49fe4c3c0e6560d1f6ca79e35c2520782eba51381f5ff  config-realme-porsche.aarch64
+"
