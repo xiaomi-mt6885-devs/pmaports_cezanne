@@ -1,0 +1,34 @@
+pkgname=firmware-samsung-q1
+pkgver=1
+pkgrel=0
+_name="Samsung Galaxy Note (GT-N7000)"
+pkgdesc="Firmware for $_name"
+url="https://github.com/TheMuppets/proprietary_vendor_samsung"
+subpackages="$pkgname-nvram"
+arch="armv7"
+license="proprietary"
+options="!check !tracedeps pmb:cross-native"
+
+# Source
+_nv_file="nvram_net.txt"
+_commit="f14f13373b1fcb5225dd68ed278e9576ae264dd2"
+_url="https://github.com/TheMuppets/proprietary_vendor_samsung/raw/$_commit/n7000/proprietary/system/etc/wifi/"
+source="$pkgname-$_nv_file::$_url/$_nv_file"
+
+_fwdir="/lib/firmware/postmarketos"
+
+package() {
+	# parent package is empty
+	mkdir -p "$pkgdir"
+}
+
+nvram() {
+	pkgdesc="$_name WiFi/BT firmware configuration"
+
+	install -Dm644 "$srcdir/$pkgname-$_nv_file"  \
+		"$subpkgdir/$_fwdir/brcm/brcmfmac4330-sdio.samsung,n7000.txt"
+}
+
+sha512sums="
+03ed24c0e32cf63b47bac1183487fa71f3c3914c75fef1c1046e7142b5ac8301e9bfcba64ae92b511b5fe6b9be4aaed06e2a4df913fa5bdd37ea95cb9a0a0366  firmware-samsung-q1-nvram_net.txt
+"
