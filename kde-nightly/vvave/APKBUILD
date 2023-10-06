@@ -1,0 +1,60 @@
+# Contributor: Bart Ribbers <bribbers@disroot.org>
+# Maintainer: team/kde <bribbers@disroot.org>
+
+# The group tag is just to easily find this APKBUILD by some scripts for automation
+# group=maui
+pkgname=vvave
+pkgver=9999_git20231018
+pkgrel=0
+_commit="abe31acd7209f1af32ae71dd1b2d46db1bab7ae2"
+pkgdesc="VVAVE Music Player"
+# armhf blocked by qt6-qtdeclarative
+# s390x, ppc64le and riscv64 blocked by qt6-qtwebview
+arch="all !armhf !s390x !ppc64le !riscv64"
+url="https://invent.kde.org/maui/vvave"
+license="GPL-3.0-or-later"
+depends="
+	kde-icons
+	qt6-qtbase-sqlite
+	"
+makedepends="
+	attica-dev
+	extra-cmake-modules
+	kconfig-dev
+	ki18n-dev
+	kio-dev
+	knotifications-dev
+	mauikit-dev
+	mauikit-accounts-dev
+	mauikit-filebrowsing-dev
+	qt6-qtbase-dev
+	qt6-qtdeclarative-dev
+	qt6-qtmultimedia-dev
+	qt6-qtsvg-dev
+	qt6-qtwebsockets-dev
+	qt6-qtwebview-dev
+	samurai
+	syntax-highlighting-dev
+	taglib-dev
+	"
+_repo_url="https://invent.kde.org/maui/vvave.git"
+source="http://localhost:8000/vvave-$_commit.tar.xz"
+options="!check" # No tests
+
+options="!check"
+builddir="$srcdir/vvave-$_commit"
+
+build() {
+	cmake -B build -DBUILD_WITH_QT6=ON -G Ninja \
+		-DCMAKE_BUILD_TYPE=RelWithDebInfo \
+		-DCMAKE_INSTALL_PREFIX=/usr
+	cmake --build build
+}
+
+package() {
+	DESTDIR="$pkgdir" cmake --install build
+}
+
+sha512sums="
+ea06bda553188323054ca7b1db982677237ddf0df02b81d766da11459292a450f8831d0ac9bd6178d7ff0ada1b89133c4a77175edd5a20829dc51316e58d32c6  vvave-abe31acd7209f1af32ae71dd1b2d46db1bab7ae2.tar.xz
+"

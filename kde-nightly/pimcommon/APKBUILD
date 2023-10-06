@@ -1,0 +1,77 @@
+# Contributor: Bart Ribbers <bribbers@disroot.org>
+# Maintainer: team/kde <bribbers@disroot.org>
+
+# The group tag is just to easily find this APKBUILD by some scripts for automation
+# group=kde-applications
+pkgname=pimcommon
+pkgver=9999_git20231222
+pkgrel=0
+_commit="7ac188498a38e0f4e45d5b64da7bb7b7c45f96e3"
+pkgdesc="Common lib for KDEPim"
+# armhf blocked by extra-cmake-modules
+# ppc64le, s390x and riscv64 blocked by qt6-qtwebengine -> akonadi
+arch="all !armhf !ppc64le !s390x !riscv64"
+url='https://community.kde.org/KDE_PIM'
+license="GPL-2.0-or-later"
+depends_dev="
+	akonadi-contacts-dev
+	akonadi-dev
+	karchive-dev
+	kcodecs-dev
+	kcompletion-dev
+	kconfig-dev
+	kconfigwidgets-dev
+	kcontacts-dev
+	kcoreaddons-dev
+	kdbusaddons-dev
+	ki18n-dev
+	kiconthemes-dev
+	kimap-dev
+	kio-dev
+	kitemmodels-dev
+	kjobwidgets-dev
+	kmime-dev
+	knewstuff-dev
+	kpimtextedit-dev
+	kservice-dev
+	ktextaddons-dev
+	ktexttemplate-dev
+	kwidgetsaddons-dev
+	kxmlgui-dev
+	libkdepim-dev
+	purpose-dev
+	qt6-qtbase-dev
+	"
+makedepends="$depends_dev
+	extra-cmake-modules
+	qt6-qttools-dev
+	samurai
+	"
+checkdepends="xvfb-run"
+_repo_url="https://invent.kde.org/pim/pimcommon.git"
+source="https://nightly.postmarketos.org/plasma-mobile/sources/2023-12-26/pimcommon-$_commit.tar.xz"
+subpackages="$pkgname-dev $pkgname-lang"
+options="net" # net required for tests
+
+options="!check"
+builddir="$srcdir/pimcommon-$_commit"
+
+build() {
+	cmake -B build -DBUILD_WITH_QT6=ON -G Ninja \
+		-DCMAKE_BUILD_TYPE=RelWithDebInfo \
+		-DCMAKE_INSTALL_PREFIX=/usr \
+		-DCMAKE_INSTALL_LIBDIR=lib \
+		-DBUILD_DESIGNERPLUGIN=ON
+	cmake --build build
+}
+
+check() {
+	xvfb-run ctest --test-dir build --output-on-failure
+}
+
+package() {
+	DESTDIR="$pkgdir" cmake --install build
+}
+sha512sums="
+fe8a736f4069d4761a40ffedbbea5bf448431e6ee706e798b51598c3f5c4b233b137103b6edf471216eb291b9cea38a039dec9defec74cf7c4734537c462e8d2  pimcommon-7ac188498a38e0f4e45d5b64da7bb7b7c45f96e3.tar.xz
+"

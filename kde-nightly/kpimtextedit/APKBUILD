@@ -1,0 +1,85 @@
+# Contributor: Bart Ribbers <bribbers@disroot.org>
+# Maintainer: team/kde <bribbers@disroot.org>
+
+# The group tag is just to easily find this APKBUILD by some scripts for automation
+# group=kde-applications
+pkgname=kpimtextedit
+pkgver=9999_git20231221
+pkgrel=0
+_commit="6828d3fccb061ff4b9c73c1fbe07edd65263fbdb"
+pkgdesc="Advanced text editor which provide advanced html feature"
+# armhf blocked by extra-cmake-modules
+arch="all !armhf"
+url="https://api.kde.org/kdepim/kpimtextedit/html"
+license="LGPL-2.0-or-later AND GPL-2.0-or-later"
+depends_dev="
+	grantlee-dev
+	kcodecs-dev
+	kconfig-dev
+	kconfigwidgets-dev
+	kcoreaddons-dev
+	ki18n-dev
+	kiconthemes-dev
+	kio-dev
+	ktextaddons-dev
+	kwidgetsaddons-dev
+	kxmlgui-dev
+	qt6-qtbase-dev
+	qt6-qtspeech-dev
+	sonnet-dev
+	syntax-highlighting-dev
+	"
+makedepends="
+	$depends_dev
+	extra-cmake-modules
+	qt6-qttools-dev
+	samurai
+	"
+checkdepends="xvfb-run"
+_repo_url="https://invent.kde.org/pim/kpimtextedit.git"
+source="https://nightly.postmarketos.org/plasma-mobile/sources/2023-12-26/kpimtextedit-$_commit.tar.xz"
+subpackages="$pkgname-dev $pkgname-lang"
+
+options="!check"
+builddir="$srcdir/kpimtextedit-$_commit"
+
+build() {
+	cmake -B build -DBUILD_WITH_QT6=ON -G Ninja \
+		-DCMAKE_BUILD_TYPE=RelWithDebInfo \
+		-DCMAKE_INSTALL_PREFIX=/usr \
+		-DCMAKE_INSTALL_LIBDIR=lib \
+		-DBUILD_DESIGNERPLUGIN=ON
+	cmake --build build
+}
+
+check() {
+	cd build
+
+	# kpimtextedit-plaintext-textgotolinewidgettest,
+	# kpimtextedit-composerng-richtextcomposertest and
+	# kpimtextedit-composerng-richtextcomposercontrolertest require OpenGL
+	# kpimtextedit-texttospeech-texttospeechwidgettest requires texttospeech
+	# kpimtextedit-texttospeech-texttospeechactionstest and
+	# kpimtextedit-grantleebuilder-texthtmlbuildertest are broken
+	local skipped_tests="kpimtextedit-("
+	local tests="
+		plaintext-textgotolinewidget
+		texttospeech-texttospeechwidget
+		texttospeech-texttospeechactions
+		composerng-richtextcomposer
+		composerng-richtextcomposercontroler
+		grantleebuilder-texthtmlbuilder
+		"
+	for test in $tests; do
+		skipped_tests="$skipped_tests|$test"
+	done
+	skipped_tests="$skipped_tests)test"
+	CTEST_OUTPUT_ON_FAILURE=TRUE xvfb-run ctest -E "$skipped_tests"
+}
+
+package() {
+	DESTDIR="$pkgdir" cmake --install build
+}
+sha512sums="
+64cbe1b79b3bd6825f80781064f7cafda15875515bb66ff79b888df1d4eb03bd7423406e6ea7de34d1a3ebba3406ba341c9565c19e74682c71e16a5edc74e419  kpimtextedit-6828d3fccb061ff4b9c73c1fbe07edd65263fbdb.tar.xz
+"

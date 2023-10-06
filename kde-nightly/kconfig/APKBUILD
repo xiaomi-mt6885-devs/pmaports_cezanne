@@ -1,0 +1,55 @@
+# Contributor: Bart Ribbers <bribbers@disroot.org>
+# Maintainer: team/kde <bribbers@disroot.org>
+
+# The group tag is just to easily find this APKBUILD by some scripts for automation
+# group=kde-frameworks
+pkgname=kconfig
+pkgver=9999_git20231222
+pkgrel=0
+_commit="70d33f5c767f41d6e7b59b11a4ebeacb6cba8adf"
+pkgdesc="Configuration system"
+arch="all !armhf" # armhf blocked by extra-cmake-modules
+url="https://community.kde.org/Frameworks"
+license="LGPL-2.0-or-later AND LGPL-2.0-only AND LGPL-2.1-or-later"
+makedepends="
+	doxygen
+	extra-cmake-modules
+	graphviz
+	qt6-qtdeclarative-dev
+	qt6-qttools-dev
+	samurai
+	"
+checkdepends="xvfb-run"
+_repo_url="https://invent.kde.org/frameworks/kconfig.git"
+source="https://nightly.postmarketos.org/plasma-mobile/sources/2023-12-26/kconfig-$_commit.tar.xz"
+subpackages="$pkgname-dev $pkgname-doc $pkgname-lang"
+
+options="!check"
+builddir="$srcdir/kconfig-$_commit"
+
+build() {
+	cmake -B build -DBUILD_WITH_QT6=ON -G Ninja \
+		-DCMAKE_BUILD_TYPE=RelWithDebInfo \
+		-DCMAKE_INSTALL_PREFIX=/usr \
+		-DCMAKE_INSTALL_LIBDIR=lib \
+		-DBUILD_QCH=ON
+	cmake --build build
+}
+
+check() {
+	local _home="${srcdir:?}"/home
+	mkdir "$_home"
+	chmod 0700 "$_home"
+	XDG_RUNTIME_DIR="$_home" \
+		HOME="$_home" \
+		xvfb-run ctest --test-dir build --output-on-failure -E 'kconfig(core-(kconfigtest|kdesktopfiletest|test_kconf_update)|gui-kstandardshortcutwatchertest)'
+	rm -rf "$_home"
+}
+
+package() {
+	DESTDIR="$pkgdir" cmake --install build
+}
+
+sha512sums="
+aab6ab625ab97ce39d3bceec214eb64e4eaa4050b2d0c67bc60a70d67585c9612ab27777a974fe2a13dff62840eb7e909b41428357f9bf0e79852ed837911ec0  kconfig-70d33f5c767f41d6e7b59b11a4ebeacb6cba8adf.tar.xz
+"

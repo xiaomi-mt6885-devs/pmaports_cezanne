@@ -1,0 +1,53 @@
+# Contributor: Bart Ribbers <bribbers@disroot.org>
+# Maintainer: team/kde <bribbers@disroot.org>
+
+# The group tag is just to easily find this APKBUILD by some scripts for automation
+# group=kde-applications
+pkgname=killbots
+pkgver=9999_git20231222
+pkgrel=0
+_commit="ff4c29d6cae047780a0b680abf4593dad4ccdcd9"
+pkgdesc="A simple game of evading killer robots"
+# armhf blocked by extra-cmake-modules
+arch="all !armhf"
+url="https://kde.org/applications/games/killbots/"
+license="GPL-2.0-or-later AND GFDL-1.2-only"
+makedepends="
+	extra-cmake-modules
+	kcompletion-dev
+	kconfig-dev
+	kconfigwidgets-dev
+	kcoreaddons-dev
+	kcrash-dev
+	kdbusaddons-dev
+	kdoctools-dev
+	ki18n-dev
+	kwidgetsaddons-dev
+	kxmlgui-dev
+	libkdegames-dev
+	qt6-qtbase-dev
+	samurai
+	"
+_repo_url="https://invent.kde.org/games/killbots.git"
+source="https://nightly.postmarketos.org/plasma-mobile/sources/2023-12-26/killbots-$_commit.tar.xz"
+subpackages="$pkgname-doc $pkgname-lang"
+options="!check" # No tests
+
+options="!check"
+builddir="$srcdir/killbots-$_commit"
+
+build() {
+	cmake -B build -DBUILD_WITH_QT6=ON -G Ninja \
+		-DCMAKE_BUILD_TYPE=RelWithDebInfo \
+		-DCMAKE_INSTALL_PREFIX=/usr \
+		-DCMAKE_INSTALL_LIBDIR=lib
+	cmake --build build
+}
+
+package() {
+	DESTDIR="$pkgdir" cmake --install build
+}
+
+sha512sums="
+bdc3d296aab5379325bb1432dee96a8fc9a92573d688311d2cba0546d5e8631ecbbbf9872953517390d580c5da513a93a8191c3be018d558586206062285d062  killbots-ff4c29d6cae047780a0b680abf4593dad4ccdcd9.tar.xz
+"

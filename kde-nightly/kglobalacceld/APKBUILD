@@ -1,0 +1,59 @@
+# Contributor: Bart Ribbers <bribbers@disroot.org>
+# Maintainer: Bart Ribbers <bribbers@disroot.org>
+
+# The group tag is just to easily find this APKBUILD by some scripts for automation
+# group=kde-plasma
+pkgname=kglobalacceld
+pkgver=9999_git20231220
+pkgrel=0
+_commit="4ae46ed74fbb8b6fad7a6b968e7d5280e5ab507c"
+pkgdesc="Daemon providing Global Keyboard Shortcut (Accelerator) functionality"
+arch="all !armhf" # armhf blocked by extra-cmake-modules
+url="https://invent.kde.org/plasma/kglobalacceld"
+license="LGPL-2.0-or-later AND LGPL-2.0-only AND LGPL-2.1-or-later"
+depends_dev="$pkgname
+	kconfig-dev
+	kcoreaddons-dev
+	kcrash-dev
+	kdbusaddons-dev
+	kglobalaccel-dev
+	kio-dev
+	knotifications-dev
+	kservice-dev
+	kwindowsystem-dev
+	qt6-qtbase-dev
+	xcb-util-keysyms-dev
+	"
+makedepends="$depends_dev
+	doxygen
+	extra-cmake-modules
+	graphviz
+	qt6-qttools-dev
+	samurai
+	"
+checkdepends="xvfb-run"
+_repo_url="https://invent.kde.org/plasma/kglobalacceld.git"
+source="https://nightly.postmarketos.org/plasma-mobile/sources/2023-12-26/kglobalacceld-$_commit.tar.xz"
+subpackages="$pkgname-dev"
+
+options="!check"
+builddir="$srcdir/kglobalacceld-$_commit"
+
+build() {
+	cmake -B build -DBUILD_WITH_QT6=ON -G Ninja \
+		-DCMAKE_BUILD_TYPE=RelWithDebInfo \
+		-DCMAKE_INSTALL_PREFIX=/usr \
+		-DCMAKE_INSTALL_LIBDIR=lib
+	cmake --build build
+}
+
+check() {
+	ctest --test-dir build --output-on-failure
+}
+
+package() {
+	DESTDIR="$pkgdir" cmake --install build
+}
+sha512sums="
+aed024b9f662a1f38387fef7ea58f77803b4347d59287c65b4f557f929d01cca4c01f4bec51c0537ebad77f915241b2f14aa8c191c21f0329c5763698ac4d02d  kglobalacceld-4ae46ed74fbb8b6fad7a6b968e7d5280e5ab507c.tar.xz
+"

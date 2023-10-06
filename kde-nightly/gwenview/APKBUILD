@@ -1,0 +1,90 @@
+# Contributor: Bart Ribbers <bribbers@disroot.org>
+# Maintainer: team/kde <bribbers@disroot.org>
+
+# The group tag is just to easily find this APKBUILD by some scripts for automation
+# group=kde-applications
+pkgname=gwenview
+pkgver=9999_git20231222
+pkgrel=0
+_commit="5d09115b81154eb6072dd15fa961d9dac51dd856"
+# armhf blocked by extra-cmake-modules
+# ppc64le, s390x and riscv64 blocked by qt6-qtwebengine -> purpose
+arch="all !armhf !ppc64le !s390x !riscv64"
+url="https://kde.org/applications/graphics/org.kde.gwenview"
+pkgdesc="Fast and easy to use image viewer by KDE"
+license="GPL-2.0-only"
+depends="
+	kimageformats
+	qt6-qtimageformats
+	"
+makedepends="
+	baloo-dev
+	extra-cmake-modules
+	kactivities-dev
+	kdoctools-dev
+	ki18n-dev
+	kiconthemes-dev
+	kimageannotator-dev
+	kio-dev
+	kitemmodels-dev
+	knotifications-dev
+	kparts-dev
+	kwindowsystem-dev
+	lcms2-dev
+	libjpeg-turbo-dev
+	libkdcraw-dev
+	libpng-dev
+	purpose-dev
+	qt6-qtbase-dev
+	qt6-qtsvg-dev
+
+	samurai
+	"
+checkdepends="
+	dbus
+
+	xvfb-run
+	"
+_repo_url="https://invent.kde.org/graphics/gwenview.git"
+source="https://nightly.postmarketos.org/plasma-mobile/sources/2023-12-26/gwenview-$_commit.tar.xz"
+subpackages="$pkgname-doc $pkgname-lang"
+
+options="!check"
+builddir="$srcdir/gwenview-$_commit"
+
+build() {
+	cmake -B build -DBUILD_WITH_QT6=ON -G Ninja \
+		-DCMAKE_BUILD_TYPE=RelWithDebInfo \
+		-DCMAKE_INSTALL_PREFIX=/usr \
+		-DCMAKE_INSTALL_LIBDIR=lib
+	cmake --build build
+}
+
+check() {
+	cd build
+	# urlutilstest and placetreemodeltest are broken
+	# recursivedirmodeltest and contextmanagertest requires running DBus
+	local skipped_tests="("
+	local tests="
+		contextmanager
+		documenttest
+		jpegcontenttest
+		placetreemodel
+		recursivedirmodel
+		urlutils
+		"
+	for test in $tests; do
+		skipped_tests="$skipped_tests|$test"
+	done
+	skipped_tests="$skipped_tests)test"
+	CTEST_OUTPUT_ON_FAILURE=TRUE dbus-run-session xvfb-run ctest -E "$skipped_tests"
+
+}
+
+package() {
+	DESTDIR="$pkgdir" cmake --install build
+}
+
+sha512sums="
+31fcf1f39f89a3dc1faee24954a9ff798acb2ba31dc5ad9c22d53dc7f9ad5bdbc0e9d3961fa2aab6fec68c6a69807cc6ccb093f6c42a175c2ff25650a34e5d5b  gwenview-5d09115b81154eb6072dd15fa961d9dac51dd856.tar.xz
+"

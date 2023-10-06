@@ -1,0 +1,52 @@
+# Contributor: Bart Ribbers <bribbers@disroot.org>
+# Maintainer: team/kde <bribbers@disroot.org>
+
+# The group tag is just to easily find this APKBUILD by some scripts for automation
+# group=kde-other
+pkgname=plasma-pass
+pkgver=9999_git20231221
+pkgrel=0
+_commit="7868fcf43c336b9a4328d0873391b727e769f7ed"
+pkgdesc="Plasma applet for the Pass password manager"
+# armhf blocked by qt6-qtdeclarative
+arch="all !armhf"
+url="https://kde.org/plasma-desktop/"
+license="LGPL-2.1-or-later"
+makedepends="
+	extra-cmake-modules
+	gpgme-dev
+	ki18n-dev
+	kitemmodels-dev
+	libplasma-dev
+	oath-toolkit-dev
+	plasma5support-dev
+	qt6-qtbase-dev
+	qt6-qtdeclarative-dev
+	samurai
+	"
+_repo_url="https://invent.kde.org/plasma/plasma-pass.git"
+source="https://nightly.postmarketos.org/plasma-mobile/sources/2023-12-26/plasma-pass-$_commit.tar.xz"
+subpackages="$pkgname-lang"
+
+options="!check"
+builddir="$srcdir/plasma-pass-$_commit"
+
+build() {
+	cmake -B build -DBUILD_WITH_QT6=ON -G Ninja \
+		-DCMAKE_BUILD_TYPE=RelWithDebInfo \
+		-DCMAKE_INSTALL_PREFIX=/usr \
+		-DCMAKE_INSTALL_LIBDIR=lib
+	cmake --build build
+}
+
+check() {
+	ctest --test-dir build --output-on-failure
+}
+
+package() {
+	DESTDIR="$pkgdir" cmake --install build
+}
+
+sha512sums="
+715b332e27c968fe3de6551ac46df038dd1190a9882bef6dc6a5bc11a265e7166e70c9fab773ea497f175f6f6738a5bf9e69b28421674d2d56cb7ba4d111fc81  plasma-pass-7868fcf43c336b9a4328d0873391b727e769f7ed.tar.xz
+"

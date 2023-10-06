@@ -1,0 +1,55 @@
+# Contributor: knuxify <knuxify@gmail.com>
+# Maintainer: team/kde <bribbers@disroot.org>
+
+# The group tag is just to easily find this APKBUILD by some scripts for automation
+# group=maui
+pkgname=mauikit-terminal
+pkgver=9999_git20231011
+pkgrel=0
+_commit="c8bfb3e9087f07be01b2660b4a186f01662076fa"
+pkgdesc="Terminal support components for Maui applications"
+url="https://mauikit.org/"
+# armhf blocked by mauikit -> qt6-qtdeclarative
+arch="all !armhf"
+url="https://mauikit.org/"
+license="GPL-2.0-or-later"
+depends="kirigami"
+depends_dev="
+	kconfig-dev
+	kcoreaddons-dev
+	ki18n-dev
+	mauikit-dev
+	qt6-qtbase-dev
+	"
+makedepends="$depends_dev
+	extra-cmake-modules
+	samurai
+	"
+subpackages="$pkgname-dev $pkgname-lang"
+_repo_url="https://invent.kde.org/maui/mauikit-terminal.git"
+source="http://localhost:8000/mauikit-terminal-$_commit.tar.xz"
+
+options="!check"
+builddir="$srcdir/mauikit-terminal-$_commit"
+
+build() {
+	cmake -B build -DBUILD_WITH_QT6=ON -G Ninja \
+		-DCMAKE_BUILD_TYPE=RelWithDebInfo \
+		-DCMAKE_INSTALL_PREFIX=/usr \
+		-DCMAKE_INSTALL_LIBDIR=lib \
+		-DBUILD_SHARED_LIBS=ON \
+		$crossopts
+	cmake --build build
+}
+
+check() {
+	ctest --test-dir build --output-on-failure
+}
+
+package() {
+	DESTDIR="$pkgdir" cmake --install build
+}
+
+sha512sums="
+9dc1d83f0dcd27fff99edf334befedc247a5c8e18ef627868720f83a4148e5ede913408448fa6adf778fe978bcf62d6d67b5543c64a149d59cb705c833d9ea7b  mauikit-terminal-c8bfb3e9087f07be01b2660b4a186f01662076fa.tar.xz
+"

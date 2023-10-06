@@ -1,0 +1,53 @@
+# Contributor: Bart Ribbers <bribbers@disroot.org>
+# Maintainer: team/kde <bribbers@disroot.org>
+
+# The group tag is just to easily find this APKBUILD by some scripts for automation
+# group=kde-other
+pkgname=kirigami-addons
+pkgver=9999_git20231222
+pkgrel=0
+_commit="39f4ef9fdd75152e50cfcb82d24ba436d3fb9344"
+pkgdesc="Add-ons for the Kirigami framework"
+url="https://invent.kde.org/libraries/kirigami-addons"
+# armhf blocked by extra-cmake-modules
+arch="all !armhf"
+license="LGPL-2.0-or-later AND GPL-2.0-or-later"
+depends="
+	kirigami
+	qt6-qtmultimedia
+	"
+makedepends="
+	extra-cmake-modules
+	ki18n-dev
+	kirigami-dev
+	samurai
+	"
+checkdepends="xvfb-run"
+subpackages="$pkgname-dev $pkgname-lang"
+_repo_url="https://invent.kde.org/libraries/kirigami-addons.git"
+source="https://nightly.postmarketos.org/plasma-mobile/sources/2023-12-26/kirigami-addons-$_commit.tar.xz"
+
+options="!check"
+builddir="$srcdir/kirigami-addons-$_commit"
+
+build() {
+	cmake -B build -DBUILD_WITH_QT6=ON -G Ninja \
+		-DCMAKE_BUILD_TYPE=MinSizeRel \
+		-DCMAKE_INSTALL_PREFIX=/usr \
+		-DCMAKE_INSTALL_LIBDIR=lib \
+		-DBUILD_QCH=ON
+	cmake --build build
+}
+
+check() {
+	# tst_sounds.qml is broken
+	xvfb-run ctest --test-dir build --output-on-failure -E "tst_sounds.qml"
+}
+
+package() {
+	DESTDIR="$pkgdir" cmake --install build
+}
+
+sha512sums="
+f6c73bd2fb6ec3e32183cf7d4bb3eb483f89c19f0a95df914b52a9c634c18114ebcd92d0d4b4a88ecdad2c0dac74c65446f7abd5f04e3474f8ea8ae82ccf7942  kirigami-addons-39f4ef9fdd75152e50cfcb82d24ba436d3fb9344.tar.xz
+"

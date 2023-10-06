@@ -1,0 +1,65 @@
+# Contributor: Bart Ribbers <bribbers@disroot.org>
+# Maintainer: team/kde <bribbers@disroot.org>
+
+# The group tag is just to easily find this APKBUILD by some scripts for automation
+# group=maui
+
+# optional dependencies:
+# * kio-extras: to enable thumbnails in the file browser
+# * udisks2: for browsing mount points
+pkgname=nota
+pkgver=9999_git20231018
+pkgrel=0
+_commit="b53fc4d82eccbea6cf77f7057f0126107cc041f8"
+pkgdesc="Nota is a simple and convergent text editor"
+# armhf blocked by qt6-qtdeclarative
+# s390x, ppc64le and riscv64 blocked by qt6-qtwebengine
+arch="all !armhf !s390x !ppc64le !riscv64"
+url="https://invent.kde.org/maui/nota"
+license="GPL-2.0-or-later"
+depends="
+	kde-icons
+	mauikit-texteditor
+	qmltermwidget
+	qt6-qtbase-sqlite
+	"
+makedepends="
+	attica-dev
+	extra-cmake-modules
+	kconfig-dev
+	ki18n-dev
+	kio-dev
+	knotifications-dev
+	mauikit-dev
+	mauikit-filebrowsing-dev
+	mauikit-texteditor-dev
+	qt6-qtbase-dev
+	qt6-qtdeclarative-dev
+	qt6-qtsvg-dev
+	qt6-qtwebengine-dev
+	samurai
+	syntax-highlighting5-dev
+	"
+subpackages="$pkgname-lang"
+_repo_url="https://invent.kde.org/maui/nota.git"
+source="http://localhost:8000/nota-$_commit.tar.xz"
+options="!check" # No tests available
+
+options="!check"
+builddir="$srcdir/nota-$_commit"
+
+build() {
+	cmake -B build -DBUILD_WITH_QT6=ON -G Ninja \
+		-DCMAKE_BUILD_TYPE=RelWithDebInfo \
+		-DCMAKE_INSTALL_PREFIX=/usr \
+		-DCMAKE_INSTALL_LIBDIR=lib
+	cmake --build build
+}
+
+package() {
+	DESTDIR="$pkgdir" cmake --install build
+}
+
+sha512sums="
+dedb2e2f8b9eb0181484a3baa53463b4bb51590c9fc84089d37bef33d1a448924b3ce5ad526791d6066259549526f2ee6d8e75e537643ef24b8a74fda6032a90  nota-b53fc4d82eccbea6cf77f7057f0126107cc041f8.tar.xz
+"

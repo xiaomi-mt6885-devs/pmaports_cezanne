@@ -1,0 +1,52 @@
+# Contributor: Bart Ribbers <bribbers@disroot.org>
+# Maintainer: team/kde <bribbers@disroot.org>
+
+# The group tag is just to easily find this APKBUILD by some scripts for automation
+# group=kde-applications
+pkgname=kcharselect
+pkgver=9999_git20231222
+pkgrel=0
+_commit="69e8980aa97ae26e61242e4afbc2508a78dab8d1"
+# armhf blocked by extra-cmake-modules
+arch="all !armhf"
+url="https://kde.org/applications/utilities/org.kde.kcharselect"
+pkgdesc="A tool to select special characters from all installed fonts and copy them into the clipboard"
+license="GPL-2.0-or-later"
+makedepends="
+	extra-cmake-modules
+	kbookmarks-dev
+	kcrash-dev
+	kdoctools-dev
+	ki18n-dev
+	kwidgetsaddons-dev
+	kxmlgui-dev
+	qt6-qtbase-dev
+	samurai
+	"
+_repo_url="https://invent.kde.org/utilities/kcharselect.git"
+source="https://nightly.postmarketos.org/plasma-mobile/sources/2023-12-26/kcharselect-$_commit.tar.xz"
+subpackages="$pkgname-doc $pkgname-lang"
+options="!check" # No tests
+
+options="!check"
+builddir="$srcdir/kcharselect-$_commit"
+
+build() {
+	cmake -B build -DBUILD_WITH_QT6=ON -G Ninja \
+		-DCMAKE_BUILD_TYPE=RelWithDebInfo \
+		-DCMAKE_INSTALL_PREFIX=/usr \
+		-DCMAKE_INSTALL_LIBDIR=lib
+	cmake --build build
+}
+
+check() {
+	ctest --test-dir build --output-on-failure
+}
+
+package() {
+	DESTDIR="$pkgdir" cmake --install build
+}
+
+sha512sums="
+5a1fcb59f2edec6a9cebb9e0290351621518a5383c6fa1c9cd880f3dc543a60ffacd9a833d0afbf4b0bf1dd20fed62a16da1beb855432958caa14dc3d93e8f6a  kcharselect-69e8980aa97ae26e61242e4afbc2508a78dab8d1.tar.xz
+"

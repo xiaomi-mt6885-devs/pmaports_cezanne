@@ -1,0 +1,59 @@
+# Contributor: Bart Ribbers <bribbers@disroot.org>
+# Maintainer: team/kde <bribbers@disroot.org>
+
+# The group tag is just to easily find this APKBUILD by some scripts for automation
+# group=kde-frameworks
+pkgname=purpose
+pkgver=9999_git20231222
+pkgrel=0
+_commit="19c43370c1592faec08044db267dd4d9c633ff3a"
+pkgdesc="Framework for providing abstractions to get the developer's purposes fulfilled"
+# armhf blocked by extra-cmake-modules
+# ppc64le, s390x and riscv64 blocked by qt6-qtwebengine -> kaccounts-integration
+arch="all !armhf !ppc64le !s390x !riscv64"
+url="https://community.kde.org/Frameworks"
+license="LGPL-2.1-or-later"
+depends_dev="
+	kconfig-dev
+	kcoreaddons-dev
+	ki18n-dev
+	kio-dev
+	kirigami-dev
+	qt6-qtbase-dev
+	qt6-qtdeclarative-dev
+	"
+makedepends="$depends_dev
+	extra-cmake-modules
+	samurai
+	"
+checkdepends="xvfb-run"
+_repo_url="https://invent.kde.org/frameworks/purpose.git"
+source="https://nightly.postmarketos.org/plasma-mobile/sources/2023-12-26/purpose-$_commit.tar.xz"
+subpackages="$pkgname-dev $pkgname-lang"
+options="!check" # fails on builders
+
+replaces="purpose5"
+
+options="!check"
+builddir="$srcdir/purpose-$_commit"
+
+build() {
+	cmake -B build -DBUILD_WITH_QT6=ON -G Ninja \
+		-DCMAKE_BUILD_TYPE=RelWithDebInfo \
+		-DCMAKE_INSTALL_PREFIX=/usr \
+		-DCMAKE_INSTALL_LIBDIR=lib \
+		-DBUILD_TESTING=ON
+	cmake --build build
+}
+
+check() {
+	xvfb-run ctest --test-dir build --output-on-failure -E 'menutest'
+}
+
+package() {
+	DESTDIR="$pkgdir" cmake --install build
+}
+
+sha512sums="
+05f4ebc9e9e52de423febe2a0fec6852c7645c7ded4406c8947c40fe04a125e579a01e078ed1666291ea5076ee7aae5c6b725b63253a36d308a8d14e2368b0e9  purpose-19c43370c1592faec08044db267dd4d9c633ff3a.tar.xz
+"

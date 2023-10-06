@@ -1,0 +1,57 @@
+# Contributor: Bart Ribbers <bribbers@disroot.org>
+# Maintainer: team/kde <bribbers@disroot.org>
+
+# The group tag is just to easily find this APKBUILD by some scripts for automation
+# group=kde-mobile
+pkgname=spacebar
+pkgver=9999_git20231221
+pkgrel=0
+_commit="d146367db38cf8ec4fb46722c65aef1beb609cab"
+pkgdesc="Collection of stuff for running IM on Plasma Mobile"
+url="https://invent.kde.org/plasma-mobile/spacebar"
+# armhf blocked by qt6-qtdeclarative
+arch="all !armhf"
+license="GPL-2.0-or-later AND LicenseRef-KDE-Accepted-GPL"
+depends="kirigami"
+makedepends="
+	c-ares-dev
+	curl-dev
+	extra-cmake-modules
+	futuresql-dev
+	kcontacts-dev
+	ki18n-dev
+	kio-dev
+	kirigami-addons-dev
+	kirigami-dev
+	knotifications-dev
+	kpeople-dev
+	libphonenumber-dev
+	modemmanager-qt-dev
+	qcoro-dev
+	qt6-qtbase-dev
+	qt6-qtdeclarative-dev
+	samurai
+	"
+_repo_url="https://invent.kde.org/plasma-mobile/spacebar.git"
+source="https://nightly.postmarketos.org/plasma-mobile/sources/2023-12-26/spacebar-$_commit.tar.xz"
+subpackages="$pkgname-lang"
+options="!check" # No tests
+
+options="!check"
+builddir="$srcdir/spacebar-$_commit"
+
+build() {
+	cmake -B build -DBUILD_WITH_QT6=ON -G Ninja \
+		-DCMAKE_BUILD_TYPE=RelWithDebInfo \
+		-DCMAKE_INSTALL_PREFIX=/usr \
+		-DCMAKE_INSTALL_LIBDIR=lib
+	cmake --build build -j1
+}
+
+package() {
+	DESTDIR="$pkgdir" cmake --install build
+}
+
+sha512sums="
+f51ba5921166271ded856a1666420a1965b84c522189cdde4904f36f4a1d0a77b9718e8eab991e92ea195e7d3a85253b7e88d3c4ada4d65abd6db42d55cf0e33  spacebar-d146367db38cf8ec4fb46722c65aef1beb609cab.tar.xz
+"

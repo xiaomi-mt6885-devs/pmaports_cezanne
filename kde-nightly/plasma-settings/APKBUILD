@@ -1,0 +1,64 @@
+# Contributor: Bart Ribbers <bribbers@disroot.org>
+# Maintainer: team/kde <bribbers@disroot.org>
+
+# The group tag is just to easily find this APKBUILD by some scripts for automation
+# group=kde-mobile
+pkgname=plasma-settings
+pkgver=9999_git20231221
+pkgrel=0
+_commit="bab45ea712fe7774777b4ea887c9c45f216ee9ed"
+pkgdesc="Settings application for Plasma Mobile"
+# armhf blocked by extra-cmake-modules
+arch="all !armhf"
+url="https://community.kde.org/Plasma/Mobile"
+license="GPL-2.0-or-later AND LGPL-2.1-or-later"
+depends="
+	kded
+	kirigami-addons
+	kirigami
+	openrc-settingsd
+	"
+makedepends="
+	extra-cmake-modules
+	kauth-dev
+	kcmutils-dev
+	kconfig-dev
+	kcoreaddons-dev
+	kdbusaddons-dev
+	kdeclarative-dev
+	ki18n-dev
+	kio-dev
+	kirigami-addons-dev
+	kirigami-addons-dev
+	kwindowsystem-dev
+	modemmanager-qt-dev
+	networkmanager-qt-dev
+	libplasma-dev
+	qt6-qtbase-dev
+	qt6-qtdeclarative-dev
+	samurai
+	solid-dev
+	"
+subpackages="$pkgname-lang"
+_repo_url="https://invent.kde.org/plasma-mobile/plasma-settings.git"
+source="https://nightly.postmarketos.org/plasma-mobile/sources/2023-12-26/plasma-settings-$_commit.tar.xz"
+options="!check" # No tests
+
+options="!check"
+builddir="$srcdir/plasma-settings-$_commit"
+
+build() {
+	cmake -B build -DBUILD_WITH_QT6=ON -G Ninja \
+		-DCMAKE_BUILD_TYPE=RelWithDebInfo \
+		-DCMAKE_INSTALL_PREFIX=/usr \
+		-DCMAKE_INSTALL_LIBDIR=lib
+	cmake --build build
+}
+
+package() {
+	DESTDIR="$pkgdir" cmake --install build
+}
+
+sha512sums="
+ac8ffce75ef629ad1db22c822f005bf765061314a82c7ec01c647019caacc970c564ac3c35ce22d2ea63324174eb7a0fb13d2365fa81084c4b9aaced3389c5b6  plasma-settings-bab45ea712fe7774777b4ea887c9c45f216ee9ed.tar.xz
+"

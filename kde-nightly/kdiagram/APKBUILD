@@ -1,0 +1,52 @@
+# Contributor: Bart Ribbers <bribbers@disroot.org>
+# Maintainer: team/kde <bribbers@disroot.org>
+
+# The group tag is just to easily find this APKBUILD by some scripts for automation
+# group=kde-other
+pkgname=kdiagram
+pkgver=9999_git20231221
+pkgrel=0
+_commit="f8975169180b362c1a0a8d007b15324b6ed4c2f6"
+pkgdesc="Powerful libraries (KChart, KGantt) for creating business diagrams"
+arch="all !armhf"
+url="https://kontact.kde.org/"
+license="GPL-2.0-or-later"
+depends_dev="
+	qt6-qtbase-dev
+	qt6-qtsvg-dev
+	qt6-qttools-dev
+	"
+makedepends="$depends_dev
+	doxygen
+	extra-cmake-modules
+	samurai
+	"
+checkdepends="xvfb-run"
+_repo_url="https://invent.kde.org/graphics/kdiagram.git"
+source="https://nightly.postmarketos.org/plasma-mobile/sources/2023-12-26/kdiagram-$_commit.tar.xz"
+subpackages="$pkgname-dev $pkgname-doc $pkgname-lang"
+
+options="!check"
+builddir="$srcdir/kdiagram-$_commit"
+
+build() {
+	cmake -B build -DBUILD_WITH_QT6=ON -G Ninja \
+		-DCMAKE_BUILD_TYPE=RelWithDebInfo \
+		-DCMAKE_INSTALL_PREFIX=/usr \
+		-DCMAKE_INSTALL_LIBDIR=lib \
+		-DBUILD_QCH=ON
+	cmake --build build
+}
+
+check() {
+	# TestDrawIntoPainter times out
+	xvfb-run ctest --test-dir build --output-on-failure -E "TestDrawIntoPainter"
+}
+
+package() {
+	DESTDIR="$pkgdir" cmake --install build
+}
+
+sha512sums="
+75c745a9a2bbc17ff135f1194ee0cf9e25781779f8b9958a6a885798e5ad7b3bdd8b8645f10b1b57784f6da9e73e4baa8e99f2f232bc1fc520279317d2f4ca08  kdiagram-f8975169180b362c1a0a8d007b15324b6ed4c2f6.tar.xz
+"

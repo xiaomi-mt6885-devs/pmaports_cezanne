@@ -1,0 +1,54 @@
+# Contributor: Bart Ribbers <bribbers@disroot.org>
+# Maintainer: team/kde <bribbers@disroot.org>
+
+# The group tag is just to easily find this APKBUILD by some scripts for automation
+# group=kde-applications
+pkgname=kunifiedpush
+pkgver=9999_git20231221
+pkgrel=0
+_commit="21aa076d165058bad73845ff5dc3e8a03e7a5310"
+# armhf blocked by extra-cmake-modules
+arch="all !armhf"
+url="https://invent.kde.org/libraries/kunifiedpush"
+pkgdesc="UnifiedPush client library and distributor daemon"
+license="BSD-2-Clause AND BSD-3-Clause AND LGPL-2.0-or-later"
+depends_dev="
+	kcmutils-dev
+	kcoreaddons-dev
+	kdeclarative-dev
+	kpackage-dev
+	kservice-dev
+	qt6-qtbase-dev
+	qt6-qtwebsockets-dev
+	"
+makedepends="$depends_dev
+	extra-cmake-modules
+	qt6-qttools-dev
+	samurai
+	"
+_repo_url="https://invent.kde.org/libraries/kunifiedpush.git"
+source="https://nightly.postmarketos.org/plasma-mobile/sources/2023-12-26/kunifiedpush-$_commit.tar.xz"
+subpackages="$pkgname-dev"
+
+options="!check"
+builddir="$srcdir/kunifiedpush-$_commit"
+
+build() {
+	cmake -B build -DBUILD_WITH_QT6=ON -G Ninja \
+		-DCMAKE_BUILD_TYPE=RelWithDebInfo \
+		-DCMAKE_INSTALL_PREFIX=/usr \
+		-DCMAKE_INSTALL_LIBDIR=lib
+	cmake --build build
+}
+
+check() {
+	ctest --test-dir build --output-on-failure
+}
+
+package() {
+	DESTDIR="$pkgdir" cmake --install build
+}
+
+sha512sums="
+ec5bfba2efb1393e03e10604a5ae82b181d838019abe7678def1bd6906a7f082a1e37ff7993db9fdbb6f8cb755e63da6c7aa69aa58a1a884f35416aca183b5ec  kunifiedpush-21aa076d165058bad73845ff5dc3e8a03e7a5310.tar.xz
+"

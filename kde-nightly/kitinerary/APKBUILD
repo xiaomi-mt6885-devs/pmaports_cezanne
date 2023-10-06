@@ -1,0 +1,80 @@
+# Contributor: Bart Ribbers <bribbers@disroot.org>
+# Maintainer: team/kde <bribbers@disroot.org>
+
+# The group tag is just to easily find this APKBUILD by some scripts for automation
+# group=kde-applications
+pkgname=kitinerary
+pkgver=9999_git20231221
+pkgrel=0
+_commit="d467633eb75f0972631a08499aaa3d08e479e950"
+# armhf blocked by qt6-qtdeclarative
+# ppc64le FTBFS
+arch="all !armhf !ppc64le"
+url="https://kontact.kde.org/"
+pkgdesc="Data model and extraction system for travel reservation information"
+license="LGPL-2.0-or-later"
+depends_dev="
+	kcalendarcore-dev
+	kcontacts-dev
+	kmime-dev
+	kpkpass-dev
+	libphonenumber-dev
+	zxing-cpp-dev
+	"
+makedepends="$depends_dev
+	extra-cmake-modules
+	ki18n-dev
+	libxml2-dev
+	poppler-dev
+	qt6-qtbase-dev
+	qt6-qtdeclarative-dev
+	samurai
+	shared-mime-info
+	zlib-dev
+	"
+_repo_url="https://invent.kde.org/pim/kitinerary.git"
+source="https://nightly.postmarketos.org/plasma-mobile/sources/2023-12-26/kitinerary-$_commit.tar.xz"
+subpackages="$pkgname-dev $pkgname-lang"
+# broken with new libxml
+options="!check"
+
+options="!check"
+builddir="$srcdir/kitinerary-$_commit"
+
+build() {
+	cmake -B build -DBUILD_WITH_QT6=ON -G Ninja \
+		-DCMAKE_BUILD_TYPE=RelWithDebInfo \
+		-DCMAKE_INSTALL_PREFIX=/usr \
+		-DCMAKE_INSTALL_LIBDIR=lib
+	cmake --build build
+}
+
+check() {
+	cd build
+
+	# jsonlddocumenttest, mergeutiltest, airportdbtest, pkpassextractortest,
+	# postprocessortest, calendarhandlertest, extractortest and knowledgedbtest are broken
+	local skipped_tests="(jsonlddocument"
+	local tests="
+		mergeutil
+		airportdb
+		pkpassextractor
+		postprocessor
+		calendarhandler
+		extractor
+		knowledgedb
+		"
+	for test in $tests; do
+		skipped_tests="$skipped_tests|$test"
+	done
+	skipped_tests="$skipped_tests)"
+	CTEST_OUTPUT_ON_FAILURE=TRUE ctest -E "$skipped_tests"
+}
+
+package() {
+	DESTDIR="$pkgdir" cmake --install build
+}
+
+sha512sums="
+c0c157d83eb493aa6fdbb67b8df52177075815f8e3ef31337b5f31886a2074e71adbf86c225e1237adf6671b87aa966395aa4bca3e6d1cf79b5fd6ada0352e6e  kitinerary-d467633eb75f0972631a08499aaa3d08e479e950.tar.xz
+"

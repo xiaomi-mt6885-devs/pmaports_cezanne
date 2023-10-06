@@ -1,0 +1,62 @@
+# Contributor: Bart Ribbers <bribbers@disroot.org>
+# Maintainer: team/kde <bribbers@disroot.org>
+
+# The group tag is just to easily find this APKBUILD by some scripts for automation
+# group=maui
+pkgname=mauikit
+pkgver=9999_git20231018
+pkgrel=0
+_commit="3ed49e25fd1e5e8e044bb7ead44fc096f64fca30"
+pkgdesc="Kit for developing MAUI Apps"
+# armhf blocked by qt6-qtdeclarative
+arch="all !armhf"
+url="https://mauikit.org/"
+license="GPL-2.0-or-later"
+depends="kirigami2 "
+depends_dev="$pkgname=$pkgver-r$pkgrel
+	kconfig-dev
+	kconfigwidgets-dev
+	kdeclarative-dev
+	kdecoration-dev
+	ki18n-dev
+	kio-dev
+	knotifications-dev
+	kservice-dev
+	mauiman-dev
+	libplasma-dev
+	qt6-qtbase-dev
+	qt6-qtdeclarative-dev
+	qt6-qtsvg-dev
+	syntax-highlighting-dev
+	xcb-util-wm-dev
+	"
+makedepends="$depends_dev
+	extra-cmake-modules
+	samurai
+	"
+_repo_url="https://invent.kde.org/maui/mauikit.git"
+source="http://localhost:8000/mauikit-$_commit.tar.xz"
+subpackages="$pkgname-dev $pkgname-lang"
+
+options="!check"
+builddir="$srcdir/mauikit-$_commit"
+
+build() {
+	cmake -B build -DBUILD_WITH_QT6=ON -G Ninja \
+		-DCMAKE_BUILD_TYPE=RelWithDebInfo \
+		-DCMAKE_INSTALL_PREFIX=/usr \
+		-DCMAKE_INSTALL_LIBDIR=lib
+	cmake --build build
+}
+
+check() {
+	ctest --test-dir build --output-on-failure
+}
+
+package() {
+	DESTDIR="$pkgdir" cmake --install build
+}
+
+sha512sums="
+e9c8f497b379afd1b70b4f633a548f0d643c7e659b6ab92635a9f883234a557b7349aa5e2872bd58b893e88c123cc8fd237ca77301feb6c42b4e17e2b0301990  mauikit-3ed49e25fd1e5e8e044bb7ead44fc096f64fca30.tar.xz
+"

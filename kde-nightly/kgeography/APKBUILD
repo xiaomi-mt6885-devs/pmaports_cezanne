@@ -1,0 +1,55 @@
+# Contributor: Bart Ribbers <bribbers@disroot.org>
+# Maintainer: team/kde <bribbers@disroot.org>
+
+# The group tag is just to easily find this APKBUILD by some scripts for automation
+# group=kde-applications
+pkgname=kgeography
+pkgver=9999_git20231222
+pkgrel=0
+_commit="44a4bf88b47f5efb3df66b40e14aef26662cc8f7"
+# armhf blocked by extra-cmake-modules
+arch="all !armhf"
+url="https://edu.kde.org/kgeography"
+pkgdesc="Geography Trainer"
+license="GPL-2.0-or-later"
+makedepends="
+	extra-cmake-modules
+	kconfigwidgets-dev
+	kcoreaddons-dev
+	kcrash-dev
+	kdoctools-dev
+	ki18n-dev
+	kiconthemes-dev
+	kitemviews-dev
+	kwidgetsaddons-dev
+	kxmlgui-dev
+	qt6-qtbase-dev
+	samurai
+	"
+_repo_url="https://invent.kde.org/education/kgeography.git"
+source="https://nightly.postmarketos.org/plasma-mobile/sources/2023-12-26/kgeography-$_commit.tar.xz"
+subpackages="$pkgname-doc $pkgname-lang"
+options="!check" # No tests
+
+options="!check"
+builddir="$srcdir/kgeography-$_commit"
+
+build() {
+	cmake -B build -DBUILD_WITH_QT6=ON -G Ninja \
+		-DCMAKE_BUILD_TYPE=RelWithDebInfo \
+		-DCMAKE_INSTALL_PREFIX=/usr \
+		-DCMAKE_INSTALL_LIBDIR=lib
+	cmake --build build
+}
+
+check() {
+	ctest --test-dir build --output-on-failure
+}
+
+package() {
+	DESTDIR="$pkgdir" cmake --install build
+}
+
+sha512sums="
+90b3278753afe739b0701d405fdc53ca6810729665829e2a4d4a1f55d8b22a841d758a4a016074cacb643c4ba8aace70fb8a7e409cce0b8b3dcd5d5151cb92bb  kgeography-44a4bf88b47f5efb3df66b40e14aef26662cc8f7.tar.xz
+"

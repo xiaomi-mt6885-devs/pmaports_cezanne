@@ -1,0 +1,52 @@
+# Contributor: Bart Ribbers <bribbers@disroot.org>
+# Maintainer: team/kde <bribbers@disroot.org>
+
+# The group tag is just to easily find this APKBUILD by some scripts for automation
+# group=kde-applications
+pkgname=filelight
+pkgver=9999_git20231222
+pkgrel=0
+_commit="71000ff05053fe8a88a9a72957992d0cb1a2cee7"
+# armhf blocked by extra-cmake-modules
+arch="all !armhf"
+url="https://kde.org/applications/utilities/filelight"
+pkgdesc="An application to visualize the disk usage on your computer"
+license="(GPL-2.0-only OR GPL-3.0-only) AND GFDL-1.2-only"
+makedepends="
+	extra-cmake-modules
+	kdeclarative-dev
+	kdoctools-dev
+	ki18n-dev
+	kio-dev
+	kirigami-addons-dev
+	kxmlgui-dev
+	qt6-qtbase-dev
+	samurai
+	"
+_repo_url="https://invent.kde.org/utilities/filelight.git"
+source="https://nightly.postmarketos.org/plasma-mobile/sources/2023-12-26/filelight-$_commit.tar.xz"
+subpackages="$pkgname-dbg $pkgname-doc $pkgname-lang"
+options="!check" # No tests
+
+options="!check"
+builddir="$srcdir/filelight-$_commit"
+
+build() {
+	cmake -B build -DBUILD_WITH_QT6=ON -G Ninja \
+		-DCMAKE_BUILD_TYPE=RelWithDebInfo \
+		-DCMAKE_INSTALL_PREFIX=/usr \
+		-DCMAKE_INSTALL_LIBDIR=lib
+	cmake --build build
+}
+
+check() {
+	ctest --test-dir build --output-on-failure
+}
+
+package() {
+	DESTDIR="$pkgdir" cmake --install build
+}
+
+sha512sums="
+417453702742b1e03dc35a280bd818a57e938b17692c1a0168c3e6e50b8078b1903129e862738d33ee6df8b7508588cd8451fea4e8aa4efb74c82628365144cc  filelight-71000ff05053fe8a88a9a72957992d0cb1a2cee7.tar.xz
+"

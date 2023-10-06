@@ -1,0 +1,54 @@
+# Contributor: Bart Ribbers <bribbers@disroot.org>
+# Maintainer: team/kde <bribbers@disroot.org>
+
+# The group tag is just to easily find this APKBUILD by some scripts for automation
+# group=kde-frameworks
+pkgname=kcalendarcore
+pkgver=9999_git20231220
+pkgrel=0
+_commit="bbad7040f4c3af44e8f1a8ebaff994014fdfb253"
+pkgdesc="The KDE calendar access library"
+arch="all !armhf" # armhf blocked by extra-cmake-modules
+url="https://community.kde.org/Frameworks"
+license="LGPL-2.0-or-later"
+depends_dev="
+	libical-dev
+	qt6-qtbase-dev
+	"
+makedepends="$depends_dev
+	doxygen
+	extra-cmake-modules
+	qt6-qttools-dev
+	samurai
+	"
+subpackages="$pkgname-dev $pkgname-doc"
+_repo_url="https://invent.kde.org/frameworks/kcalendarcore.git"
+source="https://nightly.postmarketos.org/plasma-mobile/sources/2023-12-26/kcalendarcore-$_commit.tar.xz"
+options="!check" # RecursOn-ConnectDaily(2|3|6) make the builders stuck
+
+replaces="kcalcore"
+
+options="!check"
+builddir="$srcdir/kcalendarcore-$_commit"
+
+build() {
+	cmake -B build -DBUILD_WITH_QT6=ON -G Ninja \
+		-DCMAKE_BUILD_TYPE=RelWithDebInfo \
+		-DCMAKE_INSTALL_PREFIX=/usr \
+		-DCMAKE_INSTALL_LIBDIR=lib \
+		-DBUILD_QCH=ON
+	cmake --build build
+}
+
+check() {
+	# testrecurtodo, testreadrecurrenceid, testicaltimezones, testmemorycalendar and testtimesininterval are broken
+	ctest --test-dir build --output-on-failure -E "test(recurtodo|readrecurrenceid|icaltimezones|memorycalendar|timesininterval)"
+}
+
+package() {
+	DESTDIR="$pkgdir" cmake --install build
+}
+
+sha512sums="
+2476d3cd4a13e62e5a5a4ce2195eb32f14c032ba761dfde435b81af214e640c3cf029505c32d340f2e1662162998656d0c6da27db7c9e9697bfb40ab9a753bb2  kcalendarcore-bbad7040f4c3af44e8f1a8ebaff994014fdfb253.tar.xz
+"

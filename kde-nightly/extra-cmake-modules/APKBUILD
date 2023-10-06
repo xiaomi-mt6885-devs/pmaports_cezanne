@@ -1,0 +1,52 @@
+# Contributor: k0r10n <k0r10n.dev@gmail.com>
+# Contributor: Ivan Tham <pickfire@riseup.net>
+# Maintainer: team/kde <bribbers@disroot.org>
+
+# The group tag is just to easily find this APKBUILD by some scripts for automation
+# group=kde-frameworks
+pkgname=extra-cmake-modules
+pkgver=9999_git20231220
+pkgrel=0
+_commit="c8e6b4a979f454c586a895491f76c994c791e459"
+pkgdesc="Extra CMake modules"
+url="https://invent.kde.org/frameworks/extra-cmake-modules"
+arch="noarch"
+license="BSD-3-Clause"
+depends="cmake"
+makedepends="
+	py3-sphinx
+	samurai
+	"
+checkdepends="
+	qt6-qtbase-dev
+	qt6-qtdeclarative-dev
+	qt6-qttools-dev
+	"
+_repo_url="https://invent.kde.org/frameworks/extra-cmake-modules.git"
+source="https://nightly.postmarketos.org/plasma-mobile/sources/2023-12-26/extra-cmake-modules-$_commit.tar.xz"
+subpackages="$pkgname-doc"
+
+options="!check"
+builddir="$srcdir/extra-cmake-modules-$_commit"
+
+build() {
+	cmake -B build -DBUILD_WITH_QT6=ON -G Ninja \
+		-DCMAKE_BUILD_TYPE=RelWithDebInfo \
+		-DCMAKE_INSTALL_PREFIX=/usr \
+		-DSphinx_BUILD_EXECUTABLE=/usr/bin/sphinx-build \
+		-DBUILD_QTHELP_DOCS=ON
+	cmake --build build
+}
+
+check() {
+	# KDEFetchTranslations expects KDE's git setup
+	ctest --test-dir build --output-on-failure -E "KDEFetchTranslations"
+}
+
+package() {
+	DESTDIR="$pkgdir" cmake --install build
+}
+
+sha512sums="
+5a209f41d89ba137bd22ef2848499b2c4948d1e7449d66722bea96196e13cdce13aaf9f706480802eefd2d05ae358cdf890e40de59b08df2d2632b9959f2029b  extra-cmake-modules-c8e6b4a979f454c586a895491f76c994c791e459.tar.xz
+"

@@ -1,0 +1,53 @@
+# Contributor: Bart Ribbers <bribbers@disroot.org>
+# Maintainer: team/kde <bribbers@disroot.org>
+
+# The group tag is just to easily find this APKBUILD by some scripts for automation
+# group=kde-frameworks
+pkgname=kirigami
+pkgver=9999_git20231221
+pkgrel=0
+_commit="afef0d70b9767ae1488d89a887f6cbb0be9d92a0"
+pkgdesc="A QtQuick based components set"
+arch="all !armhf" # armhf blocked by qt6-qtdeclarative
+url="https://community.kde.org/Frameworks"
+license="LGPL-2.0-only"
+depends_dev="
+	kconfig-dev
+	kcoreaddons-dev
+	kwindowsystem-dev
+	qt6-qtbase-dev
+	qt6-qtdeclarative-dev
+	qt6-qtsvg-dev
+	"
+makedepends="$depends_dev
+	extra-cmake-modules
+	qt6-qttools-dev
+	samurai
+	"
+_repo_url="https://invent.kde.org/frameworks/kirigami.git"
+source="https://nightly.postmarketos.org/plasma-mobile/sources/2023-12-26/kirigami-$_commit.tar.xz"
+subpackages="$pkgname-dev $pkgname-libs $pkgname-lang"
+
+options="!check"
+builddir="$srcdir/kirigami-$_commit"
+
+build() {
+	cmake -B build -DBUILD_WITH_QT6=ON -G Ninja \
+		-DCMAKE_BUILD_TYPE=RelWithDebInfo \
+		-DCMAKE_INSTALL_PREFIX=/usr \
+		-DKDE_INSTALL_LIBDIR=lib \
+		-DBUILD_EXAMPLES=OFF
+	cmake --build build
+}
+
+check() {
+	ctest --test-dir build --output-on-failure
+}
+
+package() {
+	DESTDIR="$pkgdir" cmake --install build
+}
+
+sha512sums="
+de5fdab9bd8b71faf3c4d29aa3558b1939ee2f2080b3c691843c2bb2a94817fa3e109306b3260ad16cf0f73dd7343322097e75375c90d3e7524246db83d5a824  kirigami-afef0d70b9767ae1488d89a887f6cbb0be9d92a0.tar.xz
+"

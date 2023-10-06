@@ -1,0 +1,58 @@
+# Contributor: Bart Ribbers <bribbers@disroot.org>
+# Maintainer: team/kde <bribbers@disroot.org>
+
+# The group tag is just to easily find this APKBUILD by some scripts for automation
+# group=kde-applications
+pkgname=granatier
+pkgver=9999_git20231222
+pkgrel=0
+_commit="839c307e85aba5899d9e639ea767a43d764b0b54"
+# armhf blocked by extra-cmake-modules
+arch="all !armhf"
+url="https://kde.org/applications/games/org.kde.granatier"
+pkgdesc="A clone of the classic Bomberman game"
+license="GPL-2.0-or-later AND GFDL-1.2-only"
+makedepends="
+	extra-cmake-modules
+	kconfig-dev
+	kconfig-dev
+	kconfigwidgets-dev
+	kcoreaddons-dev
+	kcrash-dev
+	kdbusaddons-dev
+	kdoctools-dev
+	ki18n-dev
+	knewstuff-dev
+	kwidgetsaddons-dev
+	kxmlgui-dev
+	libkdegames-dev
+	qt6-qtbase-dev
+	qt6-qtsvg-dev
+	samurai
+	"
+_repo_url="https://invent.kde.org/games/granatier.git"
+source="https://nightly.postmarketos.org/plasma-mobile/sources/2023-12-26/granatier-$_commit.tar.xz"
+subpackages="$pkgname-doc $pkgname-lang"
+
+options="!check"
+builddir="$srcdir/granatier-$_commit"
+
+build() {
+	cmake -B build -DBUILD_WITH_QT6=ON -G Ninja \
+		-DCMAKE_BUILD_TYPE=RelWithDebInfo \
+		-DCMAKE_INSTALL_PREFIX=/usr \
+		-DCMAKE_INSTALL_LIBDIR=lib
+	cmake --build build
+}
+
+check() {
+	ctest --test-dir build --output-on-failure
+}
+
+package() {
+	DESTDIR="$pkgdir" cmake --install build
+}
+
+sha512sums="
+9a930453a1431736f5c6bee522365f9076b54acd4fa2bdd586d32166f7cb90c75e8281a3c58fa77577ad38eb2420ab5b983a050b0e010b34bac66d868803f632  granatier-839c307e85aba5899d9e639ea767a43d764b0b54.tar.xz
+"

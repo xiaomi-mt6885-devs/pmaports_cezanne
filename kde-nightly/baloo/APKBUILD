@@ -1,0 +1,64 @@
+# Contributor: Bart Ribbers <bribbers@disroot.org>
+# Maintainer: team/kde <bribbers@disroot.org>
+
+# The group tag is just to easily find this APKBUILD by some scripts for automation
+# group=kde-frameworks
+pkgname=baloo
+pkgver=9999_git20231224
+pkgrel=0
+_commit="f573a2728ac79fc61a468107303920b5c0be2a62"
+pkgdesc="A framework for searching and managing metadata"
+# armhf blocked by qt6-qtdeclarative
+arch="all !armhf"
+url="https://community.kde.org/Frameworks"
+license="LGPL-2.1-or-later AND ( LGPL-2.1-only OR LGPL-3.0-only )"
+depends_dev="
+	kbookmarks-dev
+	kcompletion-dev
+	kconfig-dev
+	kcoreaddons-dev
+	kcrash-dev
+	kdbusaddons-dev
+	kfilemetadata-dev
+	ki18n-dev
+	kidletime-dev
+	kio-dev
+	kjobwidgets-dev
+	kservice-dev
+	lmdb-dev
+	qt6-qtdeclarative-dev
+	solid-dev
+	"
+makedepends="$depends_dev
+	extra-cmake-modules
+	qt6-qtbase-dev
+	samurai
+	"
+_repo_url="https://invent.kde.org/frameworks/baloo.git"
+source="https://nightly.postmarketos.org/plasma-mobile/sources/2023-12-26/baloo-$_commit.tar.xz"
+subpackages="$pkgname-dbg $pkgname-dev $pkgname-lang"
+options="!check" # Tons of broken tests
+
+replaces="baloo5"
+
+options="!check"
+builddir="$srcdir/baloo-$_commit"
+
+build() {
+	cmake -B build -DBUILD_WITH_QT6=ON -G Ninja \
+		-DCMAKE_BUILD_TYPE=RelWithDebInfo \
+		-DCMAKE_INSTALL_PREFIX=/usr \
+		-DCMAKE_INSTALL_LIBDIR=lib
+	cmake --build build
+}
+
+package() {
+	DESTDIR="$pkgdir" cmake --install build
+
+	# We don't ship systemd
+	rm -r "$pkgdir"/usr/lib/systemd
+}
+
+sha512sums="
+6606a072d8ce1442673b14f7c4327ebcc5ea9c782875a1850aee2f187d703c0e7428a6153529dc39d90110a66b35315a99bed57ac8a3a47a067ae9b7acb9a6a7  baloo-f573a2728ac79fc61a468107303920b5c0be2a62.tar.xz
+"

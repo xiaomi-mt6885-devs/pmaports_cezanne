@@ -1,0 +1,55 @@
+# Contributor: Bart Ribbers <bribbers@disroot.org>
+# Maintainer: team/kde <bribbers@disroot.org>
+
+# The group tag is just to easily find this APKBUILD by some scripts for automation
+# group=kde-mobile
+pkgname=vakzination
+pkgver=9999_git20231222
+pkgrel=0
+_commit="d4bf1dd6dd97bcff5ecfcacd9455160abca9020c"
+pkgdesc="Vakzination manages your health certificates like vaccination, test, and recovery certificates"
+url="https://invent.kde.org/plasma-mobile/vakzination"
+# armhf blocked by extra-cmake-modules
+# ppc64le blocked by kitinerary
+arch="all !armhf !ppc64le"
+license="LGPL-2.0-or-later"
+depends="
+	kirigami
+	prison
+	"
+makedepends="
+	extra-cmake-modules
+	kconfig-dev
+	khealthcertificate-dev
+	ki18n-dev
+	kirigami-dev
+	kitinerary-dev
+	prison-dev
+	qt6-qtbase-dev
+	qt6-qtdeclarative-dev
+	qt6-qtsvg-dev
+	samurai
+	"
+subpackages="$pkgname-lang"
+_repo_url="https://invent.kde.org/plasma-mobile/vakzination.git"
+source="https://nightly.postmarketos.org/plasma-mobile/sources/2023-12-26/vakzination-$_commit.tar.xz"
+options="!check" # No tests
+
+options="!check"
+builddir="$srcdir/vakzination-$_commit"
+
+build() {
+	cmake -B build -DBUILD_WITH_QT6=ON -G Ninja \
+		-DCMAKE_BUILD_TYPE=RelWithDebInfo \
+		-DCMAKE_INSTALL_PREFIX=/usr \
+		-DCMAKE_INSTALL_LIBDIR=lib
+	cmake --build build
+}
+
+package() {
+	DESTDIR="$pkgdir" cmake --install build
+}
+
+sha512sums="
+b4e06dbe2e4aff432580011e4bb954143d0a38efd8df890eee2bd759202b5fd1d66558fbf197bdf3e1156a3625e2d2eda4426c97716e51d8f247507ec915f657  vakzination-d4bf1dd6dd97bcff5ecfcacd9455160abca9020c.tar.xz
+"

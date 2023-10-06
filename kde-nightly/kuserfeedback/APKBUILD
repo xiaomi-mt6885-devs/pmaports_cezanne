@@ -1,0 +1,51 @@
+# Contributor: Bart Ribbers <bribbers@disroot.org>
+# Maintainer: team/kde <bribbers@disroot.org>
+
+# The group tag is just to easily find this APKBUILD by some scripts for automation
+# group=kde-other
+pkgname=kuserfeedback
+pkgver=9999_git20231222
+pkgrel=0
+_commit="d6afd3986830125536598eadc7e182c5824fefb9"
+pkgdesc="Framework for collecting user feedback for applications via telemetry and surveys"
+url="https://kde.org/products/frameworks/"
+arch="all !armhf"
+license="MIT"
+depends_dev="
+	qt6-qtbase-dev
+	qt6-qtdeclarative-dev
+	qt6-qtsvg-dev
+	qt6-qttools-dev
+	"
+makedepends="$depends_dev
+	extra-cmake-modules
+	samurai
+	"
+checkdepends="xvfb-run"
+subpackages="$pkgname-dev $pkgname-lang"
+_repo_url="https://invent.kde.org/libraries/kuserfeedback.git"
+source="https://nightly.postmarketos.org/plasma-mobile/sources/2023-12-26/kuserfeedback-$_commit.tar.xz"
+
+options="!check"
+builddir="$srcdir/kuserfeedback-$_commit"
+
+build() {
+	cmake -B build -DBUILD_WITH_QT6=ON -G Ninja \
+		-DCMAKE_BUILD_TYPE=RelWithDebInfo \
+		-DCMAKE_INSTALL_PREFIX=/usr \
+		-DCMAKE_INSTALL_LIBDIR=lib
+	cmake --build build
+}
+
+check() {
+	# openglinfosourcetest requires OpenGL
+	xvfb-run ctest --test-dir build --output-on-failure -E "openglinfosourcetest"
+}
+
+package() {
+	DESTDIR="$pkgdir" cmake --install build
+}
+
+sha512sums="
+20b1f8041a7721831550c5b28e459e4e1311139e3a0ed2ac0a66f54ffff9169fc88f385ff23ca3ffb43fa31744fb8ee4a4db5e9ef23f238a9eb46ec054cf0553  kuserfeedback-d6afd3986830125536598eadc7e182c5824fefb9.tar.xz
+"

@@ -1,0 +1,101 @@
+# Contributor: Bart Ribbers <bribbers@disroot.org>
+# Maintainer: team/kde <bribbers@disroot.org>
+
+# The group tag is just to easily find this APKBUILD by some scripts for automation
+# group=kde-plasma
+pkgname=plasma-mobile
+pkgver=9999_git20231222
+pkgrel=0
+_commit="400d1ccfb2dc72d539787b11bbfb072fb196e924"
+pkgdesc="Modules providing phone functionality for Plasma"
+# armhf blocked by extra-cmake-modules
+arch="all !armhf"
+url="https://www.plasma-mobile.org/"
+license="GPL-2.0-or-later AND LGPL-2.1-or-later"
+depends="
+	breeze-icons
+	dbus-x11
+	kactivities
+	kpipewire
+	kquickcharts
+	maliit-keyboard
+	plasma-nano
+	plasma-nm
+	plasma-pa
+	plasma-settings
+	plasma-workspace
+	qqc2-breeze-style
+	"
+makedepends="
+	extra-cmake-modules
+	kactivities-dev
+	kauth-dev
+	kbookmarks-dev
+	kcodecs-dev
+	kcompletion-dev
+	kconfig-dev
+	kconfigwidgets-dev
+	kcoreaddons-dev
+	kdbusaddons-dev
+	kdeclarative-dev
+	ki18n-dev
+	kio-dev
+	kirigami-addons-dev
+	kitemviews-dev
+	kjobwidgets-dev
+	knotifications-dev
+	kpackage-dev
+	kpeople-dev
+	kservice-dev
+	kwayland-dev
+	kwidgetsaddons-dev
+	kwin-dev
+	kwindowsystem-dev
+	kxmlgui-dev
+	libphonenumber-dev
+	libplasma-dev
+	modemmanager-qt-dev
+	networkmanager-qt-dev
+	plasma-workspace-dev
+	qcoro-dev
+	qt6-qtdeclarative-dev
+	samurai
+	solid-dev
+	telepathy-qt-dev
+	"
+
+provides="plasma-phone-components=$pkgver-r$pkgrel" # For backwards compatibility
+replaces="plasma-phone-components" # For backwards compatibility
+
+subpackages="$pkgname-lang"
+
+case "$pkgver" in
+	*.90*) _rel=unstable;;
+	*) _rel=stable;;
+esac
+_repo_url="https://invent.kde.org/plasma/plasma-mobile.git"
+source="https://nightly.postmarketos.org/plasma-mobile/sources/2023-12-26/plasma-mobile-$_commit.tar.xz"
+options="!check" # No tests
+
+options="!check"
+builddir="$srcdir/plasma-mobile-$_commit"
+
+build() {
+	cmake -B build -DBUILD_WITH_QT6=ON -G Ninja \
+		-DCMAKE_BUILD_TYPE=RelWithDebInfo \
+		-DCMAKE_INSTALL_PREFIX=/usr \
+		-DCMAKE_INSTALL_LIBDIR=lib
+	cmake --build build
+}
+
+check() {
+	ctest --test-dir build --output-on-failure
+}
+
+package() {
+	DESTDIR="$pkgdir" cmake --install build
+}
+
+sha512sums="
+5c04f562da5e5a9ede1d7c1a693d6b0063ecc424a39a983ec123a19febcb1ee473b5dc4e6dd2b8588f8de3e42bbd8cfde9be4cb4fec9dddb82eb869ea0aa423b  plasma-mobile-400d1ccfb2dc72d539787b11bbfb072fb196e924.tar.xz
+"

@@ -1,0 +1,49 @@
+# Contributor: Bart Ribbers <bribbers@disroot.org>
+# Maintainer: Bart Ribbers <bribbers@disroot.org>
+
+# The group tag is just to easily find this APKBUILD by some scripts for automation
+# group=kde-applications
+pkgname=kdsoap-ws-discovery-client
+pkgver=9999_git20231120
+pkgrel=0
+_commit="3520e9bbc96c0e7240b5ed4d796f152ad09f24ba"
+pkgdesc="Library for finding WS-Discovery devices in the network using Qt and KDSoap"
+arch="all !armhf" # armhf blocked by extra-cmake-modules
+url="https://invent.kde.org/libraries/kdsoap-ws-discovery-client"
+license="GPL-3.0-or-later"
+makedepends="
+	doxygen
+	extra-cmake-modules
+	graphviz
+	qt6-qtbase-dev
+	qt6-qttools-dev
+	kdsoap-qt6-dev
+	samurai
+	"
+checkdepends="xvfb-run"
+_repo_url="https://invent.kde.org/libraries/kdsoap-ws-discovery-client.git"
+source="https://nightly.postmarketos.org/plasma-mobile/sources/2023-12-26/kdsoap-ws-discovery-client-$_commit.tar.xz"
+subpackages="$pkgname-dev $pkgname-doc"
+
+options="!check"
+builddir="$srcdir/kdsoap-ws-discovery-client-$_commit"
+
+build() {
+	cmake -B build -DBUILD_WITH_QT6=ON -G Ninja \
+		-DCMAKE_BUILD_TYPE=RelWithDebInfo \
+		-DCMAKE_INSTALL_PREFIX=/usr \
+		-DCMAKE_INSTALL_LIBDIR=lib \
+		-DBUILD_QCH=ON
+	cmake --build build
+}
+
+check() {
+	xvfb-run ctest --test-dir build --output-on-failure -E 'kdsoap-ws-discovery-client(core-(kdsoap-ws-discovery-clienttest|kdesktopfiletest|test_kconf_update)|gui-kstandardshortcutwatchertest)'
+}
+
+package() {
+	DESTDIR="$pkgdir" cmake --install build
+}
+sha512sums="
+e8de207fcbf23403c049284142cbd65a49888cb414fc685213ac38991353a935e1320ee4c02b612d95939da965d599cffc5b38d7d24e238d7cb1d26f95c51394  kdsoap-ws-discovery-client-3520e9bbc96c0e7240b5ed4d796f152ad09f24ba.tar.xz
+"

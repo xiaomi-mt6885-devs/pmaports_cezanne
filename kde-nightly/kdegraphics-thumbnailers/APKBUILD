@@ -1,0 +1,46 @@
+# Contributor: Bart Ribbers <bribbers@disroot.org>
+# Maintainer: team/kde <bribbers@disroot.org>
+
+# The group tag is just to easily find this APKBUILD by some scripts for automation
+# group=kde-applications
+pkgname=kdegraphics-thumbnailers
+pkgver=9999_git20231216
+pkgrel=0
+_commit="d41cca70c954d02e8a4163097f6b2faddfbdb5b1"
+# armhf blocked by extra-cmake-modules
+arch="all !armhf"
+pkgdesc="Thumbnailers for various graphics file formats"
+url="https://www.kde.org/applications/graphics/"
+license="GPL-2.0-or-later AND LGPL-2.0-or-later"
+makedepends="
+	extra-cmake-modules
+	karchive-dev
+	kdegraphics-mobipocket-dev
+	kio-dev
+	libkdcraw-dev
+	libkexiv2-dev
+	qt6-qtbase-dev
+	samurai
+	"
+_repo_url="https://invent.kde.org/graphics/kdegraphics-thumbnailers.git"
+source="https://nightly.postmarketos.org/plasma-mobile/sources/2023-12-26/kdegraphics-thumbnailers-$_commit.tar.xz"
+options="!check" # No tests
+
+options="!check"
+builddir="$srcdir/kdegraphics-thumbnailers-$_commit"
+
+build() {
+	cmake -B build -DBUILD_WITH_QT6=ON -G Ninja \
+		-DCMAKE_BUILD_TYPE=RelWithDebInfo \
+		-DCMAKE_INSTALL_PREFIX=/usr \
+		-DCMAKE_INSTALL_LIBDIR=lib
+	cmake --build build
+}
+
+package() {
+	DESTDIR="$pkgdir" cmake --install build
+}
+
+sha512sums="
+4ee5d31e535b06818f371ed71f034419fdbf28b1a990e4c2a7e337cc4d9451ea2ff1ec782ed6837e7c77ea4a37597fed0e70ec32c81571b1919a29dc27fddb84  kdegraphics-thumbnailers-d41cca70c954d02e8a4163097f6b2faddfbdb5b1.tar.xz
+"

@@ -1,0 +1,72 @@
+# Contributor: Bart Ribbers <bribbers@disroot.org>
+# Maintainer: team/kde <bribbers@disroot.org>
+
+# The group tag is just to easily find this APKBUILD by some scripts for automation
+# group=kde-applications
+pkgname=merkuro
+pkgver=9999_git20231221
+pkgrel=0
+_commit="23895573da556145d362ef6999518150d0c62408"
+pkgdesc="A calendar application using Akonadi to sync with external services (NextCloud, GMail, ...)"
+# armhf blocked by qt6-qtdeclarative
+# ppc64le, s390x and riscv64 blocked by qt6-qtwebengine -> akonadi
+arch="all !armhf !ppc64le !s390x !riscv64"
+url="https://invent.kde.org/pim/kalendar"
+license="GPL-3.0-or-later AND BSD-2-Clause"
+depends="
+	kdepim-runtime
+	kirigami-addons
+	kirigami
+	qt6-qtlocation
+	"
+makedepends="
+	akonadi-contacts-dev
+	akonadi-dev
+	eventviews-dev
+	extra-cmake-modules
+	kcalendarcore-dev
+	kconfigwidgets-dev
+	kcontacts-dev
+	kcoreaddons-dev
+	ki18n-dev
+	kidentitymanagement-dev
+	kirigami-addons-dev
+	kirigami-dev
+	kitemmodels-dev
+	kpackage-dev
+	kpeople-dev
+	kwindowsystem-dev
+	mailcommon-dev
+	mimetreeparser-dev
+	qqc2-desktop-style-dev
+	qt6-qtbase-dev
+	qt6-qtdeclarative-dev
+	qt6-qtlocation-dev
+	qt6-qtsvg-dev
+	samurai
+	"
+subpackages="$pkgname-lang"
+_repo_url="https://invent.kde.org/pim/merkuro.git"
+source="https://nightly.postmarketos.org/plasma-mobile/sources/2023-12-26/merkuro-$_commit.tar.xz"
+options="!check" # No tests
+
+provides="kalendar=$pkgver-r$pkgrel"
+replaces="kalendar"
+
+options="!check"
+builddir="$srcdir/merkuro-$_commit"
+
+build() {
+	cmake -B build -DBUILD_WITH_QT6=ON -G Ninja \
+		-DCMAKE_BUILD_TYPE=RelWithDebInfo \
+		-DCMAKE_INSTALL_PREFIX=/usr
+	cmake --build build
+}
+
+package() {
+	DESTDIR="$pkgdir" cmake --install build
+}
+
+sha512sums="
+ed838be0b57275c91f4e1f26d3afbddfacd09d09631950ca23714720200eb5c2c70584fdff3c95dd70846d6f6c253f62b1ab4c32ffee581a5165ccd75d269650  merkuro-23895573da556145d362ef6999518150d0c62408.tar.xz
+"

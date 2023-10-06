@@ -1,0 +1,61 @@
+# Contributor: Bart Ribbers <bribbers@disroot.org>
+# Maintainer: team/kde <bribbers@disroot.org>
+
+# The group tag is just to easily find this APKBUILD by some scripts for automation
+# group=kde-plasma
+pkgname=libkscreen
+pkgver=9999_git20231221
+pkgrel=0
+_commit="0f45253c6b2ffdb7c83e6a25a7c3a515bd91f371"
+pkgdesc="KDE screen management software"
+arch="all !armhf" # armhf blocked by extra-cmake-modules
+url="https://kde.org/plasma-desktop/"
+license="LGPL-2.1-or-later AND GPL-2.0-or-later AND (GPL-2.0-only OR GPL-3.0-only)"
+depends_dev="
+	kconfig-dev
+	kwayland-dev
+	qt6-qtbase-dev
+	"
+makedepends="$depends_dev
+	doxygen
+	extra-cmake-modules
+	graphviz
+	plasma-wayland-protocols
+	qt6-qttools-dev
+	samurai
+	"
+
+case "$pkgver" in
+	*.90*) _rel=unstable;;
+	*) _rel=stable;;
+esac
+_repo_url="https://invent.kde.org/plasma/libkscreen.git"
+source="https://nightly.postmarketos.org/plasma-mobile/sources/2023-12-26/libkscreen-$_commit.tar.xz"
+subpackages="$pkgname-dev $pkgname-doc"
+options="!check" # Fails due to requiring dbus-x11 and it running
+
+options="!check"
+builddir="$srcdir/libkscreen-$_commit"
+
+build() {
+	cmake -B build -DBUILD_WITH_QT6=ON -G Ninja \
+		-DCMAKE_BUILD_TYPE=RelWithDebInfo \
+		-DCMAKE_INSTALL_PREFIX=/usr \
+		-DCMAKE_INSTALL_LIBDIR=lib \
+		-DBUILD_QCH=ON
+	cmake --build build
+}
+
+check() {
+	ctest --test-dir python --output-on-failure
+}
+
+package() {
+	DESTDIR="$pkgdir" cmake --install build
+
+	rm -rf "$pkgdir"/usr/lib/systemd
+}
+
+sha512sums="
+53706886f448624c699bff6e1af7fdd78c3ab0310945b0389e5254ecb3e4a2f13338957420fdc3420bcaa46f09c4535b9a7c688aae0261f5405eb9da635d1536  libkscreen-0f45253c6b2ffdb7c83e6a25a7c3a515bd91f371.tar.xz
+"

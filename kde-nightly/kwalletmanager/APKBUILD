@@ -1,0 +1,66 @@
+# Contributor: Bart Ribbers <bribbers@disroot.org>
+# Maintainer: team/kde <bribbers@disroot.org>
+
+# The group tag is just to easily find this APKBUILD by some scripts for automation
+# group=kde-applications
+pkgname=kwalletmanager
+pkgver=9999_git20231222
+pkgrel=0
+_commit="b83d71c88dffd826a9500df274be14b8937e7f1f"
+# armhf blocked by extra-cmake-modules
+arch="all !armhf"
+url="https://kde.org/applications/system/org.kde.kwalletmanager5"
+pkgdesc="A tool to manage the passwords on your KDE system"
+license="GPL-2.0-or-later"
+makedepends="
+	extra-cmake-modules
+	karchive-dev
+	kauth-dev
+	kcmutils-dev
+	kconfig-dev
+	kconfigwidgets-dev
+	kcoreaddons-dev
+	kcrash-dev
+	kdbusaddons-dev
+	kdoctools-dev
+	ki18n-dev
+	kiconthemes-dev
+	kio-dev
+	kjobwidgets-dev
+	knotifications-dev
+	kservice-dev
+	kstatusnotifieritem-dev
+	ktextwidgets-dev
+	kwallet-dev
+	kwindowsystem-dev
+	kxmlgui-dev
+	qt6-qtbase-dev
+	samurai
+	"
+checkdepends="xvfb-run"
+_repo_url="https://invent.kde.org/utilities/kwalletmanager.git"
+source="https://nightly.postmarketos.org/plasma-mobile/sources/2023-12-26/kwalletmanager-$_commit.tar.xz"
+subpackages="$pkgname-doc $pkgname-lang"
+
+options="!check"
+builddir="$srcdir/kwalletmanager-$_commit"
+
+build() {
+	cmake -B build -DBUILD_WITH_QT6=ON -G Ninja \
+		-DCMAKE_BUILD_TYPE=RelWithDebInfo \
+		-DCMAKE_INSTALL_PREFIX=/usr \
+		-DCMAKE_INSTALL_LIBDIR=lib
+	cmake --build build
+}
+
+check() {
+	ctest --test-dir build --output-on-failure
+}
+
+package() {
+	DESTDIR="$pkgdir" cmake --install build
+}
+
+sha512sums="
+d012da1913220162157e687f6e211080d3b22d653a0d069b1fdb7b0919727017db04fd7caab096591e2d61c7606ca87c43ac7e345287fba82c13c954543d3f77  kwalletmanager-b83d71c88dffd826a9500df274be14b8937e7f1f.tar.xz
+"

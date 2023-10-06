@@ -1,0 +1,49 @@
+# Contributor: Devin Lin <espidev@gmail.com>
+# Maintainer: team/kde <bribbers@disroot.org>
+
+# The group tag is just to easily find this APKBUILD by some scripts for automation
+# group=kde-other
+pkgname=kweathercore
+pkgver=9999_git20231221
+pkgrel=0
+_commit="031fa7f5cc74bd991c84b23a678edcf332e36de7"
+pkgdesc="Library to facilitate retrieval of weather information including forecasts and alerts"
+url="https://invent.kde.org/libraries/kweathercore"
+arch="all !armhf" # armhf blocked by qt6-qtlocation-dev
+license="LGPL-2.0-or-later AND CC-BY-4.0"
+depends_dev="
+	kholidays-dev
+	ki18n-dev
+	qt6-qtbase-dev
+	qt6-qtlocation-dev
+	"
+makedepends="$depends_dev
+	doxygen
+	extra-cmake-modules
+	qt6-qttools-dev
+	samurai
+	"
+_repo_url="https://invent.kde.org/libraries/kweathercore.git"
+source="https://nightly.postmarketos.org/plasma-mobile/sources/2023-12-26/kweathercore-$_commit.tar.xz"
+options="!check" # No tests
+subpackages="$pkgname-dev"
+
+options="!check"
+builddir="$srcdir/kweathercore-$_commit"
+
+build() {
+	cmake -B build -DBUILD_WITH_QT6=ON -G Ninja \
+		-DCMAKE_BUILD_TYPE=RelWithDebInfo \
+		-DCMAKE_INSTALL_PREFIX=/usr \
+		-DCMAKE_INSTALL_LIBDIR=lib \
+		-DBUILD_QCH=ON
+	cmake --build build
+}
+
+package() {
+	DESTDIR="$pkgdir" cmake --install build
+}
+
+sha512sums="
+f704263b4edd5683ba9cfb4c34665051fc36c82f519bcd4dbda81d476bd23d3b08200f0948643a4f0fcaff1778c4eb79ecc621c98f1a99f0251de87c525f7259  kweathercore-031fa7f5cc74bd991c84b23a678edcf332e36de7.tar.xz
+"

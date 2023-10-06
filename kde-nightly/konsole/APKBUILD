@@ -1,0 +1,90 @@
+# Contributor: Bart Ribbers <bribbers@disroot.org>
+# Maintainer: team/kde <bribbers@disroot.org>
+
+# The group tag is just to easily find this APKBUILD by some scripts for automation
+# group=kde-applications
+pkgname=konsole
+pkgver=9999_git20231222
+pkgrel=0
+_commit="5ab12eb37ab11b7c25bab12bd65e152cc656df84"
+# armhf blocked by qt6-qtdeclarative
+arch="all !armhf"
+url="https://kde.org/applications/system/konsole"
+pkgdesc="KDE's terminal emulator"
+license="GPL-2.0-only AND LGPL-2.1-or-later AND Unicode-DFS-2016"
+depends="ncurses-terminfo-base"
+makedepends="
+	extra-cmake-modules
+	kbookmarks-dev
+	kcompletion-dev
+	kconfig-dev
+	kconfigwidgets-dev
+	kcoreaddons-dev
+	kcrash-dev
+	kdbusaddons-dev
+	kdoctools-dev
+	kglobalaccel-dev
+	kguiaddons-dev
+	ki18n-dev
+	kiconthemes-dev
+
+	kio-dev
+	knewstuff-dev
+	knotifications-dev
+	knotifyconfig-dev
+	kparts-dev
+	kpty-dev
+	kservice-dev
+	ktextwidgets-dev
+	kwidgetsaddons-dev
+	kwindowsystem-dev
+	kxmlgui-dev
+	qt6-qtbase-dev
+	qt6-qtmultimedia-dev
+	samurai
+	"
+checkdepends="mesa-dri-gallium xvfb-run"
+_repo_url="https://invent.kde.org/utilities/konsole.git"
+source="https://nightly.postmarketos.org/plasma-mobile/sources/2023-12-26/konsole-$_commit.tar.xz"
+subpackages="$pkgname-doc $pkgname-lang"
+
+options="!check"
+builddir="$srcdir/konsole-$_commit"
+
+build() {
+	cmake -B build -DBUILD_WITH_QT6=ON -G Ninja \
+		-DCMAKE_BUILD_TYPE=RelWithDebInfo \
+		-DCMAKE_INSTALL_PREFIX=/usr \
+		-DCMAKE_INSTALL_LIBDIR=lib \
+		-DENABLE_PLUGIN_SSHMANAGER=ON
+	cmake --build build
+}
+
+check() {
+	cd build
+
+	# DBusTest requires running DBus
+	local skipped_tests="("
+	local tests="
+		DBus
+		History
+		"
+	case "$CARCH" in
+		armv7)
+			tests="$tests Part"
+			;;
+	esac
+	for test in $tests; do
+		skipped_tests="$skipped_tests|$test"
+	done
+	skipped_tests="$skipped_tests)Test"
+	CTEST_OUTPUT_ON_FAILURE=TRUE xvfb-run ctest -E "$skipped_tests"
+}
+
+package() {
+	DESTDIR="$pkgdir" cmake --install build
+}
+
+sha512sums="
+b95f72c40d010aea3ea4fd964c2373a7e5265848029ac04d1fe51afd06ebec8530d4de5294db207cd455bc72bd62b7ce092f1268f818dcd67f3786bd3cb45762  konsole-5ab12eb37ab11b7c25bab12bd65e152cc656df84.tar.xz
+"

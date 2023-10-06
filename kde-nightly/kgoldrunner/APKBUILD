@@ -1,0 +1,53 @@
+# Contributor: Bart Ribbers <bribbers@disroot.org>
+# Maintainer: team/kde <bribbers@disroot.org>
+
+# The group tag is just to easily find this APKBUILD by some scripts for automation
+# group=kde-applications
+pkgname=kgoldrunner
+pkgver=9999_git20231222
+pkgrel=0
+_commit="746ab7da991b96c49316d47b9b2b5b6b09996d75"
+# armhf blocked by extra-cmake-modules
+arch="all !armhf"
+url="https://kde.org/applications/games/kgoldrunner/"
+pkgdesc="A game of action and puzzle solving"
+license="GPL-2.0-or-later AND GFDL-1.2-only"
+makedepends="
+	extra-cmake-modules
+	qt6-qtbase-dev
+	kconfig-dev
+	kconfigwidgets-dev
+	kcoreaddons-dev
+	kcrash-dev
+	kdbusaddons-dev
+	kdoctools-dev
+	ki18n-dev
+	kio-dev
+	kwidgetsaddons-dev
+	kxmlgui-dev
+	libkdegames-dev
+	samurai
+	"
+_repo_url="https://invent.kde.org/games/kgoldrunner.git"
+source="https://nightly.postmarketos.org/plasma-mobile/sources/2023-12-26/kgoldrunner-$_commit.tar.xz"
+subpackages="$pkgname-doc $pkgname-lang"
+options="!check" # No tests
+
+options="!check"
+builddir="$srcdir/kgoldrunner-$_commit"
+
+build() {
+	cmake -B build -DBUILD_WITH_QT6=ON -G Ninja \
+		-DCMAKE_BUILD_TYPE=RelWithDebInfo \
+		-DCMAKE_INSTALL_PREFIX=/usr \
+		-DCMAKE_INSTALL_LIBDIR=lib
+	cmake --build build
+}
+
+package() {
+	DESTDIR="$pkgdir" cmake --install build
+}
+
+sha512sums="
+195f67ffbd74259600e1f5d4587e04b19da19b1cf248cc83db06695fe5fa8b83c7694ecc7e2e746a1c7354c5f1ddb2399c8b1489709ee59cb7a3f3f0e2854fa7  kgoldrunner-746ab7da991b96c49316d47b9b2b5b6b09996d75.tar.xz
+"

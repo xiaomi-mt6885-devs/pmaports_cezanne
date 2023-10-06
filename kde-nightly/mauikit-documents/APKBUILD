@@ -1,0 +1,61 @@
+# Contributor: knuxify <knuxify@gmail.com>
+# Maintainer: team/kde <bribbers@disroot.org>
+
+# The group tag is just to easily find this APKBUILD by some scripts for automation
+# group=maui
+pkgname=mauikit-documents
+pkgver=9999_git20231017
+pkgrel=0
+_commit="52a50064fbbce2fb0984aee11f33ed96a229a143"
+pkgdesc="MauiKit Documents components"
+# armhf blocked by mauikit -> qt6-qtdeclarative
+arch="all !armhf"
+url="https://mauikit.org/"
+license="GPL-2.0-or-later"
+depends="
+	kirigami
+	qt6-qtbase-sqlite
+	"
+makedepends="
+	extra-cmake-modules
+	karchive-dev
+	kcoreaddons-dev
+	kfilemetadata-dev
+	kguiaddons-dev
+	ki18n-dev
+	kiconthemes-dev
+	kio-dev
+	mauikit
+	mauikit-dev
+	qt6-qtbase-dev
+	poppler-qt-dev
+	samurai
+	zlib-dev
+	"
+subpackages="$pkgname-dev $pkgname-lang"
+_repo_url="https://invent.kde.org/maui/mauikit-documents.git"
+source="http://localhost:8000/mauikit-documents-$_commit.tar.xz"
+
+options="!check"
+builddir="$srcdir/mauikit-documents-$_commit"
+
+build() {
+	cmake -B build -DBUILD_WITH_QT6=ON -G Ninja \
+		-DCMAKE_BUILD_TYPE=RelWithDebInfo \
+		-DCMAKE_INSTALL_PREFIX=/usr \
+		-DCMAKE_INSTALL_LIBDIR=lib \
+		-DBUILD_SHARED_LIBS=ON
+	cmake --build build
+}
+
+check() {
+	ctest --test-dir build --output-on-failure
+}
+
+package() {
+	DESTDIR="$pkgdir" cmake --install build
+}
+
+sha512sums="
+f81d902972acfb1a9391bb2865ec4e47e33ba0aa4913f23c01606a3f312db6f2d1a1ff5f49d7823f58bf040ec3e46f0b7a2bfdabe659e98e27ab47707a5e73f8  mauikit-documents-52a50064fbbce2fb0984aee11f33ed96a229a143.tar.xz
+"

@@ -1,0 +1,63 @@
+# Contributor: Bart Ribbers <bribbers@disroot.org>
+# Maintainer: team/kde <bribbers@disroot.org>
+
+# The group tag is just to easily find this APKBUILD by some scripts for automation
+# group=kde-frameworks
+pkgname=ktexteditor
+pkgver=9999_git20231221
+pkgrel=0
+_commit="59fed0278f7ccebd7e08c4d901e8e4a194c20899"
+pkgdesc="Advanced embeddable text editor"
+# armhf blocked by extra-cmake-modules
+arch="all !armhf"
+url="https://community.kde.org/Frameworks"
+license="LGPL-2.0-or-later AND (LGPL-2.0-only OR LGPL-3.0-only)"
+depends_dev="
+	karchive-dev
+	kauth-dev
+	kconfig-dev
+	kguiaddons-dev
+	ki18n-dev
+	kiconthemes-dev
+	kio-dev
+	kparts-dev
+	sonnet-dev
+	syntax-highlighting-dev
+	"
+makedepends="$depends_dev
+	doxygen
+	extra-cmake-modules
+	qt6-qttools-dev
+	samurai
+	"
+checkdepends="xvfb-run"
+options="!check" # fail on builders
+_repo_url="https://invent.kde.org/frameworks/ktexteditor.git"
+source="https://nightly.postmarketos.org/plasma-mobile/sources/2023-12-26/ktexteditor-$_commit.tar.xz"
+subpackages="$pkgname-dev $pkgname-doc $pkgname-lang"
+
+replaces="ktexteditor5"
+
+options="!check"
+builddir="$srcdir/ktexteditor-$_commit"
+
+build() {
+	cmake -B build -DBUILD_WITH_QT6=ON -G Ninja \
+		-DCMAKE_BUILD_TYPE=RelWithDebInfo \
+		-DCMAKE_INSTALL_PREFIX=/usr \
+		-DCMAKE_INSTALL_LIBDIR=lib \
+		-DBUILD_QCH=ON
+	cmake --build build
+}
+
+check() {
+	xvfb-run ctest --test-dir build --output-on-failure
+}
+
+package() {
+	DESTDIR="$pkgdir" cmake --install build
+}
+
+sha512sums="
+39179cda72a41cc26f2435f8d5b4464fa4759dd225408b1a4437dfa34774b165dea00021f1a2780c350471a7a9734d8e942ccc762f613f9d20db23544da752c3  ktexteditor-59fed0278f7ccebd7e08c4d901e8e4a194c20899.tar.xz
+"

@@ -1,0 +1,61 @@
+# Forked from Alpine INSERT-REASON-HERE (CHANGEME!)
+
+
+# The group tag is just to easily find this APKBUILD by some scripts for automation
+# group=kde-plasma
+pkgname=plasma5support
+pkgver=9999_git20231221
+pkgrel=0
+_commit="8c987891787098f7b97c3bfca7d685c3a46cc7f9"
+pkgdesc="Support components for porting from KF5/Qt5 to KF6/Qt6"
+# armhf blocked by extra-cmake-modules
+arch="all !armhf"
+url="https://kde.org/plasma-desktop/"
+license="GPL-2.0-or-later"
+makedepends="
+	extra-cmake-modules
+	doxygen
+	kconfig-dev
+	kcoreaddons-dev
+	ki18n-dev
+	kio-dev
+	kpackage-dev
+	kservice-dev
+	kxmlgui-dev
+	qt6-qtbase-dev
+	qt6-qtdeclarative-dev
+	qt6-qttools-dev
+	samurai
+	"
+
+case "$pkgver" in
+	*.90*) _rel=unstable;;
+	*) _rel=stable;;
+esac
+_repo_url="https://invent.kde.org/plasma/plasma5support.git"
+source="https://nightly.postmarketos.org/plasma-mobile/sources/2023-12-26/plasma5support-$_commit.tar.xz"
+subpackages="$pkgname-dev $pkgname-doc $pkgname-lang"
+
+options="!check"
+builddir="$srcdir/plasma5support-$_commit"
+
+build() {
+	cmake -B build -DBUILD_WITH_QT6=ON -DBUILD_WITH_QT6=ON -G Ninja \
+		-DCMAKE_BUILD_TYPE=RelWithDebInfo \
+		-DCMAKE_INSTALL_PREFIX=/usr \
+		-DCMAKE_INSTALL_LIBDIR=lib \
+		-DBUILD_TESTING=ON \
+		-DBUILD_QCH=ON
+	cmake --build build
+}
+
+check() {
+	ctest --test-dir build --output-on-failure
+}
+
+package() {
+	DESTDIR="$pkgdir" cmake --install build
+}
+sha512sums="
+1dcb9f04722d2616e354dc4ffa9bcfb6ea5aaf47807e907f42a0f7b6b1dd7c2cf97074f9c65c1e959da8a354140ab648e9350d87374e355a12b30c6f18bae267  plasma5support-8c987891787098f7b97c3bfca7d685c3a46cc7f9.tar.xz
+"

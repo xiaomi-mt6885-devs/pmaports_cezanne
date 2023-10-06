@@ -1,0 +1,50 @@
+# Contributor: Bart Ribbers <bribbers@disroot.org>
+# Maintainer: Bart Ribbers <bribbers@disroot.org>
+
+# The group tag is just to easily find this APKBUILD by some scripts for automation
+# group=kde-other
+pkgname=futuresql
+pkgver=9999_git20231202
+pkgrel=0
+_commit="81ee895cd9947a691c27f981f3aae39d4c6f51ad"
+pkgdesc="Non-blocking Qt database framework"
+# armhf blocked by extra-cmake-modules
+arch="all !armhf"
+url="https://invent.kde.org/libraries/futuresql/"
+license="LGPL-2.0-or-later AND GPL-2.0-or-later"
+depends_dev="
+	qcoro-dev
+	qt6-qtbase-dev
+	"
+makedepends="
+	$depends_dev
+	extra-cmake-modules
+	samurai
+	"
+subpackages="$pkgname-dev"
+_repo_url="https://invent.kde.org/libraries/futuresql.git"
+source="https://nightly.postmarketos.org/plasma-mobile/sources/2023-12-26/futuresql-$_commit.tar.xz"
+
+options="!check"
+builddir="$srcdir/futuresql-$_commit"
+
+build() {
+	cmake -B build -DBUILD_WITH_QT6=ON -G Ninja \
+		-DCMAKE_BUILD_TYPE=RelWithDebInfo \
+		-DCMAKE_INSTALL_PREFIX=/usr \
+		-DCMAKE_INSTALL_LIBDIR=lib \
+		-DBUILD_TESTING="$(want_check && echo ON || echo OFF)"
+	cmake --build build
+}
+
+check() {
+	ctest --test-dir build --output-on-failure
+}
+
+package() {
+	DESTDIR="$pkgdir" cmake --install build
+}
+
+sha512sums="
+b0513f9d2d87f1353cfea3162217dcf5afaf4453b7b69a163a41e491e0920a08da72ee6eb1a2019e52a096c6df6ab933469e9c5f4c216d5d4760ab780e2bc9b5  futuresql-81ee895cd9947a691c27f981f3aae39d4c6f51ad.tar.xz
+"

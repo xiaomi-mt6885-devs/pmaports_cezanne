@@ -1,0 +1,113 @@
+# Contributor: Bart Ribbers <bribbers@disroot.org>
+# Maintainer: team/kde <bribbers@disroot.org>
+
+# The group tag is just to easily find this APKBUILD by some scripts for automation
+# group=kde-plasma
+pkgname=plasma-desktop
+pkgver=9999_git20231222
+pkgrel=0
+_commit="fba200737b762927334c4bbfe84b445decc2c558"
+pkgdesc="KDE Plasma Desktop"
+# armhf blocked by qt6-qtdeclarative
+# ppc64le, s390x and riscv64 blocked by qt6-qtwebengine -> kaccounts-integration
+arch="all !armhf !ppc64le !s390x !riscv64"
+url='https://kde.org/plasma-desktop/'
+license="GPL-2.0-only AND LGPL-2.1-only"
+depends="
+	accountsservice
+	font-noto-emoji
+	ibus-emoji
+	kirigami
+	plasma-workspace
+	qqc2-desktop-style
+	setxkbmap
+	xdg-user-dirs
+	"
+makedepends="
+	attica-dev
+	baloo-dev
+	eudev-dev
+	extra-cmake-modules
+	fontconfig-dev
+	ibus-dev
+	kactivities-dev
+	kactivities-stats-dev
+	kauth-dev
+	kcmutils-dev
+	kcodecs-dev
+	kconfig-dev
+	kdbusaddons-dev
+	kdeclarative-dev
+	kdoctools-dev
+	kglobalaccel-dev
+	ki18n-dev
+	kitemmodels-dev
+	knewstuff-dev
+	knotifications-dev
+	knotifyconfig-dev
+	kpeople-dev
+	kpipewire-dev
+	krunner-dev
+	kwallet-dev
+	kwin-dev
+	libplasma-dev
+	libxcursor-dev
+	libxi-dev
+	libxkbfile-dev
+	plasma-workspace-dev
+	plasma5support-dev
+	qqc2-desktop-style-dev
+	qt6-qtbase-dev
+	qt6-qtdeclarative-dev
+	qt6-qtsvg-dev
+	samurai
+	signon-plugin-oauth2-dev
+	xf86-input-evdev-dev
+	xf86-input-libinput-dev
+	xf86-input-synaptics-dev
+	xkeyboard-config-dev
+	"
+checkdepends="
+	dbus
+	iso-codes
+	xvfb-run
+	"
+
+case "$pkgver" in
+	*.90*) _rel=unstable;;
+	*) _rel=stable;;
+esac
+_repo_url="https://invent.kde.org/plasma/plasma-desktop.git"
+source="https://nightly.postmarketos.org/plasma-mobile/sources/2023-12-26/plasma-desktop-$_commit.tar.xz"
+subpackages="$pkgname-dbg $pkgname-doc $pkgname-lang knetattach"
+
+options="!check"
+builddir="$srcdir/plasma-desktop-$_commit"
+
+build() {
+	cmake -B build -DBUILD_WITH_QT6=ON -G Ninja \
+		-DCMAKE_BUILD_TYPE=RelWithDebInfo \
+		-DCMAKE_INSTALL_PREFIX=/usr \
+		-DCMAKE_INSTALL_LIBDIR=lib
+	cmake --build build
+}
+
+check() {
+	dbus-run-session -- xvfb-run ctest --test-dir build --output-on-failure -E "positionertest"
+}
+
+package() {
+	DESTDIR="$pkgdir" cmake --install build
+}
+
+knetattach() {
+	pkgdesc="Wizard which makes it easier to integrate network resources with the Plasma Desktop"
+	depends=""
+
+	amove usr/bin/knetattach
+	amove usr/share/applications/org.kde.knetattach.desktop
+}
+
+sha512sums="
+3f1f32b53225ce3087a5c11715265a733ccb3baaa6789bf832904a95139ad614b7e35248892e1a3b9a0ee582b82db643d15f5abc05ae142e105ff56f3d9716a5  plasma-desktop-fba200737b762927334c4bbfe84b445decc2c558.tar.xz
+"

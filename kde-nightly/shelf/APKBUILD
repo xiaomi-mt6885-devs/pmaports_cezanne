@@ -1,0 +1,56 @@
+# Contributor: Bart Ribbers <bribbers@disroot.org>
+# Maintainer: team/kde <bribbers@disroot.org>
+
+# The group tag is just to easily find this APKBUILD by some scripts for automation
+# group=maui
+pkgname=shelf
+pkgver=9999_git20231014
+pkgrel=0
+_commit="088e1452e2227c04a3cc813f22875163f799510c"
+pkgdesc="Document and EBook collection manager"
+# armhf blocked by extra-cmake-modules
+arch="all !armhf"
+url="https://invent.kde.org/maui/shelf"
+license="GPL-3.0-or-later"
+depends="
+	mauikit-documents
+	mauikit-texteditor
+	"
+makedepends="
+	extra-cmake-modules
+	kcoreaddons-dev
+	ki18n-dev
+	mauikit-dev
+	mauikit-documents-dev
+	mauikit-filebrowsing-dev
+	poppler-qt-dev
+	qt6-qtbase-dev
+	qt6-qtdeclarative-dev
+	samurai
+	"
+subpackages="$pkgname-lang"
+_repo_url="https://invent.kde.org/maui/shelf.git"
+source="http://localhost:8000/shelf-$_commit.tar.xz"
+options="!check" # No tests
+
+options="!check"
+builddir="$srcdir/shelf-$_commit"
+
+build() {
+	cmake -B build -DBUILD_WITH_QT6=ON -G Ninja \
+		-DCMAKE_BUILD_TYPE=RelWithDebInfo \
+		-DCMAKE_INSTALL_PREFIX=/usr \
+		-DCMAKE_INSTALL_LIBDIR=lib
+	cmake --build build
+}
+
+check() {
+	ctest --test-dir build --output-on-failure
+}
+
+package() {
+	DESTDIR="$pkgdir" cmake --install build
+}
+sha512sums="
+02fabbdb767ac3e2d0b78c613207fc6eaecf2f746881f8d96074259e28a0eb8000607df3d996a425f6cbfbc0868ce16457b55cb31b5f47d27e984055fff5c466  shelf-088e1452e2227c04a3cc813f22875163f799510c.tar.xz
+"

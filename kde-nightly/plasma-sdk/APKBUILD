@@ -1,0 +1,74 @@
+# Contributor: Bart Ribbers <bribbers@disroot.org>
+# Maintainer: team/kde <bribbers@disroot.org>
+
+# The group tag is just to easily find this APKBUILD by some scripts for automation
+# group=kde-plasma
+pkgname=plasma-sdk
+pkgver=9999_git20231221
+pkgrel=0
+_commit="e43cb9e7a49d7c3208bdca067bc6cc91fc582e06"
+pkgdesc="Applications useful for Plasma Development"
+# armhf blocked by qt6-qtdeclarative
+arch="all !armhf"
+url="https://kde.org/plasma-desktop/"
+license="GPL-2.0-or-later"
+depends="kirigami"
+makedepends="
+	extra-cmake-modules
+	karchive-dev
+	kcompletion-dev
+	kconfig-dev
+	kconfigwidgets-dev
+	kcoreaddons-dev
+	kdbusaddons-dev
+	kdeclarative-dev
+	kdoctools-dev
+	ki18n-dev
+	kiconthemes-dev
+	kio-dev
+	kitemmodels-dev
+	kparts-dev
+	kservice-dev
+	ksvg-dev
+	ktexteditor-dev
+	kwidgetsaddons-dev
+	libplasma-dev
+	plasma5support-dev
+	qt6-qtbase-dev
+	qt6-qtdeclarative-dev
+	qt6-qtsvg-dev
+	samurai
+	"
+checkdepends="xvfb-run"
+
+case "$pkgver" in
+	*.90*) _rel=unstable;;
+	*) _rel=stable;;
+esac
+_repo_url="https://invent.kde.org/plasma/plasma-sdk.git"
+source="https://nightly.postmarketos.org/plasma-mobile/sources/2023-12-26/plasma-sdk-$_commit.tar.xz"
+subpackages="$pkgname-doc $pkgname-lang $pkgname-zsh-completion"
+
+options="!check"
+builddir="$srcdir/plasma-sdk-$_commit"
+
+build() {
+	cmake -B build -DBUILD_WITH_QT6=ON -G Ninja \
+		-DCMAKE_BUILD_TYPE=RelWithDebInfo \
+		-DCMAKE_INSTALL_PREFIX=/usr \
+		-DCMAKE_INSTALL_LIBDIR=lib
+	cmake --build build
+}
+
+check() {
+	# iconmodeltest is broken
+	xvfb-run ctest --test-dir build --output-on-failure -E "iconmodeltest"
+}
+
+package() {
+	DESTDIR="$pkgdir" cmake --install build
+}
+
+sha512sums="
+7cf7aadba2121f395d38f3369970b4ae4d44fc3bdc91e9a3a7eeec41b3298f3b9e32c01a000640275613ca741382b7c821fef88ec252de5729c72a6a5c3961b5  plasma-sdk-e43cb9e7a49d7c3208bdca067bc6cc91fc582e06.tar.xz
+"

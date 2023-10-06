@@ -1,0 +1,58 @@
+# Contributor: Bart Ribbers <bribbers@disroot.org>
+# Maintainer: team/kde <bribbers@disroot.org>
+
+# The group tag is just to easily find this APKBUILD by some scripts for automation
+# group=kde-frameworks
+pkgname=kquickcharts
+pkgver=9999_git20231220
+pkgrel=0
+_commit="642edacaa26f8387f83474db0659c0ae1cc9db82"
+pkgdesc="A QtQuick plugin providing high-performance charts"
+arch="all !armhf" # armhf blocked by qt6-qtdeclarative
+url="https://community.kde.org/Frameworks"
+license="LGPL-2.1-only OR LGPL-3.0-only"
+depends_dev="
+	qt6-qtbase-dev
+	qt6-qtdeclarative-dev
+	"
+makedepends="$depends_dev
+	extra-cmake-modules
+	samurai
+	"
+checkdepends="xvfb-run"
+_repo_url="https://invent.kde.org/frameworks/kquickcharts.git"
+source="https://nightly.postmarketos.org/plasma-mobile/sources/2023-12-26/kquickcharts-$_commit.tar.xz"
+subpackages="$pkgname-dev"
+
+options="!check"
+builddir="$srcdir/kquickcharts-$_commit"
+
+build() {
+	cmake -B build -DBUILD_WITH_QT6=ON -G Ninja \
+		-DCMAKE_BUILD_TYPE=RelWithDebInfo \
+		-DCMAKE_INSTALL_PREFIX=/usr \
+		-DCMAKE_INSTALL_LIBDIR=lib
+	cmake --build build
+}
+
+check() {
+	xvfb-run ctest --test-dir build --output-on-failure
+}
+
+package() {
+	DESTDIR="$pkgdir" cmake --install build
+}
+
+dev() {
+	# Workaround for a pmbootstrap bug
+	# Normally you'd just add $pkgname=$pkgver-r$pkgrel to depends_dev directly
+	# However pmbootstrap then tries to install that package but fails to do so
+	# if the package hasn't been built before (and thus has nothing to install)
+	# It seems =$pkgver-r$pkgrel is ignored by this
+	depends="$depends_dev $pkgname=$pkgver-r$pkgrel"
+	default_dev
+}
+
+sha512sums="
+7bffc8b3f5aa0d623886b002d81debc0a80f5fe8e28f7c3b88f85946837c86d521d7599161331ff215f61704148ed7e4d2d87b06c978943fb40d75876176046c  kquickcharts-642edacaa26f8387f83474db0659c0ae1cc9db82.tar.xz
+"

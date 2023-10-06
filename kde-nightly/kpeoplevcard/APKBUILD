@@ -1,0 +1,46 @@
+# Contributor: Bhushan Shah <bshah@kde.org>
+# Maintainer: team/kde <bribbers@disroot.org>
+
+# The group tag is just to easily find this APKBUILD by some scripts for automation
+# group=kde-other
+pkgname=kpeoplevcard
+pkgver=9999_git20231221
+pkgrel=0
+_commit="b858926f67f7b94eabdd0c91aa727d71a3c2de5e"
+pkgdesc="KPeople backend using vcard storage"
+arch="all !armhf" # armhf blocked by extra-cmake-modules
+url="https://invent.kde.org/pim/kpeoplevcard"
+license="GPL-2.0-only OR GPL-3.0-only"
+depends="kirigami"
+makedepends="
+	extra-cmake-modules
+	kcontacts-dev
+	kpeople-dev
+	qt6-qtbase-dev
+	"
+_repo_url="https://invent.kde.org/pim/kpeoplevcard.git"
+source="https://nightly.postmarketos.org/plasma-mobile/sources/2023-12-26/kpeoplevcard-$_commit.tar.xz"
+subpackages="$pkgname-dev"
+options="!check" # No tests
+
+options="!check"
+builddir="$srcdir/kpeoplevcard-$_commit"
+
+build() {
+	cmake -B build -DBUILD_WITH_QT6=ON \
+		-DCMAKE_BUILD_TYPE=None \
+		-DCMAKE_INSTALL_PREFIX=/usr \
+		-DCMAKE_INSTALL_LIBDIR=lib
+	cmake --build build
+}
+
+check() {
+	ctest --test-dir build --output-on-failure
+}
+
+package() {
+	DESTDIR="$pkgdir" cmake --install build
+}
+sha512sums="
+f75869a980c10d198d6a7dd32f75935080cc306acd6bff7c35ab193b1ca347e34378ffe674e6bc5b97144dafdf7dbb0b8b337a0478f2cce715ed65db226a0dbd  kpeoplevcard-b858926f67f7b94eabdd0c91aa727d71a3c2de5e.tar.xz
+"

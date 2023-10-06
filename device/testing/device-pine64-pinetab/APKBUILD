@@ -146,7 +146,7 @@ nonfree_firmware() {
 }
 
 plasma_mobile() {
-	install_if="$pkgname=$pkgver-r$pkgrel kirigami2"
+	install_if="$pkgname=$pkgver-r$pkgrel kirigami"
 	install -Dm644 "$srcdir"/kirigami-lowpower.sh "$subpkgdir"/etc/profile.d/kirigami-lowpower.sh
 }
 

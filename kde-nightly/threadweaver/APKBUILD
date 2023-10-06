@@ -1,0 +1,50 @@
+# Contributor: Bart Ribbers <bribbers@disroot.org>
+# Maintainer: team/kde <bribbers@disroot.org>
+
+# The group tag is just to easily find this APKBUILD by some scripts for automation
+# group=kde-frameworks
+pkgname=threadweaver
+pkgver=9999_git20231220
+pkgrel=0
+_commit="5c05021450d185da84691d6aee201c1109512d01"
+pkgdesc="High-level multithreading framework"
+arch="all !armhf" # armhf blocked by qt6-qtdeclarative
+url="https://community.kde.org/Frameworks"
+license="LGPL-2.1-only"
+depends_dev="
+	qt6-qtbase-dev
+	qt6-qtdeclarative-dev
+	"
+makedepends="$depends_dev
+	doxygen
+	extra-cmake-modules
+	qt6-qttools-dev
+	samurai
+	"
+_repo_url="https://invent.kde.org/frameworks/threadweaver.git"
+source="https://nightly.postmarketos.org/plasma-mobile/sources/2023-12-26/threadweaver-$_commit.tar.xz"
+subpackages="$pkgname-dev $pkgname-doc"
+
+options="!check"
+builddir="$srcdir/threadweaver-$_commit"
+
+build() {
+	cmake -B build -DBUILD_WITH_QT6=ON -G Ninja \
+		-DCMAKE_BUILD_TYPE=RelWithDebInfo \
+		-DCMAKE_INSTALL_PREFIX=/usr \
+		-DCMAKE_INSTALL_LIBDIR=lib \
+		-DBUILD_QCH=ON
+	cmake --build build
+}
+
+check() {
+	ctest --test-dir build --output-on-failure
+}
+
+package() {
+	DESTDIR="$pkgdir" cmake --install build
+}
+
+sha512sums="
+fd2f68cc9e3a30865f2b5951f42945b4c797a93ba5b086723d7f92a5b2380314159b063d9e8a7d7eeed9ccdfe2d88c7eab0af9c6015987187c342535b37862e5  threadweaver-5c05021450d185da84691d6aee201c1109512d01.tar.xz
+"

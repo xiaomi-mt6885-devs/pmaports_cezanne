@@ -1,0 +1,50 @@
+# Contributor: Bart Ribbers <bribbers@disroot.org>
+# Maintainer: team/kde <bribbers@disroot.org>
+
+# The group tag is just to easily find this APKBUILD by some scripts for automation
+# group=kde-applications
+pkgname=kontrast
+pkgver=9999_git20231222
+pkgrel=0
+_commit="6790e9478d93f2215ff275ff0d2e82b08ae93dcc"
+pkgdesc="Tool to check contrast for colors that allows verifying that your colors are correctly accessible"
+# armhf blocked by qt6-qtdeclarative
+arch="all !armhf"
+url="https://invent.kde.org/accessibility/kontrast"
+license="GPL-3.0-or-later AND CC0-1.0"
+depends="kirigami"
+makedepends="
+	extra-cmake-modules
+	futuresql-dev
+	kcoreaddons-dev
+	kdeclarative-dev
+	kdoctools-dev
+	ki18n-dev
+	kirigami-dev
+	qt6-qtbase-dev
+	qt6-qtdeclarative-dev
+	qt6-qtsvg-dev
+	samurai
+	"
+_repo_url="https://invent.kde.org/accessibility/kontrast.git"
+source="https://nightly.postmarketos.org/plasma-mobile/sources/2023-12-26/kontrast-$_commit.tar.xz"
+subpackages="$pkgname-lang"
+options="!check" # No tests
+
+options="!check"
+builddir="$srcdir/kontrast-$_commit"
+
+build() {
+	cmake -B build -DBUILD_WITH_QT6=ON -G Ninja \
+		-DCMAKE_BUILD_TYPE=RelWithDebInfo \
+		-DCMAKE_INSTALL_PREFIX=/usr
+	cmake --build build
+}
+
+package() {
+	DESTDIR="$pkgdir" cmake --install build
+}
+
+sha512sums="
+5f898d766cf7680c843310f621ab87e1a02d99516d553ea91d5dd2084f8f9f5156ee77794f9a07a16361e4aad65630b5ba686d170d89de6245f35493e14838d2  kontrast-6790e9478d93f2215ff275ff0d2e82b08ae93dcc.tar.xz
+"
