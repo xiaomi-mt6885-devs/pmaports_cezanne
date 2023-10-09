@@ -9,6 +9,7 @@ license="MIT"
 arch="aarch64"
 options="!check !archcheck"
 depends="
+	device-librecomputer-lepotato-ucm
 	linux-postmarketos-amlogic
 	postmarketos-base
 	soc-amlogic-s905
