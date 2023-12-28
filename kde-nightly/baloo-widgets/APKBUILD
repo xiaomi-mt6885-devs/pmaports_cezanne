@@ -4,9 +4,9 @@
 # The group tag is just to easily find this APKBUILD by some scripts for automation
 # group=kde-applications
 pkgname=baloo-widgets
-pkgver=9999_git20231222
+pkgver=9999_git20231224
 pkgrel=0
-_commit="d0b98b358e3776164cf5cbbb32cfde5054998a6a"
+_commit="d215f06f08d916b6d13f60a47e55ebee1e8502cf"
 pkgdesc="Widgets for Baloo"
 # armhf blocked by extra-cmake-modules
 arch="all !armhf"
@@ -60,5 +60,5 @@ package() {
 	DESTDIR="$pkgdir" cmake --install build
 }
 sha512sums="
-abc7a84c4b1a563c01b1d6970e0917fec8c32b3837aaec25e7c9864fd08a8467cb3e0f280d186bcd6db86a261b814b1efa8dab9a7087fe24100ede0ee3dff81a  baloo-widgets-d0b98b358e3776164cf5cbbb32cfde5054998a6a.tar.xz
+0c46a58b92f58b695d33c047ac3daad697d790b0cca3c4801c85726a8bb43590f94ca1e35b0bdf99a26b8c9ecb26fc955fd8aee617164ee7a1f256ac8ed9a122  baloo-widgets-d215f06f08d916b6d13f60a47e55ebee1e8502cf.tar.xz
 "

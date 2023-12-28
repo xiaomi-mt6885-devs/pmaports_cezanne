@@ -4,9 +4,9 @@
 # The group tag is just to easily find this APKBUILD by some scripts for automation
 # group=kde-applications
 pkgname=katomic
-pkgver=9999_git20231222
+pkgver=9999_git20231224
 pkgrel=0
-_commit="1631f5abd223c3307d25c362962915c88fe9cd2a"
+_commit="ce8f0f7e69b09ddd6633654fa65d1cb5e98feeda"
 # armhf blocked by extra-cmake-modules
 arch="all !armhf"
 url="https://kde.org/applications/games/org.kde.katomic"
@@ -52,5 +52,5 @@ package() {
 }
 
 sha512sums="
-f7bb0b39c409bc8be45ad909e69ecdad7de279e6c60f8231d7caa87b65060b80605553d81d18322cf1810f1a1ffe2df40815731aaa19447369cea085fbc0d2a4  katomic-1631f5abd223c3307d25c362962915c88fe9cd2a.tar.xz
+eebf337fa3e67b9a8e45dd5c98b42ca0a635367071e53322b490c1cd0a9d9805745ae53383fcafa82983111e44575edef306382bb51807a043426e338e942b4a  katomic-ce8f0f7e69b09ddd6633654fa65d1cb5e98feeda.tar.xz
 "

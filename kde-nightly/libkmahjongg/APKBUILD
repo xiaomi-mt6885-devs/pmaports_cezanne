@@ -4,9 +4,9 @@
 # The group tag is just to easily find this APKBUILD by some scripts for automation
 # group=kde-applications
 pkgname=libkmahjongg
-pkgver=9999_git20231222
+pkgver=9999_git20231225
 pkgrel=0
-_commit="d4b40278c549aad1b6d5f598a63b6a6078752416"
+_commit="aef793d6cec01f6c621c1650e36a693af7764178"
 # armhf blocked by extra-cmake-modules
 arch="all !armhf"
 url="https://kde.org/applications/games"
@@ -49,5 +49,5 @@ package() {
 }
 
 sha512sums="
-b86aa11971f7e9c397fba7ea9e4b21959762cfce6976c6524f4256fdb1e5bcdb26ebc79a0b4917cd9f07d04e41f34b483842286daa974c99ece0c4ea288d18af  libkmahjongg-d4b40278c549aad1b6d5f598a63b6a6078752416.tar.xz
+d3207d59a71f03993a4433943c8ad9027e53e2f39cbbb24148cfc5b804d7622fb24e5ae2de3ef4871daf6fc63790ea02c2b0a57d487e5e76501e359386fa686b  libkmahjongg-aef793d6cec01f6c621c1650e36a693af7764178.tar.xz
 "

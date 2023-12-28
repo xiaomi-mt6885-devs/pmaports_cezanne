@@ -4,9 +4,9 @@
 # The group tag is just to easily find this APKBUILD by some scripts for automation
 # group=kde-applications
 pkgname=klettres
-pkgver=9999_git20231221
+pkgver=9999_git20231224
 pkgrel=0
-_commit="c34046ce5d2f31657a747b61d50ad628a7ea78df"
+_commit="de20ffac8fbb1b61afe14b58959b0ffdf383141f"
 # armhf blocked by extra-cmake-modules
 arch="all !armhf"
 url="https://edu.kde.org/klettres"
@@ -51,5 +51,5 @@ package() {
 }
 
 sha512sums="
-f8d6c3d6c9189d662999bbffc6990d39f35077be299e3897bd5f50864410eb10f8d8ec1396d71078c356bd120f5fd6ae7675a66632b9e4db2a967c1c41f7cb37  klettres-c34046ce5d2f31657a747b61d50ad628a7ea78df.tar.xz
+68a0a342125b5345de7e3c964addd560b973a0a6c0aed4c580cd3549ef876ea08754fd5ed249f80aaba0644ada077055dee27319fe7867cbed21df7e57a753ca  klettres-de20ffac8fbb1b61afe14b58959b0ffdf383141f.tar.xz
 "

@@ -4,9 +4,9 @@
 # The group tag is just to easily find this APKBUILD by some scripts for automation
 # group=kde-applications
 pkgname=kdebugsettings
-pkgver=9999_git20231222
+pkgver=9999_git20231224
 pkgrel=0
-_commit="93e1e06085b2f77ba067bd7feec543075ae221f6"
+_commit="54f75b641599aa953679e76a68ccae7204ce97f1"
 arch="all !armhf"
 url="https://kde.org/applications/utilities/"
 pkgdesc="An application to enable/disable qCDebug"
@@ -49,5 +49,5 @@ package() {
 }
 
 sha512sums="
-63b888ad5d2e708ed6dc90f1ea7f139df5a06273eb8ea54a32f78284414ea6365877f0e2e4cb0cde053ae326c504f0a1437d641cc9b28cdfa5b28c1dde652a24  kdebugsettings-93e1e06085b2f77ba067bd7feec543075ae221f6.tar.xz
+d28efdde2264b9e8ab2604c32381d6fd7cc2d15e379a41fa799d4f5062ac108e2054a4260fc4ec673f28703adb7f34a8e625bdf3fc6c171610160a86a76e37d6  kdebugsettings-54f75b641599aa953679e76a68ccae7204ce97f1.tar.xz
 "

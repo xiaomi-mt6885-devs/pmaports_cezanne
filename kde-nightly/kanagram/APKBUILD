@@ -4,9 +4,9 @@
 # The group tag is just to easily find this APKBUILD by some scripts for automation
 # group=kde-applications
 pkgname=kanagram
-pkgver=9999_git20231222
+pkgver=9999_git20231224
 pkgrel=0
-_commit="6f1815fd30e50c5c6d057f36830cbb6376d72106"
+_commit="14babcfbe43fb577d17b57dfb42d07d916c22247"
 # armhf blocked by qt6-qtdeclarative
 arch="all !armhf"
 url="https://edu.kde.org/kanagram/"
@@ -54,5 +54,5 @@ package() {
 }
 
 sha512sums="
-383d09dd7767e52fd7907560e99e20ef285966bb8c2292f9a626d6f53b8190c803d972eb437998f3f3a52209fef5ef4df1d0c0736fe8b9867646384dd78a4fa8  kanagram-6f1815fd30e50c5c6d057f36830cbb6376d72106.tar.xz
+02c0932e9c19e83b2d8f12aa4362200c5dcabc9567226977057f158f9ad84b8b6c862632deea4be28110ff8b653f9070522f45d6bdfd8b2c11150a66cff0deba  kanagram-14babcfbe43fb577d17b57dfb42d07d916c22247.tar.xz
 "

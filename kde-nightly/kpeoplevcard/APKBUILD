@@ -4,9 +4,9 @@
 # The group tag is just to easily find this APKBUILD by some scripts for automation
 # group=kde-other
 pkgname=kpeoplevcard
-pkgver=9999_git20231221
+pkgver=9999_git20231224
 pkgrel=0
-_commit="b858926f67f7b94eabdd0c91aa727d71a3c2de5e"
+_commit="838f938a9e1a9ac32d6e8de683bb8d51f9cbe72d"
 pkgdesc="KPeople backend using vcard storage"
 arch="all !armhf" # armhf blocked by extra-cmake-modules
 url="https://invent.kde.org/pim/kpeoplevcard"
@@ -42,5 +42,5 @@ package() {
 	DESTDIR="$pkgdir" cmake --install build
 }
 sha512sums="
-f75869a980c10d198d6a7dd32f75935080cc306acd6bff7c35ab193b1ca347e34378ffe674e6bc5b97144dafdf7dbb0b8b337a0478f2cce715ed65db226a0dbd  kpeoplevcard-b858926f67f7b94eabdd0c91aa727d71a3c2de5e.tar.xz
+dac720557b5b04a599b5825a65c5be721746a2937de32ce9a7ab9f156d48ac6c7ada819ce41ded06276e70b16271411f86a9370cc89f18a5f2f981716d11aeb7  kpeoplevcard-838f938a9e1a9ac32d6e8de683bb8d51f9cbe72d.tar.xz
 "

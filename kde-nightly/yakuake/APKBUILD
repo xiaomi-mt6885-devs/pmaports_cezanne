@@ -4,9 +4,9 @@
 # The group tag is just to easily find this APKBUILD by some scripts for automation
 # group=kde-applications
 pkgname=yakuake
-pkgver=9999_git20231221
+pkgver=9999_git20231225
 pkgrel=0
-_commit="59d0c347348b2e3399781ba67e411ec7e44d8929"
+_commit="013fd013b96dfad6e9c5faaf9cb094ddc0f43780"
 arch="all !armhf"
 url="https://kde.org/applications/system/org.kde.yakuake"
 pkgdesc="A drop-down terminal emulator based on KDE Konsole technology"
@@ -59,5 +59,5 @@ package() {
 }
 
 sha512sums="
-bee345d3d0c71957ebc3fa080892c3ff13f354a79ad34748f3794825229dd561629aa5fd04806333f9c519454912e140d389b44ec6d812ccbf548e4811e6a74a  yakuake-59d0c347348b2e3399781ba67e411ec7e44d8929.tar.xz
+59b23da64957f4c99804e13706750b6ed8812625a2f1d4598def0696098df2a6841e15bc74e48314af82b313c2262e8996c2558a3bae71206c68631ee1e6d080  yakuake-013fd013b96dfad6e9c5faaf9cb094ddc0f43780.tar.xz
 "

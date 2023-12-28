@@ -4,9 +4,9 @@
 # The group tag is just to easily find this APKBUILD by some scripts for automation
 # group=kde-applications
 pkgname=knavalbattle
-pkgver=9999_git20231221
+pkgver=9999_git20231224
 pkgrel=0
-_commit="80a8ea4b50b3f08156896d24c9d5c1251ad48be8"
+_commit="ba8c13731cb51665bba2e88586c0f7c8b2960862"
 # armhf blocked by extra-cmake-modules
 arch="all !armhf"
 url="https://kde.org/applications/games/knavalbattle/"
@@ -47,5 +47,5 @@ package() {
 }
 
 sha512sums="
-75281f19af4c28317b04e7df0e8e8d9e0e60931e7c10ad23fe6407109976acde944b215781fff1f4b7050da4f3cdea9ddc4c563b7f792c85084aacaa610fb157  knavalbattle-80a8ea4b50b3f08156896d24c9d5c1251ad48be8.tar.xz
+ff860573f705708b7dee0e061f7947da402ff1e88cb7027e9d237ba6f74f87b7f89c26bd70b238c3fa26b4fffef19e5bd84d3179bc8bf291c9d2e14742c70cc1  knavalbattle-ba8c13731cb51665bba2e88586c0f7c8b2960862.tar.xz
 "

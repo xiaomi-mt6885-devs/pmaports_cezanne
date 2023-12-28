@@ -4,9 +4,9 @@
 # The group tag is just to easily find this APKBUILD by some scripts for automation
 # group=kde-applications
 pkgname=kcolorchooser
-pkgver=9999_git20231222
+pkgver=9999_git20231225
 pkgrel=0
-_commit="13438b9714910c4c95b8afbeb8eeef0b5d427499"
+_commit="08870434eaf199a33367ad64e6464fbb043fee92"
 # armhf blocked by extra-cmake-modules
 arch="all !armhf"
 url="https://kde.org/applications/graphics/org.kde.kcolorchooser"
@@ -44,5 +44,5 @@ package() {
 }
 
 sha512sums="
-039699f933893f5d12fcbf98b922c446fc3801c0328d6d89408bbd38fc1327539cabe3f442693821242b5645da4843e4b9e120ee17c4e678a54fa910d6bf6322  kcolorchooser-13438b9714910c4c95b8afbeb8eeef0b5d427499.tar.xz
+1f0bf2808950f18bc674c8f0f663690557a5edcb2f9cb211d7c66a68901d016c2787dcdf68282852478dde9396889bb7d3e050200ff8358cfe01c038d2f16d32  kcolorchooser-08870434eaf199a33367ad64e6464fbb043fee92.tar.xz
 "

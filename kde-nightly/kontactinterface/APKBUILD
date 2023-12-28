@@ -4,9 +4,9 @@
 # The group tag is just to easily find this APKBUILD by some scripts for automation
 # group=kde-applications
 pkgname=kontactinterface
-pkgver=9999_git20231222
+pkgver=9999_git20231226
 pkgrel=0
-_commit="077414f79616fa1fa19b2f08de767a7451e3aa76"
+_commit="48aa6a903ff1ab1eb083422cc7df0e190a4a0143"
 # armhf blocked by extra-cmake-modules
 arch="all !armhf"
 url="https://kontact.kde.org/"
@@ -49,5 +49,5 @@ package() {
 }
 
 sha512sums="
-d625bd138ca9c1db1a0e46602709de99eaed82310d4ad0d6e8b23c2605eed66945236dfd204863f620b33006162b9d65f29967782b0fa10a6e6c40c271603d6c  kontactinterface-077414f79616fa1fa19b2f08de767a7451e3aa76.tar.xz
+3911b2e001ec6eae44437e719eb1bb1cc716361d16f72f65aa793e3b635b49c6609d2e79516f68243a9d707690d46dbc5cdd81dbb47b9d7ad96368a3b6e46d8a  kontactinterface-48aa6a903ff1ab1eb083422cc7df0e190a4a0143.tar.xz
 "

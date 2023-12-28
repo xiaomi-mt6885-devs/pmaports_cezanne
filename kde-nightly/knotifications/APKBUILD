@@ -4,9 +4,9 @@
 # The group tag is just to easily find this APKBUILD by some scripts for automation
 # group=kde-frameworks
 pkgname=knotifications
-pkgver=9999_git20231221
+pkgver=9999_git20231224
 pkgrel=0
-_commit="5d57e679da6ad9858ddea99c9cd649140f355333"
+_commit="8f155bf50ffe9adbb9e166a9bb46d0976a3614f5"
 pkgdesc="Abstraction for system notifications"
 arch="all !armhf" # armhf blocked by extra-cmake-modules
 url="https://community.kde.org/Frameworks"
@@ -27,7 +27,7 @@ makedepends="$depends_dev
 	samurai
 	"
 _repo_url="https://invent.kde.org/frameworks/knotifications.git"
-source="https://nightly.postmarketos.org/plasma-mobile/sources/2023-12-26/knotifications-$_commit.tar.xz"
+source="https://nightly.postmarketos.org/plasma-mobile/sources/2023-12-28/knotifications-$_commit.tar.xz"
 subpackages="$pkgname-dev $pkgname-doc $pkgname-lang"
 options="!check" # Fails due to requiring running dbus-daemon
 
@@ -52,5 +52,5 @@ package() {
 }
 
 sha512sums="
-3b753daaf909ebafa7ea46156889a3cb047d1c4579254f410e0650e34df91cad36d5466410ca7257981815ebe3a150eeabc2e91e4c819785d96f394d886a8f91  knotifications-5d57e679da6ad9858ddea99c9cd649140f355333.tar.xz
+ec5d37cb10cf286ab6143b11ee81ccdd7b0533409aaf217b83ee60b17e51b84b4d7ec9c6e6434a3e360919e9098a27a319fb5ff0ca369929c192b60ea405a71c  knotifications-8f155bf50ffe9adbb9e166a9bb46d0976a3614f5.tar.xz
 "

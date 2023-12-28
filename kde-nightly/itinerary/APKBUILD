@@ -4,9 +4,9 @@
 # The group tag is just to easily find this APKBUILD by some scripts for automation
 # group=kde-applications
 pkgname=itinerary
-pkgver=9999_git20231222
+pkgver=9999_git20231226
 pkgrel=0
-_commit="750e4137a608d3a0f49ba31a3abf5d4c8d3ee87f"
+_commit="0ae00471081190374862aea3087e8eced9b39557"
 # armhf blocked by qt6-qtdeclarative
 # ppc64le blocked by kitinerary
 # s390x blocked by qt6-qtdeclarative
@@ -76,5 +76,5 @@ package() {
 }
 
 sha512sums="
-073f855e5b0872bc749ab937f7ba875a3debb72451c6049f22d6a0195e52ce0cdb0d5e82362b40d7fa3c7cb89e196d214ec45ebc35afcc36143e36b24ec5b49a  itinerary-750e4137a608d3a0f49ba31a3abf5d4c8d3ee87f.tar.xz
+972359af76e17cefd14a073cd1e0bfdb88d8e28ee16c571f987271f8f1adc2039a009b6ca34b280291dd3c626711a598c69413b4b0cfe64645ee4c15c79f7734  itinerary-0ae00471081190374862aea3087e8eced9b39557.tar.xz
 "

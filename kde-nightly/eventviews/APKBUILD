@@ -4,9 +4,9 @@
 # The group tag is just to easily find this APKBUILD by some scripts for automation
 # group=kde-applications
 pkgname=eventviews
-pkgver=9999_git20231222
+pkgver=9999_git20231226
 pkgrel=0
-_commit="b024f4d0e9ce7d42bd36e60c7399dfcc89a78e48"
+_commit="b491f88dd2577b67ab21fb2cf93e3e4573269d1d"
 pkgdesc="Library for creating events"
 # armhf blocked by extra-cmake-modules
 # ppc64le, s390x and riscv64 blocked by qt6-qtwebengine -> akonadi
@@ -62,5 +62,5 @@ package() {
 	DESTDIR="$pkgdir" cmake --install build
 }
 sha512sums="
-6a1d6f34a0606fdbf225661a71d14cc150f684bfca71d5ec394c3dd7121a54de25639c8e71a77b08eeea2189ffc727c8cb683983facd09cd48953064beab7578  eventviews-b024f4d0e9ce7d42bd36e60c7399dfcc89a78e48.tar.xz
+dd503a0e68940af8cea0ca4c18db5efcd581d3a70aaab3b7d3d02199dde7854f47fcbabf6eeaa5ca3af545d2c9e4d0849b40f0bc4bd8d33181ac2e75c257d80f  eventviews-b491f88dd2577b67ab21fb2cf93e3e4573269d1d.tar.xz
 "

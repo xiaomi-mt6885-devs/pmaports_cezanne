@@ -4,9 +4,9 @@
 # The group tag is just to easily find this APKBUILD by some scripts for automation
 # group=kde-applications
 pkgname=kdesdk-kio
-pkgver=9999_git20231221
+pkgver=9999_git20231224
 pkgrel=0
-_commit="7def8cb8efe2c237bfb4982fbb194e7df6660014"
+_commit="e63e3a3757bcc9531f7460bfae9ac4ee2c56f7d2"
 # armhf blocked by extra-cmake-modules
 arch="all !armhf"
 url="https://kde.org/applications/development"
@@ -45,5 +45,5 @@ package() {
 }
 
 sha512sums="
-b09ff944bc6c2a723cda4a60ceb67f1ad7998ac3f59e76699c6d3bd63ee0d8900be942c5a22dfbdaba68aa734e36981c36ae19950b7154c1bf6788a397dc6443  kdesdk-kio-7def8cb8efe2c237bfb4982fbb194e7df6660014.tar.xz
+eb8364e91760ffd1908238447f08abee661975e07936210a11888344f7f5bdcddfd61f419746f1abcda218413934434844d800a8105e30fd0951c4efc4a09dba  kdesdk-kio-e63e3a3757bcc9531f7460bfae9ac4ee2c56f7d2.tar.xz
 "

@@ -4,9 +4,9 @@
 # The group tag is just to easily find this APKBUILD by some scripts for automation
 # group=kde-applications
 pkgname=kmailtransport
-pkgver=9999_git20231222
+pkgver=9999_git20231226
 pkgrel=0
-_commit="52bc3fb29ac280573391e7f243014adfa16e419d"
+_commit="4c2b802890d1cd054c0feff4ab3e27e024bea894"
 pkgdesc="Manage mail transport"
 # armhf blocked by extra-cmake-modules
 # ppc64le and s390x blocked by libkgapi
@@ -56,5 +56,5 @@ package() {
 }
 
 sha512sums="
-f17eee87e1db9a5f03278fa06a8c322f686068cf09512c39f202d6f34fb4b2df8ee2cc643f186d2559aed32ccf7db433125079b966204b6ea6157ce0d0c3d91a  kmailtransport-52bc3fb29ac280573391e7f243014adfa16e419d.tar.xz
+5b5b448e03241d7625dace77cfe371f2d6b1e988ed1b97b7e322464a8224ace314e629c1cbca179caf7e1b5944ed35aeaea032634f3f579f40629feb6ad2805c  kmailtransport-4c2b802890d1cd054c0feff4ab3e27e024bea894.tar.xz
 "

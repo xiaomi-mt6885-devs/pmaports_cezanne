@@ -4,9 +4,9 @@
 # The group tag is just to easily find this APKBUILD by some scripts for automation
 # group=kde-applications
 pkgname=kitinerary
-pkgver=9999_git20231221
+pkgver=9999_git20231226
 pkgrel=0
-_commit="d467633eb75f0972631a08499aaa3d08e479e950"
+_commit="53914ebc3e11f63514d020ca61b40cd91de74dd6"
 # armhf blocked by qt6-qtdeclarative
 # ppc64le FTBFS
 arch="all !armhf !ppc64le"
@@ -76,5 +76,5 @@ package() {
 }
 
 sha512sums="
-c0c157d83eb493aa6fdbb67b8df52177075815f8e3ef31337b5f31886a2074e71adbf86c225e1237adf6671b87aa966395aa4bca3e6d1cf79b5fd6ada0352e6e  kitinerary-d467633eb75f0972631a08499aaa3d08e479e950.tar.xz
+273667faff936c8a92d99850abd887a3251543410f656c38af77141c88dd3dcf9603db52cb5f055f3fcb5bb90212239fe8e3d0613767e26f5cb1588e633fc2fb  kitinerary-53914ebc3e11f63514d020ca61b40cd91de74dd6.tar.xz
 "

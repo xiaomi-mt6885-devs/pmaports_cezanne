@@ -4,9 +4,9 @@
 # The group tag is just to easily find this APKBUILD by some scripts for automation
 # group=kde-applications
 pkgname=kimagemapeditor
-pkgver=9999_git20231221
+pkgver=9999_git20231224
 pkgrel=0
-_commit="d3bb418dc9ef8443a777053b2e645e18e66fe457"
+_commit="abcc379160c78f8cfac27f97b41e3c6f7a1c3524"
 # armhf blocked by extra-cmake-modules
 # ppc64le, s390x and riscv64 blocked by qt6-qtwebengine
 arch="all !armhf !ppc64le !s390x !riscv64"
@@ -57,5 +57,5 @@ package() {
 }
 
 sha512sums="
-5f94b1fc344c8e342c501d5d7f8d022c5671ab175ae43763e47e6ab0d5264c4ceff820f0526acb0a5986f91c2dddd140c7f0a12e5fafdc756c4163f26d80eca3  kimagemapeditor-d3bb418dc9ef8443a777053b2e645e18e66fe457.tar.xz
+e64783a64e5737ec4cff21c837735aaddee08644001060526bdf57444b019f9fd04e899a9e191527124d1d4c55d276ee026081b867de8d83d4de7c8a421f75fc  kimagemapeditor-abcc379160c78f8cfac27f97b41e3c6f7a1c3524.tar.xz
 "

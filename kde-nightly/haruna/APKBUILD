@@ -4,9 +4,9 @@
 # The group tag is just to easily find this APKBUILD by some scripts for automation
 # group=kde-other
 pkgname=haruna
-pkgver=9999_git20231222
+pkgver=9999_git20231224
 pkgrel=0
-_commit="524f9f9a8f00ec0b1abf8ad9049a17cda6e198fa"
+_commit="c1dd3d575b7c9d25d33090dfb5b34cfe1d6c3b67"
 # armhf blocked by extra-cmake-modules
 arch="all !armhf"
 url="https://invent.kde.org/multimedia/haruna"
@@ -58,5 +58,5 @@ package() {
 }
 
 sha512sums="
-bfba4e04ac9d7e08be40937a95ea0ff5b6db3f99c4bd64e7284a1f259257985873e3879532c98ed639618c32c0378aa659a36ad9ffa62156b55417881560c935  haruna-524f9f9a8f00ec0b1abf8ad9049a17cda6e198fa.tar.xz
+8b48f97c5be606b0724a2334d4e5f847680dee58267742684445603b2d13dc9aaf365efde2dde408a75b12a24477b7e31b8c10565d788b6e4e7982a1eee55f1e  haruna-c1dd3d575b7c9d25d33090dfb5b34cfe1d6c3b67.tar.xz
 "

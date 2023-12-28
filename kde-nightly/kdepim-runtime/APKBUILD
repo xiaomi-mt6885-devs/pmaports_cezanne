@@ -4,9 +4,9 @@
 # The group tag is just to easily find this APKBUILD by some scripts for automation
 # group=kde-applications
 pkgname=kdepim-runtime
-pkgver=9999_git20231222
+pkgver=9999_git20231226
 pkgrel=0
-_commit="0565cf2c528eee52b20854d52ad3e7f3e853a841"
+_commit="8e95938148d97cf125a238d68010edf873dc8bd7"
 pkgdesc="Extends the functionality of kdepim"
 url="https://kontact.kde.org/"
 # armhf blocked by extra-cmake-modules
@@ -74,5 +74,5 @@ package() {
 }
 
 sha512sums="
-b8dae5971f27f1d317fe7c1d2fb19339caba75898d41a0b9f3d51edb5e8f8479fe19dd2099f4629d40489383bc856ed999007bcf561164c592b285dad63b2c4e  kdepim-runtime-0565cf2c528eee52b20854d52ad3e7f3e853a841.tar.xz
+10288c24e37bd4fa7ad85778bcc63e64b1a9fd44027f846d210454658ab889af1be75492d20be400281f656c1a1a65583ea8204b26acb400c78f4856b37b8e82  kdepim-runtime-8e95938148d97cf125a238d68010edf873dc8bd7.tar.xz
 "

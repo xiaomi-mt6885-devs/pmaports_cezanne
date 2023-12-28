@@ -4,9 +4,9 @@
 # The group tag is just to easily find this APKBUILD by some scripts for automation
 # group=kde-applications
 pkgname=libkeduvocdocument
-pkgver=9999_git20231221
+pkgver=9999_git20231224
 pkgrel=0
-_commit="e30418ce21a75fc519e6408bbc9ff2387ce73154"
+_commit="2f260d67176ffcf1aa59f5957091cac691358140"
 arch="all !armhf"
 url="https://edu.kde.org"
 pkgdesc="Library to parse, convert, and manipulate KVTML files"
@@ -43,5 +43,5 @@ package() {
 }
 
 sha512sums="
-45c751714dc7d2f503e93e587353ed89373af525221019e824a2a9f712830cbf22d1fc7d5b757bfbd10f8f69ec496f6b1f085befb964f3ed575d86c5e303619e  libkeduvocdocument-e30418ce21a75fc519e6408bbc9ff2387ce73154.tar.xz
+8199e3115bcdff09f7ec11fbeb2a1d04bbbe32b523c794bbe3ff97e899b8aa2fba2506b3d2918b93e310f6d3932175c4b88caf6bc1eec88bd8e258480d1c01b6  libkeduvocdocument-2f260d67176ffcf1aa59f5957091cac691358140.tar.xz
 "

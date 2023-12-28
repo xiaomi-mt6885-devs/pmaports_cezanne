@@ -4,9 +4,9 @@
 # The group tag is just to easily find this APKBUILD by some scripts for automation
 # group=kde-applications
 pkgname=zanshin
-pkgver=9999_git20231221
+pkgver=9999_git20231226
 pkgrel=0
-_commit="f37e6d888c44eef6f555f2388804beffea235fdc"
+_commit="a061bd4bfda73663796fc94683c83328391d02f8"
 # armhf blocked by qt6-qtdeclarative
 # ppc64le and s390x blocked by qt6-qtwebengine -> akonadi-calendar
 arch="all !armhf !ppc64le !s390x !riscv64"
@@ -69,5 +69,5 @@ package() {
 }
 
 sha512sums="
-fa8fc8e49859f53452c6a896a2d21c62c35f398c5be0d14b3f3a51d2c795b9b3ead08c8188c50b1a265005f128cdad52b9def968a176af6c6face701644a7604  zanshin-f37e6d888c44eef6f555f2388804beffea235fdc.tar.xz
+8914bf9353670724edfbe29642d6a6da7be849d4ee0b11d801681752bc73b9825364c4b0dd6b0d8e012d6cd8896c2a080f63242bf2c0c8287d7c987db2799bcd  zanshin-a061bd4bfda73663796fc94683c83328391d02f8.tar.xz
 "

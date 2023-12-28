@@ -4,9 +4,9 @@
 # The group tag is just to easily find this APKBUILD by some scripts for automation
 # group=kde-applications
 pkgname=granatier
-pkgver=9999_git20231222
+pkgver=9999_git20231224
 pkgrel=0
-_commit="839c307e85aba5899d9e639ea767a43d764b0b54"
+_commit="9351e809f12d4e15ae2c1e39a8b73a039d768035"
 # armhf blocked by extra-cmake-modules
 arch="all !armhf"
 url="https://kde.org/applications/games/org.kde.granatier"
@@ -54,5 +54,5 @@ package() {
 }
 
 sha512sums="
-9a930453a1431736f5c6bee522365f9076b54acd4fa2bdd586d32166f7cb90c75e8281a3c58fa77577ad38eb2420ab5b983a050b0e010b34bac66d868803f632  granatier-839c307e85aba5899d9e639ea767a43d764b0b54.tar.xz
+b1fffd942a072988a855766d15a9cab055f5fce2c86964e2f66a6b92e7356c23211b8712072e5c74c52e8505ed15ddd1609066f63d0c3e0224c7dacd4c455e5f  granatier-9351e809f12d4e15ae2c1e39a8b73a039d768035.tar.xz
 "

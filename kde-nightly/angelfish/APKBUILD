@@ -4,9 +4,9 @@
 # The group tag is just to easily find this APKBUILD by some scripts for automation
 # group=kde-applications
 pkgname=angelfish
-pkgver=9999_git20231221
+pkgver=9999_git20231224
 pkgrel=0
-_commit="1f47bfee783fcc55dcfd05afa64950c2d24957e7"
+_commit="67ddb180293a75c8ead9c0ea6d4534d2711b0e15"
 pkgdesc="Small Webbrowser for Plasma Mobile"
 # armhf blocked by extra-cmake-modules
 # ppc64le and s390x blocked by qt6-qtwebengine
@@ -65,5 +65,5 @@ package() {
 }
 
 sha512sums="
-a73a40d039f57ed549be252e50f571c4f2b3c2e8d4b1b2b96c699ced7b1395d996be99c4bca2b5e5e701dfbb5ca2c4ca80807c9f264271e59b651531c51dc4f7  angelfish-1f47bfee783fcc55dcfd05afa64950c2d24957e7.tar.xz
+13a7117463e9f64a2c47d2cd8abfa096af9cd4f1b39c158a72fd021474ab77e150e11fef21018b2014ce69527be4692a1baa9cd270bb449a759230fdda5585ec  angelfish-67ddb180293a75c8ead9c0ea6d4534d2711b0e15.tar.xz
 "

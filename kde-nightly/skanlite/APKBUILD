@@ -4,9 +4,9 @@
 # The group tag is just to easily find this APKBUILD by some scripts for automation
 # group=kde-applications
 pkgname=skanlite
-pkgver=9999_git20231221
+pkgver=9999_git20231224
 pkgrel=0
-_commit="90d56e700bbc0d27d9f797b3a41f248acb0a1eb2"
+_commit="d7b848862719d46e9ff87b3cfcff89e4480928f5"
 # armhf blocked by extra-cmake-modules
 arch="all !armhf"
 url="https://kde.org/applications/graphics/skanlite"
@@ -48,5 +48,5 @@ package() {
 }
 
 sha512sums="
-6f73d959a8cade1ce8f291afd5278aa9972c1a7777abefc70999451d2827e5c6f7880c2b252cdf3cb82cbf7117d0a258140ade1d9301581a2831058d92fd0c00  skanlite-90d56e700bbc0d27d9f797b3a41f248acb0a1eb2.tar.xz
+422cad10f21d217cc7d461ee68401a92ec2e860517d719bce7b63bb7264569d0d54d52f21d1faf555c0361831fbec5ecbf0eef40439f75d455d6bfc5b99638f0  skanlite-d7b848862719d46e9ff87b3cfcff89e4480928f5.tar.xz
 "

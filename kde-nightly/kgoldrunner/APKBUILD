@@ -4,9 +4,9 @@
 # The group tag is just to easily find this APKBUILD by some scripts for automation
 # group=kde-applications
 pkgname=kgoldrunner
-pkgver=9999_git20231222
+pkgver=9999_git20231224
 pkgrel=0
-_commit="746ab7da991b96c49316d47b9b2b5b6b09996d75"
+_commit="52f4c450f9208716b2b61af7816d913348e9d32f"
 # armhf blocked by extra-cmake-modules
 arch="all !armhf"
 url="https://kde.org/applications/games/kgoldrunner/"
@@ -49,5 +49,5 @@ package() {
 }
 
 sha512sums="
-195f67ffbd74259600e1f5d4587e04b19da19b1cf248cc83db06695fe5fa8b83c7694ecc7e2e746a1c7354c5f1ddb2399c8b1489709ee59cb7a3f3f0e2854fa7  kgoldrunner-746ab7da991b96c49316d47b9b2b5b6b09996d75.tar.xz
+1c31ded49c1660351f1dd82def00eebc1ef74242961e03e3f300860cf47ebff85fc05f27f0f03f092f196f4353394d2d422935d28129b9fd4bfc84fd824282d6  kgoldrunner-52f4c450f9208716b2b61af7816d913348e9d32f.tar.xz
 "

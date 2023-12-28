@@ -4,9 +4,9 @@
 # The group tag is just to easily find this APKBUILD by some scripts for automation
 # group=kde-applications
 pkgname=akonadi-search
-pkgver=9999_git20231224
+pkgver=9999_git20231226
 pkgrel=0
-_commit="e07c114de344d82f0ba01ccf1f5e5c5281554327"
+_commit="9f85e55e202f551897d96e0ffac5879cd68ca3f1"
 pkgdesc="Libraries and daemons to implement searching in Akonadi"
 # armhf blocked by extra-cmake-modules
 # riscv64 blocked by akonadi
@@ -78,5 +78,5 @@ package() {
 	DESTDIR="$pkgdir" cmake --install build
 }
 sha512sums="
-15f27bdc6bbefd87851d9f2c716a600d5de35e3a6d476abda2fb13710e4ef3df6636f1d2c3da8ca5ad59d405090d15dc4818b5e6cb852a0de1558019779bd801  akonadi-search-e07c114de344d82f0ba01ccf1f5e5c5281554327.tar.xz
+2b3f9bde9a05e0cd7bf214980fa7df677f55ce21a6b353eb941a0bcd65f7ecf75352e5938cf7ad4de04c6ac9e44715a72a7c582f3d0969ce24748db7be49cd04  akonadi-search-9f85e55e202f551897d96e0ffac5879cd68ca3f1.tar.xz
 "

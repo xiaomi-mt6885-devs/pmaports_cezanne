@@ -4,9 +4,9 @@
 # The group tag is just to easily find this APKBUILD by some scripts for automation
 # group=kde-applications
 pkgname=blinken
-pkgver=9999_git20231222
+pkgver=9999_git20231224
 pkgrel=0
-_commit="672dd0e0924ea48c4f4da5818ee5cb07ded9b5c9"
+_commit="95ecaeae0b4276db5c2b85fc32a6cd5d36a1064f"
 # armhf blocked by extra-cmake-modules
 # s390x blocked by kxmlgui
 arch="all !armhf !s390x !riscv64"
@@ -51,5 +51,5 @@ package() {
 }
 
 sha512sums="
-5198ee8c035bc352d889d5988e66158d68cca0ca46637f7b26dbf4bf1011a1b4e98049e0e7dca8a95a823d71c040b765653bf1110079db8379fa00f0432ca3a9  blinken-672dd0e0924ea48c4f4da5818ee5cb07ded9b5c9.tar.xz
+5c5e90dab3f591332081d3428ff13952ad8bb8ab667ab6d80e2be575b3d839259fadeef83a7d914c43569bb4d02a6f025b888d9b299eca0e85137173f627a29d  blinken-95ecaeae0b4276db5c2b85fc32a6cd5d36a1064f.tar.xz
 "

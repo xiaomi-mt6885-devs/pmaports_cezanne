@@ -4,9 +4,9 @@
 # The group tag is just to easily find this APKBUILD by some scripts for automation
 # group=kde-applications
 pkgname=khangman
-pkgver=9999_git20231222
+pkgver=9999_git20231224
 pkgrel=0
-_commit="fabd6ad9942cad3f99e3f25ef886c27f96b5f521"
+_commit="267ede114e9f77804f4443fbaf28d03c39facd6f"
 # armhf blocked by qt6-qtdeclarative
 arch="all !armhf"
 url="https://edu.kde.org/khangman"
@@ -57,5 +57,5 @@ package() {
 }
 
 sha512sums="
-0c7d314eb8ac8cd6394cead65b029d17c8a4a22c2ff57a6cdf508de370456496c357d06e8f11ea0e59cc8f63d0a18ae2d26c965c74e09a9387b65df03e5bd3e6  khangman-fabd6ad9942cad3f99e3f25ef886c27f96b5f521.tar.xz
+191962b21fddeb83ae71e1651bfd9e6fd0f687ec2ad1331de92a055b59df09cc9c07e1f246beb1ef0424d9e74295933226eb5b4fa76fbcb80872db5696aa341a  khangman-267ede114e9f77804f4443fbaf28d03c39facd6f.tar.xz
 "

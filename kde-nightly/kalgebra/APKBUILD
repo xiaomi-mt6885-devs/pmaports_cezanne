@@ -4,9 +4,9 @@
 # The group tag is just to easily find this APKBUILD by some scripts for automation
 # group=kde-applications
 pkgname=kalgebra
-pkgver=9999_git20231222
+pkgver=9999_git20231225
 pkgrel=0
-_commit="eacb55b6e9ea6e3dcb0bdeebc5d6573d81583b23"
+_commit="09078fa2fbfd59bf7fdd084288192c65e9966c21"
 # armhf blocked by qt6-qtdeclarative
 arch="all !armhf"
 url="https://edu.kde.org/kalgebra/"
@@ -54,5 +54,5 @@ package() {
 }
 
 sha512sums="
-da51186be1a5bfb9d47509f6fa981469eed3d655a6b1a88f996860ea78e7b7bef3ffafd19a5dab060a0dfb5f8b36c329a8effa6a8a53479fb572608cdfdd5361  kalgebra-eacb55b6e9ea6e3dcb0bdeebc5d6573d81583b23.tar.xz
+5e77b60c160931f30285319b8fec4b14589201544e0d4decd74b5109f0a2f9a8b258d0e8fe8f86f0b50100e5a16c885e4da7974adfaf27a7f0bf973b1f137c4f  kalgebra-09078fa2fbfd59bf7fdd084288192c65e9966c21.tar.xz
 "

@@ -4,9 +4,9 @@
 # The group tag is just to easily find this APKBUILD by some scripts for automation
 # group=kde-applications
 pkgname=kblackbox
-pkgver=9999_git20231222
+pkgver=9999_git20231224
 pkgrel=0
-_commit="04a665eeccfb01d125c5d2ddd6697e53536d4c24"
+_commit="03c4d6282512115a8b08aa4869b196cd9d000855"
 # armhf blocked by extra-cmake-modules
 arch="all !armhf"
 url="https://kde.org/applications/games/org.kde.kblackbox"
@@ -53,5 +53,5 @@ package() {
 }
 
 sha512sums="
-43b63f6e116df1c620f3059c72cb5a4ad18f43ac08af2ef4709d7f1d426338e93b0afe1d832652a98a810ea76315e59b9cd5b9b854ddb58262ddb86baabe316b  kblackbox-04a665eeccfb01d125c5d2ddd6697e53536d4c24.tar.xz
+bd0ee2a10dabd19cbea2821e5f4c197700e2984bcb5764787cce6070056ded216b3aeddd735e860b645a44ed578fb5c81920d3521f6a775d7e7640e303fa6460  kblackbox-03c4d6282512115a8b08aa4869b196cd9d000855.tar.xz
 "

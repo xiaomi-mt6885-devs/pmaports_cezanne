@@ -4,9 +4,9 @@
 # The group tag is just to easily find this APKBUILD by some scripts for automation
 # group=kde-applications
 pkgname=step
-pkgver=9999_git20231221
+pkgver=9999_git20231224
 pkgrel=0
-_commit="d9da5d1d29591e82d9080d8764de4e4567b75415"
+_commit="36533b18522ea4bb29ddb1f25d8d680f2acf6161"
 # armhf blocked by extra-cmake-modules
 # s390x blocked by 
 # riscv64 disabled due to missing rust in recursive dependency
@@ -54,5 +54,5 @@ package() {
 }
 
 sha512sums="
-2ba306434fd3c5cab191b3b3ee9a76780a48d1cf508c40686b02cefababbceb8d468a68b121334410165c2dbc59b09c315e706b6fcc35207ace4bb35673d0cf7  step-d9da5d1d29591e82d9080d8764de4e4567b75415.tar.xz
+298f33cffa4598d58244a7b6993ee1969a01247212b076692f95516de2c8ed8016d948d6b92b164e8877db761b15434e9844d52330c0bb4d02e6d10fa1950ee2  step-36533b18522ea4bb29ddb1f25d8d680f2acf6161.tar.xz
 "

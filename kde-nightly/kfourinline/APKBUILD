@@ -4,9 +4,9 @@
 # The group tag is just to easily find this APKBUILD by some scripts for automation
 # group=kde-applications
 pkgname=kfourinline
-pkgver=9999_git20231221
+pkgver=9999_git20231224
 pkgrel=0
-_commit="44cbe620f636712cdad6cdee872c46f61ea5335f"
+_commit="bb933da54724d115f0011bb4ece1a5cf91619031"
 pkgdesc="A four-in-a-row game"
 # armhf blocked by extra-cmake-modules
 arch="all !armhf"
@@ -49,5 +49,5 @@ package() {
 }
 
 sha512sums="
-b5c195110e203e7cb01fba1c672ed3f033ae6d066a8e4f2201cfa19c822570b81238959c7864a816ee920e3d9c5b0ab213d9d1cc24edbaa6ef2cf9548e08be75  kfourinline-44cbe620f636712cdad6cdee872c46f61ea5335f.tar.xz
+25b471ec9b3dea4c2ec3ba4a9af548dd08a497edbc7b1d30992ac797e8b171cba2a134fb779d0c0250d7ba5f0f18947d0700edcb53d5cfea866845e99b988525  kfourinline-bb933da54724d115f0011bb4ece1a5cf91619031.tar.xz
 "

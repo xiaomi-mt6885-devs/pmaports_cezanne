@@ -4,9 +4,9 @@
 # The group tag is just to easily find this APKBUILD by some scripts for automation
 # group=kde-applications
 pkgname=kamera
-pkgver=9999_git20231222
+pkgver=9999_git20231224
 pkgrel=0
-_commit="bcf64cb0cce5d406742b8b75fdc72f348eec7eb3"
+_commit="34b6b9addf300711176ee3a6b8d76ee965836dc1"
 # armhf blocked by extra-cmake-modules
 arch="all !armhf"
 url="https://kde.org/applications/graphics"
@@ -50,5 +50,5 @@ package() {
 }
 
 sha512sums="
-55fce3cd0cbdc4eb4b82a074947e9d3270b61c5a0fb77b8792628b41911135bb87c697ad15b1004f74819531ce0973e7e72a4d97c9b4644d1ad2c98822144ecd  kamera-bcf64cb0cce5d406742b8b75fdc72f348eec7eb3.tar.xz
+d1b6e5be410eeef378328b7d45a6d0c85ae86db3ebc48438cd445126a4b7bb293f42549c2b752a96decba144ac5f527a4a2dd4d2967171ac637e7ee7c12e9598  kamera-34b6b9addf300711176ee3a6b8d76ee965836dc1.tar.xz
 "

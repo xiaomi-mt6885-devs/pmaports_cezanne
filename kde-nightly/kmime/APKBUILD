@@ -4,9 +4,9 @@
 # The group tag is just to easily find this APKBUILD by some scripts for automation
 # group=kde-applications
 pkgname=kmime
-pkgver=9999_git20231222
+pkgver=9999_git20231226
 pkgrel=0
-_commit="769cefb55bd69019b3fc6ff0ec67e09263eb1d13"
+_commit="cbd503c84b30b90e0eef8dbb656ad75e170209a0"
 pkgdesc="Library for handling mail messages and newsgroup articles"
 # armhf blocked by extra-cmake-modules
 arch="all !armhf"
@@ -48,5 +48,5 @@ package() {
 }
 
 sha512sums="
-fe91ed42c5b532627f2245949be11e20cbac7ab2f4130bf3ed25c92d724b6107450eb38bf12799d5b4852e9bb28526493c23943cce19cd48d8e097ef3c4a5b14  kmime-769cefb55bd69019b3fc6ff0ec67e09263eb1d13.tar.xz
+12161b4e8413cc79249b327a176b5f1909e2bb09955b256792e1d07bd1400c3756e3c32168dee4c1d32927b1d8dbab2901a8e6502f301648f32dfa3173caf41f  kmime-cbd503c84b30b90e0eef8dbb656ad75e170209a0.tar.xz
 "

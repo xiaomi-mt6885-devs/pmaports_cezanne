@@ -4,9 +4,9 @@
 # The group tag is just to easily find this APKBUILD by some scripts for automation
 # group=kde-applications
 pkgname=kio-zeroconf
-pkgver=9999_git20231221
+pkgver=9999_git20231224
 pkgrel=0
-_commit="7141680f0576f93e20d9dd0543fcdac82ee84723"
+_commit="ae08bc5dafabe3d7a64db9ef891a0036de7efb47"
 # armhf blocked by extra-cmake-modules
 arch="all !armhf"
 url="https://www.kde.org/applications/internet/"
@@ -46,5 +46,5 @@ package() {
 }
 
 sha512sums="
-c95855186e225321ed25f8214b883c0efaa3d758d89d26c850e1f08b89cd2e53d8ec1c493715369e869832ba9133d2581c6d2efab0c56e42d6543d72391e4d7f  kio-zeroconf-7141680f0576f93e20d9dd0543fcdac82ee84723.tar.xz
+4e0118fc425a8b41b2e231b7e43d497515606809735a9c1ce8ec33d8fae8163c4f3e9ffde1111b34b3da61b0db7af3a26ee2398878f83081a7e2b296a0eafcd0  kio-zeroconf-ae08bc5dafabe3d7a64db9ef891a0036de7efb47.tar.xz
 "

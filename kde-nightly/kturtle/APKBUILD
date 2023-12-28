@@ -4,9 +4,9 @@
 # The group tag is just to easily find this APKBUILD by some scripts for automation
 # group=kde-applications
 pkgname=kturtle
-pkgver=9999_git20231221
+pkgver=9999_git20231224
 pkgrel=0
-_commit="ab6b4823167b79e33228e834c6d1b49d1af4344d"
+_commit="512100913bfbe624ca28a574f410e9972414797e"
 # armhf blocked by extra-cmake-modules
 arch="all !armhf"
 url="https://edu.kde.org/kturtle"
@@ -50,5 +50,5 @@ package() {
 }
 
 sha512sums="
-a24305a0e6397bcf64401dae19f849f367650e85e7e934afc4d96d4e8de2747159bc6b3d4bf8e6dcb8c9656e353b7b7db3af29fc2ce3588b43f29002e7b46d38  kturtle-ab6b4823167b79e33228e834c6d1b49d1af4344d.tar.xz
+749ae3ed66cc96ed619ea645d5ca21417049574cde80851bc7117a6bff7c5d7501b187c18f2837cb1cb29baacab891fe4f2cf67c8abac55afcbfa973439e90dd  kturtle-512100913bfbe624ca28a574f410e9972414797e.tar.xz
 "

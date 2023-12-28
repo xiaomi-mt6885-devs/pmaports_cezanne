@@ -4,9 +4,9 @@
 # The group tag is just to easily find this APKBUILD by some scripts for automation
 # group=kde-applications
 pkgname=kontrast
-pkgver=9999_git20231222
+pkgver=9999_git20231224
 pkgrel=0
-_commit="6790e9478d93f2215ff275ff0d2e82b08ae93dcc"
+_commit="73c82dd2291e5719e69f76954ca52d04b44ae663"
 pkgdesc="Tool to check contrast for colors that allows verifying that your colors are correctly accessible"
 # armhf blocked by qt6-qtdeclarative
 arch="all !armhf"
@@ -46,5 +46,5 @@ package() {
 }
 
 sha512sums="
-5f898d766cf7680c843310f621ab87e1a02d99516d553ea91d5dd2084f8f9f5156ee77794f9a07a16361e4aad65630b5ba686d170d89de6245f35493e14838d2  kontrast-6790e9478d93f2215ff275ff0d2e82b08ae93dcc.tar.xz
+1784aa091faa8d9938841022ef454ad9b9676b0a667a142d1934deaf39d41555701645df8ad193f101f275e6a6fcebb585f31addbac3a62630e6c71e23039a4c  kontrast-73c82dd2291e5719e69f76954ca52d04b44ae663.tar.xz
 "

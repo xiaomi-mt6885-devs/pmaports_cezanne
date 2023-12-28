@@ -4,9 +4,9 @@
 # The group tag is just to easily find this APKBUILD by some scripts for automation
 # group=kde-applications
 pkgname=kbackup
-pkgver=9999_git20231222
+pkgver=9999_git20231224
 pkgrel=0
-_commit="6041bc9ef75080022a427aca221e455cc78c2539"
+_commit="6be3dfdcd5e82fda15c760d8c6a90d4018b9a66c"
 # armhf blocked by extra-cmake-modules
 arch="all !armhf"
 url="https://kde.org/applications/utilities/org.kde.kbackup"
@@ -53,5 +53,5 @@ package() {
 }
 
 sha512sums="
-7389dad3100409fefffe0aec59f60e37634ed68812d040dab48a3dee192bfb6c4880670eab45333836384a7587625fa87c229518525c0b84c68867038767980c  kbackup-6041bc9ef75080022a427aca221e455cc78c2539.tar.xz
+0a6098880c6d79d0ea32cbd3bb4051ba7ef6d4430a17ff99c3d94a7caa6892c727cb1c948fabe6c75375bc1dcb0a6561951dd241e93b6612922afe12250d5f91  kbackup-6be3dfdcd5e82fda15c760d8c6a90d4018b9a66c.tar.xz
 "

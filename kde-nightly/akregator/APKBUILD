@@ -4,9 +4,9 @@
 # The group tag is just to easily find this APKBUILD by some scripts for automation
 # group=kde-applications
 pkgname=akregator
-pkgver=9999_git20231221
+pkgver=9999_git20231226
 pkgrel=0
-_commit="515108bbda7678f0b0f0fca63e224c1fe3a4fde8"
+_commit="37bf6900a379d2a06215454e8f0b887e082261e9"
 # armhf blocked by extra-cmake-modules
 # ppc64le, s390x and riscv64 blocked by qt6-qtwebengine
 arch="all !armhf !ppc64le !s390x !riscv64"
@@ -65,5 +65,5 @@ package() {
 }
 
 sha512sums="
-596faf1f7e255770401bd43e52b377602dce367f9879334c4927693f04627ce9aa674295420881be16db1279226509f37f1bb17e0fc5936cb96eda876518ea90  akregator-515108bbda7678f0b0f0fca63e224c1fe3a4fde8.tar.xz
+fd22f0bc7fd67dfc663607f26eba7c1359b5f780d7d87840ebc2e04e6b1a082ae438be12f7aa0ebd7e8b44618f3a6114eee0b751035e14ea2fba9953c20e5dfa  akregator-37bf6900a379d2a06215454e8f0b887e082261e9.tar.xz
 "

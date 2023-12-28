@@ -4,9 +4,9 @@
 # The group tag is just to easily find this APKBUILD by some scripts for automation
 # group=kde-other
 pkgname=plasma-pass
-pkgver=9999_git20231221
+pkgver=9999_git20231224
 pkgrel=0
-_commit="7868fcf43c336b9a4328d0873391b727e769f7ed"
+_commit="66116f9a292f1f1b257013e6d55f329fb6160e9f"
 pkgdesc="Plasma applet for the Pass password manager"
 # armhf blocked by qt6-qtdeclarative
 arch="all !armhf"
@@ -48,5 +48,5 @@ package() {
 }
 
 sha512sums="
-715b332e27c968fe3de6551ac46df038dd1190a9882bef6dc6a5bc11a265e7166e70c9fab773ea497f175f6f6738a5bf9e69b28421674d2d56cb7ba4d111fc81  plasma-pass-7868fcf43c336b9a4328d0873391b727e769f7ed.tar.xz
+dd082777d4ab536949851f5bb55fda0234a39d27aa2c4eb7bdb2676dee7d6eefb0a230922da4d5c7d43cc96644aa638e4953c85d000fce86a86d8c9bba9d8171  plasma-pass-66116f9a292f1f1b257013e6d55f329fb6160e9f.tar.xz
 "

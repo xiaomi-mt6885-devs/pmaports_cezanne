@@ -4,9 +4,9 @@
 # The group tag is just to easily find this APKBUILD by some scripts for automation
 # group=kde-other
 pkgname=ktextaddons
-pkgver=9999_git20231221
+pkgver=9999_git20231225
 pkgrel=0
-_commit="1cdd974b2e5e3e6fd1e3dda0b4db24da6e09a8b5"
+_commit="96988bcc7c78fce91aba50105388730d533b7ffa"
 pkgdesc="Various text handling addons"
 # armhf blocked by extra-cmake-modules
 arch="all !armhf"
@@ -69,5 +69,5 @@ package() {
 	DESTDIR="$pkgdir" cmake --install build
 }
 sha512sums="
-88c7d82fa3d18f652c2c35cbec1475628fbe51defc97d81f3500b23d75a55d5945d9adbac68245f3d9791263125f71b6caa2509df2976884c612d838b257d29d  ktextaddons-1cdd974b2e5e3e6fd1e3dda0b4db24da6e09a8b5.tar.xz
+9010a685b6df164550dc1336e79b5bf6200c613c5ab50495226eb5148d797e42aecd93989cac77e8f48877c1a6618c02d54553c8eae534a606da6d7f0c437dd3  ktextaddons-96988bcc7c78fce91aba50105388730d533b7ffa.tar.xz
 "

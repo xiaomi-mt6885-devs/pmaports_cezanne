@@ -4,9 +4,9 @@
 # The group tag is just to easily find this APKBUILD by some scripts for automation
 # group=kde-applications
 pkgname=kfind
-pkgver=9999_git20231222
+pkgver=9999_git20231224
 pkgrel=0
-_commit="e9b0f9298c16c6884873693afcf921394b0573e9"
+_commit="f4962afb046aa51d0f475dcec008ed0b09ffea50"
 # armhf blocked by extra-cmake-modules
 arch="all !armhf"
 url="https://www.kde.org/applications/utilities/kfind"
@@ -49,5 +49,5 @@ package() {
 }
 
 sha512sums="
-9b9c5312d7c11f24d82bb09e4d597fd5f005a99262a8fc8d6a53cf93b9ebc2c59d9dd7edd89c5d1f0575a3045c85ef374044f4df1ca908a27af4252a4087a68e  kfind-e9b0f9298c16c6884873693afcf921394b0573e9.tar.xz
+06721b553e1896b071dc9f73125ce53b5650385a72b7759bde22aa346544385c7b3bb9cc3a32c3890cfaf4c84f66b66c2803ee039b97533208d409117b00d045  kfind-f4962afb046aa51d0f475dcec008ed0b09ffea50.tar.xz
 "

@@ -4,9 +4,9 @@
 # The group tag is just to easily find this APKBUILD by some scripts for automation
 # group=kde-applications
 pkgname=kcharselect
-pkgver=9999_git20231222
+pkgver=9999_git20231224
 pkgrel=0
-_commit="69e8980aa97ae26e61242e4afbc2508a78dab8d1"
+_commit="1adec5135727d1d507e6e6b72bffd41c51d2f65f"
 # armhf blocked by extra-cmake-modules
 arch="all !armhf"
 url="https://kde.org/applications/utilities/org.kde.kcharselect"
@@ -48,5 +48,5 @@ package() {
 }
 
 sha512sums="
-5a1fcb59f2edec6a9cebb9e0290351621518a5383c6fa1c9cd880f3dc543a60ffacd9a833d0afbf4b0bf1dd20fed62a16da1beb855432958caa14dc3d93e8f6a  kcharselect-69e8980aa97ae26e61242e4afbc2508a78dab8d1.tar.xz
+a25ce97a4aa2b1d6271a72c7f69a8f9e64fd6081943eee257d1504620c3290e55a4d78826ba0370f47e37c39d400b8254c2d1320ed68ff68c96d0ec8dc59d68b  kcharselect-1adec5135727d1d507e6e6b72bffd41c51d2f65f.tar.xz
 "

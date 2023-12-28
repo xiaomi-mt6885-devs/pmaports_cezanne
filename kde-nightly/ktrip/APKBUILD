@@ -3,9 +3,9 @@
 # The group tag is just to easily find this APKBUILD by some scripts for automation
 # group=kde-applications
 pkgname=ktrip
-pkgver=9999_git20231222
+pkgver=9999_git20231224
 pkgrel=0
-_commit="02c2eb453728e9fa3f2b43681761b6f5fc3a7b55"
+_commit="3f811e32a639e09e700c940e9f6f1d9d142d8f57"
 pkgdesc="A public transport assistant"
 # armhf blocked by extra-cmake-modules
 arch="all !armhf"
@@ -54,5 +54,5 @@ package() {
 }
 
 sha512sums="
-5dbd90f1fed589a3856369bfbccca040f8e79e5f0de0fdebcccabcfc4968eca3270d71a96b3ff58976f8fbea16eafb18de8e4f18f9438e37d9d5312abacc561e  ktrip-02c2eb453728e9fa3f2b43681761b6f5fc3a7b55.tar.xz
+14fc4091695fede00c1b84aed997c92fb8d4b6bb0a7f83d02f273a0f4325307db996134f26c76ac1a03972fa70f86b96b8fb5265137146311a1874179b044b06  ktrip-3f811e32a639e09e700c940e9f6f1d9d142d8f57.tar.xz
 "

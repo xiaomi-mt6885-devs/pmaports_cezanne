@@ -4,9 +4,9 @@
 # The group tag is just to easily find this APKBUILD by some scripts for automation
 # group=kde-applications
 pkgname=libksane
-pkgver=9999_git20231221
+pkgver=9999_git20231224
 pkgrel=0
-_commit="c78022204d330277b8d86b3d409d5e82f843cf56"
+_commit="8e90ce6c345d945604cdc7680bdb5d60589538ea"
 # armhf blocked by extra-cmake-modules
 arch="all !armhf"
 url="https://www.kde.org/applications/graphics/"
@@ -48,5 +48,5 @@ package() {
 }
 
 sha512sums="
-47fd9db5dfa07235d5161a9350bfa1407dc245c28d4ef763ff997909762e896f7ae09fc78db19e685bdf86eb57c4b1617a76b9d1bdfffe71429134069e2b3e4b  libksane-c78022204d330277b8d86b3d409d5e82f843cf56.tar.xz
+053917dd2ae59f59d47f89ec58c0ec333cc9440c870f5f9652445abd5e03823bd4537fa4a936419ffb3c2c3b6860d22bdd1ad0251e423661321915fc7cfee4b1  libksane-8e90ce6c345d945604cdc7680bdb5d60589538ea.tar.xz
 "

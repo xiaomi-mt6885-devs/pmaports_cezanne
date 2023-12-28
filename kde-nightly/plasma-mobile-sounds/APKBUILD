@@ -4,9 +4,9 @@
 # The group tag is just to easily find this APKBUILD by some scripts for automation
 # group=kde-other
 pkgname=plasma-mobile-sounds
-pkgver=9999_git20231107
+pkgver=9999_git20231224
 pkgrel=0
-_commit="2619ed0bdf8c6a86399e13adde314415532b692f"
+_commit="7312205df8f7dcb158cd2dee51e11598ef2c1a6e"
 pkgdesc="Sounds for Plasma Mobile devices"
 url="https://invent.kde.org/plasma-mobile/plasma-mobile-sounds"
 # armhf blocked by extra-cmake-modules
@@ -36,5 +36,5 @@ package() {
 }
 
 sha512sums="
-6963563879d82cfffb0b6be174384fc3679a1306f302adc948a6646fb57f340f30fabf766a122dd2290666afb49b1f5ce89912ad63a80e0041bc5c5b8eea9444  plasma-mobile-sounds-2619ed0bdf8c6a86399e13adde314415532b692f.tar.xz
+6bba021577526f020ab1c56ebdf3840b0a1a2b731305bc95bd7845ef3e71e90a98ad4c1a1e6379cbe0435b568e6e09c9e103e96bf0e73dcf660e06bac483cd3a  plasma-mobile-sounds-7312205df8f7dcb158cd2dee51e11598ef2c1a6e.tar.xz
 "

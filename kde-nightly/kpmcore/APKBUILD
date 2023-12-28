@@ -4,9 +4,9 @@
 # The group tag is just to easily find this APKBUILD by some scripts for automation
 # group=kde-applications
 pkgname=kpmcore
-pkgver=9999_git20231221
+pkgver=9999_git20231224
 pkgrel=0
-_commit="74cd544d7f29762002cebc58445e7e086ef6abbc"
+_commit="932cd9b5ba9518311f79d7afb83b405d051414bb"
 # armhf blocked by extra-cmake-modules
 arch="all !armhf"
 url="https://kde.org/applications/system/org.kde.partitionmanager"
@@ -56,5 +56,5 @@ package() {
 }
 
 sha512sums="
-60e64840124160d0500266dca9528fa0a6bdeeeaa5ee6bc5ba389e4d249b4aaecdff1c72f62a030455b2c7b3ce24de722614bb6b0ae41f23298b1a33becc5585  kpmcore-74cd544d7f29762002cebc58445e7e086ef6abbc.tar.xz
+4f816815d846a3eb3c66eda175bfd18c66d3df54f57910d07937aa4209a9ba5964f0fb3680e9c5431d0964193a7ddad655884adcce4c7d5c144ac4dd09ad2c53  kpmcore-932cd9b5ba9518311f79d7afb83b405d051414bb.tar.xz
 "

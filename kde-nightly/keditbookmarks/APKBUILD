@@ -4,9 +4,9 @@
 # The group tag is just to easily find this APKBUILD by some scripts for automation
 # group=kde-applications
 pkgname=keditbookmarks
-pkgver=9999_git20231221
+pkgver=9999_git20231224
 pkgrel=0
-_commit="a0ee6a0a23301ff4462e89bc7d75255b4a3789d1"
+_commit="cb9470d337d4ef8ae0110501cfe94c0c51b69022"
 # armhf blocked by extra-cmake-modules
 arch="all !armhf"
 url="https://www.kde.org/"
@@ -49,5 +49,5 @@ package() {
 }
 
 sha512sums="
-2f83b5f7e591ff5133a0b5c5c3945a210138c66b88329683f1b619c1c551ac0bcf2984207b264385a118cfd794897925da3104875ffcd6f5d59fa5f78fc8cbbc  keditbookmarks-a0ee6a0a23301ff4462e89bc7d75255b4a3789d1.tar.xz
+a9322b2c984a1d716e655158dff15f7c858a8f813a07543a7124d5d301485ac5b2af21f6c52b06777a2cfa67309931c223e594ff4d72eadacf6bc640ed88e22c  keditbookmarks-cb9470d337d4ef8ae0110501cfe94c0c51b69022.tar.xz
 "

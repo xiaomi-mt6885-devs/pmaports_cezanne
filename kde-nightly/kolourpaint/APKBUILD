@@ -4,9 +4,9 @@
 # The group tag is just to easily find this APKBUILD by some scripts for automation
 # group=kde-applications
 pkgname=kolourpaint
-pkgver=9999_git20231221
+pkgver=9999_git20231224
 pkgrel=0
-_commit="dfe69f84a26d7087edd7d4a38e82b6a8b216dc11"
+_commit="f53ea698f5aa46e8f7190fb2be3544297f5985dc"
 # armhf blocked by extra-cmake-modules
 arch="all !armhf"
 url="http://www.kolourpaint.org/"
@@ -52,5 +52,5 @@ package() {
 }
 
 sha512sums="
-c0d3475b875546cfe149346a30330a69a827fd772542f584a85156cc2791c35fe8c9a4c9fae6da502ee735cc877e68f540284cc24e0c23260e2e4edc6ca37bca  kolourpaint-dfe69f84a26d7087edd7d4a38e82b6a8b216dc11.tar.xz
+e794548fe52fed5aa805e30ed1154df9c282dd48ecf7e2ca0ee3df73bc45380f8cb137af608ba84c437364dff8d3197172b6a3f23bb365885df36c32462da366  kolourpaint-f53ea698f5aa46e8f7190fb2be3544297f5985dc.tar.xz
 "

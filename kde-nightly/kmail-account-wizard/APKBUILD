@@ -4,9 +4,9 @@
 # The group tag is just to easily find this APKBUILD by some scripts for automation
 # group=kde-applications
 pkgname=kmail-account-wizard
-pkgver=9999_git20231222
+pkgver=9999_git20231226
 pkgrel=0
-_commit="d8f1cdb244f332c4db50e61d2e26fae473d2a289"
+_commit="edb10b4886318f7622daee30e093d732dca55033"
 # armhf blocked by extra-cmake-modules
 # ppc64le, s390x and riscv64 blocked by qt6-qtwebengine -> kmailtransport
 arch="all !armhf !ppc64le !s390x !riscv64"
@@ -66,5 +66,5 @@ package() {
 }
 
 sha512sums="
-bd2c3fe37ee29f28c06f621cde682df9dbad741f0264e3fe6fc7f0f2a9876a949a3c963f6c85d1d9e097d662d4d31331bb08e9e4c19a2e092d18b5770e3359e9  kmail-account-wizard-d8f1cdb244f332c4db50e61d2e26fae473d2a289.tar.xz
+07740105f775ec4b0e6eacc780e7be03e5b041cabde4d34b53e812b6d4d62b607d14a726b8943169fd33cff314237cfe1418074b0ea5a26e8378371337db2474  kmail-account-wizard-edb10b4886318f7622daee30e093d732dca55033.tar.xz
 "

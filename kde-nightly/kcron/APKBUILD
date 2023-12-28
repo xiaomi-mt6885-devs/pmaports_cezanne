@@ -4,9 +4,9 @@
 # The group tag is just to easily find this APKBUILD by some scripts for automation
 # group=kde-applications
 pkgname=kcron
-pkgver=9999_git20231222
+pkgver=9999_git20231225
 pkgrel=0
-_commit="48ad80d4c6a2a01aeca16b3ae5e772bb354ad0d8"
+_commit="54a2f5f8dcc33553a85ac46861c297e37cfd5119"
 # armhf blocked by extra-cmake-modules
 arch="all !armhf"
 url="https://kde.org/applications/system/"
@@ -47,5 +47,5 @@ package() {
 }
 
 sha512sums="
-bb3094947fff4d43570d7bff47f716681ad1f03d5216b2d4dd5d925310340ee5f899f68878ba5186973bea26af3b0784b61d5aa08ca524d14c45368347f1aa45  kcron-48ad80d4c6a2a01aeca16b3ae5e772bb354ad0d8.tar.xz
+93f10030e263292f5f68df49e02b6f19da2023d76b8fc6d9ab596cd9648aebdd2e9338f7aec6c01b141e6ef9bd22a245fcd26d61502733a545e98a157a2679a1  kcron-54a2f5f8dcc33553a85ac46861c297e37cfd5119.tar.xz
 "

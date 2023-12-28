@@ -4,9 +4,9 @@
 # The group tag is just to easily find this APKBUILD by some scripts for automation
 # group=kde-applications
 pkgname=kpat
-pkgver=9999_git20231221
+pkgver=9999_git20231224
 pkgrel=0
-_commit="854a8a1b041d4ac754f24d7a5e19f4228dfccd10"
+_commit="111db8620841ac8b827d3f4ba5a6d96c8e0701a1"
 pkgdesc="KPatience offers a selection of solitaire card games"
 # armhf blocked by extra-cmake-modules
 arch="all !armhf"
@@ -62,5 +62,5 @@ package() {
 }
 
 sha512sums="
-84378db1e12bbeb5e301a936eec19a15451ff9a2d9769027b818d9e3a38bdb6b9d6c28bf6c15ac6fadc9082f59c1a988b73af0547217bf75914994a11055339c  kpat-854a8a1b041d4ac754f24d7a5e19f4228dfccd10.tar.xz
+8e8cc6b893580e6cf564c422a82fbab51b8bf5f128762b023bae5b084a00cadbf6bdae0cfedfac6f237fe53b1ef04c7bd1af834095755d9628d30cae19430804  kpat-111db8620841ac8b827d3f4ba5a6d96c8e0701a1.tar.xz
 "

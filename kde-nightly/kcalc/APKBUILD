@@ -4,9 +4,9 @@
 # The group tag is just to easily find this APKBUILD by some scripts for automation
 # group=kde-applications
 pkgname=kcalc
-pkgver=9999_git20231222
+pkgver=9999_git20231225
 pkgrel=0
-_commit="f565c19a05304e07e4c464a32ce6b717af41ae62"
+_commit="9507adabbde6349d18e628d674c252b785ac81c0"
 # armhf blocked by extra-cmake-modules
 arch="all !armhf"
 url="https://kde.org/applications/utilities/org.kde.kcalc"
@@ -51,5 +51,5 @@ package() {
 }
 
 sha512sums="
-018ea3ab1597dcc1253af9be12a2d22eb610e44690da385897a7dca29a143870cfc87bc83422c535e029a43ee4a362053fe5898c615d4c8bbc85d2c9d47812e0  kcalc-f565c19a05304e07e4c464a32ce6b717af41ae62.tar.xz
+67ad3428991ba2176ea1ccc75678d1a3087f06d65ca194b6355374ea82fa1d49fe58804ce4a31a33f04f97eafa50ba348310be987837a1a859d988cf6f2edf18  kcalc-9507adabbde6349d18e628d674c252b785ac81c0.tar.xz
 "

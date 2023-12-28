@@ -4,9 +4,9 @@
 # The group tag is just to easily find this APKBUILD by some scripts for automation
 # group=kde-applications
 pkgname=kdenetwork-filesharing
-pkgver=9999_git20231222
+pkgver=9999_git20231224
 pkgrel=0
-_commit="fcba3dea0fb15cc7d071c9a367f7ff614e4d81c2"
+_commit="758b5b2188e95ce251bdcb9a4d4a5b64899a3a4e"
 # armhf blocked by extra-cmake-modules
 arch="all !armhf"
 url="https://www.kde.org/applications/internet/"
@@ -52,5 +52,5 @@ package() {
 }
 
 sha512sums="
-3540225d0752e778e910ac2c7367b4aeb42a23b00e77b3ef893bb45f83d8a129bd15afb3b2f386f950190a3f5bc29bc0e0cec497c4d101ca695f56446850c4aa  kdenetwork-filesharing-fcba3dea0fb15cc7d071c9a367f7ff614e4d81c2.tar.xz
+4ae3837b3bc765144eddddf7deaaa4813ea230288e687de937bb30d82d6e2035cbf2c7d50c553500fc99824efdf4e6ee0c0a68d43cd6eedd7cc732f775f24e97  kdenetwork-filesharing-758b5b2188e95ce251bdcb9a4d4a5b64899a3a4e.tar.xz
 "

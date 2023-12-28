@@ -4,9 +4,9 @@
 # The group tag is just to easily find this APKBUILD by some scripts for automation
 # group=kde-other
 pkgname=wacomtablet
-pkgver=9999_git20231222
+pkgver=9999_git20231224
 pkgrel=0
-_commit="1e2bab9c101d66a6da91ebddcb30ef5dde30e528"
+_commit="c3b3d5cfc7918d4c6d0a167ca1dfd6c9dbc96f46"
 pkgdesc="GUI for Wacom Linux drivers that supports different button/pen layout profiles"
 # armhf blocked by qt5-qtdeclarative
 arch="all !armhf"
@@ -57,5 +57,5 @@ package() {
 	DESTDIR="$pkgdir" cmake --install build
 }
 sha512sums="
-117474484677edf1cc2ad557815c8eb3eeb9c27b0952174305dead4766e7f99a4a2eac9b220ad4adcbb1d6ccc3a25ce7388bc754f9cab7e1606dfe130ccf0469  wacomtablet-1e2bab9c101d66a6da91ebddcb30ef5dde30e528.tar.xz
+48fe1c87606ad12bfc81678d2c0569263f3312d7fa9ba0718ecbcaa4d4c2773ab17f3b48b0315d40ed78f90bebb343fe799b023a574da1ba083cc7dff7a72fcc  wacomtablet-c3b3d5cfc7918d4c6d0a167ca1dfd6c9dbc96f46.tar.xz
 "

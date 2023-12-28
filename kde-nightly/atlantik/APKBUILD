@@ -5,10 +5,10 @@
 # group=kde-other
 pkgname=atlantik
 # 3.5.10 is 15 years old but the latest commit is actually modern and even updated to Qt6
-pkgver=9999_git20231222
+pkgver=9999_git20231224
 pkgrel=0
-_commit="db3aa0d395f92ec385868b386ba286b7314fa6de"
-_commit="db3aa0d395f92ec385868b386ba286b7314fa6de"
+_commit="595a5ab471cfa6f97d9d1e1507e1fb316f088804"
+_commit="595a5ab471cfa6f97d9d1e1507e1fb316f088804"
 # armhf blocked by extra-cmake-modules
 arch="all !armhf"
 url="https://apps.kde.org/atlantik/"
@@ -53,5 +53,5 @@ package() {
 }
 
 sha512sums="
-ee39e5502e8c804ce0d0646012cbd2e137673d953a45119c9a754f81ef3d604e811819536a9b976f347e0d8018234757d08e2f4145f67f0c5bc504deb14273de  atlantik-db3aa0d395f92ec385868b386ba286b7314fa6de.tar.xz
+97a63c030b7f4c139a5099b1ce4063ceec7963fdf5d0849f39e0500196fafebaac0c7bdeff607fe9690c5bb70c3e5959327ad276dcc71e9806bb03603a40afc0  atlantik-595a5ab471cfa6f97d9d1e1507e1fb316f088804.tar.xz
 "

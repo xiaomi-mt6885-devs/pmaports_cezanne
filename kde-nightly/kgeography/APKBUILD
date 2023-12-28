@@ -4,9 +4,9 @@
 # The group tag is just to easily find this APKBUILD by some scripts for automation
 # group=kde-applications
 pkgname=kgeography
-pkgver=9999_git20231222
+pkgver=9999_git20231224
 pkgrel=0
-_commit="44a4bf88b47f5efb3df66b40e14aef26662cc8f7"
+_commit="1596928bfb2e8768782f0dd4a54a6ac7538677a4"
 # armhf blocked by extra-cmake-modules
 arch="all !armhf"
 url="https://edu.kde.org/kgeography"
@@ -51,5 +51,5 @@ package() {
 }
 
 sha512sums="
-90b3278753afe739b0701d405fdc53ca6810729665829e2a4d4a1f55d8b22a841d758a4a016074cacb643c4ba8aace70fb8a7e409cce0b8b3dcd5d5151cb92bb  kgeography-44a4bf88b47f5efb3df66b40e14aef26662cc8f7.tar.xz
+a996b66109ce6a91b64ef914b7c4f41be156b718b7ff6e07dbedf5ccf47e545dadaf198f050270e58f2fbce7d4f5d38cff4beda7aba38f954bfcd88b470d2974  kgeography-1596928bfb2e8768782f0dd4a54a6ac7538677a4.tar.xz
 "

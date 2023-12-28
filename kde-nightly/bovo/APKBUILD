@@ -4,9 +4,9 @@
 # The group tag is just to easily find this APKBUILD by some scripts for automation
 # group=kde-applications
 pkgname=bovo
-pkgver=9999_git20231222
+pkgver=9999_git20231224
 pkgrel=0
-_commit="60cef38f3d1062c46a2cfabc83ba30717a8b2b40"
+_commit="e29e1a788ab567560a9a173af5a2939427166925"
 pkgdesc="A Gomoku like game for two players"
 # armhf blocked by extra-cmake-modules
 arch="all !armhf"
@@ -48,5 +48,5 @@ package() {
 }
 
 sha512sums="
-b79c7a9066a2c5d0abc86d099598d2f4acd87e51880d470543a7b87ea60f1d8a840ef2d7d5c1cd256a40d1fc9569825215b70d218c61e3dc7c8190182af4c936  bovo-60cef38f3d1062c46a2cfabc83ba30717a8b2b40.tar.xz
+d37d1f03e0a0c5006361074905c60e9141dd1ad984a99603a9e17c22fd25941be0e47658b8e06128da4578f34da2bc224370492321d7f0155e7adf9f5214bbcc  bovo-e29e1a788ab567560a9a173af5a2939427166925.tar.xz
 "

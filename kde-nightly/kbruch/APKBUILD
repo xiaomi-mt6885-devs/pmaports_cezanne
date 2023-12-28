@@ -4,9 +4,9 @@
 # The group tag is just to easily find this APKBUILD by some scripts for automation
 # group=kde-applications
 pkgname=kbruch
-pkgver=9999_git20231222
+pkgver=9999_git20231224
 pkgrel=0
-_commit="5c0530a167716df28f81c3b519dd5d02e6e08313"
+_commit="d61f288eeb0c042f9772223a8aa7dec2ad68facc"
 # armhf blocked by extra-cmake-modules
 arch="all !armhf"
 url="https://edu.kde.org/kbruch/"
@@ -48,5 +48,5 @@ package() {
 }
 
 sha512sums="
-07021495b999e3c34d78c19f4365c61b4edb0ff6f50c5fde3142f01c04241eb1ce1e339e99e37773ed51a4a12d2ac910a17469dd8116bb849c091737c7e7981e  kbruch-5c0530a167716df28f81c3b519dd5d02e6e08313.tar.xz
+63ccc0dedbbb413ec52a0a4752beca0ac3cb0884fcc28c0c29565847719a1d3c85a943be2a32dcad8ae08483b5ec785621f897452ef9c4daa70b901010868ff8  kbruch-d61f288eeb0c042f9772223a8aa7dec2ad68facc.tar.xz
 "

@@ -4,9 +4,9 @@
 # The group tag is just to easily find this APKBUILD by some scripts for automation
 # group=kde-applications
 pkgname=libkdepim
-pkgver=9999_git20231222
+pkgver=9999_git20231226
 pkgrel=0
-_commit="8bdad7a63d2b6adae02e32f3dd4a5a450885c60a"
+_commit="113d7115427d22ceb7c3dbae92160d47419ca629"
 pkgdesc="Lib for common KDEPim apps"
 # armhf blocked by extra-cmake-modules
 # ppc64le, s390x and riscv64 blocked by qt6-qtwebengine -> akonadi
@@ -63,5 +63,5 @@ package() {
 	DESTDIR="$pkgdir" cmake --install build
 }
 sha512sums="
-dbd3e0140d229ad967f0a2832609ab0c19d650f3a89a7da3806f4d7d79b43f3c48aba4be507b185011e7fb08ee2c30f6dcdd7155ff2f3139ece1bef957a2b056  libkdepim-8bdad7a63d2b6adae02e32f3dd4a5a450885c60a.tar.xz
+5847dd72fb40303714ae90fcf4635cd12ebc4b29893e2bfce6676d7d3985cf83ab24d35dc3c2c72e860719fffa9e9dfa0673fc43f72e43f149426a9221a341a1  libkdepim-113d7115427d22ceb7c3dbae92160d47419ca629.tar.xz
 "

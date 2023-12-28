@@ -4,9 +4,9 @@
 # The group tag is just to easily find this APKBUILD by some scripts for automation
 # group=kde-applications
 pkgname=konsole
-pkgver=9999_git20231222
+pkgver=9999_git20231226
 pkgrel=0
-_commit="5ab12eb37ab11b7c25bab12bd65e152cc656df84"
+_commit="bc8aa5e2f4335a322a7f40186d234b017919e5d1"
 # armhf blocked by qt6-qtdeclarative
 arch="all !armhf"
 url="https://kde.org/applications/system/konsole"
@@ -86,5 +86,5 @@ package() {
 }
 
 sha512sums="
-b95f72c40d010aea3ea4fd964c2373a7e5265848029ac04d1fe51afd06ebec8530d4de5294db207cd455bc72bd62b7ce092f1268f818dcd67f3786bd3cb45762  konsole-5ab12eb37ab11b7c25bab12bd65e152cc656df84.tar.xz
+f6a2210a67da1b4cec80c9aff9708578f97df1ecd2327420152395f9044c751582c0fd08b851e5aaf0645665cc1e5860234276e231f4ebc5c02fcee6a59811d3  konsole-bc8aa5e2f4335a322a7f40186d234b017919e5d1.tar.xz
 "

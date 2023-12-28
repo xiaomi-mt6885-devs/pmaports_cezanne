@@ -4,9 +4,9 @@
 # The group tag is just to easily find this APKBUILD by some scripts for automation
 # group=kde-applications
 pkgname=kwordquiz
-pkgver=9999_git20231221
+pkgver=9999_git20231226
 pkgrel=0
-_commit="36e6a6ee998cf360de7f14e1503fd3947f9aea46"
+_commit="2c0dc07408d5b5c59a7762e5a88377f98d6a89df"
 # armhf blocked by extra-cmake-modules
 arch="all !armhf"
 url="https://edu.kde.org/kwordquiz"
@@ -60,5 +60,5 @@ package() {
 }
 
 sha512sums="
-f5c8e11b6ccde9d84fde18fb2a4213a6413103cda30afaaff52bd949a5bfe77989f80b7d638d412269c33f943daea6931c324f65e5017bac76f6721e5a314857  kwordquiz-36e6a6ee998cf360de7f14e1503fd3947f9aea46.tar.xz
+114600a295417e27dbe281aa61edb0f8602c542adccc7996af343ac0de21ff651a2bb45b92811c6a1b5f31274cf789235e92d6438e807bde1d79eefceb1f8118  kwordquiz-2c0dc07408d5b5c59a7762e5a88377f98d6a89df.tar.xz
 "

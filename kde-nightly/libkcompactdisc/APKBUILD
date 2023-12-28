@@ -4,9 +4,9 @@
 # The group tag is just to easily find this APKBUILD by some scripts for automation
 # group=kde-applications
 pkgname=libkcompactdisc
-pkgver=9999_git20231221
+pkgver=9999_git20231224
 pkgrel=0
-_commit="69e2fe8b3b185c7ddd4c46b2785cd757ba4c120d"
+_commit="b4eb6346f89f1a67c37a880ca6963f42ca88b66e"
 # armhf blocked by extra-cmake-modules
 arch="all !armhf"
 url="https://www.kde.org/applications/multimedia/"
@@ -46,5 +46,5 @@ package() {
 }
 
 sha512sums="
-430d49d0edadddb81f0aae4a4d523658bcbc83d81493ebb80758723bfb5affff0c6f7195276877617ae40759fabf8e98975b19bcd493396727faa41edc772abe  libkcompactdisc-69e2fe8b3b185c7ddd4c46b2785cd757ba4c120d.tar.xz
+a305e6499468babf75ff3c3abc000d5932a95a5bf9faf7076478732cbc3d699a58b7e179d4a282de0189eacbb1bbd0d1468ecaa4a5c30196c4c1bcaeb7994b85  libkcompactdisc-b4eb6346f89f1a67c37a880ca6963f42ca88b66e.tar.xz
 "

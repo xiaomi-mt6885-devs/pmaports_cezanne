@@ -4,9 +4,9 @@
 # The group tag is just to easily find this APKBUILD by some scripts for automation
 # group=kde-applications
 pkgname=kiriki
-pkgver=9999_git20231221
+pkgver=9999_git20231224
 pkgrel=0
-_commit="98ddc47dd2e7e8f057670176dc76258754dd9827"
+_commit="992f577e78fb002b475556f8fe0917592eba1bfc"
 pkgdesc="An addictive and fun dice game"
 # armhf blocked by extra-cmake-modules
 arch="all !armhf"
@@ -48,5 +48,5 @@ package() {
 }
 
 sha512sums="
-6c9e697398ce4f6cf319417f56e24f8a556bf971281eff956e050e8e1fa56df1aaea017870a16f54d5828c55dd1008391f230505a0d7fda8fe4b0edf4e6176b2  kiriki-98ddc47dd2e7e8f057670176dc76258754dd9827.tar.xz
+cc740dabcbb52926edeb149e18db25b19223a1d97e36c8324b5ddadb129f42d16e7c81a8103a884e137554c2061c9174a11d0f67332a39d68ac317cc0fc9df11  kiriki-992f577e78fb002b475556f8fe0917592eba1bfc.tar.xz
 "

@@ -4,9 +4,9 @@
 # The group tag is just to easily find this APKBUILD by some scripts for automation
 # group=kde-applications
 pkgname=kmoretools
-pkgver=9999_git20231221
+pkgver=9999_git20231224
 pkgrel=0
-_commit="a544ae19de4c060b461249b6d8f92225c2f1ccae"
+_commit="77acd97b1e6953ab05d8629adfb24420b8829e27"
 pkgdesc="Support for downloading application assets from the network"
 # armhf blocked by extra-cmake-modules
 arch="all !armhf"
@@ -54,5 +54,5 @@ package() {
 }
 
 sha512sums="
-04a63a2561443bfcc78e02853e6442b4d6130c23dbda11a1d96075d7927d3b9001116c4346a100419d16d95ff68880d4ee66d958090d85d3aef8384fe4e51c90  kmoretools-a544ae19de4c060b461249b6d8f92225c2f1ccae.tar.xz
+3d2015ebd6bbf8803266b9cdf55c0da8e283f599499d8fb841ddd9cf3969c342bbf52c7506f650159ae197b13bbfefcb6594f60874664c501f51633975f73606  kmoretools-77acd97b1e6953ab05d8629adfb24420b8829e27.tar.xz
 "

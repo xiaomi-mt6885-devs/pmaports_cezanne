@@ -4,9 +4,9 @@
 # The group tag is just to easily find this APKBUILD by some scripts for automation
 # group=kde-applications
 pkgname=korganizer
-pkgver=9999_git20231221
+pkgver=9999_git20231226
 pkgrel=0
-_commit="54d806828fd3e6dd9e9d95fcd06ea74aeb9b8353"
+_commit="064da9c89b507f215fb62af91f1375223d36aa06"
 # armhf blocked by extra-cmake-modules
 # ppc64le, s390x and riscv64 blocked by qt6-qtwebengine -> kmailtransport
 arch="all !armhf !ppc64le !s390x !riscv64"
@@ -99,5 +99,5 @@ package() {
 }
 
 sha512sums="
-e799afd722ea79a4580ed01b2115c5e65b234396b4be3bef5f3bf82785669ba4c3d2e2d0534ab6c93d1ebd7d32b660cafed7b6ff80af68c14150d2a970c95880  korganizer-54d806828fd3e6dd9e9d95fcd06ea74aeb9b8353.tar.xz
+89825fb2faa3eb3ff5be3e5ab59d6b336fada8db2327851377b8fed050c26c1765195e728fe84e03b7f7bc0a5ebff5ed890435d6033bb1fa935fe4b4171d134b  korganizer-064da9c89b507f215fb62af91f1375223d36aa06.tar.xz
 "

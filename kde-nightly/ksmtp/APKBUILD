@@ -4,9 +4,9 @@
 # The group tag is just to easily find this APKBUILD by some scripts for automation
 # group=kde-applications
 pkgname=ksmtp
-pkgver=9999_git20231222
+pkgver=9999_git20231226
 pkgrel=0
-_commit="e6497e879f1ba9731a6fdd1317a6d760a197b7e3"
+_commit="4bbc95e2fae4062762c224ffe3ef12b59f471491"
 pkgdesc="Job-based library to send email through an SMTP server"
 # armhf blocked by extra-cmake-modules
 arch="all !armhf"
@@ -48,5 +48,5 @@ package() {
 }
 
 sha512sums="
-ab8688d6ac98d9a080469778063042f5c92dd19223f17f31a0368f658d69ff2a11e4816acb4a102cb6c7d85d0ad7d610c8145a6c047ea28127382062f24765d9  ksmtp-e6497e879f1ba9731a6fdd1317a6d760a197b7e3.tar.xz
+0da04c6c31ed6460a6a258b4c0969101129412b6947004074dc7f2882a020809f2fbab65c1ff975bf9601b7dc30a35ed686d52240d991cc2e7828e0b6ce88341  ksmtp-4bbc95e2fae4062762c224ffe3ef12b59f471491.tar.xz
 "

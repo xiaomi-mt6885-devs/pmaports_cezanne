@@ -4,9 +4,9 @@
 # The group tag is just to easily find this APKBUILD by some scripts for automation
 # group=kde-applications
 pkgname=kdiamond
-pkgver=9999_git20231221
+pkgver=9999_git20231224
 pkgrel=0
-_commit="d1dcbec3606a9ba1a72ec70fead3fbb168b9dd42"
+_commit="1790aa7f451b42302a03dc6164fcc04c06ed4c47"
 pkgdesc="A single player puzzle game"
 # armhf blocked by extra-cmake-modules
 arch="all !armhf"
@@ -50,5 +50,5 @@ package() {
 }
 
 sha512sums="
-3523c68f956577f7c7de573c826d095a687573c7d72d228ed6e3b9e25433b3588856cc9230cb9e0dac6c9f47bb7ff5edab9d7075ba5721f58b70da59b9b7fb90  kdiamond-d1dcbec3606a9ba1a72ec70fead3fbb168b9dd42.tar.xz
+801fe4a935e664380c34cc79d9bed50143c521b345ea8dc5b75667c55051c3b1b9b8be00ae17a28ad920214aedf982e3dc81aaf309a76cad8c4e60e1e1c41455  kdiamond-1790aa7f451b42302a03dc6164fcc04c06ed4c47.tar.xz
 "

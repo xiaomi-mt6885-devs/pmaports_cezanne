@@ -4,9 +4,9 @@
 # The group tag is just to easily find this APKBUILD by some scripts for automation
 # group=kde-applications
 pkgname=klickety
-pkgver=9999_git20231221
+pkgver=9999_git20231224
 pkgrel=0
-_commit="f481645ee90385ec07a088cba3b4b19622f40800"
+_commit="b50e1914e03da163442e7a0ee5b454f4548b19fa"
 pkgdesc="An adaptation of the Clickomania game"
 # armhf blocked by extra-cmake-modules
 arch="all !armhf"
@@ -49,5 +49,5 @@ package() {
 }
 
 sha512sums="
-48aa12b25aa5600d8f37b58b3b4a86e8f0fc38a1ddd527c7e63f668b3b64b08d96cee1f3e481d2d62eebe12f5de8f14d3a99f3b45ff2d236d21c0b9255b8337b  klickety-f481645ee90385ec07a088cba3b4b19622f40800.tar.xz
+5ac9528f28c0235bcaf6d3cf519c5068367163017eda59d7239e436a249b44cf46820e128ff5459bdac2d38443ad646939cfce72d46e733a586dcceeede047e0  klickety-b50e1914e03da163442e7a0ee5b454f4548b19fa.tar.xz
 "

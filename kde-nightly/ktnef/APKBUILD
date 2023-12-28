@@ -4,9 +4,9 @@
 # The group tag is just to easily find this APKBUILD by some scripts for automation
 # group=kde-applications
 pkgname=ktnef
-pkgver=9999_git20231222
+pkgver=9999_git20231226
 pkgrel=0
-_commit="3dfb1bbfbf9757d4eca513821f48a76bca594058"
+_commit="cd4f39ae2c982176106e8cf85506f60b9511af35"
 pkgdesc="API for handling TNEF data"
 # armhf blocked by extra-cmake-modules
 arch="all !armhf"
@@ -46,5 +46,5 @@ package() {
 	DESTDIR="$pkgdir" cmake --install build
 }
 sha512sums="
-59d58bf1aad7648d5af36d3cb9a3631c6010b6c2f6256a7143cb504f3a445c38a8887c88fbf71ca2b4b8811f3019d52eef449bc51860d313b7ab71c31ea5890e  ktnef-3dfb1bbfbf9757d4eca513821f48a76bca594058.tar.xz
+11cff3e0fbfe651d57828641117e052cf765ca090919d94c5aa05d26b0f1006b559fa3f1cfb0b5715d0c168277d861d9e639856b3913da01f82d1ef93578baf9  ktnef-cd4f39ae2c982176106e8cf85506f60b9511af35.tar.xz
 "

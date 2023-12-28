@@ -4,9 +4,9 @@
 # The group tag is just to easily find this APKBUILD by some scripts for automation
 # group=kde-applications
 pkgname=kate
-pkgver=9999_git20231222
+pkgver=9999_git20231226
 pkgrel=0
-_commit="73dd1938065d6bd575efa882c2be2073b820c6f1"
+_commit="fb0a2149a34c28356966af1fa2149b9bc7c6d405"
 # armhf blocked by extra-cmake-modules
 arch="all !armhf"
 url="https://kde.org/applications/utilities/org.kde.kate"
@@ -111,5 +111,5 @@ kwrite_lang() {
 }
 
 sha512sums="
-172b6dc78c8190d9822889faab76711e4b05ad80e8bd22e7f4474e85bd91ffb01f5a15b77568f8ce6e53606fd57b447f4e52534cf00204a428a168f1f78e3d31  kate-73dd1938065d6bd575efa882c2be2073b820c6f1.tar.xz
+b532ac0f94d269343950c0d4b608cfe5194a1647ab3546c41e046a73a04f4d76ef95faef1479ac981026f0ee596ec1a2c8479437945437064d5463fdca0b1bd8  kate-fb0a2149a34c28356966af1fa2149b9bc7c6d405.tar.xz
 "

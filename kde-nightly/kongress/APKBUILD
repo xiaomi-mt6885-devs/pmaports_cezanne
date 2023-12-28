@@ -4,9 +4,9 @@
 # The group tag is just to easily find this APKBUILD by some scripts for automation
 # group=kde-applications
 pkgname=kongress
-pkgver=9999_git20231222
+pkgver=9999_git20231224
 pkgrel=0
-_commit="5edb77e7221de3726cecd0786b6424c16d9b6d72"
+_commit="712417c26fec47090d32e479bf310c65899e77ec"
 pkgdesc="Companion application for conferences"
 # armhf blocked by extra-cmake-modules
 arch="all !armhf"
@@ -50,5 +50,5 @@ package() {
 }
 
 sha512sums="
-7565fd04ff84dfbba2698142a10602b56b82d2ba49708240adf235dbe48de109239fed05ccb701b936cc4ab577aade76dfd9303d1bb6dca13707df70d6e02a32  kongress-5edb77e7221de3726cecd0786b6424c16d9b6d72.tar.xz
+2825c3e5896a36cb7de964d8680b541f573e9ee5424f68b14d423b85d01f7f2b1a4a9f8bde31bdcc3f2351e0954117254e74d44ea7cee57d0b3753eb3aef5240  kongress-712417c26fec47090d32e479bf310c65899e77ec.tar.xz
 "

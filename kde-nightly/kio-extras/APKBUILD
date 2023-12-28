@@ -4,9 +4,9 @@
 # The group tag is just to easily find this APKBUILD by some scripts for automation
 # group=kde-applications
 pkgname=kio-extras
-pkgver=9999_git20231222
+pkgver=9999_git20231226
 pkgrel=0
-_commit="994a68a129891ea2d01e08a523e765c1acfedcd7"
+_commit="8bc85e1243945417804343f6806a03aef74e1c26"
 # armhf blocked by extra-cmake-modules
 arch="all !armhf"
 url="https://www.kde.org/applications/internet/"
@@ -79,5 +79,5 @@ package() {
 }
 
 sha512sums="
-5a2b82690c3a603a96dc1d2d6789a7eb08a234da1d5a682a73f83ac1dc1018d1ca797fb9205f593239e0eeaad548b9f40854288639c609fb5983b140d0a9bc57  kio-extras-994a68a129891ea2d01e08a523e765c1acfedcd7.tar.xz
+2e132f58cde23076d5022fae7690ee1d5eac6c7f48e86fbdc83ea9a547d5522ac9a64e0f218bf3f966c2a4ad186739d23a03bb38a1ebc0962454e4ffaae0ac8e  kio-extras-8bc85e1243945417804343f6806a03aef74e1c26.tar.xz
 "

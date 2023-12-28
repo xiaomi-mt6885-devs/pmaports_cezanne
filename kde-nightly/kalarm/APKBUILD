@@ -4,9 +4,9 @@
 # The group tag is just to easily find this APKBUILD by some scripts for automation
 # group=kde-applications
 pkgname=kalarm
-pkgver=9999_git20231222
+pkgver=9999_git20231226
 pkgrel=0
-_commit="dc7f8b0af4ed7682dfee427ca2ff63e4a880b058"
+_commit="a1b655150cbc7cda2840f62a3a9b5f9db90328dd"
 pkgdesc="Personal alarm scheduler"
 url="https://kontact.kde.org/"
 # armhf blocked by extra-cmake-modules
@@ -83,5 +83,5 @@ package() {
 }
 
 sha512sums="
-4b57cc76ee5698d2b53164c62c2028f2fc130e256a4044543dfeb24edc1fa0cdd9fbbe20e4953871d209b8782e537a4ec4eaae833ac9ccfc1e2edc967b604d5e  kalarm-dc7f8b0af4ed7682dfee427ca2ff63e4a880b058.tar.xz
+8065d4437e189d200dbba72e235bddcc39d1bc3afe0ffba466ffdb0aacff6728ca5bce26e4cb7342233331c9a38cb8bfd2ca2c702c140d6dd018f24962324a55  kalarm-a1b655150cbc7cda2840f62a3a9b5f9db90328dd.tar.xz
 "

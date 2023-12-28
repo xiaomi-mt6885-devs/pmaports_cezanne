@@ -4,9 +4,9 @@
 # The group tag is just to easily find this APKBUILD by some scripts for automation
 # group=kde-applications
 pkgname=kruler
-pkgver=9999_git20231221
+pkgver=9999_git20231224
 pkgrel=0
-_commit="e7d8260749940f5fb5a2fadaaf9be757f46bc3ec"
+_commit="374dc9d1ac03ceb31462c3c2f7219c997a6b8b3e"
 # armhf blocked by extra-cmake-modules
 arch="all !armhf"
 url="https://kde.org/applications/graphics/org.kde.kruler"
@@ -48,5 +48,5 @@ package() {
 }
 
 sha512sums="
-728438ad50ab1d8839ce48f41d9289b42532a018e4a7a430b2ca4c32b2d68d02a349565e7e7e16227792f8aa8b32154cfe1b0dcc340b0a49e0bcee499b124327  kruler-e7d8260749940f5fb5a2fadaaf9be757f46bc3ec.tar.xz
+85515ae60df4328aea9e0c01441531319780329f515345dbf9528ee5e1b1f0c2b33e5dcdc2b9b90e907e0bb03e6ef37af9c0aa3ba1fa59528509579406fec462  kruler-374dc9d1ac03ceb31462c3c2f7219c997a6b8b3e.tar.xz
 "

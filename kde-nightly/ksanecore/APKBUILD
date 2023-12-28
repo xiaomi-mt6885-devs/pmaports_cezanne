@@ -4,9 +4,9 @@
 # The group tag is just to easily find this APKBUILD by some scripts for automation
 # group=kde-applications
 pkgname=ksanecore
-pkgver=9999_git20231221
+pkgver=9999_git20231224
 pkgrel=0
-_commit="229f848af2b2407d4bc06fb0281e796ed00b09e6"
+_commit="0b87a9b33e86f08478969dd2e48011f703e1665c"
 # armhf blocked by extra-cmake-modules
 arch="all !armhf"
 url="https://www.kde.org/applications/graphics/"
@@ -46,5 +46,5 @@ package() {
 }
 
 sha512sums="
-0f321bc78d65be10647a1417dd9977a8675896247a2f237c763495e3efa48fd0282c4b50d2aea455439f246a1761cd3ec0ca09f8da42c02be264f34100005168  ksanecore-229f848af2b2407d4bc06fb0281e796ed00b09e6.tar.xz
+272e75e3fe507305dda5685465247e4ff3e019e4602f91369d85d2e1ecf7eee8f4cfe31cf23d8228f0cb3722344891d98c915385e714105837c6d3fa575b4381  ksanecore-0b87a9b33e86f08478969dd2e48011f703e1665c.tar.xz
 "

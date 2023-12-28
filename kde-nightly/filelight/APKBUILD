@@ -4,9 +4,9 @@
 # The group tag is just to easily find this APKBUILD by some scripts for automation
 # group=kde-applications
 pkgname=filelight
-pkgver=9999_git20231222
+pkgver=9999_git20231224
 pkgrel=0
-_commit="71000ff05053fe8a88a9a72957992d0cb1a2cee7"
+_commit="9094864ad50265bfd4df8d596571c5ac3b93c798"
 # armhf blocked by extra-cmake-modules
 arch="all !armhf"
 url="https://kde.org/applications/utilities/filelight"
@@ -48,5 +48,5 @@ package() {
 }
 
 sha512sums="
-417453702742b1e03dc35a280bd818a57e938b17692c1a0168c3e6e50b8078b1903129e862738d33ee6df8b7508588cd8451fea4e8aa4efb74c82628365144cc  filelight-71000ff05053fe8a88a9a72957992d0cb1a2cee7.tar.xz
+cb8447299cb79e17853c1b3c793b00686e8ef0184b30878ae23631bf559fb0e123a341813882af785d8dd9645b3456dbfb71c99f3349d6c72927f6f75a056305  filelight-9094864ad50265bfd4df8d596571c5ac3b93c798.tar.xz
 "

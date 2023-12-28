@@ -4,9 +4,9 @@
 # The group tag is just to easily find this APKBUILD by some scripts for automation
 # group=kde-applications
 pkgname=k3b
-pkgver=9999_git20231222
+pkgver=9999_git20231224
 pkgrel=0
-_commit="3a77a37bbb6c3b74b6d7f298fb1d154f3b72397f"
+_commit="7889162a882cb04af06043e18bce3ac940c3c896"
 # armhf blocked by extra-cmake-modules
 arch="all !armhf"
 url="https://kde.org/applications/multimedia/org.kde.k3b"
@@ -75,5 +75,5 @@ package() {
 }
 
 sha512sums="
-b48700e7f5c5ad64531fb4586ba99a279cfe5fd432f3e601d97b695de3bda189dd7bb1869cb8426d6b8f383ae49fb52f465091db67dfc71c1febe1b6a1d5fb05  k3b-3a77a37bbb6c3b74b6d7f298fb1d154f3b72397f.tar.xz
+0cd5961dba089317113c2a65d8eac3b5323ff874f81ba41fa6a9fe18ab52f537b7f9e1067cfd41ed407f3453c1750b935e0a810e64a25553ed5aae2f1ca3e2eb  k3b-7889162a882cb04af06043e18bce3ac940c3c896.tar.xz
 "

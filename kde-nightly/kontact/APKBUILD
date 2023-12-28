@@ -4,9 +4,9 @@
 # The group tag is just to easily find this APKBUILD by some scripts for automation
 # group=kde-applications
 pkgname=kontact
-pkgver=9999_git20231221
+pkgver=9999_git20231226
 pkgrel=0
-_commit="9cf55022d82aba65b78b79cfbdb99d1d934844e1"
+_commit="42f3d05f65d7d296277672b16c5de7769065551d"
 # armhf blocked by extra-cmake-modules
 # ppc64le, s390x and riscv64 blocked by qt6-qtwebengine
 # riscv64 disabled due to missing rust in recursive dependency
@@ -56,5 +56,5 @@ package() {
 }
 
 sha512sums="
-ca514fbda99d7c6727b8ae87992b280221e691503c90b41017b2b3ccb4496960d5e71caef5130fd69b3d19cc113223cdb0d2395ed30fd3d4b8540fba790019f8  kontact-9cf55022d82aba65b78b79cfbdb99d1d934844e1.tar.xz
+522922991c8efb4821b1b62719de6e91e1242e814bb4c3a53b345f43ee0631af833cf7378b5e42923735f612559eb52b4141be26d2130c41d3afb64947212e98  kontact-42f3d05f65d7d296277672b16c5de7769065551d.tar.xz
 "

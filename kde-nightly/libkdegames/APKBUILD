@@ -4,9 +4,9 @@
 # The group tag is just to easily find this APKBUILD by some scripts for automation
 # group=kde-applications
 pkgname=libkdegames
-pkgver=9999_git20231221
+pkgver=9999_git20231224
 pkgrel=0
-_commit="a4b79ff42e29a411040d85397ad4c02d5b14ea05"
+_commit="48b49f1487d26421391771d743400a83e601a094"
 # armhf blocked by qt6-qtdeclarative
 arch="all !armhf"
 url="https://kde.org/applications/games"
@@ -75,5 +75,5 @@ carddecks() {
 }
 
 sha512sums="
-1fad8a95ede699dd3dc828746e542c6e4dcaa67f3607e280a725120f767d81e3484a3ee906361f141099792edbf0807fd860dfd3f58b9d7d9962cd59666da98c  libkdegames-a4b79ff42e29a411040d85397ad4c02d5b14ea05.tar.xz
+7cd72062b9c707dfb6a2a042deea3f787314a0cd8c6a6bb30b92b94606e27cdb7056c331ed1ee5a7bbd5cc57054ef51903412d4b44f641dc6f419bff0e949877  libkdegames-48b49f1487d26421391771d743400a83e601a094.tar.xz
 "

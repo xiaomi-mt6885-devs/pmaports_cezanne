@@ -4,9 +4,9 @@
 # The group tag is just to easily find this APKBUILD by some scripts for automation
 # group=kde-frameworks
 pkgname=kconfigwidgets
-pkgver=9999_git20231222
+pkgver=9999_git20231224
 pkgrel=0
-_commit="3d3f46edc9564563e28f4136c275501af29c7fa9"
+_commit="843d6411c776cc7524d1302491e075105016262b"
 pkgdesc="Widgets for KConfig"
 # armhf blocked by extra-cmake-modules
 arch="all !armhf"
@@ -32,7 +32,7 @@ makedepends="$depends_dev
 	"
 checkdepends="xvfb-run"
 _repo_url="https://invent.kde.org/frameworks/kconfigwidgets.git"
-source="https://nightly.postmarketos.org/plasma-mobile/sources/2023-12-26/kconfigwidgets-$_commit.tar.xz"
+source="https://nightly.postmarketos.org/plasma-mobile/sources/2023-12-28/kconfigwidgets-$_commit.tar.xz"
 subpackages="$pkgname-dev $pkgname-doc $pkgname-lang"
 
 options="!check"
@@ -56,5 +56,5 @@ package() {
 }
 
 sha512sums="
-c92a2984deec721438b0524b5d54c3f09e103ebb46ec91d1ca66fd941ae3e657900519d88428e3e245a7de1d3cdfcaea29d082ee2d07eb83f3090179f57e0059  kconfigwidgets-3d3f46edc9564563e28f4136c275501af29c7fa9.tar.xz
+0ed0a7053e57a2ad2337ad66052d73d3665febfa45153858a4a13d8c4ec969a9744df7e7bce923d1494b49014a65885a689f59b72a9492f99dc8c7b14e592d9a  kconfigwidgets-843d6411c776cc7524d1302491e075105016262b.tar.xz
 "

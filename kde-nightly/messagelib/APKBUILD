@@ -4,9 +4,9 @@
 # The group tag is just to easily find this APKBUILD by some scripts for automation
 # group=kde-applications
 pkgname=messagelib
-pkgver=9999_git20231222
+pkgver=9999_git20231226
 pkgrel=0
-_commit="d1b4cd8947e480b96bb2d0a9817ba8c47094f044"
+_commit="deb4dc5ab1000833ba0353d3a66c141e27ce426b"
 pkgdesc="KDE PIM messaging library"
 # armhf blocked by extra-cmake-modules
 # ppc64le, s390x and riscv64 blocked by qt6-qtwebengine
@@ -85,5 +85,5 @@ package() {
 }
 
 sha512sums="
-30a0aecdfc52e7b6569f81cc0a3b0490412c49d5a961fc452a98a28aa703f5cb2efa852db13fc2bfc2a00a3c545da996ebf00449a118c365c5f68493f1dd9dbd  messagelib-d1b4cd8947e480b96bb2d0a9817ba8c47094f044.tar.xz
+9727abe6e7bb018b75ce6bbb90efed9f25095c71fa1d3df39bf7f85c3383a10d3dfe4d2c1c65c0e1047c5ae64954b8b1b40a1a0b6c14ac9d841d67940f21d4a6  messagelib-deb4dc5ab1000833ba0353d3a66c141e27ce426b.tar.xz
 "

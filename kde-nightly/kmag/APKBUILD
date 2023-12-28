@@ -4,9 +4,9 @@
 # The group tag is just to easily find this APKBUILD by some scripts for automation
 # group=kde-applications
 pkgname=kmag
-pkgver=9999_git20231221
+pkgver=9999_git20231224
 pkgrel=0
-_commit="9f65bcfe4fbdc5b83cffbb7af7a7c6349bc41491"
+_commit="8acdb5548cf0264ac091e68aa28cb0eea088cf5e"
 # armhf blocked by extra-cmake-modules
 arch="all !armhf"
 url="https://kde.org/applications/utilities/org.kde.kmag"
@@ -45,5 +45,5 @@ package() {
 }
 
 sha512sums="
-74ea95ee532412d978ac1c0295d0a24844751b0ccaf552250672c8264e3b76fb997c91106ea201a04e21898a8bc62a599d183b23d1aa277bbfb8d0b22fc3c2b0  kmag-9f65bcfe4fbdc5b83cffbb7af7a7c6349bc41491.tar.xz
+d0918c14356891119635593c1eee02c60d8e5bf961c61394e5c952e53e1d089c03002f106e844e5657efd0f0dc693d658aa34189a6f667ee8c13836cdd768ca1  kmag-8acdb5548cf0264ac091e68aa28cb0eea088cf5e.tar.xz
 "

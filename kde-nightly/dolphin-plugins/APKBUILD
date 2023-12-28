@@ -4,9 +4,9 @@
 # The group tag is just to easily find this APKBUILD by some scripts for automation
 # group=kde-applications
 pkgname=dolphin-plugins
-pkgver=9999_git20231222
+pkgver=9999_git20231224
 pkgrel=0
-_commit="f95eb63fdc3e8677be622941f861532d7bee89e5"
+_commit="bd3687bfeac88cb8beac328414ff8b0b6f8b04f0"
 pkgdesc="Extra Dolphin plugins"
 url="https://www.kde.org/applications/system/dolphin/"
 # armhf blocked by extra-cmake-modules
@@ -48,5 +48,5 @@ package() {
 }
 
 sha512sums="
-811f809be2ecb127d655d0524aab876ede153bd1cbabb3c26acaa08327a5f76fa18141a309ce822a90e0c0b603fba21dbfdb9a4106422e8cc6745c069dafddcf  dolphin-plugins-f95eb63fdc3e8677be622941f861532d7bee89e5.tar.xz
+a16f8185a0d928e1c9625032648400d82dadb915251fd476c2d0a8c3c73911559b836b5abc5dd75fcbed1bfa677508bb968598590fab6015a10ec7a1bd80e9ee  dolphin-plugins-bd3687bfeac88cb8beac328414ff8b0b6f8b04f0.tar.xz
 "

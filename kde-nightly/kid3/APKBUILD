@@ -4,9 +4,9 @@
 # The group tag is just to easily find this APKBUILD by some scripts for automation
 # group=kde-other
 pkgname=kid3
-pkgver=9999_git20231221
+pkgver=9999_git20231226
 pkgrel=0
-_commit="72e5235e9a9116d4e82f9ae047e6408670fd3032"
+_commit="c0624983e2f8e0395ce8e283d5163e398e353307"
 pkgdesc="Efficient audio tagger that supports a large variety of file formats"
 url="https://kid3.kde.org/"
 # armhf blocked by extra-cmake-modules
@@ -54,5 +54,5 @@ package() {
 }
 
 sha512sums="
-dee22fb06ce1e4eaa72107da95864f5d77d4a08c4251319f810c2902c72f19309267b4772a92eb28251b3e15ec7b6392de96e97c5c97f8789211e525775684ce  kid3-72e5235e9a9116d4e82f9ae047e6408670fd3032.tar.xz
+1210334f15fdbfddcd89f0744d7341f814b152ae34c4e79ab0375b976cc0cb789e85730574ca0cc4728ef1cadf70b849d7839e389051cb16725bdbb681ebc99e  kid3-c0624983e2f8e0395ce8e283d5163e398e353307.tar.xz
 "

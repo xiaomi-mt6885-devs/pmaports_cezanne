@@ -26,7 +26,7 @@ makedepends="$depends_dev
 subpackages="$pkgname-dev $pkgname-doc"
 checkdepends="dbus"
 _repo_url="https://invent.kde.org/frameworks/modemmanager-qt.git"
-source="https://nightly.postmarketos.org/plasma-mobile/sources/2023-12-26/modemmanager-qt-$_commit.tar.xz"
+source="https://nightly.postmarketos.org/plasma-mobile/sources/2023-12-28/modemmanager-qt-$_commit.tar.xz"
 
 options="!check"
 builddir="$srcdir/modemmanager-qt-$_commit"

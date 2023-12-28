@@ -22,7 +22,7 @@ case "$pkgver" in
 	*) _rel=stable;;
 esac
 _repo_url="https://invent.kde.org/plasma/breeze-plymouth.git"
-source="https://nightly.postmarketos.org/plasma-mobile/sources/2023-12-26/breeze-plymouth-$_commit.tar.xz"
+source="https://nightly.postmarketos.org/plasma-mobile/sources/2023-12-28/breeze-plymouth-$_commit.tar.xz"
 options="!check" # No tests
 
 options="!check"

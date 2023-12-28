@@ -4,9 +4,9 @@
 # The group tag is just to easily find this APKBUILD by some scripts for automation
 # group=kde-other
 pkgname=francis
-pkgver=9999_git20231222
+pkgver=9999_git20231224
 pkgrel=0
-_commit="bad884a7fb5240ddb3cf5515d9c86cf7b3857a22"
+_commit="de7a34f79fd5a3a1c50fb7f8d2fda5ae4750dc8b"
 pkgdesc="Track your time"
 url="https://invent.kde.org/utilities/francis"
 # armhf blocked by extra-cmake-modules
@@ -51,5 +51,5 @@ package() {
 }
 
 sha512sums="
-9542f0a77ac000cfc7113d41163b308b5a75bc2609d7c33f0f605d7427b28fba712972221db98248735a57d0f377485099c03c183befdf74393e6ddb4a218f2b  francis-bad884a7fb5240ddb3cf5515d9c86cf7b3857a22.tar.xz
+be7c7aab55e935cca01b9ee3a9423bf7033f0e2bbe5df41a915d2fda62f721a2580ffe661d783cda445d20af90e9ca733a8debe108ce53ed1e10da6a7f556d81  francis-de7a34f79fd5a3a1c50fb7f8d2fda5ae4750dc8b.tar.xz
 "

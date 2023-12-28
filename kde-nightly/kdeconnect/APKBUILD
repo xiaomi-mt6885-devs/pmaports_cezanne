@@ -4,9 +4,9 @@
 # The group tag is just to easily find this APKBUILD by some scripts for automation
 # group=kde-applications
 pkgname=kdeconnect
-pkgver=9999_git20231222
+pkgver=9999_git20231226
 pkgrel=0
-_commit="04e087c2a11d0ffb4f9848f3dc6ddd75ac9ee0bb"
+_commit="e9333dac25d8c54f78f3b8aee8797099c1ea530c"
 pkgdesc="Adds communication between KDE and your smartphone"
 url="https://community.kde.org/KDEConnect"
 # armhf blocked by extra-cmake-modules
@@ -85,6 +85,6 @@ nftables() {
 }
 
 sha512sums="
-d93db1aad7b2cb35b58c94b3abf9f3e8881deac052b263be4cbb9994cbb4d704d55148ab17e6817417c9019bdf86ee13177e5eeab68c6f25ee886b69f1534543  kdeconnect-kde-04e087c2a11d0ffb4f9848f3dc6ddd75ac9ee0bb.tar.xz
+3875ebb00c2f5f051f9e37998a0598fd5c680119328904634d9e8981c1036541fa08f22b0dea988bcb5eb67580b783c4f545ad01b4be0532b4b316f212bf4834  kdeconnect-kde-e9333dac25d8c54f78f3b8aee8797099c1ea530c.tar.xz
 0ccc2cb0ffd3892698b45bcf723cfdd23ad98f0e2b0436cd0a91d9ed13c6992853e2c4092ee8a0edc6216f1f262151e99e344b8f16c52237e9ff8de62fd37cae  60_kdeconnect.nft
 "

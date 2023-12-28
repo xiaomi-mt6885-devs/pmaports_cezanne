@@ -4,9 +4,9 @@
 # The group tag is just to easily find this APKBUILD by some scripts for automation
 # group=kde-applications
 pkgname=kunifiedpush
-pkgver=9999_git20231221
+pkgver=9999_git20231224
 pkgrel=0
-_commit="21aa076d165058bad73845ff5dc3e8a03e7a5310"
+_commit="3f6e292ffe7c8b9dde31c17eae65ea405dba94d0"
 # armhf blocked by extra-cmake-modules
 arch="all !armhf"
 url="https://invent.kde.org/libraries/kunifiedpush"
@@ -50,5 +50,5 @@ package() {
 }
 
 sha512sums="
-ec5bfba2efb1393e03e10604a5ae82b181d838019abe7678def1bd6906a7f082a1e37ff7993db9fdbb6f8cb755e63da6c7aa69aa58a1a884f35416aca183b5ec  kunifiedpush-21aa076d165058bad73845ff5dc3e8a03e7a5310.tar.xz
+ab7f15ac5f2b5d98d527601289bae43367934f2b0da2863d05ac9e75b3443fc101bd73974f84571d4b6b47e5055933a47cc8d01887e3ed187dde93b0ade582aa  kunifiedpush-3f6e292ffe7c8b9dde31c17eae65ea405dba94d0.tar.xz
 "

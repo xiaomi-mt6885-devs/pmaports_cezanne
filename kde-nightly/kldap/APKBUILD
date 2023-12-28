@@ -4,9 +4,9 @@
 # The group tag is just to easily find this APKBUILD by some scripts for automation
 # group=kde-applications
 pkgname=kldap
-pkgver=9999_git20231222
+pkgver=9999_git20231226
 pkgrel=0
-_commit="dcec56ca56ade834f2f6732f86895dfb719529a5"
+_commit="0c460eaed5296d41944b23e025074c0f50c7f41d"
 pkgdesc="LDAP access API for KDE"
 # armhf blocked by extra-cmake-modules
 arch="all !armhf"
@@ -50,5 +50,5 @@ package() {
 }
 
 sha512sums="
-82c78b4da64545ff336b9858120278fda1a038b3e3fc7fe25a64a345e8eafe8407875cbcf0c597e7536621bdfe6e830667bcd0d29798687d769c3cdf12510773  kldap-dcec56ca56ade834f2f6732f86895dfb719529a5.tar.xz
+726974b77179718f18b0f6218714b03a9411b72912d5df1098ead17a14c52d2fd04daaf542ae3b7284a6488b55eee9f1ba04045d7f082e7059366936e824ac76  kldap-0c460eaed5296d41944b23e025074c0f50c7f41d.tar.xz
 "

@@ -4,9 +4,9 @@
 # The group tag is just to easily find this APKBUILD by some scripts for automation
 # group=kde-applications
 pkgname=akonadi-notes
-pkgver=9999_git20231224
+pkgver=9999_git20231226
 pkgrel=0
-_commit="5d9986a35733560075c7c0a71df786b8205440a2"
+_commit="cc63548d76a85224ef7d2d42f505d6e8dc1d1118"
 pkgdesc="Libraries and daemons to implement management of notes"
 # armhf blocked by extra-cmake-modules
 arch="all !armhf"
@@ -45,5 +45,5 @@ package() {
 }
 
 sha512sums="
-1a342c0599a3d7ff911e62aa0b331506d2c94c36f80231462d8296f952f5de39e61d3a3cf6ccae85a2a3ebc4ec2d9a5d7e4d1780248ecddc15cc9bef68f8c37c  akonadi-notes-5d9986a35733560075c7c0a71df786b8205440a2.tar.xz
+5d1efebfebca71f998e086770d0fe054f304d07a3c3a7d45032fb37aee8ee452c74bcb7d337dbc88f868498e4564e3ec8ddc6ae93e793b7ebd119cc10b5a2e14  akonadi-notes-cc63548d76a85224ef7d2d42f505d6e8dc1d1118.tar.xz
 "

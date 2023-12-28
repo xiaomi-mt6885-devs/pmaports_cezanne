@@ -4,9 +4,9 @@
 # The group tag is just to easily find this APKBUILD by some scripts for automation
 # group=kde-applications
 pkgname=klines
-pkgver=9999_git20231221
+pkgver=9999_git20231224
 pkgrel=0
-_commit="29e9fe96369d06b37a889b79aa20d48cc0a6b4fc"
+_commit="0e3bfad1a185ea23ead77c9128c17f6f1154c323"
 # armhf blocked by extra-cmake-modules
 arch="all !armhf"
 url="https://kde.org/applications/games/klines/"
@@ -48,5 +48,5 @@ package() {
 }
 
 sha512sums="
-110d37c2a0c615144fe88b99379e77f7fcfb3cb699726acb245feb25ecf96dd2f99040376850da69de6d5bcbe53e5b3e2c7480360d742d00521ca1af4e81c78e  klines-29e9fe96369d06b37a889b79aa20d48cc0a6b4fc.tar.xz
+8e5a261fcd961c6f45bc8ac7ba43f29ec5b84e7190d50d1844a1e7fe8e31e087e628dd9da494aecdd553b062cb51c299a8d05caebf81d8f86a17c92011b3c83e  klines-0e3bfad1a185ea23ead77c9128c17f6f1154c323.tar.xz
 "

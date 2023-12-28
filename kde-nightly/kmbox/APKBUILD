@@ -4,9 +4,9 @@
 # The group tag is just to easily find this APKBUILD by some scripts for automation
 # group=kde-applications
 pkgname=kmbox
-pkgver=9999_git20231221
+pkgver=9999_git20231226
 pkgrel=0
-_commit="4578d0e2e79753837a0435c1fce2a2b53a8c055d"
+_commit="ec91c248f74d76ee2634de4e666ebf8dceafd0ae"
 pkgdesc="Library for accessing mail storages in MBox format"
 # armhf blocked by extra-cmake-modules
 # s390x blocked by kmime
@@ -39,5 +39,5 @@ package() {
 }
 
 sha512sums="
-a0cfc1a393a8489e38aabd175af2658206c8c9777edfac44782b0f22d31081b1448fa38c465f61fb724ac80c8cea5629cf43b7c4841f010aa94cf6cb823cdcbd  kmbox-4578d0e2e79753837a0435c1fce2a2b53a8c055d.tar.xz
+6e8bf22f3c537bc9b682ec6768393b0d878445d7ca5611c11460d447a1497ffa3c2fa79ac4b65e2080b295288e161f5923ad685bbc3ebe4f1c3a169ccd2bf056  kmbox-ec91c248f74d76ee2634de4e666ebf8dceafd0ae.tar.xz
 "

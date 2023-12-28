@@ -4,9 +4,9 @@
 # The group tag is just to easily find this APKBUILD by some scripts for automation
 # group=kde-applications
 pkgname=kcachegrind
-pkgver=9999_git20231222
+pkgver=9999_git20231224
 pkgrel=0
-_commit="9482b6fc36d9ba2ab91aa4dfd09099aa8c8124d9"
+_commit="9dcbe6b477098ea8f048a9aa9970afee372641b8"
 # armhf blocked by extra-cmake-modules
 arch="all !armhf"
 url="https://kde.org/applications/development/org.kde.kcachegrind"
@@ -52,5 +52,5 @@ package() {
 }
 
 sha512sums="
-a940afb72d2276635f483a03b5d2e01835f0439b767cd3d10551c4d4664f90758cb316b63de43406ac59dec3c9e60dc3250f343521a079ec52e620c5c727513d  kcachegrind-9482b6fc36d9ba2ab91aa4dfd09099aa8c8124d9.tar.xz
+399dfccfc4354aaa62b37bc82c579db513d28c97b825de79a8994605ca5a3658d4f6b2e8a42bdf258c679ad1cf98dac9ffad6b7ac744122750708ca2ad7b9fc0  kcachegrind-9dcbe6b477098ea8f048a9aa9970afee372641b8.tar.xz
 "
