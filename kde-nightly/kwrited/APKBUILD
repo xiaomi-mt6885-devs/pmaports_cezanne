@@ -27,7 +27,7 @@ case "$pkgver" in
 	*) _rel=stable;;
 esac
 _repo_url="https://invent.kde.org/plasma/kwrited.git"
-source="https://nightly.postmarketos.org/plasma-mobile/sources/2023-12-28/kwrited-$_commit.tar.xz"
+source="https://nightly.postmarketos.org/plasma-mobile/sources/2023-12-30/kwrited-$_commit.tar.xz"
 options="!check" # No tests available
 
 options="!check"

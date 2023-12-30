@@ -1,0 +1,116 @@
+# Contributor: Bart Ribbers <bribbers@disroot.org>
+# Maintainer: team/kde <bribbers@disroot.org>
+
+# The group tag is just to easily find this APKBUILD by some scripts for automation
+# group=kde-applications
+pkgname=okular
+pkgver=23.08.4
+pkgrel=0
+_commit=""
+# armhf blocked by extra-cmake-modules
+# ppc64le, s390x and riscv64 blocked by qt5-qtwebengine -> purpose
+arch="all !armhf !ppc64le !s390x !riscv64"
+url="https://okular.kde.org/"
+pkgdesc="A universal document viewer"
+license="GPL-2.0-or-later AND LGPL-2.0-or-later"
+depends="$pkgname-common"
+makedepends="
+	discount-dev
+	djvulibre-dev
+	ebook-tools-dev
+	extra-cmake-modules
+	kactivities-dev
+	karchive-dev
+	kbookmarks-dev
+	kcompletion-dev
+	kconfig-dev
+	kconfigwidgets-dev
+	kcoreaddons-dev
+	kcrash-dev
+	kdegraphics-mobipocket-dev
+	kdoctools-dev
+	khtml-dev
+	kiconthemes-dev
+	kio-dev
+	kirigami-dev
+	kparts-dev
+	kpty-dev
+	kwallet-dev
+	kwindowsystem-dev
+	libkexiv2-dev
+	libspectre-dev
+	phonon-dev
+	poppler-qt6-dev
+	purpose-dev
+	qca-dev
+	qt6-qtbase-dev
+	qt6-qtspeech-dev
+	threadweaver-dev
+	samurai
+	zlib-dev
+	"
+checkdepends="xvfb-run"
+_repo_url="https://invent.kde.org/graphics/okular.git"
+source="https://download.kde.org/stable/release-service/$pkgver/src/okular-$pkgver.tar.xz"
+subpackages="
+	$pkgname-common
+	$pkgname-common-qml:common_qml
+	$pkgname-dev
+	$pkgname-doc
+	$pkgname-lang
+	$pkgname-mobile
+	"
+
+options="!check"
+builddir="$srcdir/okular-$_commit"
+
+build() {
+	CFLAGS="$CFLAGS -D_GNU_SOURCE" \
+	cmake -B build -DBUILD_WITH_QT6=ON -G Ninja \
+		-DCMAKE_BUILD_TYPE=RelWithDebInfo \
+		-DCMAKE_INSTALL_PREFIX=/usr \
+		-DCMAKE_INSTALL_LIBDIR=lib \
+		-DOKULAR_UI=both \
+		-DFORCE_NOT_REQUIRED_DEPENDENCIES="CHM"
+	cmake --build build
+}
+
+check() {
+	# All other tests are broken, require OpenGL, etc
+	xvfb-run ctest --test-dir build --output-on-failure -R "^shelltest"
+}
+
+package() {
+	DESTDIR="$pkgdir" cmake --install build
+}
+
+common() {
+	pkgdesc="Common files for okular and okular-mobile"
+	amove usr/lib/qt6/plugins
+	find "$pkgdir"/usr -name "libOkular6Core.so.*" -exec mv {} "$subpkgdir"/usr/lib/ +
+	amove usr/share/okular
+	amove usr/share/config.kcfg
+	amove usr/share/qlogging-categories5
+	amove usr/share/icons
+	amove usr/share/metainfo
+	amove usr/share/kconf_update
+}
+
+common_qml() {
+	pkgdesc="Common qml files for okular-mobile and other packages"
+	depends="kirigami"
+
+	amove usr/lib/qt6/qml
+}
+
+mobile() {
+	depends="$pkgname-common $pkgname-common-qml kirigami kitemmodels"
+
+	amove usr/bin/okularkirigami
+	amove usr/share/applications/org.kde.okular.kirigami.desktop
+	amove usr/share/applications/org.kde.mobile*
+}
+
+sha512sums="
+a655345d13e94c515f55c498505f3694d4e5f6c9f2e54bba109468344d6d4e20fb47330760fbcdbec1337d15286e675e1f112f7a377499e149e3d550c9e886a5  okular-23.08.4.tar.xz
+"
