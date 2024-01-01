@@ -1,9 +1,9 @@
 # The group tag is just to easily find this APKBUILD by some scripts for automation
 # group=kde-plasma
 pkgname=ocean-sound-theme
-pkgver=9999_git20231220
+pkgver=9999_git20231228
 pkgrel=0
-_commit="6c4c094037eb0caafad1b0dfab964bee6901ff94"
+_commit="150df6380859e9b1cceaf88b80ad62aa92532e74"
 pkgdesc="Ocean Sound Theme for Plasma"
 # armhf blocked by extra-cmake-modules
 arch="all !armhf"
@@ -15,7 +15,7 @@ makedepends="
 	samurai
 	"
 _repo_url="https://invent.kde.org/plasma/ocean-sound-theme.git"
-source="https://nightly.postmarketos.org/plasma-mobile/sources/2023-12-30/ocean-sound-theme-$_commit.tar.xz"
+source="https://nightly.postmarketos.org/plasma-mobile/sources/2024-01-01/ocean-sound-theme-$_commit.tar.xz"
 subpackages=""
 
 options="!check"
@@ -38,5 +38,5 @@ package() {
 	DESTDIR="$pkgdir" cmake --install build
 }
 sha512sums="
-d9b269480e4bd5b512565d4bd1a9b52d111aa8a0dd3a6991a84fe91bffdf16822710ae7421f9c480d4335668439d36113ccc72a0f595fb3ebce567c830e886ef  ocean-sound-theme-6c4c094037eb0caafad1b0dfab964bee6901ff94.tar.xz
+6a00b7523f4aaf89e4dab463aa48af8e2ebf7cc3f4b61634f83f9416fc8b58f9dffdb3c915dd559434e7d146c7fa4f3df55cd038d0c07bf28a09879458095b5c  ocean-sound-theme-150df6380859e9b1cceaf88b80ad62aa92532e74.tar.xz
 "

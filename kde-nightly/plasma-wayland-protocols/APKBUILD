@@ -18,7 +18,7 @@ makedepends="
 	samurai
 	"
 _repo_url="https://invent.kde.org/libraries/plasma-wayland-protocols.git"
-source="https://nightly.postmarketos.org/plasma-mobile/sources/2023-12-30/plasma-wayland-protocols-$_commit.tar.xz"
+source="https://nightly.postmarketos.org/plasma-mobile/sources/2024-01-01/plasma-wayland-protocols-$_commit.tar.xz"
 options="!check" # No tests
 
 options="!check"

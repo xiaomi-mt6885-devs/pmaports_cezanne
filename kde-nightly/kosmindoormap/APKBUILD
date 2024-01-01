@@ -4,9 +4,9 @@
 # The group tag is just to easily find this APKBUILD by some scripts for automation
 # group=kde-applications
 pkgname=kosmindoormap
-pkgver=9999_git20231226
+pkgver=9999_git20231231
 pkgrel=0
-_commit="af1fd69f5c2514f8f00399a0ec8e8925f5fedca5"
+_commit="4cb63d49eadd0aeae24af8edf52bdfb050cb330a"
 # armhf blocked by qt6-qtdeclarative
 arch="all !armhf"
 url="https://invent.kde.org/libraries/kosmindoormap"
@@ -28,7 +28,7 @@ makedepends="$depends_dev
 	samurai
 	"
 _repo_url="https://invent.kde.org/libraries/kosmindoormap.git"
-source="https://nightly.postmarketos.org/plasma-mobile/sources/2023-12-30/kosmindoormap-$_commit.tar.xz"
+source="https://nightly.postmarketos.org/plasma-mobile/sources/2024-01-01/kosmindoormap-$_commit.tar.xz"
 subpackages="$pkgname-dev $pkgname-lang"
 
 options="!check"
@@ -67,5 +67,5 @@ package() {
 }
 
 sha512sums="
-e998f0ba87f2a0c876aede2e20b348f29e927bfed71136299e0cf420e6082c5cf4c3320d0e57e286104a4925db3590e275d78fb081200411d96ebaff09448f87  kosmindoormap-af1fd69f5c2514f8f00399a0ec8e8925f5fedca5.tar.xz
+aef44990c5db8af275ab0c54569ab7930694bc5071433cbf4f209414bc51c94864e8a8fb8d7d41c3b35f71c0e56e7fd1cb6d362a0cb314ca614ab2821c61e09a  kosmindoormap-4cb63d49eadd0aeae24af8edf52bdfb050cb330a.tar.xz
 "

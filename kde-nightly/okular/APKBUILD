@@ -4,9 +4,9 @@
 # The group tag is just to easily find this APKBUILD by some scripts for automation
 # group=kde-applications
 pkgname=okular
-pkgver=23.08.4
+pkgver=9999_git20231231
 pkgrel=0
-_commit=""
+_commit="59aebe3dcd840dd4d288d5497fcd06b24101de48"
 # armhf blocked by extra-cmake-modules
 # ppc64le, s390x and riscv64 blocked by qt5-qtwebengine -> purpose
 arch="all !armhf !ppc64le !s390x !riscv64"
@@ -40,7 +40,7 @@ makedepends="
 	libkexiv2-dev
 	libspectre-dev
 	phonon-dev
-	poppler-qt6-dev
+	poppler-qt5-dev
 	purpose-dev
 	qca-dev
 	qt6-qtbase-dev
@@ -51,7 +51,7 @@ makedepends="
 	"
 checkdepends="xvfb-run"
 _repo_url="https://invent.kde.org/graphics/okular.git"
-source="https://download.kde.org/stable/release-service/$pkgver/src/okular-$pkgver.tar.xz"
+source="https://nightly.postmarketos.org/plasma-mobile/sources/2024-01-01/okular-$_commit.tar.xz"
 subpackages="
 	$pkgname-common
 	$pkgname-common-qml:common_qml
@@ -90,7 +90,7 @@ common() {
 	find "$pkgdir"/usr -name "libOkular6Core.so.*" -exec mv {} "$subpkgdir"/usr/lib/ +
 	amove usr/share/okular
 	amove usr/share/config.kcfg
-	amove usr/share/qlogging-categories5
+	amove usr/share/qlogging-categories6
 	amove usr/share/icons
 	amove usr/share/metainfo
 	amove usr/share/kconf_update
@@ -112,5 +112,5 @@ mobile() {
 }
 
 sha512sums="
-a655345d13e94c515f55c498505f3694d4e5f6c9f2e54bba109468344d6d4e20fb47330760fbcdbec1337d15286e675e1f112f7a377499e149e3d550c9e886a5  okular-23.08.4.tar.xz
+181201860e2f33941036369cedf62e00539bf48b3fcf20107c440d9ee9bc5a81f519aa75e344d2df8c592ac62d710929303feb53aff006d11cdbcfa795530cc3  okular-59aebe3dcd840dd4d288d5497fcd06b24101de48.tar.xz
 "

@@ -4,9 +4,9 @@
 # The group tag is just to easily find this APKBUILD by some scripts for automation
 # group=kde-mobile
 pkgname=plasma-settings
-pkgver=9999_git20231224
+pkgver=9999_git20231231
 pkgrel=0
-_commit="8bd9940f9e5397aa5d59690aa8423ed48e9ba19c"
+_commit="79cb0c20b5cc9e3ef626ae7e7987dffb1f78d9fc"
 pkgdesc="Settings application for Plasma Mobile"
 # armhf blocked by extra-cmake-modules
 arch="all !armhf"
@@ -41,7 +41,7 @@ makedepends="
 	"
 subpackages="$pkgname-lang"
 _repo_url="https://invent.kde.org/plasma-mobile/plasma-settings.git"
-source="https://nightly.postmarketos.org/plasma-mobile/sources/2023-12-30/plasma-settings-$_commit.tar.xz"
+source="https://nightly.postmarketos.org/plasma-mobile/sources/2024-01-01/plasma-settings-$_commit.tar.xz"
 options="!check" # No tests
 
 options="!check"
@@ -60,5 +60,5 @@ package() {
 }
 
 sha512sums="
-938f30253b3d2509a6ab851d99919288987bf4f1838b05ad671f5accfa7f160d4ac49c775adc99c93a97dc308791bf9062a618c91dcb31af6247a4eb23d46b8f  plasma-settings-8bd9940f9e5397aa5d59690aa8423ed48e9ba19c.tar.xz
+09c94ccfa49f9a399a0c5e966048df379fda14a185f5274419e63239e52104f8ea59a8c1655e5517cf78f727fa99835d923ff9e8a88b63a96fe42cd4fc92a8a3  plasma-settings-79cb0c20b5cc9e3ef626ae7e7987dffb1f78d9fc.tar.xz
 "

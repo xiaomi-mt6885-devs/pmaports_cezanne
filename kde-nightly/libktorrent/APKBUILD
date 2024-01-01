@@ -4,9 +4,9 @@
 # The group tag is just to easily find this APKBUILD by some scripts for automation
 # group=kde-applications
 pkgname=libktorrent
-pkgver=9999_git20231224
+pkgver=9999_git20231231
 pkgrel=0
-_commit="6443bc6dc25d37a44805279de13431bba91acdb3"
+_commit="8b1a41bc1ea80a2c4ae0e100c7c022836cf30175"
 # armhf blocked by extra-cmake-modules
 arch="all !armhf"
 url="https://kde.org/applications/internet/org.kde.ktorrent"
@@ -35,7 +35,7 @@ checkdepends="
 	"
 subpackages="$pkgname-dev $pkgname-lang"
 _repo_url="https://invent.kde.org/network/libktorrent.git"
-source="https://nightly.postmarketos.org/plasma-mobile/sources/2023-12-30/libktorrent-$_commit.tar.xz"
+source="https://nightly.postmarketos.org/plasma-mobile/sources/2024-01-01/libktorrent-$_commit.tar.xz"
 
 builddir="$srcdir/$pkgname-$_commit"
 
@@ -58,5 +58,5 @@ package() {
 }
 
 sha512sums="
-5e13117df8f3a65a83259dfdb4209bed5886a495b2059ab26d7ea50e4914f2b41bfe59dcac61ab32027f9f7c0d505f0a1bc811c105c1ae2f492f81c645b2357b  libktorrent-6443bc6dc25d37a44805279de13431bba91acdb3.tar.xz
+0989a65a9b05e1562993f057e1d84f58fbc50c1499c1a39bb8d9f8a34fb66795e860bdac74975f079625e8f3dc2a18c75c4dc6f9ab1fc428ac5d97d0e24254b0  libktorrent-8b1a41bc1ea80a2c4ae0e100c7c022836cf30175.tar.xz
 "
