@@ -4,9 +4,9 @@
 # The group tag is just to easily find this APKBUILD by some scripts for automation
 # group=kde-applications
 pkgname=kldap
-pkgver=9999_git20231231
+pkgver=9999_git20240101
 pkgrel=0
-_commit="38b6c9588d0b2b1e8c00c299b4a2513ce56789f5"
+_commit="a56f040525847549c9b0c45bc6cf64c2de7468e3"
 pkgdesc="LDAP access API for KDE"
 # armhf blocked by extra-cmake-modules
 arch="all !armhf"
@@ -27,7 +27,7 @@ makedepends="$depends_dev
 	samurai
 	"
 _repo_url="https://invent.kde.org/pim/kldap.git"
-source="https://nightly.postmarketos.org/plasma-mobile/sources/2024-01-01/kldap-$_commit.tar.xz"
+source="https://nightly.postmarketos.org/plasma-mobile/sources/2024-01-03/kldap-$_commit.tar.xz"
 subpackages="$pkgname-dev $pkgname-doc $pkgname-lang"
 
 options="!check"
@@ -50,5 +50,5 @@ package() {
 }
 
 sha512sums="
-f241adfdca87c7d90b3c35c4d5dfa5eb14fb1ada4524e7168828bb22935e62b427b9e296cf73e78bcb8d8f559ff6f8a74a180a2416c55fd73b66a6fb2e362bc2  kldap-38b6c9588d0b2b1e8c00c299b4a2513ce56789f5.tar.xz
+b00342bf20d28f0539e3e1abe9d9d54c17a1d74a349d29eb4153e9e0638ad0106bddbd065a0e099aa2805e59bf038261f11cad8c5389dad9038815c69f28fe3e  kldap-a56f040525847549c9b0c45bc6cf64c2de7468e3.tar.xz
 "

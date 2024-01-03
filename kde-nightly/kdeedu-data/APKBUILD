@@ -18,7 +18,7 @@ makedepends="
 	samurai
 	"
 _repo_url="https://invent.kde.org/education/kdeedu-data.git"
-source="https://nightly.postmarketos.org/plasma-mobile/sources/2024-01-01/kdeedu-data-$_commit.tar.xz"
+source="https://nightly.postmarketos.org/plasma-mobile/sources/2024-01-03/kdeedu-data-$_commit.tar.xz"
 options="!check" # No code to test"
 
 options="!check"

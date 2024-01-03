@@ -40,7 +40,7 @@ case "$pkgver" in
 esac
 subpackages="$pkgname-dev $pkgname-lang"
 _repo_url="https://invent.kde.org/plasma/kpipewire.git"
-source="https://nightly.postmarketos.org/plasma-mobile/sources/2024-01-01/kpipewire-$_commit.tar.xz"
+source="https://nightly.postmarketos.org/plasma-mobile/sources/2024-01-03/kpipewire-$_commit.tar.xz"
 
 options="!check"
 builddir="$srcdir/kpipewire-$_commit"

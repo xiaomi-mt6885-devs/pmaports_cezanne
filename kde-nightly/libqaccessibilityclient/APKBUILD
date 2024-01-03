@@ -22,7 +22,7 @@ checkdepends="
 	xvfb-run
 	"
 _repo_url="https://invent.kde.org/libraries/libqaccessibilityclient.git"
-source="https://nightly.postmarketos.org/plasma-mobile/sources/2024-01-01/libqaccessibilityclient-$_commit.tar.xz"
+source="https://nightly.postmarketos.org/plasma-mobile/sources/2024-01-03/libqaccessibilityclient-$_commit.tar.xz"
 subpackages="$pkgname-dev"
 options="!check" # Broken
 

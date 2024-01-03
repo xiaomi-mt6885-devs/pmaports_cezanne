@@ -6,7 +6,7 @@
 pkgname=konsole
 pkgver=9999_git20231231
 pkgrel=0
-_commit="8332c1f419c60645c99c92060e60dd9828eb9672"
+_commit="4a4217c3aa880c3e3114679203edf518eacf22cc"
 # armhf blocked by qt6-qtdeclarative
 arch="all !armhf"
 url="https://kde.org/applications/system/konsole"
@@ -45,7 +45,7 @@ makedepends="
 	"
 checkdepends="mesa-dri-gallium xvfb-run"
 _repo_url="https://invent.kde.org/utilities/konsole.git"
-source="https://nightly.postmarketos.org/plasma-mobile/sources/2024-01-01/konsole-$_commit.tar.xz"
+source="https://nightly.postmarketos.org/plasma-mobile/sources/2024-01-03/konsole-$_commit.tar.xz"
 subpackages="$pkgname-doc $pkgname-lang"
 
 options="!check"
@@ -86,5 +86,5 @@ package() {
 }
 
 sha512sums="
-631bb4587e9143abe0b32a9fe6cf92bf219cf7cf5e2e7a6b5b07b6c243baa42526d70ea49fa434b436df5de6fad2b422fbf6663a0cd49c9acda529d237f62049  konsole-8332c1f419c60645c99c92060e60dd9828eb9672.tar.xz
+77fb07303049fec7fc8d2389decfb5ce85eb266fe5784e7903ba0ab431bb9d2c0c2b291a729f58be27afc7526a48b7973f7ea50abbb50220d799d6ee36127103  konsole-4a4217c3aa880c3e3114679203edf518eacf22cc.tar.xz
 "

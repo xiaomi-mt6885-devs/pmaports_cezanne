@@ -27,7 +27,7 @@ case "$pkgver" in
 	*) _rel=stable;;
 esac
 _repo_url="https://invent.kde.org/plasma/layer-shell-qt.git"
-source="https://nightly.postmarketos.org/plasma-mobile/sources/2024-01-01/layer-shell-qt-$_commit.tar.xz"
+source="https://nightly.postmarketos.org/plasma-mobile/sources/2024-01-03/layer-shell-qt-$_commit.tar.xz"
 subpackages="$pkgname-dev"
 
 options="!check"

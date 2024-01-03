@@ -29,7 +29,7 @@ case "$pkgver" in
 	*) _rel=stable;;
 esac
 _repo_url="https://invent.kde.org/plasma/plasma-nano.git"
-source="https://nightly.postmarketos.org/plasma-mobile/sources/2024-01-01/plasma-nano-$_commit.tar.xz"
+source="https://nightly.postmarketos.org/plasma-mobile/sources/2024-01-03/plasma-nano-$_commit.tar.xz"
 options="!check" # No tests
 
 options="!check"
