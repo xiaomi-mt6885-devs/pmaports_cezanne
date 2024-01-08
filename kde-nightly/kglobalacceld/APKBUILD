@@ -4,9 +4,9 @@
 # The group tag is just to easily find this APKBUILD by some scripts for automation
 # group=kde-plasma
 pkgname=kglobalacceld
-pkgver=9999_git20231228
+pkgver=9999_git20240106
 pkgrel=0
-_commit="7ebec034822542ef208170a357f60a3e4e1865bb"
+_commit="64f8fceb54423f0b020f5e434eacc0027cb85b8c"
 pkgdesc="Daemon providing Global Keyboard Shortcut (Accelerator) functionality"
 arch="all !armhf" # armhf blocked by extra-cmake-modules
 url="https://invent.kde.org/plasma/kglobalacceld"
@@ -33,7 +33,7 @@ makedepends="$depends_dev
 	"
 checkdepends="xvfb-run"
 _repo_url="https://invent.kde.org/plasma/kglobalacceld.git"
-source="https://nightly.postmarketos.org/plasma-mobile/sources/2024-01-03/kglobalacceld-$_commit.tar.xz"
+source="https://nightly.postmarketos.org/plasma-mobile/sources/2024-01-08/kglobalacceld-$_commit.tar.xz"
 subpackages="$pkgname-dev"
 
 options="!check"
@@ -55,5 +55,5 @@ package() {
 	DESTDIR="$pkgdir" cmake --install build
 }
 sha512sums="
-523ebb1f59aa909f7f122442696077a40166145a81f2ec9047641a31355e1785be2ae8de1fe082a6f99f54dbaf1861bef11480d639e60ec1df61ff84575789d7  kglobalacceld-7ebec034822542ef208170a357f60a3e4e1865bb.tar.xz
+19e257f3807e0ce4f81d242a826533d707af287a1c0d40ee1b312bb13ed4fcf7410fbaa3d6cd1d4bc796759a0b463d9e40a3d1b0464e5ef49297fe317c2c5d89  kglobalacceld-64f8fceb54423f0b020f5e434eacc0027cb85b8c.tar.xz
 "

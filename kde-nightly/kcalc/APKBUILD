@@ -4,9 +4,9 @@
 # The group tag is just to easily find this APKBUILD by some scripts for automation
 # group=kde-applications
 pkgname=kcalc
-pkgver=9999_git20231231
+pkgver=9999_git20240106
 pkgrel=0
-_commit="ab1c2f384d4aeb97ab713d73fd4721095cffb47d"
+_commit="baf13b0bb749e115c1996107fce0b7ac235bb247"
 # armhf blocked by extra-cmake-modules
 arch="all !armhf"
 url="https://kde.org/applications/utilities/org.kde.kcalc"
@@ -28,7 +28,7 @@ makedepends="
 	samurai
 	"
 _repo_url="https://invent.kde.org/utilities/kcalc.git"
-source="https://nightly.postmarketos.org/plasma-mobile/sources/2024-01-03/kcalc-$_commit.tar.xz"
+source="https://nightly.postmarketos.org/plasma-mobile/sources/2024-01-08/kcalc-$_commit.tar.xz"
 subpackages="$pkgname-doc $pkgname-lang"
 
 options="!check"
@@ -51,5 +51,5 @@ package() {
 }
 
 sha512sums="
-697f8b269821615599aba6697d2617299572d0d50088ec9bf221892edb7bae50a2b04420b11798e12680f1dcd34ec0d18d04436823f2d4bb0c8a06abff36cb28  kcalc-ab1c2f384d4aeb97ab713d73fd4721095cffb47d.tar.xz
+4e934233367f599b45f15ae061acf24df63e432f4ccee4b4c0e92039efaede1a4a5f16f65ca0050cf6a007f0b6555dc673845cee826bad451d66d59bdaf219f1  kcalc-baf13b0bb749e115c1996107fce0b7ac235bb247.tar.xz
 "

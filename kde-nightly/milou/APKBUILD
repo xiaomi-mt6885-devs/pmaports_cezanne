@@ -4,9 +4,9 @@
 # The group tag is just to easily find this APKBUILD by some scripts for automation
 # group=kde-plasma
 pkgname=milou
-pkgver=9999_git20231231
+pkgver=9999_git20240104
 pkgrel=0
-_commit="651d4a9565d5837bfb495913ddc7a09cf52d10a6"
+_commit="cf41c542dbdc03331cc656e0e2ff245efff70ebd"
 pkgdesc="A dedicated search application built on top of Baloo"
 # armhf blocked by qt6-qtdeclarative
 arch="all !armhf"
@@ -31,7 +31,7 @@ case "$pkgver" in
 	*) _rel=stable;;
 esac
 _repo_url="https://invent.kde.org/plasma/milou.git"
-source="https://nightly.postmarketos.org/plasma-mobile/sources/2024-01-03/milou-$_commit.tar.xz"
+source="https://nightly.postmarketos.org/plasma-mobile/sources/2024-01-08/milou-$_commit.tar.xz"
 subpackages="$pkgname-lang"
 
 options="!check"
@@ -54,5 +54,5 @@ package() {
 }
 
 sha512sums="
-c8a603fa3319bce63d571f7a3954b9cf3c55f3a9a114d45a56d1b49a705f1b5ff33b2e0bf191c91093c094b6c7113a55c58659a0c4c85de3c7c385c88cbe6820  milou-651d4a9565d5837bfb495913ddc7a09cf52d10a6.tar.xz
+78198b986ae2726fcfc17b43224b019c64e4c3f8022f48d1eedc198ccb3358ac704d232dda40ca60dbaf3ffb94a025a70c1a2f11dadd32a6076926ff22997f5f  milou-cf41c542dbdc03331cc656e0e2ff245efff70ebd.tar.xz
 "

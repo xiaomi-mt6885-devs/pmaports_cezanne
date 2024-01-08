@@ -4,9 +4,9 @@
 # The group tag is just to easily find this APKBUILD by some scripts for automation
 # group=kde-applications
 pkgname=partitionmanager
-pkgver=9999_git20240101
+pkgver=9999_git20240106
 pkgrel=0
-_commit="21453cb89063193bef0ba853e9006ee2998e8dc6"
+_commit="420c00319a790ee6bc093502e8fe7723f6c27fef"
 # armhf blocked by extra-cmake-modules
 arch="all !armhf"
 url="https://kde.org/applications/system/org.kde.partitionmanager"
@@ -31,7 +31,7 @@ makedepends="
 	samurai
 	"
 _repo_url="https://invent.kde.org/system/partitionmanager.git"
-source="https://nightly.postmarketos.org/plasma-mobile/sources/2024-01-03/partitionmanager-$_commit.tar.xz"
+source="https://nightly.postmarketos.org/plasma-mobile/sources/2024-01-08/partitionmanager-$_commit.tar.xz"
 subpackages="$pkgname-doc $pkgname-lang"
 
 options="!check"
@@ -54,5 +54,5 @@ package() {
 }
 
 sha512sums="
-5427f98ae92908b48bb1fab1e8b7a127fcfbcf3ac849899887b78f86b6e7d1538c5bf405771df7f0e1a5b347be614e0d841372e2ebc2add93a86be2d5a701f30  partitionmanager-21453cb89063193bef0ba853e9006ee2998e8dc6.tar.xz
+1862596b71fc258ef2789136e58b30a0d7eb7249089017f469004ddd2ab5bb4e45ec0562e401ef19a3988f883e6f8a0b7d1a3dee0da401504a662be5606aebab  partitionmanager-420c00319a790ee6bc093502e8fe7723f6c27fef.tar.xz
 "

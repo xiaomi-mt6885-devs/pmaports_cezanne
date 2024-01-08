@@ -4,9 +4,9 @@
 # The group tag is just to easily find this APKBUILD by some scripts for automation
 # group=kde-applications
 pkgname=k3b
-pkgver=9999_git20231231
+pkgver=9999_git20240103
 pkgrel=0
-_commit="74dc7f87db12e87d425fefc188b8fd87633384f3"
+_commit="5a22a1b7b25a040a9f2c1c26984d73fb21f8bf40"
 # armhf blocked by extra-cmake-modules
 arch="all !armhf"
 url="https://kde.org/applications/multimedia/org.kde.k3b"
@@ -49,7 +49,7 @@ makedepends="
 	taglib-dev
 	"
 _repo_url="https://invent.kde.org/multimedia/k3b.git"
-source="https://nightly.postmarketos.org/plasma-mobile/sources/2024-01-03/k3b-$_commit.tar.xz"
+source="https://nightly.postmarketos.org/plasma-mobile/sources/2024-01-04/k3b-$_commit.tar.xz"
 subpackages="$pkgname-doc $pkgname-lang"
 
 options="!check"
@@ -75,5 +75,5 @@ package() {
 }
 
 sha512sums="
-e67a241dd7756dd0b6b35c5d77ebbd228c110d24e367abbe1f47dc739a0f3220485d235da54940f95bc7b2fa0d1bb1b44acd73801746bd6760be1a1299ef10d8  k3b-74dc7f87db12e87d425fefc188b8fd87633384f3.tar.xz
+9c9758613d2ec7f44a80893d1fcaa413b7bfbbac4a7d83f56796d7ef0b1e0f02735048472c98e8d58fd1c926ed50480515ad15a8dba6fded036ed888397cb0cb  k3b-5a22a1b7b25a040a9f2c1c26984d73fb21f8bf40.tar.xz
 "

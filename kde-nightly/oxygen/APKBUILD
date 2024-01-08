@@ -35,7 +35,7 @@ case "$pkgver" in
 	*) _rel=stable;;
 esac
 _repo_url="https://invent.kde.org/plasma/oxygen.git"
-source="http://localhost:8000/oxygen-$_commit.tar.xz"
+source="https://nightly.postmarketos.org/plasma-mobile/sources/2024-01-05/oxygen-$_commit.tar.xz"
 subpackages="$pkgname-lang"
 
 options="!check"

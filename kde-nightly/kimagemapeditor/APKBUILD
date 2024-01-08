@@ -4,9 +4,9 @@
 # The group tag is just to easily find this APKBUILD by some scripts for automation
 # group=kde-applications
 pkgname=kimagemapeditor
-pkgver=9999_git20231231
+pkgver=9999_git20240107
 pkgrel=0
-_commit="31724e0b4e6a6197a423f913577025a9f2e2d1fe"
+_commit="e478bdf2345c4d09cc4b16a5fad510c48b7cdaa1"
 # armhf blocked by extra-cmake-modules
 # ppc64le, s390x and riscv64 blocked by qt6-qtwebengine
 arch="all !armhf !ppc64le !s390x !riscv64"
@@ -33,7 +33,7 @@ makedepends="
 	samurai
 	"
 _repo_url="https://invent.kde.org/graphics/kimagemapeditor.git"
-source="https://nightly.postmarketos.org/plasma-mobile/sources/2024-01-03/kimagemapeditor-$_commit.tar.xz"
+source="https://nightly.postmarketos.org/plasma-mobile/sources/2024-01-08/kimagemapeditor-$_commit.tar.xz"
 subpackages="$pkgname-doc $pkgname-lang"
 options="!check" # No tests
 

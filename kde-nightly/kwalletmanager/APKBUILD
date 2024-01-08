@@ -4,9 +4,9 @@
 # The group tag is just to easily find this APKBUILD by some scripts for automation
 # group=kde-applications
 pkgname=kwalletmanager
-pkgver=9999_git20231231
+pkgver=9999_git20240106
 pkgrel=0
-_commit="02b86f08dd61e4008d8b2fd7803a62586e62d84d"
+_commit="c04f7b278d7850455db7690ce1db48c2f943ba4f"
 # armhf blocked by extra-cmake-modules
 arch="all !armhf"
 url="https://kde.org/applications/system/org.kde.kwalletmanager5"
@@ -39,7 +39,7 @@ makedepends="
 	"
 checkdepends="xvfb-run"
 _repo_url="https://invent.kde.org/utilities/kwalletmanager.git"
-source="https://nightly.postmarketos.org/plasma-mobile/sources/2024-01-03/kwalletmanager-$_commit.tar.xz"
+source="https://nightly.postmarketos.org/plasma-mobile/sources/2024-01-08/kwalletmanager-$_commit.tar.xz"
 subpackages="$pkgname-doc $pkgname-lang"
 
 options="!check"
@@ -62,5 +62,5 @@ package() {
 }
 
 sha512sums="
-9984b3670a11270ad4bcca5c57ae8c076fe54642055cbf1a961d8c224ea0f0bf86f71c9cdac0dbb11cab00b3f5d1ce279853b3ea1dc4fa2a3be3069f937b57b6  kwalletmanager-02b86f08dd61e4008d8b2fd7803a62586e62d84d.tar.xz
+4053824dcdd683c88ffd5dec3fb12278016cac8ebe6ac558d6d891771af14a5b39325c5a52cc21257ca27b6455aea6ddf863c681aeba60af107480105db33422  kwalletmanager-c04f7b278d7850455db7690ce1db48c2f943ba4f.tar.xz
 "
