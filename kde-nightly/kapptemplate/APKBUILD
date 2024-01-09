@@ -4,9 +4,9 @@
 # The group tag is just to easily find this APKBUILD by some scripts for automation
 # group=kde-applications
 pkgname=kapptemplate
-pkgver=9999_git20231231
+pkgver=9999_git20240109
 pkgrel=0
-_commit="62af24b1d327c62eb13045c87e5b6aed45991ea9"
+_commit="77e69cb54060f43d852aa99fcaf5dbe0027978db"
 # armhf blocked by extra-cmake-modules
 arch="all !armhf"
 url="https://kde.org/applications/development/org.kde.kapptemplate"
@@ -25,7 +25,7 @@ makedepends="
 	samurai
 	"
 _repo_url="https://invent.kde.org/sdk/kapptemplate.git"
-source="https://nightly.postmarketos.org/plasma-mobile/sources/2024-01-08/kapptemplate-$_commit.tar.xz"
+source="https://nightly.postmarketos.org/plasma-mobile/sources/2024-01-10/kapptemplate-$_commit.tar.xz"
 subpackages="$pkgname-doc $pkgname-lang"
 
 options="!check"
@@ -48,5 +48,5 @@ package() {
 }
 
 sha512sums="
-58b35788f606ae10365935a0c3b0c641ff9c1aac1e49f44d4629fa7aa38b9dc7b633033926a2a484e72545dcfdbaa0a2235149118d134eaaf38417f5a8c03564  kapptemplate-62af24b1d327c62eb13045c87e5b6aed45991ea9.tar.xz
+45badf7a5367bc2c771d8626f355346e6b5f25c9d43ead921699fce42205c615b44ac7e1a160c450faba5faeca797e7982f1ecbc0ffb18923fc2fcd822bc43aa  kapptemplate-77e69cb54060f43d852aa99fcaf5dbe0027978db.tar.xz
 "

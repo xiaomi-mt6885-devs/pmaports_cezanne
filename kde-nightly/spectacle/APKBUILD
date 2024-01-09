@@ -4,9 +4,9 @@
 # The group tag is just to easily find this APKBUILD by some scripts for automation
 # group=kde-applications
 pkgname=spectacle
-pkgver=9999_git20240105
+pkgver=9999_git20240109
 pkgrel=0
-_commit="3ebce62a35650bd357eb65a1aeb1b1c68dd04cd7"
+_commit="6a0a33c469552565057ac17715332777da358ad6"
 pkgdesc="Application for capturing desktop screenshots"
 # armhf blocked by extra-cmake-modules
 # ppc64le, s390x and riscv64 blocked by qt6-qtwebengine -> purpose
@@ -39,7 +39,7 @@ makedepends="
 	xcb-util-renderutil-dev
 	"
 _repo_url="https://invent.kde.org/graphics/spectacle.git"
-source="https://nightly.postmarketos.org/plasma-mobile/sources/2024-01-08/spectacle-$_commit.tar.xz
+source="https://nightly.postmarketos.org/plasma-mobile/sources/2024-01-10/spectacle-$_commit.tar.xz
 	spectacle.desktop
 	"
 subpackages="$pkgname-doc $pkgname-lang"
@@ -68,6 +68,6 @@ package() {
 	rm -r "$pkgdir"/usr/lib/systemd
 }
 sha512sums="
-c2589f107de5e6e18b48c583c96740a97ffa2623a832b5d408fb52c82eff14d7f5379dccf8eaf1bf1b469880b237bdc49fc4ca026624e0e79925f188628abca7  spectacle-3ebce62a35650bd357eb65a1aeb1b1c68dd04cd7.tar.xz
+6859b0cc6ae036a31304f052e3bfba8f371e6a5f3e5bba3db166b7a590ba23f18ba5e6ee1274f0a3c7e65a54883bef40190dd0dc9833c608986de22edde6648f  spectacle-6a0a33c469552565057ac17715332777da358ad6.tar.xz
 7c563d811f30d26f83e01a465e803b95167c5b2b842315257216ab282e07c69e7582a14d7f429cd19678199179ad8f3f2854265092f5a4c9ce9b65c87ed3849d  spectacle.desktop
 "

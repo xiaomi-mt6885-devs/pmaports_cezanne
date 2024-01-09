@@ -4,9 +4,9 @@
 # The group tag is just to easily find this APKBUILD by some scripts for automation
 # group=kde-plasma
 pkgname=plasma-remotecontrollers
-pkgver=9999_git20231231
+pkgver=9999_git20240107
 pkgrel=0
-_commit="2bb5da3b5802af4492ea6bb297adb9f96cd8016c"
+_commit="3ee4609ce87afb92d8076fec629414ca5bebfc61"
 pkgdesc="Translate various input device events into keyboard and pointer events"
 url="https://invent.kde.org/plasma-bigscreen/plasma-remotecontrollers"
 # armhf blocked by extra-cmake-modules
@@ -22,6 +22,7 @@ makedepends="
 	ki18n-dev
 	knotifications-dev
 	kpackage-dev
+	kstatusnotifieritem-dev
 	kwindowsystem-dev
 	libcec-dev
 	libevdev-dev
@@ -42,7 +43,7 @@ case "$pkgver" in
 	*) _rel=stable;;
 esac
 _repo_url="https://invent.kde.org/plasma-bigscreen/plasma-remotecontrollers.git"
-source="https://nightly.postmarketos.org/plasma-mobile/sources/2024-01-08/plasma-remotecontrollers-$_commit.tar.xz
+source="https://nightly.postmarketos.org/plasma-mobile/sources/2024-01-09/plasma-remotecontrollers-$_commit.tar.xz
 	uinput.conf
 	"
 options="!check" # No tests
@@ -50,7 +51,7 @@ options="!check" # No tests
 builddir="$srcdir/plasma-remotecontrollers-$_commit"
 
 build() {
-	cmake -B build -G Ninja \
+	cmake -B build -DBUILD_WITH_QT6=ON -G Ninja \
 		-DCMAKE_BUILD_TYPE=MinSizeRel \
 		-DCMAKE_INSTALL_PREFIX=/usr \
 		-DCMAKE_INSTALL_LIBDIR=lib
@@ -66,6 +67,6 @@ package() {
 }
 
 sha512sums="
-2529801428864f5413a43e87ab9555d28a86fbea72792018d45648ff09bdf0e98ae1c96b1670a8b93a1b59f744310fb792819332f7bae512832866e5e8334e75  plasma-remotecontrollers-2bb5da3b5802af4492ea6bb297adb9f96cd8016c.tar.xz
+bf55884529f4d2e9e13fb39fd3f3a2684cdeca8dd464c8536686c077fef6c8e66649da1649e4c00af909de124d891749f9a6404c7849c701953ba0e4189543b6  plasma-remotecontrollers-3ee4609ce87afb92d8076fec629414ca5bebfc61.tar.xz
 a9b069ed121ffeee887e0583d8cb46035ecf1fa90a26a4ecb3aa11ff03178b2b08621f6676db6b2350f290694c04aabcf36f2ce3e0813a76dde9a33555edb112  uinput.conf
 "

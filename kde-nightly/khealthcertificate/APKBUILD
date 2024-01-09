@@ -4,9 +4,9 @@
 # The group tag is just to easily find this APKBUILD by some scripts for automation
 # group=kde-mobile
 pkgname=khealthcertificate
-pkgver=9999_git20231218
+pkgver=9999_git20240109
 pkgrel=0
-_commit="0e0f8017483da2f3f7435f704080487e7c69ba5c"
+_commit="38d9c5390c5ff9ac0281aabda7bef0639c5add06"
 pkgdesc="Handling of digital vaccination, test and recovery certificates"
 url="https://invent.kde.org/pim/khealthcertificate"
 # armhf blocked by extra-cmake-modules
@@ -26,7 +26,7 @@ makedepends="$depends_dev
 	samurai
 	"
 _repo_url="https://invent.kde.org/pim/khealthcertificate.git"
-source="https://nightly.postmarketos.org/plasma-mobile/sources/2024-01-08/khealthcertificate-$_commit.tar.xz"
+source="https://nightly.postmarketos.org/plasma-mobile/sources/2024-01-10/khealthcertificate-$_commit.tar.xz"
 subpackages="$pkgname-dev"
 options="!check" # No tests
 
@@ -46,5 +46,5 @@ package() {
 }
 
 sha512sums="
-1d864923a25278e799636f721d5dfd4121db215265a157bfc1abfb33e611bc84fc26737b5bcd570458c001acbc7a6246f4c22e9f9ac1cb08d43b1f36e5a93f50  khealthcertificate-0e0f8017483da2f3f7435f704080487e7c69ba5c.tar.xz
+c4a7ef9d7d6ea7ab4e533ce39690880ea4ee159cee53dd46c47353495856154d1f6d13cbf77fd3ef773c085d4b8a712b3b21060cc96b2e9a7afb380916c34b1d  khealthcertificate-38d9c5390c5ff9ac0281aabda7bef0639c5add06.tar.xz
 "

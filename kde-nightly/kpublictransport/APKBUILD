@@ -4,9 +4,9 @@
 # The group tag is just to easily find this APKBUILD by some scripts for automation
 # group=kde-applications
 pkgname=kpublictransport
-pkgver=9999_git20240106
+pkgver=9999_git20240109
 pkgrel=0
-_commit="b631782119db4402b3b02dc7ffc8b66c3bb47a50"
+_commit="ab94468fbda4ad1df0ef35f3d463277047efd92b"
 # armhf blocked by qt6-qtdeclarative
 arch="all !armhf"
 url="https://invent.kde.org/libraries/kpublictransport"
@@ -26,7 +26,7 @@ makedepends="$depends_dev
 	samurai
 	"
 _repo_url="https://invent.kde.org/libraries/kpublictransport.git"
-source="https://nightly.postmarketos.org/plasma-mobile/sources/2024-01-08/kpublictransport-$_commit.tar.xz"
+source="https://nightly.postmarketos.org/plasma-mobile/sources/2024-01-10/kpublictransport-$_commit.tar.xz"
 options="!check" # Broken for now
 subpackages="$pkgname-dev"
 
@@ -50,5 +50,5 @@ package() {
 }
 
 sha512sums="
-5239f1c439d01d212220980993f31f3d1d65382e208f29c07adf22960aa43018cc90cb62bbfd65b815282458dbbfd7313024195775a6d2ddfc22dbab5f908a36  kpublictransport-b631782119db4402b3b02dc7ffc8b66c3bb47a50.tar.xz
+647a33ae929f856f544545d2eb62f06e85a5f39767cf5cfb7955db437948da8cb52b3405a9f93aaeef5e74ff0216c678443734b509baab65161abb4dce90002e  kpublictransport-ab94468fbda4ad1df0ef35f3d463277047efd92b.tar.xz
 "

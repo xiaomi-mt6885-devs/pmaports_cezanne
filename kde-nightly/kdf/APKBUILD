@@ -4,9 +4,9 @@
 # The group tag is just to easily find this APKBUILD by some scripts for automation
 # group=kde-applications
 pkgname=kdf
-pkgver=9999_git20240105
+pkgver=9999_git20240109
 pkgrel=0
-_commit="6705f847740f0c8b6414dfdc787404ed0c5c055f"
+_commit="b67d7050e6c638416274de012b4f617999ba2ad1"
 # armhf blocked by extra-cmake-modules
 arch="all !armhf"
 url="https://kde.org/applications/system/org.kde.kdf"
@@ -29,7 +29,7 @@ makedepends="
 	samurai
 	"
 _repo_url="https://invent.kde.org/utilities/kdf.git"
-source="https://nightly.postmarketos.org/plasma-mobile/sources/2024-01-08/kdf-$_commit.tar.xz"
+source="https://nightly.postmarketos.org/plasma-mobile/sources/2024-01-10/kdf-$_commit.tar.xz"
 subpackages="$pkgname-doc $pkgname-lang"
 
 options="!check"
@@ -52,5 +52,5 @@ package() {
 }
 
 sha512sums="
-e20d868800e486c191e1a317fecb29902aa37b4a018382e72a9d4bb3350cdd8ce3eedc55f98e152c112d40a4a558c897bf14dc1cc492de87ecec2617cf98442e  kdf-6705f847740f0c8b6414dfdc787404ed0c5c055f.tar.xz
+fc4fb5d69a64917d8e9f5e3dcb482da58a6ce23abdb06c3b76119c4a49acc80bd3512ad3ce3dfd75a4372c023d90bc3a31b4e95fab9e1fb418c289d5ec868918  kdf-b67d7050e6c638416274de012b4f617999ba2ad1.tar.xz
 "

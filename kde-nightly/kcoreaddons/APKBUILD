@@ -4,9 +4,9 @@
 # The group tag is just to easily find this APKBUILD by some scripts for automation
 # group=kde-frameworks
 pkgname=kcoreaddons
-pkgver=9999_git20240106
+pkgver=9999_git20240108
 pkgrel=0
-_commit="d66a1c0c8f0bd5fd2b1c2ec2e648545068fea7c1"
+_commit="48a9accaabff67f1898881fc0fc99627fb59d018"
 pkgdesc="Addons to QtCore"
 arch="all !armhf" # armhf blocked by extra-cmake-modules
 url="https://community.kde.org/Frameworks"
@@ -23,7 +23,7 @@ makedepends="$depends_dev
 	"
 checkdepends="xvfb-run"
 _repo_url="https://invent.kde.org/frameworks/kcoreaddons.git"
-source="https://nightly.postmarketos.org/plasma-mobile/sources/2024-01-08/kcoreaddons-$_commit.tar.xz"
+source="https://nightly.postmarketos.org/plasma-mobile/sources/2024-01-10/kcoreaddons-$_commit.tar.xz"
 subpackages="$pkgname-dev $pkgname-doc $pkgname-lang kde-default-icon-theme:icons:noarch"
 
 options="!check"
@@ -62,5 +62,5 @@ icons() {
 }
 
 sha512sums="
-2096f4fe4b6491ad5df65d7a3e83b1f4fb8b8a570953e1ae82748f619262ef5b0ec885188cc8ce7865add3afbb7886b3e80f30c4bfa96eaaa56a8ff3ab21df8f  kcoreaddons-d66a1c0c8f0bd5fd2b1c2ec2e648545068fea7c1.tar.xz
+83417049f0622dfb23aaadfa7e0c92f67f3c05dad91b81095cc2cb88725ce01228b735b61a9ef1f1d4973299daffa2f5919f20dd5af16997b2618d306d41320b  kcoreaddons-48a9accaabff67f1898881fc0fc99627fb59d018.tar.xz
 "

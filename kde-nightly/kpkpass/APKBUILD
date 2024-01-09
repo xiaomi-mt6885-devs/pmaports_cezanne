@@ -4,9 +4,9 @@
 # The group tag is just to easily find this APKBUILD by some scripts for automation
 # group=kde-applications
 pkgname=kpkpass
-pkgver=9999_git20240101
+pkgver=9999_git20240110
 pkgrel=0
-_commit="ff606f3a66127d3dff9a5a69dd456e4f4755e5c2"
+_commit="8e5a11de682f69c78ce4fedd21d1f00315f503b9"
 arch="all !armhf"
 url="https://kontact.kde.org/"
 pkgdesc="Apple Wallet Pass reader"
@@ -21,7 +21,7 @@ makedepends="$depends_dev
 	shared-mime-info
 	"
 _repo_url="https://invent.kde.org/pim/kpkpass.git"
-source="https://nightly.postmarketos.org/plasma-mobile/sources/2024-01-08/kpkpass-$_commit.tar.xz"
+source="https://nightly.postmarketos.org/plasma-mobile/sources/2024-01-10/kpkpass-$_commit.tar.xz"
 subpackages="$pkgname-dev"
 
 options="!check"
@@ -44,5 +44,5 @@ package() {
 }
 
 sha512sums="
-0e98d3c8b9dc95bee637cf4df4d9c5b9bb7f222a8a342852100d05ab62f42d45c125d32ae95ed5038de6f5f86c1c4b6e22dd2ce65f2d83b6c46c6ffad1854f14  kpkpass-ff606f3a66127d3dff9a5a69dd456e4f4755e5c2.tar.xz
+42f88f912828a22a29b07c8614b4541587ab8c3eaabf844bb5b8f72661e5ffcd92d9933dfa405795d29944bbf8f4b4ea9addd6eaaa9097edcdca8f0443e2e796  kpkpass-8e5a11de682f69c78ce4fedd21d1f00315f503b9.tar.xz
 "

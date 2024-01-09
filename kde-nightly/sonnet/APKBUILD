@@ -4,9 +4,9 @@
 # The group tag is just to easily find this APKBUILD by some scripts for automation
 # group=kde-frameworks
 pkgname=sonnet
-pkgver=9999_git20240102
+pkgver=9999_git20240107
 pkgrel=0
-_commit="95547c6f50c76f7d68abbb9e661accc5f53834c8"
+_commit="7a6cf9988342a66d512ec80ebc70267b299b1e40"
 pkgdesc="Spelling framework for Qt"
 # armhf blocked by extra-cmake-modules
 arch="all !armhf"
@@ -26,7 +26,7 @@ makedepends="$depends_dev
 	"
 checkdepends="xvfb-run"
 _repo_url="https://invent.kde.org/frameworks/sonnet.git"
-source="https://nightly.postmarketos.org/plasma-mobile/sources/2024-01-08/sonnet-$_commit.tar.xz"
+source="https://nightly.postmarketos.org/plasma-mobile/sources/2024-01-10/sonnet-$_commit.tar.xz"
 subpackages="$pkgname-dev $pkgname-doc $pkgname-lang"
 
 options="!check"
@@ -51,5 +51,5 @@ package() {
 }
 
 sha512sums="
-acafe39c02e73a5b2e8651999227d58d43b56d25845e71f68af074dc9dfc703fdd8f525bbac0ef08f209a3ad911662467b0ce9510888c2c85f65101a737cadef  sonnet-95547c6f50c76f7d68abbb9e661accc5f53834c8.tar.xz
+b622906f85f020df7f9390e95e754819f9b52481212bd67a71c23c3983e3dab134c519ff94af3ba333fa52690faf10d4816e3138474ab50492419df7384dbb5d  sonnet-7a6cf9988342a66d512ec80ebc70267b299b1e40.tar.xz
 "
