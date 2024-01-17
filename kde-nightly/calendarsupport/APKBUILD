@@ -4,9 +4,9 @@
 # The group tag is just to easily find this APKBUILD by some scripts for automation
 # group=kde-applications
 pkgname=calendarsupport
-pkgver=9999_git20240110
+pkgver=9999_git20240114
 pkgrel=0
-_commit="0bd0ad53efee3384ed4de75aa7df7451b51de518"
+_commit="285d6a6bfca74fa76733286efdf0345ed0d29420"
 pkgdesc="Library providing calendar support"
 # armhf blocked by extra-cmake-modules
 # ppc64le, s390x and riscv64 blocked by qt6-qtwebengine -> akonadi
@@ -37,7 +37,7 @@ makedepends="$depends_dev
 	"
 checkdepends="xvfb-run"
 _repo_url="https://invent.kde.org/pim/calendarsupport.git"
-source="https://nightly.postmarketos.org/plasma-mobile/sources/2024-01-10/calendarsupport-$_commit.tar.xz"
+source="https://nightly.postmarketos.org/plasma-mobile/sources/2024-01-16/calendarsupport-$_commit.tar.xz"
 subpackages="$pkgname-dev $pkgname-lang"
 
 options="!check"
@@ -59,5 +59,5 @@ package() {
 	DESTDIR="$pkgdir" cmake --install build
 }
 sha512sums="
-24f64485b0bdac915922f0dbf892abd6b64148f35f2795309e66b2f05f76a076faf6e730a44feddcc8adaec0c9af7db3de98acedacd55c4d99c61a97c989844b  calendarsupport-0bd0ad53efee3384ed4de75aa7df7451b51de518.tar.xz
+70938d78ed684c3e13e448ff12d1919164466272c13624c09c1c3c1cb18d7c2a6d5ed1b83a12f3e80465d5febb112af375c2f5776d8e325fac2ac758cbac9744  calendarsupport-285d6a6bfca74fa76733286efdf0345ed0d29420.tar.xz
 "

@@ -23,7 +23,7 @@ makedepends="
 	samurai
 	"
 _repo_url="https://invent.kde.org/sdk/kirigami-gallery.git"
-source="https://nightly.postmarketos.org/plasma-mobile/sources/2024-01-10/kirigami-gallery-$_commit.tar.xz"
+source="https://nightly.postmarketos.org/plasma-mobile/sources/2024-01-16/kirigami-gallery-$_commit.tar.xz"
 subpackages="$pkgname-lang"
 
 options="!check"

@@ -4,9 +4,9 @@
 # The group tag is just to easily find this APKBUILD by some scripts for automation
 # group=kde-applications
 pkgname=kbackup
-pkgver=9999_git20240109
+pkgver=9999_git20240114
 pkgrel=0
-_commit="99e505574470adfa2fbf6297e33996ce187dc9f8"
+_commit="852a091f2f9d1d141fedd343e6c2d04917843ec9"
 # armhf blocked by extra-cmake-modules
 arch="all !armhf"
 url="https://kde.org/applications/utilities/org.kde.kbackup"
@@ -29,7 +29,7 @@ makedepends="
 	shared-mime-info
 	"
 _repo_url="https://invent.kde.org/utilities/kbackup.git"
-source="https://nightly.postmarketos.org/plasma-mobile/sources/2024-01-10/kbackup-$_commit.tar.xz"
+source="https://nightly.postmarketos.org/plasma-mobile/sources/2024-01-16/kbackup-$_commit.tar.xz"
 subpackages="$pkgname-doc $pkgname-lang"
 options="!check" # No tests
 
@@ -53,5 +53,5 @@ package() {
 }
 
 sha512sums="
-cb1c82b8ec26eb60df00b534ba9725a16362cddb701cd8163cb635fe0b59d9554cdd9d739cdb6a5f7f2859dc4d80ea42a45474beccdaa3d8a734f554e77f9a8b  kbackup-99e505574470adfa2fbf6297e33996ce187dc9f8.tar.xz
+8e2c6148bb1ed0246ee7218ce3bc937db30679315c18d093a9391adcfe28c7adb147bd72ed26c8ad9c56a3a23cc99bfcfc9838fb9bebb8852b56a126dcb4832a  kbackup-852a091f2f9d1d141fedd343e6c2d04917843ec9.tar.xz
 "
