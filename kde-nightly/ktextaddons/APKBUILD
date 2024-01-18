@@ -6,7 +6,7 @@
 pkgname=ktextaddons
 pkgver=9999_git20240115
 pkgrel=0
-_commit="944636723dd2091e7285fba85b54cfd69009e040"
+_commit="9f16a314a92a89fc5410a927c94183d4113c18d4"
 pkgdesc="Various text handling addons"
 # armhf blocked by extra-cmake-modules
 arch="all !armhf"
@@ -32,7 +32,7 @@ makedepends="
 	"
 checkdepends="xvfb-run"
 _repo_url="https://invent.kde.org/libraries/ktextaddons.git"
-source="https://nightly.postmarketos.org/plasma-mobile/sources/2024-01-16/ktextaddons-$_commit.tar.xz"
+source="https://nightly.postmarketos.org/plasma-mobile/sources/2024-01-17/ktextaddons-$_commit.tar.xz"
 subpackages="$pkgname-dev $pkgname-doc $pkgname-lang"
 
 options="!check"
@@ -69,5 +69,5 @@ package() {
 	DESTDIR="$pkgdir" cmake --install build
 }
 sha512sums="
-4503273f8776b20b2946151419b903fa3d5d5c81fa2c5db75ae668ce271be54858c9540c1ea58d787b758067dbffc1ebebce932141da693a3b3d88e8e759cfbf  ktextaddons-944636723dd2091e7285fba85b54cfd69009e040.tar.xz
+3210a5e77b4e2363a568f4207d01213346bf14aec0c13561492a39773a79102249f3d18496658e3fe3b34d17ad75fb917e98964071480a47a244c201ff0593d9  ktextaddons-9f16a314a92a89fc5410a927c94183d4113c18d4.tar.xz
 "

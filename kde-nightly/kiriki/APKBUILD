@@ -4,9 +4,9 @@
 # The group tag is just to easily find this APKBUILD by some scripts for automation
 # group=kde-applications
 pkgname=kiriki
-pkgver=9999_git20240114
+pkgver=9999_git20240117
 pkgrel=0
-_commit="eeaaf5f21f698cb738fe6ff401c7fe4641ea0310"
+_commit="dc6dcc0a9c7fbe866cfcbe5b54a9c2b2afc2060d"
 pkgdesc="An addictive and fun dice game"
 # armhf blocked by extra-cmake-modules
 arch="all !armhf"
@@ -28,7 +28,7 @@ makedepends="
 	samurai
 	"
 _repo_url="https://invent.kde.org/games/kiriki.git"
-source="https://nightly.postmarketos.org/plasma-mobile/sources/2024-01-16/kiriki-$_commit.tar.xz"
+source="https://nightly.postmarketos.org/plasma-mobile/sources/2024-01-17/kiriki-$_commit.tar.xz"
 subpackages="$pkgname-doc $pkgname-lang"
 options="!check" # No tests
 
@@ -48,5 +48,5 @@ package() {
 }
 
 sha512sums="
-f8135b9625dff9c6c49233c63376d28a634d6d42f882346a62720f510df3af516f6bb6b0401735c88283d9112d75628e166e56a8eef61e5a00c88d6cb8501097  kiriki-eeaaf5f21f698cb738fe6ff401c7fe4641ea0310.tar.xz
+ad683018a3fe1d548e14de182a1e357c728bf852daf441c472dae94df235acf338b8b04023028ef9de04c6ddcea9f283e2e4009f1cf6b999511a6615c155d3b7  kiriki-dc6dcc0a9c7fbe866cfcbe5b54a9c2b2afc2060d.tar.xz
 "
