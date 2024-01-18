@@ -4,9 +4,9 @@
 # The group tag is just to easily find this APKBUILD by some scripts for automation
 # group=kde-applications
 pkgname=klickety
-pkgver=9999_git20240116
+pkgver=9999_git20240118
 pkgrel=0
-_commit="5977bf0ed42d41ed98c866940f35381eb4431660"
+_commit="a9a553ab7608bb7bf51c7178bd93be902d11b612"
 pkgdesc="An adaptation of the Clickomania game"
 # armhf blocked by extra-cmake-modules
 arch="all !armhf"
@@ -29,7 +29,7 @@ makedepends="
 	samurai
 	"
 _repo_url="https://invent.kde.org/games/klickety.git"
-source="https://nightly.postmarketos.org/plasma-mobile/sources/2024-01-17/klickety-$_commit.tar.xz"
+source="https://nightly.postmarketos.org/plasma-mobile/sources/2024-01-18/klickety-$_commit.tar.xz"
 subpackages="$pkgname-doc $pkgname-lang"
 options="!check" # No tests
 
@@ -49,5 +49,5 @@ package() {
 }
 
 sha512sums="
-b15d31b826a031828692553b6bee6e4b887694385d505810b38850f1e5c5a8b01e4f19e29f4e0c3ca7b67c2d537cf44dc06e8bce781fcbdfc83659e39f3f7c92  klickety-5977bf0ed42d41ed98c866940f35381eb4431660.tar.xz
+94801647f57e033527bf046a5ded2e74236be7febda2f3e6326de3978779b41c4f9bd5e6a0486596ad0cb85141bae4c3f3f0745f86f14de125718ddb2e602b0b  klickety-a9a553ab7608bb7bf51c7178bd93be902d11b612.tar.xz
 "
