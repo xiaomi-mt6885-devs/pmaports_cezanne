@@ -21,7 +21,7 @@ depends="
 	u-boot-sunxi
 	"
 makedepends="devicepkg-dev"
-source="./deviceinfo"
+source="deviceinfo"
 options="!check" # We don't have any tests to run
 
 build() {
