@@ -6,7 +6,7 @@
 # shellcheck disable=SC2154 # pre-defined values
 : "$srcdir" "$pkgdir" "$startdir"
 
-pkgname="device-olimex-teres_i"
+pkgname=device-olimex-teres_i
 pkgdesc="OLIMEX Teres-I"
 pkgver=1.0
 pkgrel=0
