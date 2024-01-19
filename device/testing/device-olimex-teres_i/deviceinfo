@@ -33,8 +33,3 @@ deviceinfo_sd_embed_firmware="u-boot/teres_i/u-boot-sunxi-with-spl.bin:8"
 
 # EXTLINUX
 deviceinfo_generate_extlinux_config=true
-
-# EFI
-# deviceinfo_generate_systemd_boot="true"
-# deviceinfo_boot_filesystem="fat32"
-# deviceinfo_partition_type="gpt"
