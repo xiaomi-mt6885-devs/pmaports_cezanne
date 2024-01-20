@@ -13,7 +13,6 @@ license="MIT"
 arch="aarch64"
 depends="
 	linux-postmarketos-allwinner>=5.14
-	mesa-egl
 	postmarketos-base
 	linux-firmware-rtlwifi
 	u-boot-sunxi
