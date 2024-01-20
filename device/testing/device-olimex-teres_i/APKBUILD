@@ -3,8 +3,6 @@
 
 # Credit: Milan P. Stanić for maintaining the device on Alpine Linux including u-boot, arm-trusted-firmware, crust and finding a solution to broken display when compiled on alpine.
 
-# shellcheck disable=SC2154 # pre-defined values
-: "$srcdir" "$pkgdir" "$startdir"
 
 pkgname=device-olimex-teres_i
 pkgdesc="OLIMEX Teres-I"
