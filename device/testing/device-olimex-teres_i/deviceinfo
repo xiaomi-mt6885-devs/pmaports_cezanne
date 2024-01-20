@@ -20,9 +20,6 @@ deviceinfo_dev_internal_storage_repartition="true"
 # twice the on-board RAM for suspensions + 1 GB reserve
 deviceinfo_swap_size_recommended="5120"
 
-# Kernel options
-deviceinfo_dtb="allwinner/sun50i-a64-teres-i"
-deviceinfo_append_dtb="true"
 
 # Bootloader related
 deviceinfo_flash_method="none"
