@@ -8,7 +8,8 @@
 
 # Must match with the supplied connection profile,
 # using UUID allows the user to change the connection name if they want to.
-con_uuid="83bd1823-feca-4c2b-9205-4b83dc792e1f"
+con_uuid_networking="83bd1823-feca-4c2b-9205-4b83dc792e1f"
+con_uuid_tethering="a870f58b-2581-4105-a3c8-d47638e9d879"
 interface="usb0"
 
 [ -e /etc/unudhcpd.conf ] && . /etc/unudhcpd.conf
@@ -49,12 +50,6 @@ reactivate_gadget() {
 # 3. Start unudhcpd to handle DHCP requests.
 # 4. Reactivate the USB Ethernet gadget to force the clients to reactivate the interface.
 disable_tethering() {
-	# Configure static IP and bring up connection automatically
-	nmcli connection modify "$con_uuid" ipv4.address "$host_ip/16"
-	nmcli connection modify "$con_uuid" ipv4.method "manual"
-	nmcli connection modify "$con_uuid" ipv6.method "link-local"
-	nmcli connection modify "$con_uuid" connection.autoconnect "true"
-
 	# Restart unudhpcd and configure it similar to initfs
 	killall unudhpcd || true
 	(unudhcpd -i "$interface" -s "$host_ip" -c "$client_ip") &
@@ -70,17 +65,6 @@ disable_tethering() {
 # 2. Stop unudhcpd as NetworkManager will spawn dnsmasq to handle DNS and DHCP requests.
 # 3. Reactivate the USB Ethernet gadget to force the clients to reactivate the interface.
 enable_tethering() {
-	# Enforce the same IP range as when tethering is disabled, this will retrigger
-	# the script as we have to reapply again, also bring up connection automatically.
-	ip=$(nmcli connection show "$con_uuid" --active | grep ipv4.addresses | tr -s " " | cut -d " " -f2)
-	if [ "$ip" != "$host_ip/16" ]; then
-		logger -t nm-tethering "Enforcing $host_ip/16 as DHCP range"
-		nmcli connection modify "$con_uuid" ipv4.address "$host_ip/16"
-		nmcli connection modify "$con_uuid" connection.autoconnect "true"
-		nmcli device reapply "$interface"
-		return
-	fi
-
 	# Kill unudhcpd if needed
 	killall unudhcpd || true
 	logger -t nm-tethering "unudhcpd stopped"
@@ -90,8 +74,34 @@ enable_tethering() {
 	logger -t nm-tethering "USB tethering enabled"
 }
 
+con_name="$(nmcli -t device | grep "^$interface" | cut -d: -f4)"
+if [ -n "$con_name" ]; then
+	con_uuid="$(nmcli -t connection show "$con_name" | grep ^connection.uuid | cut -d: -f2)"
+fi
+
+# Enforce the IP range as when tethering is disabled, this will retrigger
+# the script as we have to reapply again,
+if [ -n "$con_uuid" ]; then
+	ip=$(nmcli -t connection show "$con_uuid" | grep ^ipv4.addresses | cut -d: -f2)
+	if [ "$ip" != "$host_ip/16" ]; then
+		logger -t nm-tethering "Enforcing $host_ip/16 as DHCP range"
+		nmcli connection modify "$con_uuid" ipv4.address "$host_ip/16"
+		nmcli device reapply "$interface"
+		exit
+	fi
+fi
+
+# We only manage those system connections
+case "$con_uuid" in
+	"$con_uuid_networking")
+		method=manual
+		;;
+	"$con_uuid_tethering")
+		method=shared
+		;;
+esac
+
 # Handle dispatcher events for tethering
-method=$(nmcli connection show "$con_uuid" --active | grep ipv4.method | tr -s " " | cut -d " " -f2)
 case $NM_DISPATCHER_ACTION in
 	# Always disable tethering on insert or removal for security
 	"up"|"down")

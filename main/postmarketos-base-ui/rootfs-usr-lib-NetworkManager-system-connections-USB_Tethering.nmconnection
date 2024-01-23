@@ -1,15 +1,14 @@
 [connection]
-id=USB Networking
-uuid=83bd1823-feca-4c2b-9205-4b83dc792e1f
+id=USB Tethering
+uuid=a870f58b-2581-4105-a3c8-d47638e9d879
 type=ethernet
 interface-name=usb0
-autoconnect=true
 
 [ethernet]
 
 [ipv4]
 address1=172.16.42.1/16
-method=manual
+method=shared
 
 [ipv6]
 addr-gen-mode=default
