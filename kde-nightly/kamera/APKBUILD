@@ -4,9 +4,9 @@
 # The group tag is just to easily find this APKBUILD by some scripts for automation
 # group=kde-applications
 pkgname=kamera
-pkgver=9999_git20240114
+pkgver=9999_git20240122
 pkgrel=0
-_commit="0f9160c5c1ca8d01c704848b1bfacfdeacbffd4a"
+_commit="20fe07e080ec8b6b474fef4e42d4f0091048dea5"
 # armhf blocked by extra-cmake-modules
 arch="all !armhf"
 url="https://kde.org/applications/graphics"
@@ -26,7 +26,7 @@ makedepends="
 	samurai
 	"
 _repo_url="https://invent.kde.org/graphics/kamera.git"
-source="https://nightly.postmarketos.org/plasma-mobile/sources/2024-01-18/kamera-$_commit.tar.xz"
+source="https://nightly.postmarketos.org/plasma-mobile/sources/2024-01-24/kamera-$_commit.tar.xz"
 subpackages="$pkgname-doc $pkgname-lang"
 options="!check" # No tests
 
@@ -50,5 +50,5 @@ package() {
 }
 
 sha512sums="
-eea4e8ffb8b2b188b7bd10688bbe96fabc54772c760257e22cbb4b60f0ef0c42727ac2a3110c46d35f1a8a5870ca1a3911c50faafed3f175fe2981cf95b6d0fe  kamera-0f9160c5c1ca8d01c704848b1bfacfdeacbffd4a.tar.xz
+b4e5f86caa7d7d37bdd6e2b50e1fa3ba23828381dcf77befcd3d8894fec5db48d5b5e631c2daeec5ec8b0cf3098b6eb3bac55c7c037a4f93781a06bb4eb6279f  kamera-20fe07e080ec8b6b474fef4e42d4f0091048dea5.tar.xz
 "

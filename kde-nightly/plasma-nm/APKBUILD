@@ -4,9 +4,9 @@
 # The group tag is just to easily find this APKBUILD by some scripts for automation
 # group=kde-plasma
 pkgname=plasma-nm
-pkgver=9999_git20240117
+pkgver=9999_git20240122
 pkgrel=0
-_commit="537d42edbacdce7e33332ecf3b9bfecf6b704fcb"
+_commit="eab211fe61e41399969dd8e163ae0028b32d5712"
 pkgdesc="Plasma applet written in QML for managing network connections"
 # armhf blocked by qt6-qtdeclarative
 arch="all !armhf"
@@ -51,7 +51,7 @@ case "$pkgver" in
 	*) _rel=stable;;
 esac
 _repo_url="https://invent.kde.org/plasma/plasma-nm.git"
-source="https://nightly.postmarketos.org/plasma-mobile/sources/2024-01-18/plasma-nm-$_commit.tar.xz"
+source="https://nightly.postmarketos.org/plasma-mobile/sources/2024-01-24/plasma-nm-$_commit.tar.xz"
 subpackages="$pkgname-lang "
 
 options="!check"
@@ -82,5 +82,5 @@ mobile() {
 }
 
 sha512sums="
-ab3a7b8c37622cf5798a4f7fe6de42ddc21594e9463eda446b214b18a3eab9d9d7154fe0cf0ebcea5c5bfb56bac365d8576becb8c80e046e09bbc02b878f5a8e  plasma-nm-537d42edbacdce7e33332ecf3b9bfecf6b704fcb.tar.xz
+56c565d15ce3518f5d7e4a78697239a9b2d963a5c494513bfb931a8f4f247cc25574b5aed2686932f50fed8597fb94d564e41ecc29d90f150df43a7b72cb3981  plasma-nm-eab211fe61e41399969dd8e163ae0028b32d5712.tar.xz
 "

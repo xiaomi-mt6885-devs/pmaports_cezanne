@@ -4,9 +4,9 @@
 # The group tag is just to easily find this APKBUILD by some scripts for automation
 # group=kde-applications
 pkgname=gwenview
-pkgver=9999_git20240118
+pkgver=9999_git20240122
 pkgrel=0
-_commit="28ed27855cff7d0ca74ef5bf4a5a739e6faf9fa4"
+_commit="13b40583d483dff3e66d1ce1c698c10cd47a2a97"
 # armhf blocked by extra-cmake-modules
 # ppc64le, s390x and riscv64 blocked by qt6-qtwebengine -> purpose
 arch="all !armhf !ppc64le !s390x !riscv64"
@@ -46,7 +46,7 @@ checkdepends="
 	xvfb-run
 	"
 _repo_url="https://invent.kde.org/graphics/gwenview.git"
-source="https://nightly.postmarketos.org/plasma-mobile/sources/2024-01-18/gwenview-$_commit.tar.xz"
+source="https://nightly.postmarketos.org/plasma-mobile/sources/2024-01-24/gwenview-$_commit.tar.xz"
 subpackages="$pkgname-doc $pkgname-lang"
 
 options="!check"
@@ -86,5 +86,5 @@ package() {
 }
 
 sha512sums="
-e82a3532793444bbbe6f77a382d957ce3eeb5349eed1232547fade9e336a1dc09146e23213b61e1a7e23b3c0df551e315c3e9e1b9eada535d0c6aecf51d890c7  gwenview-28ed27855cff7d0ca74ef5bf4a5a739e6faf9fa4.tar.xz
+807bc248af9edb4e8b56b4acf235d2993b09877b8a837790e8c8d7fe7d1d1d55723272a70a2c09fd943a4a073056053d3b3dbadccbd031be4addc1b16692b457  gwenview-13b40583d483dff3e66d1ce1c698c10cd47a2a97.tar.xz
 "

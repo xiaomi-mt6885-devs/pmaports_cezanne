@@ -4,9 +4,9 @@
 # The group tag is just to easily find this APKBUILD by some scripts for automation
 # group=kde-applications
 pkgname=analitza
-pkgver=9999_git20240114
+pkgver=9999_git20240122
 pkgrel=0
-_commit="52d2828a21cc1b0e1a470f53be17c5184358a3cf"
+_commit="a7d0920220e3b7948fa548bb7e6d7da134b0c05a"
 # armhf blocked by extra-cmake-modules
 arch="all !armhf"
 url="https://edu.kde.org/"
@@ -26,7 +26,7 @@ makedepends="$depends_dev
 	"
 checkdepends="xvfb-run"
 _repo_url="https://invent.kde.org/education/analitza.git"
-source="https://nightly.postmarketos.org/plasma-mobile/sources/2024-01-18/analitza-$_commit.tar.xz"
+source="https://nightly.postmarketos.org/plasma-mobile/sources/2024-01-24/analitza-$_commit.tar.xz"
 subpackages="$pkgname-dev $pkgname-lang"
 
 options="!check"
@@ -49,5 +49,5 @@ package() {
 }
 
 sha512sums="
-4e0d4fe0db1db26980fc851c26a1a73b7c4e965765c3c11ddf75cc66698bbaff8da888e3f7b652ff8609f0ead63d22d79ea0f7359ec0c875083904eb1fd26cd5  analitza-52d2828a21cc1b0e1a470f53be17c5184358a3cf.tar.xz
+c0afedb12885e44169d0c5a99c2034d87a1b685249a84e5d0f382ef0eadaf7cfc18db5b8dca118095096aebc0c23debf1ea2ecdd6962a3ca02de35266d431052  analitza-a7d0920220e3b7948fa548bb7e6d7da134b0c05a.tar.xz
 "

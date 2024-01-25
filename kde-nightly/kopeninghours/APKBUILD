@@ -4,9 +4,9 @@
 # The group tag is just to easily find this APKBUILD by some scripts for automation
 # group=kde-applications
 pkgname=kopeninghours
-pkgver=9999_git20240114
+pkgver=9999_git20240120
 pkgrel=0
-_commit="195f82bae5aa52d16461e9eb825484b427fde3a4"
+_commit="497444553d267b830494f0381b7f820a46a3b2bc"
 pkgdesc="Library for parsing and evaluating OSM opening hours expressions"
 url="https://invent.kde.org/libraries/kopeninghours"
 # armhf blocked by extra-cmake-modules
@@ -26,7 +26,7 @@ makedepends="
 	"
 subpackages="$pkgname-dev $pkgname-doc $pkgname-lang"
 _repo_url="https://invent.kde.org/libraries/kopeninghours.git"
-source="https://nightly.postmarketos.org/plasma-mobile/sources/2024-01-18/kopeninghours-$_commit.tar.xz"
+source="https://nightly.postmarketos.org/plasma-mobile/sources/2024-01-24/kopeninghours-$_commit.tar.xz"
 
 options="!check"
 builddir="$srcdir/kopeninghours-$_commit"
@@ -52,5 +52,5 @@ package() {
 }
 
 sha512sums="
-304dc2cdf6adffd7b64c7f67f336940c4433f5317670c40233092c209a17fd029886f3676d2d83c8abb212532292109fe6197ed28e90828a7686f91fd85475c1  kopeninghours-195f82bae5aa52d16461e9eb825484b427fde3a4.tar.xz
+4e46e1f85a73026dd3d0d607a97f3f70b8e0f4676e494fc082cb55fbc0b0e52ef9d3d472157e03901d5da44fab4b4767742c1c39a03d5369f7015990f227bb81  kopeninghours-497444553d267b830494f0381b7f820a46a3b2bc.tar.xz
 "

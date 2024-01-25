@@ -4,9 +4,9 @@
 # The group tag is just to easily find this APKBUILD by some scripts for automation
 # group=kde-applications
 pkgname=libkmahjongg
-pkgver=9999_git20240114
+pkgver=9999_git20240122
 pkgrel=0
-_commit="f06a193d89b0827b55fec82e0d503c525113c7b0"
+_commit="d3544e5a2efda030bdd76721c235351bc695a06c"
 # armhf blocked by extra-cmake-modules
 arch="all !armhf"
 url="https://kde.org/applications/games"
@@ -25,7 +25,7 @@ makedepends="
 	samurai
 	"
 _repo_url="https://invent.kde.org/games/libkmahjongg.git"
-source="https://nightly.postmarketos.org/plasma-mobile/sources/2024-01-18/libkmahjongg-$_commit.tar.xz"
+source="https://nightly.postmarketos.org/plasma-mobile/sources/2024-01-24/libkmahjongg-$_commit.tar.xz"
 subpackages="$pkgname-dev $pkgname-lang"
 options="!check" # No tests found
 
@@ -49,5 +49,5 @@ package() {
 }
 
 sha512sums="
-aafc12d54159dfd2ea161d44b4d33f3c27f20e7fdae00370491b113f32269ba73dfe248edc59a987e1a107d60f8520ebed6a62bdbd7da3308b8ce39e24e68a44  libkmahjongg-f06a193d89b0827b55fec82e0d503c525113c7b0.tar.xz
+ac4586f9ba9f25ab17e384d41258263d103b542cfb98dac9c92b6895dbe510207b881372c9610d302e76c162b97dc79d34a98ab01df96b2f124356e0a1a4b10c  libkmahjongg-d3544e5a2efda030bdd76721c235351bc695a06c.tar.xz
 "
