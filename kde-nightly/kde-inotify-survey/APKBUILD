@@ -4,9 +4,9 @@
 # The group tag is just to easily find this APKBUILD by some scripts for automation
 # group=kde-applications
 pkgname=kde-inotify-survey
-pkgver=9999_git20240122
+pkgver=9999_git20240126
 pkgrel=0
-_commit="172f2fbccfe583e552d416d442cbcb51933d418a"
+_commit="a0df6eeba8089c9ef254b07e3a2d40582953b63f"
 pkgdesc="Tooling for monitoring inotify limits and informing the user when they have been or about to be reached"
 url="https://invent.kde.org/system/kde-inotify-survey"
 # armhf blocked by extra-cmake-modules
@@ -27,7 +27,7 @@ makedepends="
 	samurai
 	"
 _repo_url="https://invent.kde.org/system/kde-inotify-survey.git"
-source="https://nightly.postmarketos.org/plasma-mobile/sources/2024-01-24/kde-inotify-survey-$_commit.tar.xz"
+source="https://nightly.postmarketos.org/plasma-mobile/sources/2024-01-27/kde-inotify-survey-$_commit.tar.xz"
 
 options="!check"
 builddir="$srcdir/kde-inotify-survey-$_commit"
@@ -49,5 +49,5 @@ package() {
 }
 
 sha512sums="
-9cb570bd5b7402463bd1bec664ea56e87585bf0a96eb9c419ae0e07aaabb5c3ccbf5679311156a0789e20952f92746b4d6a4525e91837468aef7ea6c78abfa95  kde-inotify-survey-172f2fbccfe583e552d416d442cbcb51933d418a.tar.xz
+741845c0eadb40b3e40f7d07e36d8df3e4e60bc5c2c83133b608322fc1753eb3ff4e9b33fb67443b72cddf5c797256bac8933a62e95d145302cf390216e02d10  kde-inotify-survey-a0df6eeba8089c9ef254b07e3a2d40582953b63f.tar.xz
 "

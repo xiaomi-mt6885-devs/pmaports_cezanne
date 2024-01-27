@@ -28,7 +28,7 @@ makedepends="
 	syndication-dev
 	"
 _repo_url="https://invent.kde.org/network/alligator.git"
-source="https://nightly.postmarketos.org/plasma-mobile/sources/2024-01-24/alligator-$_commit.tar.xz"
+source="https://nightly.postmarketos.org/plasma-mobile/sources/2024-01-27/alligator-$_commit.tar.xz"
 options="!check" # No tests
 
 options="!check"

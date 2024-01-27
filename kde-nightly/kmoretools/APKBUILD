@@ -4,9 +4,9 @@
 # The group tag is just to easily find this APKBUILD by some scripts for automation
 # group=kde-applications
 pkgname=kmoretools
-pkgver=9999_git20240122
+pkgver=9999_git20240124
 pkgrel=0
-_commit="235e1d7b702ced7bfab4b09b75a66f17c7314a5f"
+_commit="87dcefd86852481c1856e784f0babcc98a2b572e"
 pkgdesc="Support for downloading application assets from the network"
 # armhf blocked by extra-cmake-modules
 arch="all !armhf"
@@ -30,7 +30,7 @@ makedepends="$depends_dev
 	"
 subpackages="$pkgname-dev $pkgname-lang"
 _repo_url="https://invent.kde.org/libraries/kmoretools.git"
-source="https://nightly.postmarketos.org/plasma-mobile/sources/2024-01-24/kmoretools-$_commit.tar.xz"
+source="https://nightly.postmarketos.org/plasma-mobile/sources/2024-01-27/kmoretools-$_commit.tar.xz"
 
 options="!check"
 builddir="$srcdir/kmoretools-$_commit"
@@ -54,5 +54,5 @@ package() {
 }
 
 sha512sums="
-a3598b7e77d4818b4bbaf952cf39caadb0415f5cd4ec3b83001af64fc61e0e16ea74f469a0e169dc1e499da624c29c75f0274fac348937735ee9680cba8efc7d  kmoretools-235e1d7b702ced7bfab4b09b75a66f17c7314a5f.tar.xz
+def25eaca3df08e290947c2bd775fec843cbc8bd4f4756d68b7a73767c1d380ea37e4b7aceebde75e03a95572c52f215d5744b548110723c6780bafd8e69f862  kmoretools-87dcefd86852481c1856e784f0babcc98a2b572e.tar.xz
 "

@@ -4,9 +4,9 @@
 # The group tag is just to easily find this APKBUILD by some scripts for automation
 # group=kde-applications
 pkgname=kfourinline
-pkgver=9999_git20240122
+pkgver=9999_git20240126
 pkgrel=0
-_commit="41215b214bd1e9df5df0fa7072cd85e396d248f9"
+_commit="1ee3012e24e3e5923d8fdb841b37c5cbe94e3b6b"
 pkgdesc="A four-in-a-row game"
 # armhf blocked by extra-cmake-modules
 arch="all !armhf"
@@ -29,7 +29,7 @@ makedepends="
 	samurai
 	"
 _repo_url="https://invent.kde.org/games/kfourinline.git"
-source="https://nightly.postmarketos.org/plasma-mobile/sources/2024-01-24/kfourinline-$_commit.tar.xz"
+source="https://nightly.postmarketos.org/plasma-mobile/sources/2024-01-27/kfourinline-$_commit.tar.xz"
 subpackages="$pkgname-doc $pkgname-lang"
 options="!check" # No tests
 
@@ -49,5 +49,5 @@ package() {
 }
 
 sha512sums="
-786160c6584c71433535e14f82658cca33fc5e82bb46e35bffd3b76aafc28be7ce85847569bd784deaadeb2cc776a108c9a564b553fa373c415a85298d3c08fb  kfourinline-41215b214bd1e9df5df0fa7072cd85e396d248f9.tar.xz
+149878a87cfb1fa3005c3e028aa0be602618301e2ea9d9318b3c6b5dd054de331bfce1f7f33e1b0ddb53bbde0863281ce53f326cf34363f11e915bd546b49713  kfourinline-1ee3012e24e3e5923d8fdb841b37c5cbe94e3b6b.tar.xz
 "
