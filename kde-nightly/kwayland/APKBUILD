@@ -25,7 +25,7 @@ makedepends="$depends_dev
 	samurai
 	"
 _repo_url="https://invent.kde.org/plasma/kwayland.git"
-source="https://nightly.postmarketos.org/plasma-mobile/sources/2024-01-27/kwayland-$_commit.tar.xz"
+source="https://nightly.postmarketos.org/plasma-mobile/sources/2024-01-29/kwayland-$_commit.tar.xz"
 subpackages="$pkgname-dev $pkgname-doc $pkgname-dbg"
 options="!check" # Fails due to requiring running Wayland compositor
 

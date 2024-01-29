@@ -21,7 +21,7 @@ makedepends="
 	"
 checkdepends="xvfb-run"
 _repo_url="https://invent.kde.org/jbbgameich/qmltermwidget.git"
-source="https://nightly.postmarketos.org/plasma-mobile/sources/2024-01-27/qmltermwidget-$_commit.tar.xz"
+source="https://nightly.postmarketos.org/plasma-mobile/sources/2024-01-29/qmltermwidget-$_commit.tar.xz"
 #options="!check" # Requires itself to be installed
 
 builddir="$srcdir/qmltermwidget-$_commit"

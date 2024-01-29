@@ -37,7 +37,7 @@ case "$pkgver" in
 	*) _rel=stable;;
 esac
 _repo_url="https://invent.kde.org/plasma/kde-gtk-config.git"
-source="https://nightly.postmarketos.org/plasma-mobile/sources/2024-01-27/kde-gtk-config-$_commit.tar.xz"
+source="https://nightly.postmarketos.org/plasma-mobile/sources/2024-01-29/kde-gtk-config-$_commit.tar.xz"
 
 options="!check"
 builddir="$srcdir/kde-gtk-config-$_commit"

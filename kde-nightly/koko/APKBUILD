@@ -41,7 +41,7 @@ makedepends="
 subpackages="$pkgname-lang"
 _repo_url="https://invent.kde.org/graphics/koko.git"
 _data_date=2023-09-02
-source="https://nightly.postmarketos.org/plasma-mobile/sources/2024-01-27/koko-$_commit.tar.xz
+source="https://nightly.postmarketos.org/plasma-mobile/sources/2024-01-29/koko-$_commit.tar.xz
 	https://dev.alpinelinux.org/archive/koko/cities1000-$_data_date.zip
 	https://dev.alpinelinux.org/archive/koko/admin1CodesASCII-$_data_date.txt
 	https://dev.alpinelinux.org/archive/koko/admin2Codes-$_data_date.txt

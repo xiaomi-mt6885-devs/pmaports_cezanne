@@ -23,7 +23,7 @@ makedepends="
 	"
 subpackages="$pkgname-lang"
 _repo_url="https://invent.kde.org/system/kio-admin.git"
-source="https://nightly.postmarketos.org/plasma-mobile/sources/2024-01-27/kio-admin-$_commit.tar.xz"
+source="https://nightly.postmarketos.org/plasma-mobile/sources/2024-01-29/kio-admin-$_commit.tar.xz"
 
 options="!check"
 builddir="$srcdir/kio-admin-$_commit"
