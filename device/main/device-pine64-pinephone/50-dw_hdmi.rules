@@ -1,0 +1,1 @@
+ACTION=="add|change", SUBSYSTEMS=="input", ATTRS{name}=="dw_hdmi", ENV{LIBINPUT_IGNORE_DEVICE}="1"

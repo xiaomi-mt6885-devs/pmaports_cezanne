@@ -26,3 +26,5 @@ deviceinfo_dev_internal_storage_repartition="true"
 deviceinfo_flash_method="none"
 deviceinfo_sd_embed_firmware="u-boot/pine64-pinephone/u-boot-sunxi-with-spl-528.bin:8"
 
+# USB UDC for USB networking
+deviceinfo_usb_network_udc="musb-hdrc.2.auto"

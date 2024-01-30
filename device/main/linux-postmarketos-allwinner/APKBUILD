@@ -1,10 +1,9 @@
 # Maintainer: Jan Jasper de Kroon <jajadekroon@gmail.com>
 # Co-Maintainer: Arnav Singh <me@arnavion.dev>
 _flavor=postmarketos-allwinner
-_config="config-$_flavor.$CARCH"
 pkgname=linux-$_flavor
 pkgver=6.7.2_git20240127
-pkgrel=0
+pkgrel=1
 _tag="orange-pi-6.7-20240127-1717"
 pkgdesc="Kernel fork with Pine64 patches (megi's tree, slightly patched)"
 arch="aarch64 armv7"
@@ -16,11 +15,12 @@ makedepends="
 	findutils
 	flex
 	gmp-dev
-	installkernel
+	lz4
 	mpc1-dev
 	mpfr-dev
 	openssl-dev
 	perl
+	postmarketos-installkernel
 	rsync
 	xz
 	bash
@@ -30,8 +30,14 @@ options="!strip !check !tracedeps
 	pmb:kconfigcheck-community
 	"
 source="$pkgname-$_tag.tar.gz::https://codeberg.org/megi/linux/archive/$_tag.tar.gz
-	config-$_flavor.aarch64
-	config-$_flavor.armv7
+	arm64_defconfig
+	kconfig-0001-keyboard-as-module.config
+	kconfig-0002-mglru.config
+	kconfig-0003-default-cpufreq-governor.config
+	kconfig-0004-rcu-lazy.config
+	kconfig-0005-fscache.config
+	kconfig-0006-rtw88.config
+	kconfig-0007-no-modem-power.config
 	0001-dts-add-dontbeevil-pinephone-devkit.patch
 	0002-dts-add-pinetab-dev-old-display-panel.patch
 	0003-dts-pinetab-add-missing-bma223-ohci1.patch
@@ -50,42 +56,44 @@ source="$pkgname-$_tag.tar.gz::https://codeberg.org/megi/linux/archive/$_tag.tar
 builddir="$srcdir/linux"
 
 case "$CARCH" in
-	aarch64*) _carch="arm64" ;;
-	arm*) _carch="arm" ;;
+	aarch64*)
+		_carch="arm64"
+		_pmos_defconfig="postmarketos_allwinner_defconfig"
+		;;
+	arm*)
+		_carch="arm"
+		_pmos_defconfig="orangepi_defconfig"
+		;;
 esac
-
 
 prepare() {
 	default_prepare
 
-	REPLACE_GCCH=0 \
-		. downstreamkernel_prepare
+	if [ -f "$srcdir/${_carch}_defconfig" ]; then
+		cp "$srcdir/${_carch}_defconfig" "$builddir/arch/$_carch/configs/postmarketos_allwinner_defconfig"
+	fi
+
+	. kernel_prepare
 }
 
 build() {
-	unset LDFLAGS
-	# V=1: workaround for pma#1990
-	make ARCH="$_carch" CC="${CC:-gcc}" \
-		KBUILD_BUILD_VERSION="$((pkgrel + 1 ))-$_flavor" \
-		CFLAGS_MODULE=-fno-pic \
-		DTC_FLAGS="-@" \
-		V=1
+	. kernel_build
 }
 
 package() {
-	downstreamkernel_package "$builddir" "$pkgdir" "$_carch" "$_flavor"
-
-	make -j1 modules_install dtbs_install \
-		ARCH="$_carch" \
-		INSTALL_MOD_STRIP=1 \
-		INSTALL_MOD_PATH="$pkgdir" \
-		INSTALL_DTBS_PATH="$pkgdir/boot/dtbs"
+	. kernel_package
 }
 
 sha512sums="
 0135ca518e82c7f858a7892b87c79e875d5f3f8d3ea884a969e6f3bb7f2a1fe260058debecce286e00a96b03c297533e4edf1859095837bd664793a29aaca41b  linux-postmarketos-allwinner-orange-pi-6.7-20240127-1717.tar.gz
-71c0d95567a6682ded7ac1e67415e27ed5a0490eeebe6c3169839dd30c18365f04e581b44dc9f3d8f27416e9950de24362b0cc11ad9316ca115008ffe8cd8683  config-postmarketos-allwinner.aarch64
-5c3dd13d2bba99d476697873c24ef46dd1cc76c9b6babd0afedf6ed50f35044e9bc3ca29d7b5d3d795227878442d2c62e1eae4a27eab8d506770add4cb8ba41f  config-postmarketos-allwinner.armv7
+cfa9caadee0f75e2f7a436a461152b1f16495bc9700fcebda335cf5c5f282c73f0c77397675e9c3fad69c2802e08f7fc8e5d0dc348f205bcf156769de3c598ec  arm64_defconfig
+3ad2d233dae3034a7bb97ba1f2ba864a5cf46d7abe6eddbcf2afaa0002634c7f44da23a0733713ed223a2608d6528aecd72dc74f74a0cbeab31df33ac3b8d2a1  kconfig-0001-keyboard-as-module.config
+fc398ba99bee7d20d38d7afdc38d5c90c095387ea46bc7a797f231ff0c84002b9e064cff6c74c5b0435b985c1b66e9344922807e311f973f93954e63f94732cf  kconfig-0002-mglru.config
+7a73d7509e62e009f1d29efbaf85268691d13c3216eeccae5c434375c82ef52ee7807cbf72eb9ee9d49dca55d922ba84809a596e2a07f907a3b1a63e7c68c3dc  kconfig-0003-default-cpufreq-governor.config
+06437784cfa191108a3f48600fc1f6d729d2fd986fa9dfb7b2708e61c4e7609ba67c44ccd0cb155466c895fe6276743d41e1d73c5c491d0d41465563d361d0a0  kconfig-0004-rcu-lazy.config
+04b308d4e5ba9d19f4c24fd6978aae7a02d260dbbc0324fedd72683ffeb53177f7e59299a4bd9db8ac63ebf76431ca77cb4e51f97c1a2d0d8194bb9af6580409  kconfig-0005-fscache.config
+ad1c9e236aa8cbbf9b06d9ebf6d71b94cbadde00cfe6e4daf391554d7a3d461ff821a5027f680023a3951f26bee0969cc47a10107dc6de25d065510086121ad7  kconfig-0006-rtw88.config
+b44cd1ac130e6057cfc0bf6b13b9456f959105bb567d7a9557ae795c17ea18b942e47487405bb4c85fe9d84ff0d26dfd0009cf32608d618784d33186dab05952  kconfig-0007-no-modem-power.config
 126e0a65e04f22f14eac1281a69000d9d5b107ed8fd1b52f37e812751f55e6c45b0240ceac61c9d95ae7f0543aaf9d96b85a8532baf59283c077b9945e615367  0001-dts-add-dontbeevil-pinephone-devkit.patch
 99edeccdee7beae5dc7337d78ba92de2f3d724b7648ede30ab040a66bdac0e38a6595e212e26011d608ccb8a92ffa9e393965f936dfead65ffe9b7eb31dfa345  0002-dts-add-pinetab-dev-old-display-panel.patch
 82c0203b02c671934d62e52311827ac1cc5b358e0843715ea2235117e4b47d6de63b29fdfc7c1adfc550cc7eb363c384de8276be1ca17da6e48916020124022d  0003-dts-pinetab-add-missing-bma223-ohci1.patch
