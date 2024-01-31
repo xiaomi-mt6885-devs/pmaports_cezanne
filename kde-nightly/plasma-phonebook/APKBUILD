@@ -4,9 +4,9 @@
 # The group tag is just to easily find this APKBUILD by some scripts for automation
 # group=kde-mobile
 pkgname=plasma-phonebook
-pkgver=9999_git20240122
+pkgver=9999_git20240128
 pkgrel=0
-_commit="b9e65281d9d53c9009c6ae3fd0892b823a08a327"
+_commit="773a22c94f754538014b444da15444698e3c9bba"
 pkgdesc="Contacts application which allows adding, modifying and removing contacts"
 # armhf blocked by extra-cmake-modules
 arch="all !armhf"
@@ -31,7 +31,7 @@ makedepends="
 	samurai
 	"
 _repo_url="https://invent.kde.org/plasma-mobile/plasma-phonebook.git"
-source="https://nightly.postmarketos.org/plasma-mobile/sources/2024-01-29/plasma-phonebook-$_commit.tar.xz"
+source="https://nightly.postmarketos.org/plasma-mobile/sources/2024-01-31/plasma-phonebook-$_commit.tar.xz"
 subpackages="$pkgname-lang"
 options="!check" # No tests
 
@@ -54,5 +54,5 @@ package() {
 }
 
 sha512sums="
-88101f9ea59e4f57285b2097c329bb1e430fcdc0d0d945938589891a85e596041730d2457ab434bb7783381a04ca38117c4e2aabedc040e69810009191f9be2c  plasma-phonebook-b9e65281d9d53c9009c6ae3fd0892b823a08a327.tar.xz
+51e35d0aed95684bbd1c532de23df9de31b84fad67fc51669bf4040e8207457af3fe0a408a3b457030608179459854fa403a963bbdaae90b42b0779a697463bf  plasma-phonebook-773a22c94f754538014b444da15444698e3c9bba.tar.xz
 "

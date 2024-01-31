@@ -4,9 +4,9 @@
 # The group tag is just to easily find this APKBUILD by some scripts for automation
 # group=kde-applications
 pkgname=kdepim-addons
-pkgver=9999_git20240126
+pkgver=9999_git20240129
 pkgrel=0
-_commit="cceaaa8de2320ab04fde007d56515a13d25e97aa"
+_commit="9243fd8d39621cbb60697056c92295b912f0c169"
 # armhf blocked by extra-cmake-modules
 # ppc64le, s390x and riscv64 blocked by qt6-qtwebengine
 arch="all !armhf !ppc64le !s390x !riscv64"
@@ -65,7 +65,7 @@ checkdepends="
 	xvfb-runi
 	"
 _repo_url="https://invent.kde.org/pim/kdepim-addons.git"
-source="https://nightly.postmarketos.org/plasma-mobile/sources/2024-01-29/kdepim-addons-$_commit.tar.xz"
+source="https://nightly.postmarketos.org/plasma-mobile/sources/2024-01-31/kdepim-addons-$_commit.tar.xz"
 subpackages="$pkgname-lang"
 options="!check" # Require OpenGL and running dbus
 
@@ -90,5 +90,5 @@ package() {
 }
 
 sha512sums="
-cc9bdabdfdbd292f67944b07bce21a8381230011b0631d6feed4712026a125e021d99b129605632f70f685caa579c982ff9948b15d5a8155baead64ff7a43d3a  kdepim-addons-cceaaa8de2320ab04fde007d56515a13d25e97aa.tar.xz
+757eb38ced229736b4f6da9dc5cccd0d1edcb4b1140ad0ef2fc72138512989048aeeac94e9d2f7f7150089a03ae9e7735f0ff9b4fd09b9fa0dc279af2fe1d50e  kdepim-addons-9243fd8d39621cbb60697056c92295b912f0c169.tar.xz
 "

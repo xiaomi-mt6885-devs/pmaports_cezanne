@@ -4,9 +4,9 @@
 # The group tag is just to easily find this APKBUILD by some scripts for automation
 # group=kde-plasma
 pkgname=kscreen
-pkgver=9999_git20240127
+pkgver=9999_git20240128
 pkgrel=0
-_commit="c28cdf2b9b2e54df549899c95d4a665613d1b5be"
+_commit="c249af05f2e964f430c08bb19f26c8f293c530dc"
 pkgdesc="KDE's screen management software"
 # armhf blocked by qt6-qtdeclarative
 arch="all !armhf"
@@ -40,7 +40,7 @@ case "$pkgver" in
 	*) _rel=stable;;
 esac
 _repo_url="https://invent.kde.org/plasma/kscreen.git"
-source="https://nightly.postmarketos.org/plasma-mobile/sources/2024-01-29/kscreen-$_commit.tar.xz"
+source="https://nightly.postmarketos.org/plasma-mobile/sources/2024-01-31/kscreen-$_commit.tar.xz"
 subpackages="$pkgname-lang"
 
 options="!check"
@@ -68,5 +68,5 @@ package() {
 }
 
 sha512sums="
-23a1daeca9e6addc7421ca7ea1cd17a7ad63ff7407e70503a625563dec916b29c975e426216ffb4f316b9c53c4f4c5c291571c1b17a00ee7a3c67170579691d5  kscreen-c28cdf2b9b2e54df549899c95d4a665613d1b5be.tar.xz
+3598f639e4bdad399a3e18b949972834533397a7510dab5c0e68136ad903c27de2abb93b20a7cc657083183a1cc74e281f28c5a8839b06ada9e6ab31519b42ea  kscreen-c249af05f2e964f430c08bb19f26c8f293c530dc.tar.xz
 "
