@@ -4,9 +4,9 @@
 # The group tag is just to easily find this APKBUILD by some scripts for automation
 # group=kde-frameworks
 pkgname=kdeclarative
-pkgver=9999_git20240128
+pkgver=9999_git20240131
 pkgrel=0
-_commit="3339e0f0e3f4016b5d1f3b6d63a0c290f09d6541"
+_commit="ba67dd3e0cc2855d608a92aefb7d9c1cd43508c8"
 pkgdesc="Provides integration of QML and KDE Frameworks"
 # armhf blocked by qt6-qtdeclarative
 arch="all !armhf"
@@ -33,7 +33,7 @@ makedepends="$depends_dev
 	"
 checkdepends="xvfb-run"
 _repo_url="https://invent.kde.org/frameworks/kdeclarative.git"
-source="https://nightly.postmarketos.org/plasma-mobile/sources/2024-01-31/kdeclarative-$_commit.tar.xz"
+source="https://nightly.postmarketos.org/plasma-mobile/sources/2024-02-01/kdeclarative-$_commit.tar.xz"
 subpackages="$pkgname-dev $pkgname-doc $pkgname-lang"
 
 options="!check"
@@ -58,5 +58,5 @@ package() {
 }
 
 sha512sums="
-28433dbaff136e77901e5858be0e912ccd74e76ba6875ad6e25423a22f8a13556b7e1e7fe58812ec219a164c886116c38702d1155aec76828b70e8e73b9fd200  kdeclarative-3339e0f0e3f4016b5d1f3b6d63a0c290f09d6541.tar.xz
+c3a1e92a0dc13d75a9f1eda7e25b8e91e957198cdc7baa6e1b77d2649d3e2c8d9da229fd22464456be5f1260df2e73ff975a30c00e7a27b2e3b30f3bc2b0e556  kdeclarative-ba67dd3e0cc2855d608a92aefb7d9c1cd43508c8.tar.xz
 "

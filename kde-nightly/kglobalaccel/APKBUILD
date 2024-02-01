@@ -4,9 +4,9 @@
 # The group tag is just to easily find this APKBUILD by some scripts for automation
 # group=kde-frameworks
 pkgname=kglobalaccel
-pkgver=9999_git20240126
+pkgver=9999_git20240201
 pkgrel=0
-_commit="608829e1b14240804f431d49c4093d5021a4e3a1"
+_commit="1380a476fedb06a6ac0310d12da481e82ff6d9de"
 pkgdesc="Add support for global workspace shortcuts"
 arch="all !armhf" # armhf blocked by extra-cmake-modules
 url="https://community.kde.org/Frameworks"
@@ -28,7 +28,7 @@ makedepends="$depends_dev
 	"
 checkdepends="xvfb-run"
 _repo_url="https://invent.kde.org/frameworks/kglobalaccel.git"
-source="https://nightly.postmarketos.org/plasma-mobile/sources/2024-01-31/kglobalaccel-$_commit.tar.xz"
+source="https://nightly.postmarketos.org/plasma-mobile/sources/2024-02-01/kglobalaccel-$_commit.tar.xz"
 subpackages="$pkgname-dev $pkgname-doc $pkgname-lang"
 
 options="!check"
@@ -53,5 +53,5 @@ package() {
 }
 
 sha512sums="
-1515b923c834d1da53b92612354404a0d9d9d0635faf456e92bb8edd3abdfb64795ff28c9535ab412f71c28b7bdcee7a83160bcb5fdc87f74abffd6aa0c6d8e4  kglobalaccel-608829e1b14240804f431d49c4093d5021a4e3a1.tar.xz
+8a464324c7da3d49561150aae0774ad689fc6089d39c04f0ab25c6932565ed6d8b3ed39329b9a83754a72c3af012b4462b62dcd4c336a5ef93dfc4334b5fd623  kglobalaccel-1380a476fedb06a6ac0310d12da481e82ff6d9de.tar.xz
 "

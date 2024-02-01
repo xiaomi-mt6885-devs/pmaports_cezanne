@@ -4,9 +4,9 @@
 # The group tag is just to easily find this APKBUILD by some scripts for automation
 # group=kde-frameworks
 pkgname=kquickcharts
-pkgver=9999_git20240126
+pkgver=9999_git20240131
 pkgrel=0
-_commit="bed0aed109cda7718af6d3aa1170987dc2c4eaf9"
+_commit="ea32ca20beaeec451d01b7aa557b6d2197cd9a81"
 pkgdesc="A QtQuick plugin providing high-performance charts"
 arch="all !armhf" # armhf blocked by qt6-qtdeclarative
 url="https://community.kde.org/Frameworks"
@@ -21,7 +21,7 @@ makedepends="$depends_dev
 	"
 checkdepends="xvfb-run"
 _repo_url="https://invent.kde.org/frameworks/kquickcharts.git"
-source="https://nightly.postmarketos.org/plasma-mobile/sources/2024-01-31/kquickcharts-$_commit.tar.xz"
+source="https://nightly.postmarketos.org/plasma-mobile/sources/2024-02-01/kquickcharts-$_commit.tar.xz"
 subpackages="$pkgname-dev"
 
 options="!check"
@@ -54,5 +54,5 @@ dev() {
 }
 
 sha512sums="
-0a25883624e6288092b1fc2373a4cebf2ac7a45aed1ee5b16ebe1a6e913fab33914dbd0a95adc8c8c6b7284f4fc01cf6e2a9333c52458e192fb832034a5e56fb  kquickcharts-bed0aed109cda7718af6d3aa1170987dc2c4eaf9.tar.xz
+c3e8734ac631cfa4e0cdefe342985252b0dfb79194b8f3f3faa415252106720d6bdc4833290e61f98e8d09435fb8adeab51632cd3a9d28cfb5c6c3b85369a609  kquickcharts-ea32ca20beaeec451d01b7aa557b6d2197cd9a81.tar.xz
 "

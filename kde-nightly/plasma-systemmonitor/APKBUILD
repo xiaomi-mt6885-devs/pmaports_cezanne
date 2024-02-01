@@ -4,9 +4,9 @@
 # The group tag is just to easily find this APKBUILD by some scripts for automation
 # group=kde-plasma
 pkgname=plasma-systemmonitor
-pkgver=9999_git20240127
+pkgver=9999_git20240131
 pkgrel=0
-_commit="8745491ae1f05506ed453f3b613cb7d83f44fa08"
+_commit="f3dd29ac1e440cd75142f42be30e98fee1223cde"
 pkgdesc="An application for monitoring system resources"
 # armhf blocked by extra-cmake-modules
 arch="all !armhf"
@@ -39,7 +39,7 @@ case "$pkgver" in
 	*) _rel=stable;;
 esac
 _repo_url="https://invent.kde.org/plasma/plasma-systemmonitor.git"
-source="https://nightly.postmarketos.org/plasma-mobile/sources/2024-01-31/plasma-systemmonitor-$_commit.tar.xz"
+source="https://nightly.postmarketos.org/plasma-mobile/sources/2024-02-01/plasma-systemmonitor-$_commit.tar.xz"
 subpackages="$pkgname-lang"
 
 options="!check"
@@ -63,5 +63,5 @@ package() {
 }
 
 sha512sums="
-85ecb3fb8b27de1833009845bc84f530ae39ed7b41d1f6ab25f28e3b44be269d4b8e10b82b018cd4f9a93730fbc297f454f7f4a55b07de894914de2cc93f38d1  plasma-systemmonitor-8745491ae1f05506ed453f3b613cb7d83f44fa08.tar.xz
+9c2373e35b277af05e7026db9950127964b7ef5e0b914a2e76f33d21eb847e0ec712fe697679361729de954a31b2db960db6f71de9b4db085d8819bb31c528c1  plasma-systemmonitor-f3dd29ac1e440cd75142f42be30e98fee1223cde.tar.xz
 "

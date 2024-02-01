@@ -4,9 +4,9 @@
 # The group tag is just to easily find this APKBUILD by some scripts for automation
 # group=kde-plasma
 pkgname=kdeplasma-addons
-pkgver=9999_git20240129
+pkgver=9999_git20240201
 pkgrel=0
-_commit="340e2e222c8311ee4ad8588c545a1739b003c00d"
+_commit="6789cd98a14aa6f433bd40ed4febf57f27f444f4"
 pkgdesc="All kind of addons to improve your Plasma experience"
 # armhf blocked by qt6-qtdeclarative
 # ppc64le, s390x and riscv64 blocked by qt6-qtwebengine
@@ -50,7 +50,7 @@ case "$pkgver" in
 	*) _rel=stable;;
 esac
 _repo_url="https://invent.kde.org/plasma/kdeplasma-addons.git"
-source="https://nightly.postmarketos.org/plasma-mobile/sources/2024-01-31/kdeplasma-addons-$_commit.tar.xz"
+source="https://nightly.postmarketos.org/plasma-mobile/sources/2024-02-01/kdeplasma-addons-$_commit.tar.xz"
 subpackages="$pkgname-dev $pkgname-lang"
 
 options="!check"
@@ -75,5 +75,5 @@ package() {
 }
 
 sha512sums="
-495f9da37448f58c709e41aa657470bfb44787d6fe9c37b8c02bc98bf6b788e124961245e46d5c0f4fec3cfa8268bb61d540f404491509d690ce30ab5b2daec8  kdeplasma-addons-340e2e222c8311ee4ad8588c545a1739b003c00d.tar.xz
+109a62c8f2edf5b3aa13bdaf5f83c403e351e68cc5a5497738bd8056b2fb75163332c4c6495aa716a468176ab3140c399eccbb8d45a2bb86a1dcbb7226774826  kdeplasma-addons-6789cd98a14aa6f433bd40ed4febf57f27f444f4.tar.xz
 "
