@@ -12,7 +12,7 @@ depends="postmarketos-base
 	soc-qcom-sdm845
 	systemd-boot
 "
-makedepends="devicepkg-dev grub grub-efi"
+makedepends="devicepkg-dev"
 subpackages="$pkgname-nonfree-firmware:nonfree_firmware"
 source="
 	deviceinfo
