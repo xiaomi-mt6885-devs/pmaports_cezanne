@@ -4,7 +4,7 @@
 _flavor="postmarketos-qcom-sm7150"
 pkgname=linux-$_flavor
 pkgver=6.6.1
-pkgrel=0
+pkgrel=1
 pkgdesc="Mainline Kernel fork for SM7150 devices"
 arch="aarch64"
 _carch="arm64"
@@ -14,7 +14,7 @@ options="!strip !check !tracedeps
 	pmb:cross-native
 	pmb:kconfigcheck-nftables
 	"
-makedepends="bison findutils flex installkernel openssl-dev perl"
+makedepends="bison findutils flex installkernel openssl-dev perl postmarketos-installkernel"
 
 _tag="$pkgver-r$pkgrel"
 
