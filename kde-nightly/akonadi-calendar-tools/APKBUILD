@@ -4,9 +4,9 @@
 # The group tag is just to easily find this APKBUILD by some scripts for automation
 # group=kde-applications
 pkgname=akonadi-calendar-tools
-pkgver=9999_git20240129
+pkgver=9999_git20240206
 pkgrel=0
-_commit="9db059467c28b304a5b4b06473a99110cb0e02b7"
+_commit="847c936e4899b856d917e5b379c2bf72ed706429"
 # armhf blocked by extra-cmake-modules
 # ppc64le, s390x and riscv64 blocked by akonadi-calendar -> kmailtransport -> libkgapi -> qt6-qtwebengine
 arch="all !armhf !ppc64le !s390x !riscv64"
@@ -26,7 +26,7 @@ makedepends="
 	samurai
 	"
 _repo_url="https://invent.kde.org/pim/akonadi-calendar-tools.git"
-source="https://nightly.postmarketos.org/plasma-mobile/sources/2024-02-01/akonadi-calendar-tools-$_commit.tar.xz"
+source="https://nightly.postmarketos.org/plasma-mobile/sources/2024-02-11/akonadi-calendar-tools-$_commit.tar.xz"
 subpackages="$pkgname-doc $pkgname-lang"
 options="!check" # No tests available
 
@@ -50,5 +50,5 @@ package() {
 }
 
 sha512sums="
-84ffb1fcf9879c2994f5cbe8426e88ba9143939a0d83cb23b123c854e5c5b3e709557880acea6637274e92ce43c83f43a164bd3cd7205a34bfccebe48f4190c6  akonadi-calendar-tools-9db059467c28b304a5b4b06473a99110cb0e02b7.tar.xz
+8dfc207e7cd51ab218ef440e5f8bc87e813835e49dfe405f69f5c146a4b30b8c16782029f9ded452618b829cf0b63b9e62398ab3d98e82a0f4b3d8c031fa0ad6  akonadi-calendar-tools-847c936e4899b856d917e5b379c2bf72ed706429.tar.xz
 "

@@ -3,9 +3,9 @@
 # The group tag is just to easily find this APKBUILD by some scripts for automation
 # group=kde-applications
 pkgname=ktrip
-pkgver=9999_git20240128
+pkgver=9999_git20240206
 pkgrel=0
-_commit="9784c8f4f882af9cb6c0d40105259dbeafd81e17"
+_commit="22da27f3dcb75cdee45e45af12a909a097ba2e9e"
 pkgdesc="A public transport assistant"
 # armhf blocked by extra-cmake-modules
 arch="all !armhf"
@@ -30,7 +30,7 @@ makedepends="
 	samurai
 	"
 _repo_url="https://invent.kde.org/utilities/ktrip.git"
-source="https://nightly.postmarketos.org/plasma-mobile/sources/2024-02-01/ktrip-$_commit.tar.xz"
+source="https://nightly.postmarketos.org/plasma-mobile/sources/2024-02-11/ktrip-$_commit.tar.xz"
 options="!check" # No tests
 
 options="!check"
@@ -54,5 +54,5 @@ package() {
 }
 
 sha512sums="
-33bf8fedbb35bd2029e556e2354a0efdd11b98a770c8b936872cb41957b9332be515500c30409bfc4ede905f03be5f649a0c37b2c2a9e5a7e926846b70286585  ktrip-9784c8f4f882af9cb6c0d40105259dbeafd81e17.tar.xz
+662d1752072177b3fd515cc442bc6a1c0bf90e37c4623ae32175149a3f6f0812b64578f30d8cc923fd5523d865040ea49761ebe06cf364d50e21a3673a1e05bc  ktrip-22da27f3dcb75cdee45e45af12a909a097ba2e9e.tar.xz
 "

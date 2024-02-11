@@ -4,9 +4,9 @@
 # The group tag is just to easily find this APKBUILD by some scripts for automation
 # group=kde-applications
 pkgname=akonadi-mime
-pkgver=9999_git20240129
+pkgver=9999_git20240206
 pkgrel=0
-_commit="4b26273d7ba72cb8237b0e85e77936d0810219eb"
+_commit="b466d85f63e8d367f235cfbc6e8ca95d26de5d38"
 pkgdesc="Libraries and daemons to implement basic email handling"
 # armhf blocked by extra-cmake-modules
 # s390x and riscv64 blocked by akonadi
@@ -33,7 +33,7 @@ makedepends="$depends_dev
 	samurai
 	"
 _repo_url="https://invent.kde.org/pim/akonadi-mime.git"
-source="https://nightly.postmarketos.org/plasma-mobile/sources/2024-02-01/akonadi-mime-$_commit.tar.xz"
+source="https://nightly.postmarketos.org/plasma-mobile/sources/2024-02-11/akonadi-mime-$_commit.tar.xz"
 subpackages="$pkgname-dev $pkgname-lang"
 
 options="!check"
@@ -56,5 +56,5 @@ package() {
 	DESTDIR="$pkgdir" cmake --install build
 }
 sha512sums="
-2a2b031b2fef64ab7c0c796594299e35fdb4f4178e26c58ab99e25ff38fe554d870151133edc2ef79e1e14b16f848c773bcedd0431120a7a65988572e0736b67  akonadi-mime-4b26273d7ba72cb8237b0e85e77936d0810219eb.tar.xz
+a874b9d030ebe04600465bd82e074f1916445c4f24b0e2b792f073bee65a30313209a113b69ed0e9a0198f272855ca2ad66e4e1e1b401f41729edd5e2dc62cbd  akonadi-mime-b466d85f63e8d367f235cfbc6e8ca95d26de5d38.tar.xz
 "

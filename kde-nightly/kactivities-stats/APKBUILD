@@ -4,9 +4,9 @@
 # The group tag is just to easily find this APKBUILD by some scripts for automation
 # group=kde-frameworks
 pkgname=kactivities-stats
-pkgver=9999_git20240123
+pkgver=9999_git20240205
 pkgrel=0
-_commit="7e2fa623f294302141042375aa2a8e804d40f79e"
+_commit="5f7ec2dc8fe5a85ace0901111b4759553bc467cb"
 arch="all !armhf" # armhf blocked by qt6-qtdeclarative
 pkgdesc="A library for accessing the usage data collected by the activities system"
 url="https://community.kde.org/Frameworks"
@@ -26,7 +26,7 @@ makedepends="$depends_dev
 	samurai
 	"
 _repo_url="https://invent.kde.org/frameworks/kactivities-stats.git"
-source="https://nightly.postmarketos.org/plasma-mobile/sources/2024-02-01/kactivities-stats-$_commit.tar.xz"
+source="https://nightly.postmarketos.org/plasma-mobile/sources/2024-02-11/kactivities-stats-$_commit.tar.xz"
 subpackages="$pkgname-dev $pkgname-doc"
 
 options="!check"
@@ -50,5 +50,5 @@ package() {
 }
 
 sha512sums="
-317ba5ecf6aa58f5f17a5be2f693a86eda5785eb0aac288ded7bb69edff867258b562488e55d6c1dbd466efe192766afd06b63c205dc2f83e274469830c3f723  kactivities-stats-7e2fa623f294302141042375aa2a8e804d40f79e.tar.xz
+c24e987162f3c843cc6754f3b2a19ff2c2fe55d7997e283eaa8848a7e2263134fbdf09f6ffc24ce7ece31b66d590d72f8badf002cae82e61c8d0be0009822f97  kactivities-stats-5f7ec2dc8fe5a85ace0901111b4759553bc467cb.tar.xz
 "

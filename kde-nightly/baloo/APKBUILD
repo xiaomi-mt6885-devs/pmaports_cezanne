@@ -4,9 +4,9 @@
 # The group tag is just to easily find this APKBUILD by some scripts for automation
 # group=kde-frameworks
 pkgname=baloo
-pkgver=9999_git20240131
+pkgver=9999_git20240206
 pkgrel=0
-_commit="b0d5d77e6acf6cc24351249795ce927f4c26fc93"
+_commit="2bdba16d652180d4123bf4ae71fa8d7aaf6757f6"
 pkgdesc="A framework for searching and managing metadata"
 # armhf blocked by qt6-qtdeclarative
 arch="all !armhf"
@@ -35,7 +35,7 @@ makedepends="$depends_dev
 	samurai
 	"
 _repo_url="https://invent.kde.org/frameworks/baloo.git"
-source="https://nightly.postmarketos.org/plasma-mobile/sources/2024-02-01/baloo-$_commit.tar.xz"
+source="https://nightly.postmarketos.org/plasma-mobile/sources/2024-02-11/baloo-$_commit.tar.xz"
 subpackages="$pkgname-dbg $pkgname-dev $pkgname-lang"
 options="!check" # Tons of broken tests
 
@@ -60,5 +60,5 @@ package() {
 }
 
 sha512sums="
-f5b84bd370b09637eeb279b23b675fb3afc0a4d38ef22faf4c5a731e3f53e20b18d98f4cdd483f700da341c1720a3d460f047753eeaf88a61bdb5ebb3b034216  baloo-b0d5d77e6acf6cc24351249795ce927f4c26fc93.tar.xz
+5b453357efefd047d42ed518e3192a704224127825e85785746ea418bb9ec805ffebf4506d718d6c75a0a6b32c4025ad37ada8c621ddfa01d69e795759ba5416  baloo-2bdba16d652180d4123bf4ae71fa8d7aaf6757f6.tar.xz
 "

@@ -4,9 +4,9 @@
 # The group tag is just to easily find this APKBUILD by some scripts for automation
 # group=kde-frameworks
 pkgname=kpeople
-pkgver=9999_git20240131
+pkgver=9999_git20240206
 pkgrel=0
-_commit="cf1b9e0634adaf2d9c52edd48a59686d0f530353"
+_commit="6d1d17bce106a55992dc88c8b56c7b8e2f2c6447"
 pkgdesc="A library that provides access to all contacts and the people who hold them"
 arch="all !armhf" # armhf blocked by qt6-qtdeclarative
 url="https://community.kde.org/Frameworks"
@@ -28,7 +28,7 @@ makedepends="$depends_dev
 	samurai
 	"
 _repo_url="https://invent.kde.org/frameworks/kpeople.git"
-source="https://nightly.postmarketos.org/plasma-mobile/sources/2024-02-01/kpeople-$_commit.tar.xz"
+source="https://nightly.postmarketos.org/plasma-mobile/sources/2024-02-11/kpeople-$_commit.tar.xz"
 subpackages="$pkgname-dev $pkgname-doc $pkgname-lang"
 
 
@@ -54,5 +54,5 @@ package() {
 }
 
 sha512sums="
-c9abec41653d3821cdbae2dfb2101055b6011c4cc2e7352388ca2f820cda45b455df92a88ee509c4f7e033c585ee08150d30d630c9affda22026579e70b56d8c  kpeople-cf1b9e0634adaf2d9c52edd48a59686d0f530353.tar.xz
+2609b6567649289071184074f05ff37c54a910c6fed095fbf7df8dcc805ce4424fa55cd33c59d90cb12e71296fee5be1119843799a62efa8dfd78dc7eef603e3  kpeople-6d1d17bce106a55992dc88c8b56c7b8e2f2c6447.tar.xz
 "
