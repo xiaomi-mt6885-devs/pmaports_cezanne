@@ -4,9 +4,9 @@
 # The group tag is just to easily find this APKBUILD by some scripts for automation
 # group=kde-frameworks
 pkgname=solid
-pkgver=9999_git20240206
+pkgver=9999_git20240210
 pkgrel=0
-_commit="e57a7d375e4effbcbaecc1cf25b0fe091f74639e"
+_commit="d83c2d2e529aed66024387ec2336c2715039cc2e"
 pkgdesc="Hardware integration and detection"
 # armhf blocked by qt6-qtdeclarative
 arch="all !armhf"
@@ -25,7 +25,7 @@ makedepends="$depends_dev
 	upower-dev
 	"
 _repo_url="https://invent.kde.org/frameworks/solid.git"
-source="https://nightly.postmarketos.org/plasma-mobile/sources/2024-02-11/solid-$_commit.tar.xz"
+source="https://nightly.postmarketos.org/plasma-mobile/sources/2024-02-12/solid-$_commit.tar.xz"
 subpackages="$pkgname-dev $pkgname-libs $pkgname-doc $pkgname-lang"
 
 options="!check"
@@ -50,5 +50,5 @@ package() {
 }
 
 sha512sums="
-5061ff3c40eda8b2c8916961acf58f9ad44ffdef55dc7d32a7406dbdfb9d2e4168cf2054c92820aa3cff167246453630abefe69c831d95a0917636421aad851b  solid-e57a7d375e4effbcbaecc1cf25b0fe091f74639e.tar.xz
+6a69fe1f2220240e8858dbf68bbc9594089d735248492bb418156d7f0ffd142a02446612aa88dd4924ba9adea917abe7d7c0733ca75722acbed9448a6a01dced  solid-d83c2d2e529aed66024387ec2336c2715039cc2e.tar.xz
 "

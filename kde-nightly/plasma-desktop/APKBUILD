@@ -4,9 +4,9 @@
 # The group tag is just to easily find this APKBUILD by some scripts for automation
 # group=kde-plasma
 pkgname=plasma-desktop
-pkgver=9999_git20240208
+pkgver=9999_git20240211
 pkgrel=0
-_commit="4cfbb035cbd1b329d049ac54442180a6cc1a37f4"
+_commit="59e7de44219290cee4bcca655cb67d1b12ea323d"
 pkgdesc="KDE Plasma Desktop"
 # armhf blocked by qt6-qtdeclarative
 # ppc64le, s390x and riscv64 blocked by qt6-qtwebengine -> kaccounts-integration
@@ -78,7 +78,7 @@ case "$pkgver" in
 	*) _rel=stable;;
 esac
 _repo_url="https://invent.kde.org/plasma/plasma-desktop.git"
-source="https://nightly.postmarketos.org/plasma-mobile/sources/2024-02-11/plasma-desktop-$_commit.tar.xz"
+source="https://nightly.postmarketos.org/plasma-mobile/sources/2024-02-12/plasma-desktop-$_commit.tar.xz"
 subpackages="$pkgname-dbg $pkgname-doc $pkgname-lang knetattach"
 
 options="!check"
@@ -109,5 +109,5 @@ knetattach() {
 }
 
 sha512sums="
-bf626d5ca96f655e17ba98cdfe50584463af739092d150bcce281259fd318d0d6a2f5d47ba80a071e51a967b3eca4e1bd0b2b91dac9514f4998cf73c1762b95e  plasma-desktop-4cfbb035cbd1b329d049ac54442180a6cc1a37f4.tar.xz
+4585c762b0b8c72a99c21701f3640b341e187fe4dbeb7b6d66d57b33ddff4380cc348127eba269e3bd51e07b9e129b7ebe7902b9d30de48b140cd2c10afd5e1b  plasma-desktop-59e7de44219290cee4bcca655cb67d1b12ea323d.tar.xz
 "

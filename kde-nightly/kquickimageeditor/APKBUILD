@@ -1,0 +1,44 @@
+# Contributor: Bart Ribbers <bribbers@disroot.org>
+# Maintainer: team/kde <bribbers@disroot.org>
+
+# The group tag is just to easily find this APKBUILD by some scripts for automation
+# group=kde-other
+pkgname=kquickimageeditor
+pkgver=0.3.0
+pkgrel=0
+_commit=""
+pkgdesc="Simple image editor for QtQuick applications"
+url="https://invent.kde.org/libraries/kquickimageeditor"
+# armhf blocked by extra-cmake-modules
+arch="all !armhf"
+license="BSD-2-Clause AND LGPL-2.1-or-later"
+depends_dev="
+	qt6-qtbase-dev
+	qt6-qtdeclarative-dev
+	"
+makedepends="$depends_dev
+	extra-cmake-modules
+	samurai
+	"
+_repo_url="https://invent.kde.org/libraries/kquickimageeditor.git"
+source="https://download.kde.org/stable/kquickimageeditor/kquickimageeditor-$pkgver.tar.xz"
+subpackages="$pkgname-dev"
+options="!check" # No tests
+
+builddir="$srcdir/kquickimageeditor-$_commit"
+
+build() {
+	cmake -B build -DBUILD_WITH_QT6=ON -G Ninja \
+		-DCMAKE_BUILD_TYPE=RelWithDebInfo \
+		-DCMAKE_INSTALL_PREFIX=/usr \
+		-DCMAKE_INSTALL_LIBDIR=lib
+	cmake --build build
+}
+
+package() {
+	DESTDIR="$pkgdir" cmake --install build
+}
+
+sha512sums="
+51f25c5f2089c2bc9ef4715a4535b72cbf50664d17fe23dc80b266831d65a525027fa16d111400d4cf2c6b8210cbd572a3b3a0e4e921d42d331905718364ad7f  kquickimageeditor-0.3.0.tar.xz
+"

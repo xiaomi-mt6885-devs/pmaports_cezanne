@@ -4,9 +4,9 @@
 # The group tag is just to easily find this APKBUILD by some scripts for automation
 # group=kde-frameworks
 pkgname=kfilemetadata
-pkgver=9999_git20240208
+pkgver=9999_git20240211
 pkgrel=0
-_commit="384f6d6a07ab2a9fd4710eec653c0f991d59ce06"
+_commit="88b6a1f13368cadf5ec1551894247a675e581e66"
 pkgdesc="A library for extracting file metadata"
 arch="all !armhf" # armhf blocked by extra-cmake-modules
 url="https://community.kde.org/Frameworks"
@@ -29,7 +29,7 @@ makedepends="$depends_dev
 	samurai
 	"
 _repo_url="https://invent.kde.org/frameworks/kfilemetadata.git"
-source="https://nightly.postmarketos.org/plasma-mobile/sources/2024-02-11/kfilemetadata-$_commit.tar.xz"
+source="https://nightly.postmarketos.org/plasma-mobile/sources/2024-02-12/kfilemetadata-$_commit.tar.xz"
 subpackages="$pkgname-dev $pkgname-doc $pkgname-lang"
 
 options="!check"
@@ -65,5 +65,5 @@ package() {
 }
 
 sha512sums="
-d4f55b0dc182907c29c8725da214b84319fc0ceb1ab0e2840d58023e2b797f7c50e3704295144796689e918d9824116975324b77c65e5e29a32275d9dcffb0de  kfilemetadata-384f6d6a07ab2a9fd4710eec653c0f991d59ce06.tar.xz
+ea1bd09f9fe36d1a0a9213fa9546e79ef088b9c296b3f2eb8faf76fe1077873b01d37396a41df0fb7736441e125994e13df4df190dbbb0663707f0e1898e5173  kfilemetadata-88b6a1f13368cadf5ec1551894247a675e581e66.tar.xz
 "

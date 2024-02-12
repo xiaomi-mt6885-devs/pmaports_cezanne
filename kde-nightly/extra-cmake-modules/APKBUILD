@@ -7,7 +7,7 @@
 pkgname=extra-cmake-modules
 pkgver=9999_git20240207
 pkgrel=0
-_commit="9b4947c2bc22d46b5466ed6f65e1f3e19c3f8137"
+_commit="a97a3e5897a34ae5ef495bc88a762c5c1d789d24"
 pkgdesc="Extra CMake modules"
 url="https://invent.kde.org/frameworks/extra-cmake-modules"
 arch="noarch"
@@ -23,7 +23,7 @@ checkdepends="
 	qt6-qttools-dev
 	"
 _repo_url="https://invent.kde.org/frameworks/extra-cmake-modules.git"
-source="https://nightly.postmarketos.org/plasma-mobile/sources/2024-02-11/extra-cmake-modules-$_commit.tar.xz"
+source="https://nightly.postmarketos.org/plasma-mobile/sources/2024-02-12/extra-cmake-modules-$_commit.tar.xz"
 subpackages="$pkgname-doc"
 
 options="!check"
@@ -48,5 +48,5 @@ package() {
 }
 
 sha512sums="
-d8919bb93de309f4cd4981a1bc723a494888575abd58ea740ec80398299d2517ac81a741589fa9d88780ee5ede92a91a32983c47ee968fa6b479f37ea58bd6f1  extra-cmake-modules-9b4947c2bc22d46b5466ed6f65e1f3e19c3f8137.tar.xz
+025aae7781bc6733078cc0ff9e761fae8b3d9dbfa00567748a4688a4da79fed3be8747cfb62db02d5f81f8f474c480f318ee3da1f9906c46eb50eda59cce5670  extra-cmake-modules-a97a3e5897a34ae5ef495bc88a762c5c1d789d24.tar.xz
 "
