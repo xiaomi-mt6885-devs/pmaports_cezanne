@@ -1,6 +1,6 @@
-pkgname=firmware-samsung-gprimeltexx
-pkgver=1
-pkgrel=1
+pkgname=firmware-samsung-grandprimelte
+pkgver=1.1
+pkgrel=0
 _name="Samsung Galaxy Grand Prime (G530FZ)"
 pkgdesc="Firmware for $_name"
 url="https://postmarketos.org"
@@ -27,5 +27,5 @@ wcnss_nv() {
 }
 
 sha512sums="
-2c012fdf0abe58c4864f79d6f084ce3857f8f09a9c5d85dd36b1dd3377dcc4745646047a5929e2e70ab755aca3f1506018b7f389fef4ff00d7f396eecd4f908f  firmware-samsung-gprimeltexx-WCNSS_qcom_wlan_nv.bin.base64
+2c012fdf0abe58c4864f79d6f084ce3857f8f09a9c5d85dd36b1dd3377dcc4745646047a5929e2e70ab755aca3f1506018b7f389fef4ff00d7f396eecd4f908f  firmware-samsung-grandprimelte-WCNSS_qcom_wlan_nv.bin.base64
 "
