@@ -2,11 +2,11 @@
 # Please use double quotes only. You can source this file in shell scripts.
 
 deviceinfo_format_version="0"
-deviceinfo_name="Samsung Galaxy Core Prime"
+deviceinfo_name="Samsung Galaxy Core Prime LTE"
 deviceinfo_manufacturer="Samsung"
-deviceinfo_codename="samsung-cprime"
+deviceinfo_codename="samsung-rossa"
 deviceinfo_year="2014"
-deviceinfo_dtb="qcom/msm8916-samsung-cprime"
+deviceinfo_dtb="qcom/msm8916-samsung-rossa"
 deviceinfo_append_dtb="true"
 deviceinfo_arch="aarch64"
 
