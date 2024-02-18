@@ -4,9 +4,9 @@
 # The group tag is just to easily find this APKBUILD by some scripts for automation
 # group=kde-applications
 pkgname=kontact
-pkgver=9999_git20240210
+pkgver=9999_git20240216
 pkgrel=0
-_commit="a5ed7dc0761311eb18e55b3a3bdd8e71823a5e5f"
+_commit="694c8b2a020bba735193d957307127010c7b940c"
 # armhf blocked by extra-cmake-modules
 # ppc64le, s390x and riscv64 blocked by qt6-qtwebengine
 # riscv64 disabled due to missing rust in recursive dependency
@@ -33,7 +33,7 @@ makedepends="
 	samurai
 	"
 _repo_url="https://invent.kde.org/pim/kontact.git"
-source="https://nightly.postmarketos.org/plasma-mobile/sources/2024-02-12/kontact-$_commit.tar.xz"
+source="https://nightly.postmarketos.org/plasma-mobile/sources/2024-02-18/kontact-$_commit.tar.xz"
 subpackages=" $pkgname-lang"
 
 options="!check"
@@ -56,5 +56,5 @@ package() {
 }
 
 sha512sums="
-a0856958602a54ad0e4e86cb7538240994fe57942ea3bdf2449318e357ed14681f49d7b4137206869529a95c37f76e2fb82c250204618448305a31fc31b08abb  kontact-a5ed7dc0761311eb18e55b3a3bdd8e71823a5e5f.tar.xz
+bf4771c3baa5e5cb73ea8418bf095ecd7042a60d8bf07fba1224f26f972a35e7d2abdbbf023addbc248ac499245767871945ae2f463310dc592cf3b28aa3302a  kontact-694c8b2a020bba735193d957307127010c7b940c.tar.xz
 "

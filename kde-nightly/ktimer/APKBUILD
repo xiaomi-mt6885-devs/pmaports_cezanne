@@ -4,9 +4,9 @@
 # The group tag is just to easily find this APKBUILD by some scripts for automation
 # group=kde-applications
 pkgname=ktimer
-pkgver=9999_git20240210
+pkgver=9999_git20240216
 pkgrel=0
-_commit="73835eec81734c547990c3b05a4b2e0ead925726"
+_commit="b5c007556e21ecc7098c2407909854a43b531b93"
 pkgdesc="A little tool to execute programs after some time"
 # armhf blocked by extra-cmake-modules
 arch="all !armhf"
@@ -26,7 +26,7 @@ makedepends="
 	samurai
 	"
 _repo_url="https://invent.kde.org/utilities/ktimer.git"
-source="https://nightly.postmarketos.org/plasma-mobile/sources/2024-02-12/ktimer-$_commit.tar.xz"
+source="https://nightly.postmarketos.org/plasma-mobile/sources/2024-02-18/ktimer-$_commit.tar.xz"
 subpackages="$pkgname-doc $pkgname-lang"
 options="!check" # No tests
 
@@ -51,5 +51,5 @@ package() {
 }
 
 sha512sums="
-d7afc5835fd94ea629c9c7274d14f9bb8b2bbacbc7e916dfca30d09c3653bcd24e4fe5f7803c6d3757e73be5cf1efa2e46d13ebed9f1b5600ff5b2464db16ed3  ktimer-73835eec81734c547990c3b05a4b2e0ead925726.tar.xz
+7d3e7a71277c232e4b0fc0da7ace3fc5080d2f0ada5a27f2b6c08d0061ad86b2ff263e6f713fc4d9d8c4d635429536939d6ee636d0db0bcf862eb6342126e178  ktimer-b5c007556e21ecc7098c2407909854a43b531b93.tar.xz
 "

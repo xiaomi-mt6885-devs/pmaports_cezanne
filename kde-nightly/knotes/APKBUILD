@@ -4,9 +4,9 @@
 # The group tag is just to easily find this APKBUILD by some scripts for automation
 # group=kde-applications
 pkgname=knotes
-pkgver=9999_git20240210
+pkgver=9999_git20240216
 pkgrel=0
-_commit="d841016957721fd7a592e2f0de6d5346aa151bf4"
+_commit="74e83da0f1b1bbb2ada26e365a2a095807978061"
 # armhf blocked by extra-cmake-modules
 # ppc64le, s390x and riscv64 blocked by kdepim-runtime
 arch="all !armhf !ppc64le !s390x !riscv64"
@@ -56,7 +56,7 @@ makedepends="
 	"
 checkdepends="xvfb-run"
 _repo_url="https://invent.kde.org/pim/knotes.git"
-source="https://nightly.postmarketos.org/plasma-mobile/sources/2024-02-12/knotes-$_commit.tar.xz"
+source="https://nightly.postmarketos.org/plasma-mobile/sources/2024-02-18/knotes-$_commit.tar.xz"
 subpackages="$pkgname-doc $pkgname-lang"
 
 options="!check"
@@ -80,5 +80,5 @@ package() {
 }
 
 sha512sums="
-3d028370e178774390d6fa10b1fcf1934872ee78791f8f69d1c084de86ae8392da5c0533733b17cc28b0b4006d07a3ada8801931f9a5b2ee2a1c69d2c7e916b1  knotes-d841016957721fd7a592e2f0de6d5346aa151bf4.tar.xz
+158f82c371b6716773c9652c3542f153ae40747873ef1e937e8d9f705dee38a849b06fd7841105596eab8059afd9b9d7d9c86bb49f07351c8ed26cd3d342643c  knotes-74e83da0f1b1bbb2ada26e365a2a095807978061.tar.xz
 "
