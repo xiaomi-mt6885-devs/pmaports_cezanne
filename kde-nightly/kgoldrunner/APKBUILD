@@ -4,9 +4,9 @@
 # The group tag is just to easily find this APKBUILD by some scripts for automation
 # group=kde-applications
 pkgname=kgoldrunner
-pkgver=9999_git20240216
+pkgver=9999_git20240217
 pkgrel=0
-_commit="4d2c3ce3c698b99cdbeede6f1aa9bff38c4a7917"
+_commit="01c1c3511bf9b5b15c8f1887a20de069aeed4d75"
 # armhf blocked by extra-cmake-modules
 arch="all !armhf"
 url="https://kde.org/applications/games/kgoldrunner/"
@@ -29,7 +29,7 @@ makedepends="
 	samurai
 	"
 _repo_url="https://invent.kde.org/games/kgoldrunner.git"
-source="https://nightly.postmarketos.org/plasma-mobile/sources/2024-02-18/kgoldrunner-$_commit.tar.xz"
+source="https://nightly.postmarketos.org/plasma-mobile/sources/2024-02-20/kgoldrunner-$_commit.tar.xz"
 subpackages="$pkgname-doc $pkgname-lang"
 options="!check" # No tests
 
@@ -49,5 +49,5 @@ package() {
 }
 
 sha512sums="
-b66434524a6e2c48ee6e555609566a6a83b19f03227acef576ec3a63887ab5d167dffd93612a7b496eca3ad4c31528adaa3ca3f97f0655b5624085a3586b5231  kgoldrunner-4d2c3ce3c698b99cdbeede6f1aa9bff38c4a7917.tar.xz
+8c92e13024b7f1593ed680bd79c3140d54b19790e08a87f5246c05ce015a81d9b03e798be45bcc15bafc997571372b95d26746ee8056998c97a0fee38f1407a7  kgoldrunner-01c1c3511bf9b5b15c8f1887a20de069aeed4d75.tar.xz
 "

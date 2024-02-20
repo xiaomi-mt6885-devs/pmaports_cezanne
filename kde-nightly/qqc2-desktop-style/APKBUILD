@@ -4,9 +4,9 @@
 # The group tag is just to easily find this APKBUILD by some scripts for automation
 # group=kde-frameworks
 pkgname=qqc2-desktop-style
-pkgver=9999_git20240214
+pkgver=9999_git20240216
 pkgrel=0
-_commit="4b6ea80efcdba8423761c1da8ae0796fcdbd55bb"
+_commit="3c64f731aa115372964fff2756d3d874953526ae"
 pkgdesc="A style for Qt Quick Controls 2 to make it follow your desktop theme"
 # armhf blocked by qt6-qtdeclarative
 arch="all !armhf"
@@ -24,7 +24,7 @@ makedepends="$depends_dev
 	samurai
 	"
 _repo_url="https://invent.kde.org/frameworks/qqc2-desktop-style.git"
-source="https://nightly.postmarketos.org/plasma-mobile/sources/2024-02-18/qqc2-desktop-style-$_commit.tar.xz"
+source="https://nightly.postmarketos.org/plasma-mobile/sources/2024-02-20/qqc2-desktop-style-$_commit.tar.xz"
 subpackages="$pkgname-dev"
 
 options="!check"
@@ -47,5 +47,5 @@ package() {
 }
 
 sha512sums="
-af79d9e50e7cd59e19f9b76b4549ddd3805fbf81a6d867bee17c089bde6de00d01ed6e5efb522c4a1f59ca55bc61f92baa175482a1fb4a917a0316fa102f1779  qqc2-desktop-style-4b6ea80efcdba8423761c1da8ae0796fcdbd55bb.tar.xz
+5c802fd341e0ea4ee6c1dddb2d274dbb4c277c14144173aafce8ee7f692303568f44195325f5b9dae38361e8323df8af067001c61c68e3f5ba117c1e7cceb924  qqc2-desktop-style-3c64f731aa115372964fff2756d3d874953526ae.tar.xz
 "

@@ -4,9 +4,9 @@
 # The group tag is just to easily find this APKBUILD by some scripts for automation
 # group=kde-applications
 pkgname=akonadi-import-wizard
-pkgver=9999_git20240213
+pkgver=9999_git20240218
 pkgrel=0
-_commit="0229cac3f132183301254b95e5f8bd92abc100cf"
+_commit="84ca277bd42ca39d2f6afcdff8970f6e565902eb"
 # armhf blocked by extra-cmake-modules
 # ppc64le, s390x and riscv64 blocked by kmailtransport -> libkgapi -> qt6-qtwebengine
 arch="all !armhf !ppc64le !s390x !riscv64"
@@ -34,7 +34,7 @@ makedepends="
 	samurai
 	"
 _repo_url="https://invent.kde.org/pim/akonadi-import-wizard.git"
-source="https://nightly.postmarketos.org/plasma-mobile/sources/2024-02-18/akonadi-import-wizard-$_commit.tar.xz"
+source="https://nightly.postmarketos.org/plasma-mobile/sources/2024-02-20/akonadi-import-wizard-$_commit.tar.xz"
 subpackages="$pkgname-dev $pkgname-doc $pkgname-lang"
 
 options="!check"
@@ -57,5 +57,5 @@ package() {
 }
 
 sha512sums="
-66a887b2e3a2d41758b0c004f1b3dce634968a4d390d21e66c7b37f90e363a3229ea2d56eae760947b3eb3d6ac3da050b8a718117557aba2ceef3698e63e3bfd  akonadi-import-wizard-0229cac3f132183301254b95e5f8bd92abc100cf.tar.xz
+00dc6bdacc34e3c3395db0bfa59312d160b273ed40b93d6c4f10a52321ef13a9699f8499e3a33ebbfb8686de51c297ff27698201670c44c77abffe382647e389  akonadi-import-wizard-84ca277bd42ca39d2f6afcdff8970f6e565902eb.tar.xz
 "
