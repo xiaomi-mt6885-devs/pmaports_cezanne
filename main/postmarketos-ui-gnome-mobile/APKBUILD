@@ -47,7 +47,7 @@ install="$pkgname.post-install $pkgname.post-upgrade"
 source="
 	firefox-wayland.sh
 	"
-options="!check"
+options="!check pmb:systemd"
 
 package() {
 	install -Dm755 \
