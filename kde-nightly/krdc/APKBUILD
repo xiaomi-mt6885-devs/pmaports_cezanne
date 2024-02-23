@@ -4,9 +4,9 @@
 # The group tag is just to easily find this APKBUILD by some scripts for automation
 # group=kde-applications
 pkgname=krdc
-pkgver=9999_git20240218
+pkgver=9999_git20240220
 pkgrel=0
-_commit="40bca3d0ca25b9905939d256fd3fd102ae04be07"
+_commit="c9d4bf6fb90ac823a576f4250cea31215d772f4f"
 # armhf blocked by extra-cmake-modules
 arch="all !armhf"
 url="https://kde.org/applications/internet/krdc/"
@@ -37,7 +37,7 @@ makedepends="
 	samurai
 	"
 _repo_url="https://invent.kde.org/network/krdc.git"
-source="https://nightly.postmarketos.org/plasma-mobile/sources/2024-02-20/krdc-$_commit.tar.xz"
+source="https://nightly.postmarketos.org/plasma-mobile/sources/2024-02-22/krdc-$_commit.tar.xz"
 subpackages="$pkgname-doc $pkgname-lang"
 
 options="!check"
@@ -60,5 +60,5 @@ package() {
 }
 
 sha512sums="
-b7a8bf563da7bb8c10ccc0253eff1e59bb3a774a74cce4f1b70c548c52d2cd6e2c24296603e20986a5db514cb758b8bbcf9194380017207878e6e1b3abb5839e  krdc-40bca3d0ca25b9905939d256fd3fd102ae04be07.tar.xz
+ab5ab68794325511737b8f49258146405331771a62d37a7eec40d7dfb164480a526f0205d83aa337ca3ecb779bc89b97156539a99441f43ea423694ad590c702  krdc-c9d4bf6fb90ac823a576f4250cea31215d772f4f.tar.xz
 "
