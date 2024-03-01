@@ -5,9 +5,9 @@
 # The group tag is just to easily find this APKBUILD by some scripts for automation
 # group=kde-frameworks
 pkgname=extra-cmake-modules
-pkgver=9999_git20240207
+pkgver=9999_git20240226
 pkgrel=0
-_commit="a97a3e5897a34ae5ef495bc88a762c5c1d789d24"
+_commit="b4d3206eee5c7a63c43d16cd0a9d70ae90ae49f1"
 pkgdesc="Extra CMake modules"
 url="https://invent.kde.org/frameworks/extra-cmake-modules"
 arch="noarch"
@@ -23,7 +23,7 @@ checkdepends="
 	qt6-qttools-dev
 	"
 _repo_url="https://invent.kde.org/frameworks/extra-cmake-modules.git"
-source="https://nightly.postmarketos.org/plasma-mobile/sources/2024-02-22/extra-cmake-modules-$_commit.tar.xz"
+source="https://nightly.postmarketos.org/plasma-mobile/sources/2024-03-01/extra-cmake-modules-$_commit.tar.xz"
 subpackages="$pkgname-doc"
 
 options="!check"
@@ -48,5 +48,5 @@ package() {
 }
 
 sha512sums="
-025aae7781bc6733078cc0ff9e761fae8b3d9dbfa00567748a4688a4da79fed3be8747cfb62db02d5f81f8f474c480f318ee3da1f9906c46eb50eda59cce5670  extra-cmake-modules-a97a3e5897a34ae5ef495bc88a762c5c1d789d24.tar.xz
+2da6d6054d20853030e1aad34aa6dccc7e7d95b6555593fe9ca214378254f001cac8d9118ed0e6b7e825846fd5088ffa7cab1c70e81ea2268ed352b90d6c6779  extra-cmake-modules-b4d3206eee5c7a63c43d16cd0a9d70ae90ae49f1.tar.xz
 "

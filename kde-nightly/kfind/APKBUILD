@@ -4,9 +4,9 @@
 # The group tag is just to easily find this APKBUILD by some scripts for automation
 # group=kde-applications
 pkgname=kfind
-pkgver=9999_git20240220
+pkgver=9999_git20240225
 pkgrel=0
-_commit="fa268c93340b9ccc01a6d49db7eae71b2d3ee954"
+_commit="a6ab22ab1c0c2f2292ce805a338980daa4118237"
 # armhf blocked by extra-cmake-modules
 arch="all !armhf"
 url="https://www.kde.org/applications/utilities/kfind"
@@ -25,7 +25,7 @@ makedepends="
 	samurai
 	"
 _repo_url="https://invent.kde.org/utilities/kfind.git"
-source="https://nightly.postmarketos.org/plasma-mobile/sources/2024-02-22/kfind-$_commit.tar.xz"
+source="https://nightly.postmarketos.org/plasma-mobile/sources/2024-03-01/kfind-$_commit.tar.xz"
 subpackages="$pkgname-doc $pkgname-lang"
 options="!check" # No tests
 
@@ -49,5 +49,5 @@ package() {
 }
 
 sha512sums="
-9a02520029029f52a900dbcbadce8fd4a60da08801fd9873b7e8871ca7d7a10cdf0f65ff2cbe8f5e8471d855fa89a202e0298ce28ec794b58335e9c851e8b425  kfind-fa268c93340b9ccc01a6d49db7eae71b2d3ee954.tar.xz
+93b18cf52edddb048cd49b19d504f4a3a3288577f53017cda8fdd3102a9e8be461b490fe7dcdbdd12d8504a2abe1388219eebf113153da1c155b498b204f0815  kfind-a6ab22ab1c0c2f2292ce805a338980daa4118237.tar.xz
 "

@@ -4,9 +4,9 @@
 # The group tag is just to easily find this APKBUILD by some scripts for automation
 # group=kde-applications
 pkgname=kde-dev-scripts
-pkgver=9999_git20240220
+pkgver=9999_git20240224
 pkgrel=0
-_commit="896f2aa8336d6c2da161576ddd745a7d352039b3"
+_commit="d20fcddbc32d1715b1627ec5d1062e2ccb5a7c1e"
 # armhf blocked by extra-cmake-modules
 arch="all !armhf !s390x"
 url="https://kde.org/applications/development/"
@@ -18,7 +18,7 @@ makedepends="
 	samurai
 	"
 _repo_url="https://invent.kde.org/sdk/kde-dev-scripts.git"
-source="https://nightly.postmarketos.org/plasma-mobile/sources/2024-02-22/kde-dev-scripts-$_commit.tar.xz"
+source="https://nightly.postmarketos.org/plasma-mobile/sources/2024-03-01/kde-dev-scripts-$_commit.tar.xz"
 subpackages="$pkgname-doc"
 options="!check" # No code to test
 
@@ -38,5 +38,5 @@ package() {
 }
 
 sha512sums="
-cb2d6eb18aade0e05d95abbfe415a81771d0af50608778009adf9f1e630976885317feb9e220a14d7a3acffe975e78263d3a3a006dc6b21539dfafa2e123c45f  kde-dev-scripts-896f2aa8336d6c2da161576ddd745a7d352039b3.tar.xz
+0dab308cc6b873e3104e836300fdce94ad93bdfa1255329ce1ac9c0593ba0d34e99fa865a10ffd6987fc083b44a1625fd357ad5e73d75cff355d3642a28dc3af  kde-dev-scripts-d20fcddbc32d1715b1627ec5d1062e2ccb5a7c1e.tar.xz
 "

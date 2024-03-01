@@ -4,9 +4,9 @@
 # The group tag is just to easily find this APKBUILD by some scripts for automation
 # group=kde-frameworks
 pkgname=oxygen-icons
-pkgver=9999_git20240127
+pkgver=9999_git20240221
 pkgrel=0
-_commit="98eddd87c2acd8a25534d900e4fa2aaf6541c644"
+_commit="a3fc37a0a0db853c572a11702be1150dca66f36f"
 arch="noarch !armhf" # armhf blocked by extra-cmake-modules
 pkgdesc="Oxygen icon theme"
 url="https://community.kde.org/Frameworks"
@@ -18,7 +18,7 @@ makedepends="$depends_dev
 	samurai
 	"
 _repo_url="https://invent.kde.org/frameworks/oxygen-icons5.git"
-source="https://nightly.postmarketos.org/plasma-mobile/sources/2024-02-22/oxygen-icons5-$_commit.tar.xz"
+source="https://nightly.postmarketos.org/plasma-mobile/sources/2024-03-01/oxygen-icons5-$_commit.tar.xz"
 builddir="$srcdir/oxygen-icons5-$pkgver"
 
 options="!check"
@@ -42,5 +42,5 @@ package() {
 }
 
 sha512sums="
-c7a1f39e369b284d60383c1bb399ce14c990adfb7b5ebe86cd1645f2bc5a4b3b1ca7057e68ba5fff740d2550f6ef4c8eb09a37708b4fabd672dda2fa83a75020  oxygen-icons5-98eddd87c2acd8a25534d900e4fa2aaf6541c644.tar.xz
+725dda4c135aaa03b0c5a4006d48988196dbe7be1392f65acf8b2bbd587bd667072488e7bab0a498b3b76c43c0764bc100c6ca771253fb1ca39b0d384f21344b  oxygen-icons5-a3fc37a0a0db853c572a11702be1150dca66f36f.tar.xz
 "

@@ -4,9 +4,9 @@
 # The group tag is just to easily find this APKBUILD by some scripts for automation
 # group=kde-applications
 pkgname=kanagram
-pkgver=9999_git20240220
+pkgver=9999_git20240228
 pkgrel=0
-_commit="f74fb0f3423209daa3759fbae28bb72711835d34"
+_commit="84c330376bdf996f30491fc6d0895a3cbfc2794a"
 # armhf blocked by qt6-qtdeclarative
 arch="all !armhf"
 url="https://edu.kde.org/kanagram/"
@@ -30,7 +30,7 @@ makedepends="
 	sonnet-dev
 	"
 _repo_url="https://invent.kde.org/education/kanagram.git"
-source="https://nightly.postmarketos.org/plasma-mobile/sources/2024-02-22/kanagram-$_commit.tar.xz"
+source="https://nightly.postmarketos.org/plasma-mobile/sources/2024-03-01/kanagram-$_commit.tar.xz"
 subpackages="$pkgname-doc $pkgname-lang"
 options="!check" # No tests
 
@@ -54,5 +54,5 @@ package() {
 }
 
 sha512sums="
-31af90ba0669ee9500e867a0ee4325c6fda6a31a44c327f55c0dd37b7f1dee7badb6c7978611ba0ac2d3c0dc5ba704661b93e48ac313277f1a3ca06898d6537d  kanagram-f74fb0f3423209daa3759fbae28bb72711835d34.tar.xz
+5224c9ca5374cb83f8b3ef285ab34c878cba692eb25c5fbaeb2c95c31b92882345c20fff11d36a3af38368baa5ccf2e07f2be6f510ec26e4a7cf909934dcbcc0  kanagram-84c330376bdf996f30491fc6d0895a3cbfc2794a.tar.xz
 "

@@ -4,9 +4,9 @@
 # The group tag is just to easily find this APKBUILD by some scripts for automation
 # group=kde-frameworks
 pkgname=ktexttemplate
-pkgver=9999_git20240215
+pkgver=9999_git20240221
 pkgrel=0
-_commit="e0d5fdd5b8cbfd2b5296e8faee751d214b061701"
+_commit="151a10a49f21aa8c204c37d341654b138f98f36e"
 pkgdesc="Library to allow application developers to separate the structure of documents from the data they contain"
 arch="all !armhf" # armhf blocked by extra-cmake-modules
 url="https://community.kde.org/Frameworks"
@@ -21,7 +21,7 @@ makedepends="
 	"
 checkdepends="xvfb-run"
 _repo_url="https://invent.kde.org/frameworks/ktexttemplate.git"
-source="https://nightly.postmarketos.org/plasma-mobile/sources/2024-02-22/ktexttemplate-$_commit.tar.xz"
+source="https://nightly.postmarketos.org/plasma-mobile/sources/2024-03-01/ktexttemplate-$_commit.tar.xz"
 subpackages="$pkgname-dev $pkgname-doc "
 
 options="!check"
@@ -44,5 +44,5 @@ package() {
 	DESTDIR="$pkgdir" cmake --install build
 }
 sha512sums="
-5b5cd32f96d2fbe70377ec9ed8075a9778bb9286b84a2d7d2bb203f345314d93f4b46bdae45e47d903feacf1107140e0d25f7b68620f7c693385acc64c035db0  ktexttemplate-e0d5fdd5b8cbfd2b5296e8faee751d214b061701.tar.xz
+bd65fb9757e20a6d2e68f2e535faa70f5faab7735d91cc46274a1a3782d2214de14caa104a1193149c3104e7ab93d4b15da0956bda947078d2de59678102c402  ktexttemplate-151a10a49f21aa8c204c37d341654b138f98f36e.tar.xz
 "

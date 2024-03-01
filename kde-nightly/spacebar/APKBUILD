@@ -4,9 +4,9 @@
 # The group tag is just to easily find this APKBUILD by some scripts for automation
 # group=kde-mobile
 pkgname=spacebar
-pkgver=9999_git20240206
+pkgver=9999_git20240228
 pkgrel=0
-_commit="a4231c004165152df7dc7564bd50c36e142cd90a"
+_commit="9ea6caaba6b0e76e4378861b3c2a026fe65d4234"
 pkgdesc="Collection of stuff for running IM on Plasma Mobile"
 url="https://invent.kde.org/plasma-mobile/spacebar"
 # armhf blocked by qt6-qtdeclarative
@@ -33,7 +33,7 @@ makedepends="
 	samurai
 	"
 _repo_url="https://invent.kde.org/plasma-mobile/spacebar.git"
-source="https://nightly.postmarketos.org/plasma-mobile/sources/2024-02-22/spacebar-$_commit.tar.xz"
+source="https://nightly.postmarketos.org/plasma-mobile/sources/2024-03-01/spacebar-$_commit.tar.xz"
 subpackages="$pkgname-lang"
 options="!check" # No tests
 
@@ -53,5 +53,5 @@ package() {
 }
 
 sha512sums="
-77fbb1e395d7a2297105bde6dfaefd533b880589d2b7b4f9875bccc2b842f6731cca2e4a4631b3efeca6f45d92a4615d78d31addb5177c932b8ba92cdea6a75d  spacebar-a4231c004165152df7dc7564bd50c36e142cd90a.tar.xz
+f4acaad93e480e264e2b2e4c1988227f41a9466927fe0daa913e10f067761381b9677178d5ffec14016c4317e195ec69ae86f3344b7b0e7dd114d6650d85fbd8  spacebar-9ea6caaba6b0e76e4378861b3c2a026fe65d4234.tar.xz
 "

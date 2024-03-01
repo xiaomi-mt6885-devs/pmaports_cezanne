@@ -4,9 +4,9 @@
 # The group tag is just to easily find this APKBUILD by some scripts for automation
 # group=kde-applications
 pkgname=kirigami-gallery
-pkgver=9999_git20231128
+pkgver=9999_git20240227
 pkgrel=0
-_commit="62f704a65b33b16c3225c340daf590ecc4bd85f3"
+_commit="4fc786f0ebce0072c6884b2048b6c4b9603ba3d1"
 # armhf blocked by kirigami -> qt6-qtdeclarative
 arch="all !armhf"
 url="https://kde.org/applications/development/org.kde.kirigami2.gallery"
@@ -23,7 +23,7 @@ makedepends="
 	samurai
 	"
 _repo_url="https://invent.kde.org/sdk/kirigami-gallery.git"
-source="https://nightly.postmarketos.org/plasma-mobile/sources/2024-02-22/kirigami-gallery-$_commit.tar.xz"
+source="https://nightly.postmarketos.org/plasma-mobile/sources/2024-03-01/kirigami-gallery-$_commit.tar.xz"
 subpackages="$pkgname-lang"
 
 options="!check"
@@ -46,5 +46,5 @@ package() {
 }
 
 sha512sums="
-5a3e1c30e3b01f009843f4e151ecdb40fe9a4bf24fcd10de838cd79abf5f4a002a91913a213d0f180f4aba57dd418fef2e032ff1a8c3501e3e59a30d18504292  kirigami-gallery-62f704a65b33b16c3225c340daf590ecc4bd85f3.tar.xz
+3604d668bdb8471ec679814f0cc53bc8b9f8503ec262f93dbec154f7323f31e1565aef65b31577ac4f6a733a002c6f01f4d3948e01f17d14467d85abf6d5d34b  kirigami-gallery-4fc786f0ebce0072c6884b2048b6c4b9603ba3d1.tar.xz
 "

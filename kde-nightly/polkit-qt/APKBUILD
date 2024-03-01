@@ -4,9 +4,9 @@
 # The group tag is just to easily find this APKBUILD by some scripts for automation
 # group=kde-other
 pkgname=polkit-qt
-pkgver=9999_git20231202
+pkgver=9999_git20240221
 pkgrel=0
-_commit="8d20c8ca0d7dbc328df042afa74f3d2be0cf641d"
+_commit="aa1c6c414ec021fd32e30492c00bb13347e228db"
 pkgdesc="Qt wrapper around polkit-1 client libraries"
 arch="all"
 url="https://www.kde.org"
@@ -19,7 +19,7 @@ makedepends="$depends_dev
 	samurai
 	"
 _repo_url="https://invent.kde.org/libraries/polkit-qt-1.git"
-source="https://nightly.postmarketos.org/plasma-mobile/sources/2024-02-22/polkit-qt-1-$_commit.tar.xz"
+source="https://nightly.postmarketos.org/plasma-mobile/sources/2024-03-01/polkit-qt-1-$_commit.tar.xz"
 subpackages="$pkgname-dev ${pkgname}5:_qt5 ${pkgname}6:_qt6"
 builddir="$srcdir/polkit-qt-1-$pkgver"
 
@@ -62,5 +62,5 @@ _qt6() {
 }
 
 sha512sums="
-76b36d15c1e2e00e1d6620710e9d71adf279467af71934a3d044985b4316bfdc9a1b8899e2ddc5cfe0994a791ce2a3bb807d980ab859d4327490571e69528e69  polkit-qt-1-8d20c8ca0d7dbc328df042afa74f3d2be0cf641d.tar.xz
+480b6eb3f4754474ed3befefe319faaa2e3616ee6c5a206bce3106d8b0c6d7d95e5eec6de2de59a89f09ab5d42e7f5dd6a32bd90e512beeb20949bd0fc34dd33  polkit-qt-1-aa1c6c414ec021fd32e30492c00bb13347e228db.tar.xz
 "
