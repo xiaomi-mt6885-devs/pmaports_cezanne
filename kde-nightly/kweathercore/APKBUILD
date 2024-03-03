@@ -4,9 +4,9 @@
 # The group tag is just to easily find this APKBUILD by some scripts for automation
 # group=kde-other
 pkgname=kweathercore
-pkgver=9999_git20240213
+pkgver=9999_git20240301
 pkgrel=0
-_commit="d77117927202626fb9b2d654ffde32a2e832216a"
+_commit="16c4d37ab587955e18def7df3aeed8f021116232"
 pkgdesc="Library to facilitate retrieval of weather information including forecasts and alerts"
 url="https://invent.kde.org/libraries/kweathercore"
 arch="all !armhf" # armhf blocked by qt6-qtlocation-dev
@@ -24,7 +24,7 @@ makedepends="$depends_dev
 	samurai
 	"
 _repo_url="https://invent.kde.org/libraries/kweathercore.git"
-source="https://nightly.postmarketos.org/plasma-mobile/sources/2024-03-01/kweathercore-$_commit.tar.xz"
+source="https://nightly.postmarketos.org/plasma-mobile/sources/2024-03-03/kweathercore-$_commit.tar.xz"
 options="!check" # No tests
 subpackages="$pkgname-dev"
 
@@ -45,5 +45,5 @@ package() {
 }
 
 sha512sums="
-3674e7600697aef41670493d7603b7338c963ed5ea957c04a262f96737066ce73965e4e0d83fb802eea995faf894af3811b806c537c1aa5c575408a72e885779  kweathercore-d77117927202626fb9b2d654ffde32a2e832216a.tar.xz
+02ca4bc2baa0b4ca4370db6819310d4ef238d96c37c2ccaf4f7f4ddb529fcf4b152e9ab66eca6e87c9a5ca2f418e89aca06bb5b5626e5796d57e0ad56b972f25  kweathercore-16c4d37ab587955e18def7df3aeed8f021116232.tar.xz
 "

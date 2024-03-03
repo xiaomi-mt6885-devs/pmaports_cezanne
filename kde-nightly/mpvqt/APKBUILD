@@ -4,9 +4,9 @@
 # The group tag is just to easily find this APKBUILD by some scripts for automation
 # group=kde-applications
 pkgname=mpvqt
-pkgver=9999_git20231221
+pkgver=9999_git20240301
 pkgrel=0
-_commit="73d7d0f9020c8172dc11f048a25e948462c7cca6"
+_commit="ddbb9b069aad3fada9d3949d5dc6f8de84e5a906"
 pkgdesc="A libmpv wrapper for QtQuick2 and QML"
 # armhf blocked by extra-cmake-modules
 arch="all !armhf"
@@ -26,7 +26,7 @@ makedepends="$depends_dev
 	"
 subpackages="$pkgname-dev"
 _repo_url="https://invent.kde.org/libraries/mpvqt.git"
-source="https://nightly.postmarketos.org/plasma-mobile/sources/2024-03-01/mpvqt-$_commit.tar.xz"
+source="https://nightly.postmarketos.org/plasma-mobile/sources/2024-03-03/mpvqt-$_commit.tar.xz"
 options="!check" # No tests
 
 options="!check"
@@ -49,5 +49,5 @@ package() {
 }
 
 sha512sums="
-c1b605c0d70d2d24b2f910dbd18167969d1299b35939074edb05b0992938c93320afa39767e1a72adb6519991695ca90fc68c774b7fd427855f01efa38b53755  mpvqt-73d7d0f9020c8172dc11f048a25e948462c7cca6.tar.xz
+ad222d1588f18838fa1b9be48e410a0df297c7826e644f0f981da6241749ddff0c315def1fc705249d5e42e7936dfa73d3c22d625856982e0713943431c10199  mpvqt-ddbb9b069aad3fada9d3949d5dc6f8de84e5a906.tar.xz
 "

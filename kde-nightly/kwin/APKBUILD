@@ -4,9 +4,9 @@
 # The group tag is just to easily find this APKBUILD by some scripts for automation
 # group=kde-plasma
 pkgname=kwin
-pkgver=9999_git20240229
+pkgver=9999_git20240301
 pkgrel=0
-_commit="64dc01c6403f43b651948e65012d554f7bbe2dc7"
+_commit="2491fb1b2b02db5352bc02050298e7522d4dfaa5"
 pkgdesc="An easy to use, but flexible, composited Window Manager"
 # armhf blocked by qt6-qtdeclarative
 arch="all !armhf"
@@ -87,7 +87,7 @@ case "$pkgver" in
 	*) _rel=stable;;
 esac
 _repo_url="https://invent.kde.org/plasma/kwin.git"
-source="https://nightly.postmarketos.org/plasma-mobile/sources/2024-03-01/kwin-$_commit.tar.xz"
+source="https://nightly.postmarketos.org/plasma-mobile/sources/2024-03-03/kwin-$_commit.tar.xz"
 subpackages="$pkgname-dev $pkgname-doc $pkgname-lang"
 options="!check" # Broken
 
@@ -121,5 +121,5 @@ package() {
 
 }
 sha512sums="
-6e4a80c20edcc109ba7056c7292692e3da300dcf99d19305cbde879e8c81fd387ac3afe9f56f7d02da1a55e7b3204abf8a76297a5fd36756431bd6ad70505fdc  kwin-64dc01c6403f43b651948e65012d554f7bbe2dc7.tar.xz
+2ebb3f0b91169328280886109e20e578782efd97d35100510a0f7a30b3f2e96568ab84e2f18b82a7c0dd23f97039bf773c1b7d6084d9013cce0fb5a4d101d7c4  kwin-2491fb1b2b02db5352bc02050298e7522d4dfaa5.tar.xz
 "

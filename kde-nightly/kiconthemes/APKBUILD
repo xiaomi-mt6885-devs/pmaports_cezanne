@@ -4,9 +4,9 @@
 # The group tag is just to easily find this APKBUILD by some scripts for automation
 # group=kde-frameworks
 pkgname=kiconthemes
-pkgver=9999_git20240221
+pkgver=9999_git20240301
 pkgrel=0
-_commit="7535647590d28e6ffb515394e5a5587501990da7"
+_commit="3aeeeac6be7d9febc4670835fe58fe620e28bee5"
 pkgdesc="Support for icon themes"
 # armhf blocked by extra-cmake-module
 arch="all !armhf"
@@ -29,7 +29,7 @@ makedepends="$depends_dev
 	"
 checkdepends="xvfb-run"
 _repo_url="https://invent.kde.org/frameworks/kiconthemes.git"
-source="https://nightly.postmarketos.org/plasma-mobile/sources/2024-03-01/kiconthemes-$_commit.tar.xz"
+source="https://nightly.postmarketos.org/plasma-mobile/sources/2024-03-03/kiconthemes-$_commit.tar.xz"
 subpackages="$pkgname-dev $pkgname-doc $pkgname-lang"
 
 options="!check"
@@ -54,5 +54,5 @@ package() {
 }
 
 sha512sums="
-65e48c190f03a72012daf5578066675b1580319df0b569b49aa9c4d8c918e3f921ba5f93d1f391c208d400976f83c3384571eff038db08e13ac586512f5ba4c1  kiconthemes-7535647590d28e6ffb515394e5a5587501990da7.tar.xz
+12e96fbfa78c50fe452d9faeb9fe9f23f29fd2d351ab5fa75b56acad775c34761a440739aa4e522de12feb8bb0333a90922c9746a1e29666e45ffcd7d277a8e7  kiconthemes-3aeeeac6be7d9febc4670835fe58fe620e28bee5.tar.xz
 "

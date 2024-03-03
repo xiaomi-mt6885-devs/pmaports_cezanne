@@ -4,9 +4,9 @@
 # The group tag is just to easily find this APKBUILD by some scripts for automation
 # group=kde-frameworks
 pkgname=kcolorscheme
-pkgver=9999_git20240221
+pkgver=9999_git20240301
 pkgrel=0
-_commit="238785ebd69bea3c8c805fad8f470a396b220911"
+_commit="ddd1029feb743247af359d120817aa11507e2c7b"
 pkgdesc="Classes to read and interact with KColorScheme"
 arch="all !armhf" # armhf blocked by extra-cmake-modules
 url="https://community.kde.org/Frameworks"
@@ -23,7 +23,7 @@ makedepends="
 	samurai
 	"
 _repo_url="https://invent.kde.org/frameworks/kcolorscheme.git"
-source="https://nightly.postmarketos.org/plasma-mobile/sources/2024-03-01/kcolorscheme-$_commit.tar.xz"
+source="https://nightly.postmarketos.org/plasma-mobile/sources/2024-03-03/kcolorscheme-$_commit.tar.xz"
 subpackages="$pkgname-dev $pkgname-doc $pkgname-lang"
 
 options="!check"
@@ -46,5 +46,5 @@ package() {
 	DESTDIR="$pkgdir" cmake --install build
 }
 sha512sums="
-4802c7bac5437477efdf1cc5cf925349922e1ff0fce25ff4a1f80b51bddbdf37a5bc3bfa47ff26210a4d88c711220ca637ae8924e346f0198d34734505c94fd6  kcolorscheme-238785ebd69bea3c8c805fad8f470a396b220911.tar.xz
+3e02b1a39d58dec72ba6f5e9291dc1a83569be236f2d2697e689961a0bc4b595ea80c01e0cd0ae7668bdf1e15bf0142ab3033038d026cf88c81bb9bd505c0651  kcolorscheme-ddd1029feb743247af359d120817aa11507e2c7b.tar.xz
 "

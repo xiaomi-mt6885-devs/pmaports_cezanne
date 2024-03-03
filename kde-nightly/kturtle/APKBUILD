@@ -4,9 +4,9 @@
 # The group tag is just to easily find this APKBUILD by some scripts for automation
 # group=kde-applications
 pkgname=kturtle
-pkgver=9999_git20240225
+pkgver=9999_git20240301
 pkgrel=0
-_commit="4cb5bec41cbd548f00fdcfbe5ff1fe7834bdd820"
+_commit="1a31488a46614d0cbada4fe866bbb54823cd7f2e"
 # armhf blocked by extra-cmake-modules
 arch="all !armhf"
 url="https://edu.kde.org/kturtle"
@@ -26,7 +26,7 @@ makedepends="
 	samurai
 	"
 _repo_url="https://invent.kde.org/education/kturtle.git"
-source="https://nightly.postmarketos.org/plasma-mobile/sources/2024-03-01/kturtle-$_commit.tar.xz"
+source="https://nightly.postmarketos.org/plasma-mobile/sources/2024-03-03/kturtle-$_commit.tar.xz"
 subpackages="$pkgname-doc $pkgname-lang"
 options="!check" # No tests
 
@@ -50,5 +50,5 @@ package() {
 }
 
 sha512sums="
-cb060e8b4ac7000b01ca40f5f86085e93d25e7f7033a2c08009c8a76b939b0c9eaf7c70b44909c9d7909d6696b69a076c5889796fe5b27db2596a9287a2732ff  kturtle-4cb5bec41cbd548f00fdcfbe5ff1fe7834bdd820.tar.xz
+7f8d8a95384f8e487c14ac2f08f2506ed9ac302ecdef364a4cf83aa693f7a5a34026222e3e7e397825e102a2904a24e6b38c52954939b833379c533d0586af48  kturtle-1a31488a46614d0cbada4fe866bbb54823cd7f2e.tar.xz
 "

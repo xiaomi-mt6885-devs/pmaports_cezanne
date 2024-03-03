@@ -4,9 +4,9 @@
 # The group tag is just to easily find this APKBUILD by some scripts for automation
 # group=kde-applications
 pkgname=knavalbattle
-pkgver=9999_git20240223
+pkgver=9999_git20240301
 pkgrel=0
-_commit="5dc17e8051c18fd1fdfb9dbc28566f476987a1ac"
+_commit="4fbaff2faee841f4d9811fcdb96a079b1d8471fd"
 # armhf blocked by extra-cmake-modules
 arch="all !armhf"
 url="https://kde.org/applications/games/knavalbattle/"
@@ -27,7 +27,7 @@ makedepends="
 	samurai
 	"
 _repo_url="https://invent.kde.org/games/knavalbattle.git"
-source="https://nightly.postmarketos.org/plasma-mobile/sources/2024-03-01/knavalbattle-$_commit.tar.xz"
+source="https://nightly.postmarketos.org/plasma-mobile/sources/2024-03-03/knavalbattle-$_commit.tar.xz"
 subpackages="$pkgname-doc "
 options="!check" # No tests
 
@@ -47,5 +47,5 @@ package() {
 }
 
 sha512sums="
-c88ebbe34ec9c5e03108b161279fa446b0aab9a6a59d52f44ed0515a0168afc2f5a71dcaa46dab51709e22f9170899104ff641024c2c6a27e6e2fe3067c0574e  knavalbattle-5dc17e8051c18fd1fdfb9dbc28566f476987a1ac.tar.xz
+8a842c9659c297b1b8006545c6e0164d6f84487d2117633d83d095f6d41936b0b4efc55f6b49800f90f81f290556e8f403649b52435d307c1cc58a2d71267c0b  knavalbattle-4fbaff2faee841f4d9811fcdb96a079b1d8471fd.tar.xz
 "
