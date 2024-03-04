@@ -10,6 +10,26 @@ start() {
 	source /usr/share/misc/source_deviceinfo
 
 	if [ "$deviceinfo_tmp_as_tmpfs_size" = "0" ]; then
+		# If '/' is btrfs, and there's a subvol named '@var',
+		# mount it to '/tmp/' and make it no-data-CoW.
+		# Ensures btrfs snapshots of '/' won't contain temporary files.
+		if [ "$(mount | grep " / " | awk '{print $5}')" = "btrfs" ]; then
+			if [ "$(btrfs subvolume list / | awk '{print $NF}' | grep -q "@tmp")" ]; then
+				if [ ! -d /tmp ]; then
+					ebegin "Making /tmp directory"
+					mkdir -p /tmp || { eend 1 "Failed to create /tmp" ; return 1 ; }
+				fi
+				if [ ! "$(mountinfo -q -f btrfs /tmp)" ]
+					root_mount_point="$(mount | grep " / " | awk '{print $1}')"
+					mount "$root_mount_point" -o subvol=@tmp /tmp
+					if [ ! "$(lsattr /tmp | grep -q "C")" ]; then
+						chattr +C /tmp
+					fi
+				fi
+				# Remove temporary files left on subvol from previous boot
+				rm -rf /tmp/*
+			fi
+		fi
 		return 0
 	fi
 
