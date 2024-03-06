@@ -6,8 +6,8 @@
 # How to add a new service file (4 steps):
 pkgname=systemd-services
 # 1. bump pkgver
-pkgver=3
-pkgrel=1
+pkgver=4
+pkgrel=0
 pkgdesc="Systemd service files"
 url="https://postmarketos.org"
 arch="noarch"
@@ -35,6 +35,7 @@ subpackages="
 	q6voiced-service:_service
 	qbootctl-service:_service
 	rmtfs-service:_service
+	rtkit-daemon-service:_service
 	sleep-inhibitor-service:_service
 	tqftpserv-service:_service
 	wpa_supplicant-service:_service
@@ -60,6 +61,7 @@ _pulseaudio_sources="user/pulseaudio.service user/pulseaudio.socket"
 _q6voiced_sources="system/q6voiced.service"
 _qbootctl_sources="system/qbootctl.service"
 _rmtfs_sources="system/rmtfs.service"
+_rtkit_daemon_sources="system/rtkit-daemon.service"
 _sleep_inhibitor_sources="system/sleep-inhibitor.service"
 _tqftpserv_sources="system/tqftpserv.service"
 _wpa_supplicant_sources="system/wpa_supplicant.service"
@@ -97,6 +99,7 @@ source="$(flatpath \
 	$_q6voiced_sources \
 	$_qbootctl_sources \
 	$_rmtfs_sources \
+	$_rtkit_daemon_sources \
 	$_sleep_inhibitor_sources \
 	$_tqftpserv_sources \
 	$_wpa_supplicant_sources \
@@ -141,6 +144,7 @@ c0badea3905c1d53d213fbfe11d25b556a2e484fe77eb50e9f4d42e25b67b56a0804e7d8e1b7731c
 4c4c3f1e5e829ff67dd35df59120ab59730ff1f1ca0aab93f16d670132979a99099fad59e6c736908cc19df9172c9bdfe476ec721a1cc28de8c2210da46ce1f1  system-q6voiced.service
 621189aa251655796795f4fa0cd79360bb67573e7327e545064eaadafc83cc7b382a405d6ba80662e0a4ece3876e4270e3563d859a6ba63b5e3854b39c35873e  system-qbootctl.service
 11bb0ff9ab32f0f230c665db2738e37e5226fa200621b9207baf92e0632a38f840395a55ef6e827763911cf78f3bad95cd3456e77cc01b30b8abce96dc13df9d  system-rmtfs.service
+1a0958e4fe232967946e9f2b17a13434b137236ba5d18442175d648b084d82df3a9fc5723c1621be899ee290b99777ac3c0ee6ad733e72d8e70f63b37ad00036  system-rtkit-daemon.service
 be9df5e3fd9c88ec1a8db4aa2d9e8075d74ee3d2670aa3cfc611df3cff4d4041ac888a0338c9d5f134bbc69aa32eb52ac40eb3e0981813afa18389cba14d3818  system-sleep-inhibitor.service
 c569b27925297672c479e12a6425abdf5791886fff77c2c2b67b7aa9277eb0a22e7b95b52dbc225870c97460d0988a4dae18ed864e19096c704c0895de55b699  system-tqftpserv.service
 d55edea6983ad73b1817dfac3e6d418113c8e0fbd6cb2835dedcad2e5c76c8889c09348a184ed4ab38397d7d539831ef6a7ce08037e12c7ab6dc274519dc5812  system-wpa_supplicant.service

@@ -1,0 +1,13 @@
+[Unit]
+Description=RealtimeKit Scheduling Policy Service
+
+[Service]
+ExecStart=/usr/libexec/rtkit-daemon
+Type=dbus
+BusName=org.freedesktop.RealtimeKit1
+NotifyAccess=main
+CapabilityBoundingSet=CAP_SYS_NICE CAP_DAC_READ_SEARCH CAP_SYS_CHROOT CAP_SETGID CAP_SETUID
+PrivateNetwork=yes
+
+[Install]
+WantedBy=multi-user.target
