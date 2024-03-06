@@ -1,0 +1,12 @@
+#!/bin/sh
+
+adduser -S -H -D -h /run/systemd -s /usr/sbin/nologin -g 'systemd Time Synchronization' systemd-timesync
+adduser -S -H -D -h /run/systemd -s /usr/sbin/nologin -g 'systemd Network Management' systemd-network
+adduser -S -H -D -h /run/systemd -s /usr/sbin/nologin -g 'systemd Resolver' systemd-resolve
+adduser -S -H -D -h / -s /usr/sbin/nologin -g 'systemd Core Dumper' systemd-coredump
+addgroup -S systemd-network
+addgroup -S systemd-journal
+addgroup -S render
+addgroup -S sgx
+
+systemctl enable debug-shell.service

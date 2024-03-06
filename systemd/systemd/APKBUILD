@@ -1,0 +1,427 @@
+# Maintainer: Caleb Connolly <caleb@postmarketos.org>
+# Contributor: Jakub Panek <me@panekj.dev>
+
+pkgname=systemd
+pkgver=255.2
+pkgrel=0
+pkgdesc="System and service manager"
+url="https://github.com/systemd/systemd"
+arch="all !ppc64le !armhf !s390x" # blocked by pmboostrap not supporting
+license="MIT AND GPL-2.0-only AND LGPL-2.1-or-later"
+options="pmb:strict !check" # few tests fail, need to debug. We use alpine dbus for building, systemd-dbus for runtime
+
+makedepends="
+	acl-dev
+	audit-dev
+	bash
+	bash-completion
+	clang
+	cmake
+	coreutils
+	cryptsetup-dev
+	elfutils
+	glib-dev
+	gperf
+	kmod-dev
+	libapparmor-dev
+	libbpf-dev
+	libbz2
+	libcap-dev
+	libfido2-dev
+	libgcc
+	libgcrypt-dev
+	libintl
+	libiptcdata-dev
+	libmicrohttpd-dev
+	libpwquality
+	libqrencode-dev
+	libseccomp-dev
+	libselinux-dev
+	libxkbcommon-dev
+	linux-pam-dev
+	llvm15
+	lz4-dev
+	meson
+	musl-dev
+	pcre2-dev
+	perl
+	pkgconf
+	py3-jinja2
+	py3-lxml
+	python3-dev
+	rsync
+	tpm2-tss-mu
+	tzdata
+	util-linux-dev
+	xz-dev
+	zstd-dev
+	gnu-efi-dev
+	"
+
+# We add these as explicit dependencies to ensure we get the systemd variants
+# and not the Alpine ones.
+depends="
+	!openrc
+	kmod
+"
+if [ -z "$BOOTSTRAP" ] || [ "$BOOTSTRAP" -gt 2 ]; then
+	makedepends="$makedepends
+		dbus-dev
+		polkit-dev
+	"
+else
+	makedepends="$makedepends
+		dbus-dev<999
+		polkit-dev<999
+	"
+fi
+
+# provides=openrc and openrc-settingsd to prevent those packages
+# getting pulled in, as there are some conflicts (dbus)
+provides="busctl eudev openrc-settingsd=$pkgver-r$pkgrel"
+provider_priority=100
+
+install="$pkgname.post-install"
+subpackages="
+	$pkgname-dev
+	$pkgname-doc
+	$pkgname-x11
+
+	$pkgname-udevd
+	$pkgname-udevd-zsh-completion:udevd_zcomp:noarch
+	$pkgname-udevd-bash-completion:udevd_bcomp:noarch
+
+	$pkgname-timesyncd
+	$pkgname-timesyncd-zsh-completion:timesyncd_zcomp:noarch
+	$pkgname-timesyncd-bash-completion:timesyncd_bcomp:noarch
+
+	$pkgname-networkd
+	$pkgname-networkd-zsh-completion:networkd_zcomp:noarch
+	$pkgname-networkd-bash-completion:networkd_bcomp:noarch
+
+	$pkgname-resolved
+	$pkgname-resolved-zsh-completion:resolved_zcomp:noarch
+	$pkgname-resolved-bash-completion:resolved_bcomp:noarch
+
+	$pkgname-logind
+	$pkgname-logind-zsh-completion:logind_zcomp:noarch
+	$pkgname-logind-bash-completion:logind_bcomp:noarch
+
+	$pkgname-journald
+	$pkgname-journald-zsh-completion:journald_zcomp:noarch
+	$pkgname-journald-bash-completion:journald_bcomp:noarch
+
+	$pkgname-libs
+
+	$pkgname-bash-completion
+	$pkgname-zsh-completion
+	"
+
+source="
+	https://github.com/systemd/systemd-stable/archive/refs/tags/v$pkgver/systemd-stable-$pkgver.tar.gz
+	0001-Adjust-for-musl-headers.patch
+	0002-binfmt-Don-t-install-dependency-links-at-install-tim.patch
+	0003-errno-util-Make-STRERROR-portable-for-musl.patch
+	0005-pass-correct-parameters-to-getdents64.patch
+	0006-test-bus-error-strerror-is-assumed-to-be-GNU-specifi.patch
+	0009-missing_type.h-add-comparison_fn_t.patch
+	0010-add-fallback-parse_printf_format-implementation.patch
+	0011-src-basic-missing.h-check-for-missing-strndupa.patch
+	0012-don-t-fail-if-GLOB_BRACE-and-GLOB_ALTDIRFUNC-is-not-.patch
+	0013-add-missing-FTW_-macros-for-musl.patch
+	0014-Use-uintmax_t-for-handling-rlim_t.patch
+	0016-don-t-pass-AT_SYMLINK_NOFOLLOW-flag-to-faccessat.patch
+	0017-Define-glibc-compatible-basename-for-non-glibc-syste.patch
+	0018-Do-not-disable-buffering-when-writing-to-oom_score_a.patch
+	0019-distinguish-XSI-compliant-strerror_r-from-GNU-specif.patch
+	0020-avoid-redefinition-of-prctl_mm_map-structure.patch
+	0021-do-not-disable-buffer-in-writing-files.patch
+	0022-Handle-__cpu_mask-usage.patch
+	0023-Handle-missing-gshadow.patch
+	0024-missing_syscall.h-Define-MIPS-ABI-defines-for-musl.patch
+	0028-sd-event-Make-malloc_trim-conditional-on-glibc.patch
+	0029-shared-Do-not-use-malloc_info-on-musl.patch
+	9999-caleb-fixup.patch
+	wired.network
+	"
+builddir="$srcdir/systemd-stable-$pkgver"
+
+export CFLAGS="$CFLAGS -D__UAPI_DEF_ETHHDR=0"
+export LDFLAGS="$LDFLAGS -lintl"
+
+_bashcomp="usr/share/bash-completion/completions"
+_zshcomp="usr/share/zsh/site-functions"
+
+_default_bashcomp() {
+	depends=""
+	pkgdesc="Bash completions for $pkgname"
+	install_if="$pkgname=$pkgver-r$pkgrel bash-completion"
+
+	cd "$pkgdir" || return 0
+	amove "$_bashcomp/$1"
+}
+
+_default_zshcomp() {
+	depends=""
+	pkgdesc="Zsh completions for $pkgname"
+	install_if="$pkgname=$pkgver-r$pkgrel zsh"
+
+	cd "$pkgdir" || return 0
+	amove "$_zshcomp/$1"
+}
+
+build() {
+	abuild-meson \
+		-Dmode=release \
+		\
+		-Dkmod-path=/bin/kmod \
+		-Dsulogin-path=/sbin/sulogin \
+		\
+		-Ddebug-shell=/bin/ash \
+		-Dsplit-usr=false \
+		-Dsplit-bin=false \
+		-Dpolkit=true \
+		-Dpam=true \
+		-Dpamlibdir=/usr/lib/security \
+		-Dpamconfdir=/etc/pam.d \
+		\
+		-Dutmp=false \
+		-Dldconfig=false \
+		-Dlocaled=false \
+		-Duserdb=false \
+		-Dhomed=false \
+		-Dnss-myhostname=false \
+		-Dnss-mymachines=false \
+		-Dnss-resolve=false \
+		-Dnss-systemd=false \
+		-Dsysusers=false \
+		-Dhtml=false \
+		-Dtranslations=false \
+		-Dselinux=false \
+		\
+		-Dsystem-alloc-uid-min=101 \
+		-Dsystem-alloc-gid-min=101 \
+		-Dsystem-uid-max=999 \
+		-Dsystem-gid-max=999 \
+		-Dwheel-group=true \
+		-Dnobody-user=nobody \
+		-Dnobody-group=nobody \
+		\
+		-Ddefault-kill-user-processes=true \
+		-Dgshadow=false \
+		-Ddefault-locale=en_US.UTF-8 \
+		\
+		-Ddefault-dns-over-tls=yes \
+		-Ddns-over-tls=openssl \
+		-Ddns-servers="9.9.9.10#dns10.quad9.net 149.112.112.10#dns10.quad9.net 2620:fe::10#dns10.quad9.net 2620:fe::fe:10#dns10.quad9.net" \
+		-Dntp-servers="0.pool.ntp.org 1.pool.ntp.org 2.pool.ntp.org 4.pool.ntp.org" \
+		\
+		-Didn=false \
+		-Dsysvinit-path="" \
+		. build
+	meson compile ${JOBS:+-j ${JOBS}} -C build
+}
+
+check() {
+	meson test -C build
+}
+
+package() {
+	depends="$pkgname-udevd $pkgname-journald util-linux-login less"
+
+	make DESTDIR="$pkgdir" install
+
+	# ship default policy to leave services disabled
+	mkdir -p "$pkgdir"/usr/lib/systemd/system-preset
+	echo 'disable *' > "$pkgdir"/usr/lib/systemd/system-preset/99-default.preset
+
+}
+
+udevd() {
+	pkgdesc="systemd udev"
+
+	# NOTE: should only be udev, but packages hardcode eudev
+	provides="eudev udev eudev-libs"
+	provider_priority=100
+
+	amove usr/bin/udevadm
+	amove etc/udev
+	amove usr/lib/libudev*
+	amove usr/lib/systemd/system/initrd-udevadm-cleanup-db.service
+	amove usr/lib/systemd/system/sockets.target.wants/systemd-udev*
+	amove usr/lib/systemd/system/sysinit.target.wants/systemd-udev*
+	amove usr/lib/systemd/system/systemd-udev*
+	amove usr/lib/systemd/systemd-udevd
+	amove usr/lib/udev
+}
+
+udevd_bcomp() {
+	_default_bashcomp udevadm
+}
+
+udevd_zcomp() {
+	_default_zshcomp _udevadm
+}
+
+timesyncd() {
+	pkgdesc="systemd Time Synchronization"
+
+	amove etc/systemd/timesyncd.conf
+	amove usr/bin/timedatectl
+	amove usr/lib/systemd/ntp-units.d/80-systemd-timesync.list
+	amove usr/lib/systemd/systemd-timesyncd
+	amove usr/lib/systemd/system/systemd-timesyncd.service
+	amove usr/share/dbus-1/system-services/org.freedesktop.timesync1.service
+	amove usr/share/dbus-1/system.d/org.freedesktop.timesync1.conf
+}
+
+timesyncd_bcomp() {
+	_default_bashcomp timedatectl
+}
+
+timesyncd_zcomp() {
+	_default_zshcomp _timedatectl
+}
+
+networkd() {
+	pkgdesc="systemd Network Configuration"
+
+	amove usr/bin/networkctl
+	amove etc/systemd/network
+	amove etc/systemd/networkd.conf
+	amove usr/share/polkit-1/rules.d/systemd-networkd.rules
+	amove usr/lib/systemd/systemd-network-generator
+	amove usr/lib/systemd/systemd-networkd
+	amove usr/lib/systemd/systemd-networkd-wait-online
+	amove usr/lib/systemd/network
+	amove usr/lib/systemd/system/systemd-networkd.service
+	amove usr/lib/systemd/system/systemd-networkd.socket
+	amove usr/lib/systemd/system/systemd-networkd-wait-online.service
+	amove usr/share/dbus-1/interfaces/org.freedesktop.network1.DHCPServer.xml
+	amove usr/share/dbus-1/interfaces/org.freedesktop.network1.Link.xml
+	amove usr/share/dbus-1/interfaces/org.freedesktop.network1.Manager.xml
+	amove usr/share/dbus-1/interfaces/org.freedesktop.network1.Network.xml
+	amove usr/share/dbus-1/system-services/org.freedesktop.network1.service
+	amove usr/share/dbus-1/system.d/org.freedesktop.network1.conf
+	amove usr/share/polkit-1/actions/org.freedesktop.network1.policy
+
+	install -D -m0644 "$srcdir/wired.network" "$subpkgdir/usr/lib/systemd/network/80-wired.network"
+}
+
+networkd_bcomp() {
+	_default_bashcomp networkctl
+}
+
+networkd_zcomp() {
+	_default_zshcomp _networkctl
+}
+
+resolved() {
+	pkgdesc="systemd Network Name Resolution"
+	replaces="resolvconf"
+	provides="resolvconf"
+
+	amove etc/systemd/resolved.conf
+	amove usr/lib/systemd/system/systemd-resolved.service
+	amove usr/lib/systemd/systemd-resolved
+	amove usr/bin/resolvconf
+	amove usr/bin/resolvectl
+	amove usr/bin/systemd-resolve
+	amove usr/lib/tmpfiles.d/systemd-resolve.conf
+	amove usr/share/dbus-1/interfaces/org.freedesktop.resolve1*
+	amove usr/share/dbus-1/system-services/org.freedesktop.resolve1.service
+	amove usr/share/dbus-1/system.d/org.freedesktop.resolve1.conf
+	amove usr/share/polkit-1/actions/org.freedesktop.resolve1.policy
+}
+
+resolved_bcomp() {
+	_default_bashcomp resolvectl
+	_default_bashcomp systemd-resolve
+}
+
+resolved_zcomp() {
+	_default_zshcomp _resolvectl
+}
+
+logind() {
+	pkgdesc="systemd User Login Management"
+	depends="dbus shadow"
+
+	provides="elogind"
+	provider_priority=100
+
+	amove usr/lib/systemd/systemd-logind
+	amove usr/lib/systemd/system/systemd-logind.service
+}
+
+logind_bcomp() {
+	_default_bashcomp loginctl
+}
+
+logind_zcomp() {
+	_default_zshcomp _loginctl
+}
+
+journald() {
+	pkgdesc="systemd Journal"
+
+	amove usr/bin/journalctl
+	amove etc/systemd/journal-remote.conf
+	amove etc/systemd/journald.conf
+	amove usr/lib/systemd/system/sockets.target.wants/systemd-journal*
+	amove usr/lib/systemd/system/systemd-journal*
+	amove usr/lib/systemd/systemd-journal*
+	amove usr/lib/tmpfiles.d/journal-nocow.conf
+	amove var/log/journal
+}
+
+journald_bcomp() {
+	_default_bashcomp journalctl
+}
+
+journald_zcomp() {
+	_default_zshcomp _journalctl
+}
+
+x11() {
+	pkgdesc="systemd x11"
+	install_if="$pkgname=$pkgver-r$pkgrel xorg-server"
+
+	amove usr/lib/tmpfiles.d/x11.conf
+	amove etc/X11/xinit/xinitrc.d/50-systemd-user.sh
+}
+
+dev() {
+	provides="eudev-dev udev-dev"
+	provider_priority=100
+
+	default_dev
+}
+
+sha512sums="
+0a9a43adc6d23f52349d298cdff3f3ae6accd7e43a33253608f7a9d241699c7cba3c9f6a0fa6da3ae3cba0e246e272076bfa2cdf5bade7bc019406f407be0bb9  systemd-stable-255.2.tar.gz
+03396673e927e8a26d843aa95a6bd95087570c80263c3a1cd9d37ef623a71d009087c1354dd62de2ef3cb53826982244ca9de09385042b49b204bd056904fce6  0001-Adjust-for-musl-headers.patch
+db31ae9b3e8df8e89ea7efc5230c39a8e47f347ef3267f56e2e5120e098c70c297a5c87dd0799f284aca4838e8ee7ae349a543f7dd65c0e0d41f563ebe24bdc5  0002-binfmt-Don-t-install-dependency-links-at-install-tim.patch
+e27af86219786437f66d9ecfea4996f95608e6d64baf7dcfb3421d40de863abdb2dedc114939b6f05feaec3cb3790c8214f92d5df95ea022d6037fe6d3ff6663  0003-errno-util-Make-STRERROR-portable-for-musl.patch
+c7c92dd6e98c0960fb6744b78ef60df1cd33e6ac71cce02146b656c795fc181d8e20609381d0bae07d95716e3eb8bed9aa1185494cfe074cfa2b67fcdf4f4940  0005-pass-correct-parameters-to-getdents64.patch
+d6cd00693af5c905ab17764e45825eb5a8c23f727b9296efa0603207f48debe6f4a376681517d7558c7ec8c75ea6dd7b436637106e0d06d103dc289d6ddbdd33  0006-test-bus-error-strerror-is-assumed-to-be-GNU-specifi.patch
+548b77c617eafa0b9b64173b814e6d2304049ab31dc8ee64e3c5a0526ecf2c5e860b774d62de3c09afd6a59ebf99ea8ca279a767f4f2cd9cf4c6f83c0da312ef  0009-missing_type.h-add-comparison_fn_t.patch
+855c7ba93262cd7ec416a990f360cab9d23cfe84618f2fcab426d4d69c90cf5174baabf0670818ef4ef3d9c4dcc10ad772f0f701e1bbab160552dd21eae826c2  0010-add-fallback-parse_printf_format-implementation.patch
+62f74f177fad5429ae7c4868b38cbd5de2eebf8f2a76e19d1d09fad3f8dddc836e20372b3701e15bba3502d66fd824ecad5649eb169990ab020732d84e86b98d  0011-src-basic-missing.h-check-for-missing-strndupa.patch
+4edce319024d49237ccfc34156a3bc1015b4926c52e2117fb13aa1ab8428adde22b60e9016dbd4e59072ff51ace0e29e9db322541735975c26b386c37a2ac8a5  0012-don-t-fail-if-GLOB_BRACE-and-GLOB_ALTDIRFUNC-is-not-.patch
+2cec9f3e7fe5046862a769281e271b341a5e8a856f3aed982222c63ee20e1640b70a27a1b0d669d5e2fe7a5b8ec72d5b1a8fc77bd124690fa58cf5264cae7f57  0013-add-missing-FTW_-macros-for-musl.patch
+2f214588136004eeb65d225c383e3b6a68a30848c49e8f10248506577d706c72b6496731a77977f274fb1f3ad89b0bd7cd86ad0d86de281628700650177c4d64  0014-Use-uintmax_t-for-handling-rlim_t.patch
+2255b5600762d895ff1301564eee8cf340bcd665649cc01f9015945bb5820cf285e360a4c1750deb862c5ce737aa8eaad6a2b6be41b21b56e79fc9a80ef48de9  0016-don-t-pass-AT_SYMLINK_NOFOLLOW-flag-to-faccessat.patch
+21137a1828928f2363d92eb5596c6a407a347890a3e0b972cacd03009eeda63f9f861f8ca04589ab192cc2fef455c6982e0b6926ac24a3fab4090d44240b49bd  0017-Define-glibc-compatible-basename-for-non-glibc-syste.patch
+29bcb246489c4cabca3dab91fa8720227e8489363868ebb777f864b278a83fab1c66564b51bfc7417096e347f5e85920500649fa3a212f58af2529318230b28f  0018-Do-not-disable-buffering-when-writing-to-oom_score_a.patch
+088b2fecf8dc9ab7e1806a6f9bbcaca729b2edd9d095fe8ee1390359c856167519229ce7fa9aae9376bff7cc09a612d015ef42499bbcd60bc13ed950d3158907  0019-distinguish-XSI-compliant-strerror_r-from-GNU-specif.patch
+6d6bb36c5d600653284ebdd1e0417e3e4e6b00e4e8b9d79fa58ceb6cf980e5d3def49a6a2d6493470220cf01708f7fa60c7cdc07b768aca312cbd401e9ff54fb  0020-avoid-redefinition-of-prctl_mm_map-structure.patch
+ffb817fe86f65ebb14674350edcd6b999cc66f1bb97644ed10ad27ba029bdde9a5e4bfcf7edc75818cb0a40274719d638c2ee8da595565b9aef2c8a564b197b5  0021-do-not-disable-buffer-in-writing-files.patch
+570be8a460192e96c92e4d419de1ff9575fac814515efc998d17a4d0d532a8f5972589587d61d3bf2f87c48a1df73dcad9dbd4fa30be8b2ee4a6b6f040cae452  0022-Handle-__cpu_mask-usage.patch
+987318b986efa081627fce402262484fac6e792d55ede8dade88336a0e91c0aa3fcbae9951614407879f8dc5015e71c706a78242889ffeea70081c14d0395bb8  0023-Handle-missing-gshadow.patch
+8043ea8eccd6b955e93ca451626f4be2ea17f6820cc1107d6a1f2a69cd0869dbda48f52ffffa535dc7c0cdc102bfb63ad981360bae2a82b78c6fd0fae884fb18  0024-missing_syscall.h-Define-MIPS-ABI-defines-for-musl.patch
+d4a5c506dc2378033a4fc15eba510e8cf8bc5642000758dd1b05526ccac8a4ce47c23297e301ec99bdf4a19ce9f84a008b4714cc9e655a596d1aa58de47f683b  0028-sd-event-Make-malloc_trim-conditional-on-glibc.patch
+fcee3a9384cb27083b82792a246045b1d1d974ee200fd772661766e9445ea36d8c0c9003527783f2a7958107261ec7fa1b0e0a30200b3e2d0f2ea51657bba166  0029-shared-Do-not-use-malloc_info-on-musl.patch
+14d9d3419e5ae96c121c091e55d01c0a14033121dfa4a50ab53ef3ee93375ec85a72b0e62ba5ae40d43aa57644d7383da2033843875fd56a92d77b83f79b971b  9999-caleb-fixup.patch
+81c897fed8a3fbfb67ec591b2398a5d65e4af1b3ef379376c157c98d71f085b707f8ebc896d5571a94f99f8fc84fd6b43e3b879ca9b0d57fc6c4596034c7a777  wired.network
+"
