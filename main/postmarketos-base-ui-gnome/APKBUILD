@@ -1,21 +1,18 @@
 # Maintainer: Oliver Smith <ollieparanoid@postmarketos.org>
 pkgname=postmarketos-base-ui-gnome
-pkgver=3
-pkgrel=3
+# FIXME
+pkgver=9999
+pkgrel=1
 pkgdesc="Meta package for shared configuration for GNOME-based UIs"
 url="https://postmarketos.org"
 arch="noarch"
 license="GPL-3.0-or-later"
 depends="
-	apk-polkit-rs-openrc
 	dnsmasq
 	elogind
-	elogind-openrc
 	gnome-bluetooth
 	iio-sensor-proxy
-	iio-sensor-proxy-openrc
 	modemmanager
-	modemmanager-openrc
 	polkit-elogind
 	postmarketos-artwork-wallpapers
 	postmarketos-base-ui
@@ -32,6 +29,9 @@ source="
 	00_postmarketos-base-ui-gnome.gschema.override
 	"
 options="!check"
+subpackages="
+	$pkgname-openrc
+"
 
 _pmb_recommends="
 	evince
@@ -56,6 +56,18 @@ _pmb_recommends="
 package() {
 	install -Dm644 -t "$pkgdir"/usr/share/glib-2.0/schemas \
 		"$srcdir"/*.override
+}
+
+openrc() {
+	install_if="$pkgname=$pkgver-r$pkgrel openrc"
+	depends="
+		apk-polkit-rs-openrc
+		iio-sensor-proxy-openrc
+		modemmanager-openrc
+		elogind-openrc
+	"
+
+	mkdir "$subpkgdir"
 }
 
 sha512sums="
