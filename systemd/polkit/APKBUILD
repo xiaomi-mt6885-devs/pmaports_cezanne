@@ -1,0 +1,102 @@
+# Forked from Alpine to rebuild with systemd support
+
+pkgname=polkit
+pkgver=999124
+_pkgver=124
+pkgrel=0
+pkgdesc="Application development toolkit for controlling system-wide privileges"
+url="https://www.freedesktop.org/wiki/Software/polkit/"
+arch="all"
+license="GPL-2.0-or-later"
+options="suid !check"  # Needs a functioning dbus daemon
+makedepends="
+	dbus-dev
+	duktape-dev
+	systemd-dev
+	expat-dev
+	glib-dev
+	gobject-introspection-dev
+	gtk-doc
+	linux-pam-dev
+	meson
+	perl
+	"
+pkgusers="polkitd"
+pkggroups="polkitd"
+install="$pkgname.pre-install $pkgname.pre-upgrade"
+subpackages="
+	$pkgname-dev
+	$pkgname-libs
+	$pkgname-doc
+	$pkgname-lang
+	$pkgname-service
+	"
+source="https://gitlab.freedesktop.org/polkit/polkit/-/archive/$_pkgver/polkit-$_pkgver.tar.bz2
+	alpine-polkit.pam
+	"
+builddir="$srcdir/polkit-$_pkgver"
+
+# secfixes:
+#   0.120-r2:
+#     - CVE-2021-4034
+#   0.119-r0:
+#     - CVE-2021-3560
+
+build() {
+	msg 'Building with systemd'
+	_build systemd -Dsession_tracking="libsystemd-login"
+}
+
+_build() {
+	local outdir="$1"
+	shift
+	abuild-meson \
+		-Db_lto=true \
+		-Dtests="$(want_check && echo true || echo false)" \
+		-Dman=true \
+		-Dpam_prefix=/etc/pam.d \
+		"$@" \
+		. "$outdir"
+	meson compile -C "$outdir"
+}
+
+check() {
+	meson test --print-errorlogs --no-rebuild -C systemd
+}
+
+package() {
+	depends="$pkgname-libs=$pkgver-r$pkgrel"
+	provides="$pkgname-elogind=$pkgver-r$pkgrel"
+
+	DESTDIR="$pkgdir" meson install --no-rebuild -C systemd
+
+	cd "$pkgdir"
+
+	# Use our own polkit rules, upstream may change them
+	install -m644 "$srcdir"/alpine-polkit.pam etc/pam.d/polkit-1
+
+	# See polkit's configure script which tells us what permissions to set
+	chown -R polkitd:polkitd etc/polkit-1/rules.d usr/share/polkit-1/rules.d
+	chmod -R 700 etc/polkit-1/rules.d usr/share/polkit-1/rules.d
+	chmod 4755 usr/lib/polkit-1/polkit-agent-helper-1
+	chmod 4755 usr/bin/pkexec
+}
+
+libs() {
+	provides="polkit-elogind-libs polkit-noelogind-libs"
+	provider_priority=9999
+
+	default_libs
+}
+
+dev() {
+	provides="polkit-elogind-dev polkit-noelogind-dev"
+	provider_priority=9999
+
+	default_dev
+}
+
+sha512sums="
+db520882b0bedf1c96052570bf4c55d7e966d8172f6d26acf0791d98c4b911fce5ee39e6d830f06122ac8df33c6b43c252cdb7ba3a54523804824ebf355405dc  polkit-124.tar.bz2
+f5102dc00d390b3a3c957b62e1712db778c7ffb7378f3d8e816c0757c11a308c5d5303e42595b0d6add9839247c773880cd34e56afacc89eb6efaadf9aae7826  alpine-polkit.pam
+"
