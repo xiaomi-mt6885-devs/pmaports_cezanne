@@ -1,0 +1,103 @@
+# Forked from Alpine to add systemd-service support
+
+pkgname=abuild
+pkgver=99993.12.0
+_pkgver=3.12.0
+_commit="d45c6dbee9171fa9dc25b2d6b298469619fbedb6"
+_ver=${_pkgver%_git*}
+pkgrel=1
+pkgdesc="Script to build Alpine Packages"
+url="https://git.alpinelinux.org/cgit/abuild/"
+arch="all"
+license="GPL-2.0-only"
+depends="fakeroot scanelf openssl>3 apk-tools>=2.0.7-r1 libc-utils
+	attr tar pkgconf patch lzip curl libcap-getcap"
+makedepends="openssl-dev>3 zlib-dev pkgconfig scdoc"
+checkdepends="kyua git"
+install="$pkgname.pre-install $pkgname.pre-upgrade"
+subpackages="
+	apkbuild-cpan:cpan:noarch
+	apkbuild-gem-resolver:gems:noarch
+	apkbuild-pypi:pypi:noarch
+	abuild-rootbld:_rootbld:noarch
+	$pkgname-doc
+	"
+options="suid !check" # tests are SLOW in qemu
+pkggroups="abuild"
+source="https://gitlab.com/calebccff/abuild/-/archive/$_commit/abuild-$_commit.tar.gz"
+builddir="$srcdir"/abuild-"$_commit"
+
+build() {
+	make VERSION="$_pkgver-r$pkgrel"
+}
+
+check() {
+	make check
+}
+
+package() {
+	make install VERSION="$_pkgver-r$pkgrel" DESTDIR="$pkgdir"
+
+	install -m 644 abuild.conf "$pkgdir"/etc/abuild.conf
+
+	case "$CARCH" in
+	x86*|ppc64le)
+		# binutils only supports it here
+		cat >>"$pkgdir"/usr/share/abuild/default.conf <<-EOF
+
+		# binutils ld.bfd supports this on this architecture; default to it
+		export RUSTFLAGS="\$RUSTFLAGS -Clink-arg=-Wl,-z,pack-relative-relocs"
+		export LDFLAGS="\$LDFLAGS -Wl,-z,pack-relative-relocs"
+		EOF
+	esac
+
+	case "$CARCH" in
+	x86_64)
+		# https://lists.alpinelinux.org/~alpine/devel/%3C1628515011.zujvcn248v.none%40localhost%3E
+		# note that this is x86-exclusive. on other architectures, this is pretty much always bad
+		# https://github.com/rust-lang/rust/pull/106380
+		cat >>"$pkgdir"/usr/share/abuild/default.conf <<-EOF
+
+		# -fno-plt has very slight improvements to general code size and speed on x86-only,
+		# for the common system dynamic linking case
+		export CFLAGS="\$CFLAGS -fno-plt"
+		export CXXFLAGS="\$CXXFLAGS -fno-plt"
+		EOF
+		;;
+	esac
+
+	install -d -m 775 -g abuild "$pkgdir"/var/cache/distfiles
+}
+
+cpan() {
+	pkgdesc="Script to generate perl APKBUILD from CPAN"
+	depends="perl perl-libwww perl-json perl-module-build perl-module-build-tiny
+		perl-lwp-protocol-https"
+
+	amove usr/bin/apkbuild-cpan
+}
+
+gems() {
+	pkgdesc="APKBUILD dependency resolver for RubyGems"
+	depends="ruby ruby-augeas"
+
+	amove usr/bin/apkbuild-gem-resolver
+}
+
+pypi() {
+	pkgdesc="Script to generate python3 APKBUILD from PYPI"
+	depends="perl perl-libwww perl-json perl-module-build-tiny perl-lwp-protocol-https
+	perl-ipc-system-simple"
+
+	amove usr/bin/apkbuild-pypi
+}
+
+_rootbld() {
+	pkgdesc="Build packages in chroot"
+	depends="abuild bubblewrap cmd:envsubst git"
+	mkdir -p "$subpkgdir"
+}
+
+sha512sums="
+3959c47c8ada26a23f647b4af4258e6ff1a8c7b6b4821cafe655da953933f12fed8c5753a8ec2cde6abd1e3e9b67dccaa74acc0633827d581d532905af9fb1e4  abuild-d45c6dbee9171fa9dc25b2d6b298469619fbedb6.tar.gz
+"
