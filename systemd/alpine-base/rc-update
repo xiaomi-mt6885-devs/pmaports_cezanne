@@ -1,0 +1,41 @@
+#!/bin/sh
+
+# Dummy to make post-install scripts work
+# Will fail in chroot for sysV compat services
+# FIXME: FIXME: FIXME: FIXME: FIXME:
+
+# Get the last argument to rc-update, it's
+instruction="enable"
+for service; do
+    case "$service" in
+        "rc-update")
+            ;;
+        "-q")
+            ;;
+        "add")
+            instruction="enable"
+            ;;
+        "del")
+            instruction="disable"
+            ;;
+        *)
+            break
+            ;;
+    esac
+done
+
+case "$service" in
+    "networkmanager")
+        service="NetworkManager"
+        ;;
+    "modemmanager")
+        service="ModemManager"
+        ;;
+esac
+
+# The service files might be missing due to how apk orders the install
+# so we record them all to let systemd-services.trigger enable them
+# at the end of installation
+if ! systemctl $instruction $service; then
+    echo "$instruction $service" >> /run/rc-update.failed
+fi

@@ -1,0 +1,37 @@
+# Forked from Alpine to remove openrc dependency
+
+pkgname=alpine-base
+pkgver=9999
+pkgrel=0
+pkgdesc="Meta package for minimal alpine base"
+url="https://alpinelinux.org"
+arch="noarch"
+license="MIT"
+depends="
+	alpine-baselayout
+	alpine-release
+	apk-tools
+	busybox
+	busybox-suid
+	libc-utils
+"
+
+# can't include systemd here, as we wan't to upgrade from alpine's base to our systemd-base while building
+subpackages="alpine-release:release"
+replaces="alpine-baselayout"
+options="pmb:strict !check"
+source="rc-update"
+
+package() {
+	install -Dm755 rc-update "$pkgdir"/usr/bin/rc-update
+}
+
+release() {
+	depends="alpine-keys"
+	pkgdesc="Alpine release data"
+
+	mkdir -p "$subpkgdir"
+}
+sha512sums="
+18227112a559e2b90c9a3cf4eb16762595370130c88cb7b7d1a0fda2ba894918802dd084f7c505f8eb379f078d4c2ed2e384f03d16ff25075acdb31ab0186813  rc-update
+"
