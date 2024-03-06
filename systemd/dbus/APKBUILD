@@ -1,0 +1,109 @@
+# Forked from Alpine to enable systemd
+
+pkgname=dbus
+pkgver=9991.14.10
+_pkgver=1.14.10
+pkgrel=1
+pkgdesc="Freedesktop.org message bus system"
+url="https://www.freedesktop.org/Software/dbus"
+arch="all"
+license="AFL-2.1 OR GPL-2.0-or-later"
+depends_dev="util-linux-dev"
+makedepends="
+	$depends_dev
+	expat-dev
+	glib-dev
+	libsm-dev
+	libx11-dev
+	meson
+	systemd-dev
+	xmlto
+	libcap-getcap
+	"
+pkggroups="messagebus"
+provider_priority=1
+install="$pkgname.pre-install $pkgname.post-install"
+triggers="$pkgname.trigger=/usr/share/dbus-1/system.d"
+options="!check" # Borked in pmbootstrap...
+subpackages="
+	$pkgname-daemon-launch-helper:launchhelper
+	$pkgname-dev
+	$pkgname-doc
+	$pkgname-libs
+	$pkgname-x11
+	$pkgname-service
+	"
+source="https://dbus.freedesktop.org/releases/dbus/dbus-$_pkgver.tar.xz"
+builddir="$srcdir/dbus-$_pkgver"
+
+# secfixes:
+#   1.14.4-r0:
+#     - CVE-2022-42010
+#     - CVE-2022-42011
+#     - CVE-2022-42012
+#   1.12.18-r0:
+#     - CVE-2020-12049
+#   1.12.16-r0:
+#     - CVE-2019-12749
+
+build() {
+	CFLAGS="$CFLAGS -flto=auto" \
+	./configure \
+		--build=$CBUILD \
+		--host=$CHOST \
+		--prefix=/usr \
+		--localstatedir=/var \
+		--sysconfdir=/etc \
+		--with-system-pid-file=/run/dbus/dbus.pid \
+		--enable-checks \
+		--disable-assertions \
+		--enable-systemd \
+		--enable-inotify \
+		--enable-libaudit \
+		--enable-user-session \
+		--disable-static
+
+	make
+}
+
+check() {
+	make check
+}
+
+package() {
+	depends="$pkgname-libs=$pkgver-r$pkgrel"
+
+	make DESTDIR="$pkgdir" install
+
+	# can't  install tmpfs
+	rm -r "$pkgdir"/var/run
+}
+
+libs() {
+	pkgdesc="D-BUS access libraries"
+	depends="systemd-libs"
+
+	amove usr/lib/lib*.so.*
+}
+
+x11() {
+	pkgdesc="X11 add-ons for D-BUS"
+	depends="$pkgname=$pkgver-r$pkgrel"
+
+	amove usr/bin/dbus-launch
+}
+
+launchhelper() {
+	pkgdesc="DBus SUID launch helper for autospawning"
+	install_if="$pkgname=$pkgver-r$pkgrel"
+
+	amove usr/libexec/dbus-daemon-launch-helper
+}
+
+dev() {
+	default_dev
+}
+
+sha512sums="
+775b708326059692937acb69d4ce1a89e69878501166655b5d1b1628ac31b50dd53d979d93c84e57f95e90b15e25aa33893e51a7421d3537e9c2f02b1b91bfae  dbus-1.14.10.tar.xz
+"

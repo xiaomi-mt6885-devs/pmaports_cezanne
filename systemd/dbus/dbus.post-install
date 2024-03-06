@@ -1,0 +1,4 @@
+#!/bin/sh
+
+# Don't populate this, we want systemd-firstboot to do it instead.
+exec dbus-uuidgen --ensure=/etc/machine-id
