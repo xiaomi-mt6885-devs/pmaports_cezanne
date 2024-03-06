@@ -1,0 +1,11 @@
+[Unit]
+Description=Qualcomm boot slot ctrl mark boot successful
+
+[Service]
+ExecStart=/usr/bin/qbootctl -m
+Type=oneshot
+RemainAfterExit=yes
+
+[Install]
+# FIXME: maybe do this a bit later on
+WantedBy=multi-user.target

@@ -1,0 +1,154 @@
+# Maintainer: Caleb Connolly <caleb@connolly.tech>
+# Service files for projects that would otherwise either
+# need to be forked just for the service, or don't provide
+# a service file at all.
+
+# How to add a new service file (4 steps):
+pkgname=systemd-services
+# 1. bump pkgver
+pkgver=3
+pkgrel=1
+pkgdesc="Systemd service files"
+url="https://postmarketos.org"
+arch="noarch"
+options="!check"
+license="BSD-3-Clause"
+triggers="$pkgname.trigger=/usr/lib/systemd"
+
+# 2. Add a new entry to subpackes in the format
+#    <pkgname>-service:_service where pkgname is the name
+#    of the package this service file should be part of
+#    ALPHABETICAL ORDER!!!
+subpackages="
+	apk-polkit-rs-service:_service
+	at-spi2-core-service:_service
+	bluez-service:_service
+	dconf-service:_service
+	flatpak-service:_service
+	hexagonrpcd-service:_service
+	iio-sensor-proxy-service:_service
+	modemmanager-service:_service
+	nftables-service:_service
+	openssh-server-pam-service:_service
+	pd-mapper-service:_service
+	pulseaudio-service:_service
+	q6voiced-service:_service
+	qbootctl-service:_service
+	rmtfs-service:_service
+	sleep-inhibitor-service:_service
+	tqftpserv-service:_service
+	wpa_supplicant-service:_service
+	xdg-desktop-portal-service:_service
+	xdg-desktop-portal-gtk-service:_service
+	xdg-desktop-portal-gnome-service:_service
+	xdg-desktop-portal-wlr-service:_service
+"
+# 3. Add a new entry below with the list of service files
+#    to install for that package
+_apk_polkit_rs_sources="system/apk-polkit-server.service"
+_at_spi2_core_sources="user/at-spi-dbus-bus.service"
+_bluez_sources="system/bluetooth.service"
+_dconf_sources="user/dconf.service"
+_flatpak_sources="system/flatpak-system-helper.service user/flatpak-session-helper.service user/flatpak-portal.service"
+_hexagonrpcd_sources="system/hexagonrpcd-sdsp.service system/iio-sensor-proxy.d/hexagonrpcd.conf"
+_iio_sensor_proxy_sources="system/iio-sensor-proxy.service"
+_modemmanager_sources="system/ModemManager.service"
+_nftables_sources="system/nftables.service"
+_openssh_server_pam_sources="system/sshd.service system/sshdgenkeys.service"
+_pd_mapper_sources="system/pd-mapper.service"
+_pulseaudio_sources="user/pulseaudio.service user/pulseaudio.socket"
+_q6voiced_sources="system/q6voiced.service"
+_qbootctl_sources="system/qbootctl.service"
+_rmtfs_sources="system/rmtfs.service"
+_sleep_inhibitor_sources="system/sleep-inhibitor.service"
+_tqftpserv_sources="system/tqftpserv.service"
+_wpa_supplicant_sources="system/wpa_supplicant.service"
+_xdg_desktop_portal_sources="
+	user/xdg-desktop-portal.service
+	user/xdg-desktop-portal-rewrite-launchers.service
+	user/xdg-document-portal.service
+	user/xdg-permission-store.service
+"
+_xdg_desktop_portal_gtk_sources="user/xdg-desktop-portal-gtk.service"
+_xdg_desktop_portal_gnome_sources="user/xdg-desktop-portal-gnome.service"
+_xdg_desktop_portal_wlr_sources="user/xdg-desktop-portal-wlr.service"
+
+flatpath() {
+	local i
+	for i in $@; do
+		echo "$i" | sed s./.-.g
+	done
+}
+
+# 4. Add the _sources variable to the list below
+source="$(flatpath \
+	$_apk_polkit_rs_sources \
+	$_at_spi2_core_sources \
+	$_bluez_sources \
+	$_dconf_sources \
+	$_flatpak_sources \
+	$_hexagonrpcd_sources \
+	$_iio_sensor_proxy_sources \
+	$_modemmanager_sources \
+	$_nftables_sources \
+	$_openssh_server_pam_sources \
+	$_pd_mapper_sources \
+	$_pulseaudio_sources \
+	$_q6voiced_sources \
+	$_qbootctl_sources \
+	$_rmtfs_sources \
+	$_sleep_inhibitor_sources \
+	$_tqftpserv_sources \
+	$_wpa_supplicant_sources \
+	$_xdg_desktop_portal_sources \
+	$_xdg_desktop_portal_gtk_sources \
+	$_xdg_desktop_portal_gnome_sources \
+	$_xdg_desktop_portal_wlr_sources \
+)"
+
+_service() {
+	local name=$(echo ${subpkgname%%-service})
+	local n=$(echo ${subpkgname%-service} | sed s/-/_/g)
+	pkgdesc="$name systemd service files"
+	install_if="systemd-services=$pkgver-r$pkgrel systemd $name"
+	for f in $(eval "echo \$_${n}_sources"); do
+		install -Dm644 "$srcdir/$(flatpath "$f")" "$subpkgdir"/usr/lib/systemd/"$f"
+	done
+}
+
+package() {
+	mkdir -p "$pkgdir"
+}
+
+sha512sums="
+269dfc4748a9f1c4f49be8bab399d7412b6ff3b6d6ed9b3f2e31074b791789fb39aad450b4d43d318e7a070d1118ba79f216782b064cd106feac3eb4a8ca5581  system-apk-polkit-server.service
+12f5e008b0a41b3426b29f33556689ef88ba7184293ddb78fdaaf05cc4d029fd0b4c8fbef668aefed103a9f48c525f04a8e4e60ddc6e4329698aaf761b8e8f81  user-at-spi-dbus-bus.service
+de133c35cf95d7c833368c9010264668e72657400ad4e5259ef046321c878507f36ef73fa7b4759f69c9d18cda8f8db8d7675d794d9a28f46480fb4d47ba9e0c  system-bluetooth.service
+9661edefab338bb319d7034c301ed36d498b103176b7a0d2be1c8bed608574ca70d853e6c09fd86a3b2b2941e2a669671a91f15bad4051cc187e0748bf0443c3  user-dconf.service
+0cfef56afeea103ca487b36f13665021bb349b8c890f023135a93c47d45cb58dd39ffe76212fb780546b1aaed8174e40345a961d7125f7d7ace5921e1dcc7ba9  system-flatpak-system-helper.service
+815a3072c211c85ff475ac7f2fb9c280b567b98777c0f7bf7fea4575b5eaa3b9a4003a08eb3b8cb5b2d7f9fb6525e04491e8d87013e2539ae3a574db647f97b1  user-flatpak-session-helper.service
+7a17986c0f0554f0b27a5933b3e04657323edb23047878616727863fdc748cb8d8fea978f43895341037e2d1512bbd492bdbc19c40419cd3e109345614645388  user-flatpak-portal.service
+b009a1494f84705dcbea664823e24fb18f326ca84017d9c470ef55c0225d519993aacacf76b24c895ee926dbc2b3269ebc6b2a353cda5ad1b732af5624941a6a  system-hexagonrpcd-sdsp.service
+af0e416f78ab317fe09813de58b446e5178457992ea4a2da2eb128811045201087d847e1b7ac0447a59c20129a736135e5d76b113262aa1f76b994e77b9c6b42  system-iio-sensor-proxy.d-hexagonrpcd.conf
+46574c2380f438ca52342a1a492f3e6fce270adfe55f284c79bda0d7f038e261da770d52a2822e141eb2029c29cd84fea07e8221fed2d8510f21cdd509d9db4c  system-iio-sensor-proxy.service
+5eab6a59c81232b188df45482e325b2d1cb9e038ca147a1b6983c1c095d8194fba804793c5e291b201a820976c8f506aadd2daf7c52fe573a3af708fc9984641  system-ModemManager.service
+d41d0aa1d4d577cd718185399c95055c0511d4aeb902c771ccec13655354aafc85c3f270431fd3debc7e05f0a8cbdb90f1969b673ae7e5310c1f46cb8120e3f2  system-nftables.service
+fa445c4a53214524baed4e9c52a5463592a074f88a5a286eacb60d0907c0545f725afde23abd68cf611067add80c2ccb289a381fc5ff6a5f654ea49c81f02fe8  system-sshd.service
+c0badea3905c1d53d213fbfe11d25b556a2e484fe77eb50e9f4d42e25b67b56a0804e7d8e1b7731cd280cbb3525b4c60311817609381e2308d9f2dfb7c0d7072  system-sshdgenkeys.service
+0bed9a8a719661609ad84d1c6fcdf2fe9213e741682b7ddebad82d9744f137c593788ed522868f10b95b599d81743d07ec3212630a7e99d333261dfa1bf1cc11  system-pd-mapper.service
+416cdca1d43af8f7a9fcb5c04abdc666500f918fa5a6985736be6132da074aa1f322ba891d74eefaeff4b8911240a3942bf82ef21ec3ba0c1f10ccc37e6cea49  user-pulseaudio.service
+26c47085980e3f11f214d51846509f41ec9367360355b2d3fb40c7dc6e4394e04d084e645081d03c794669b902141513fbc6c3828b599588e308f98e28d99a92  user-pulseaudio.socket
+4c4c3f1e5e829ff67dd35df59120ab59730ff1f1ca0aab93f16d670132979a99099fad59e6c736908cc19df9172c9bdfe476ec721a1cc28de8c2210da46ce1f1  system-q6voiced.service
+621189aa251655796795f4fa0cd79360bb67573e7327e545064eaadafc83cc7b382a405d6ba80662e0a4ece3876e4270e3563d859a6ba63b5e3854b39c35873e  system-qbootctl.service
+11bb0ff9ab32f0f230c665db2738e37e5226fa200621b9207baf92e0632a38f840395a55ef6e827763911cf78f3bad95cd3456e77cc01b30b8abce96dc13df9d  system-rmtfs.service
+be9df5e3fd9c88ec1a8db4aa2d9e8075d74ee3d2670aa3cfc611df3cff4d4041ac888a0338c9d5f134bbc69aa32eb52ac40eb3e0981813afa18389cba14d3818  system-sleep-inhibitor.service
+c569b27925297672c479e12a6425abdf5791886fff77c2c2b67b7aa9277eb0a22e7b95b52dbc225870c97460d0988a4dae18ed864e19096c704c0895de55b699  system-tqftpserv.service
+d55edea6983ad73b1817dfac3e6d418113c8e0fbd6cb2835dedcad2e5c76c8889c09348a184ed4ab38397d7d539831ef6a7ce08037e12c7ab6dc274519dc5812  system-wpa_supplicant.service
+9a3620d3df53540a91efa48df322288d96ec887415f538877a979be40eb5239b95917b9ac57fda2c699fe3f1c6500f7de09a4ce6625b0818f5786e125713552f  user-xdg-desktop-portal.service
+e09a3c76f3be961dce9f564bb654ea84d1d7fb59907a2168c0569bf6c17a5ebe9fbe4d1f94f1d014433757bb721bc443d5962deb540cacbd5547b1dd47717f92  user-xdg-desktop-portal-rewrite-launchers.service
+9dd95f10dcdb6234697b012c6f428cfca0cfbde24a8951e96cb4c463f55a22d40096a94ca0018f9dbe4ebb2c80eb39faeaa9222f6fb419831520a138f88f0321  user-xdg-document-portal.service
+1262f10b97989be726432700a923d7717570feb7b0d78c3c573e21ee6be320f5a618d0d21c1eb351702397caa95b476b8854bf83545993fb464b4a7a80067800  user-xdg-permission-store.service
+eb01dd32fc598e49cbae31847aee4c3e28ee5014df052d65ad02c9a943a9e3399a4a119aa136630efef1157e31f6adc2d8420f8e72dc9da4c0b72645e4c84faa  user-xdg-desktop-portal-gtk.service
+0ee2f844819c5f954d269d3703c17b5e51888bb89bd4376d3960f97735b1ba9769c932817270fdb75b8ddf291c21ab6eb78d1a8bde14aac83564881b36914066  user-xdg-desktop-portal-gnome.service
+744c60fdc6e53ba2c9f370ce8462e1a420cfea973edff49d0caf7a3e65f0f35257d61b5ae3ace3e9d9d48e382cb54d9f2ff96ad02d5e16758a49ba2e07963e5a  user-xdg-desktop-portal-wlr.service
+"

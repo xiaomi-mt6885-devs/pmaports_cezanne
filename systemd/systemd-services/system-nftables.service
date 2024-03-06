@@ -1,0 +1,14 @@
+[Unit]
+Description=nftables firewall used on pmOS
+Wants=network-pre.target
+Before=network-pre.target
+
+[Service]
+Type=oneshot
+ExecStart=/usr/sbin/nft -f "/etc/nftables.nft"
+ExecReload=/usr/sbin/nft -f "/etc/nftables.nft"
+ExecStop=/usr/sbin/nft flush ruleset
+Type=simple
+
+[Install]
+WantedBy=multi-user.target

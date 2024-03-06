@@ -1,0 +1,10 @@
+[Unit]
+Description=PolKit server to manage APK through DBus
+
+[Service]
+ExecStart=/usr/libexec/apk-polkit/apk-polkit-server
+Restart=always
+RestartSec=1
+
+[Install]
+WantedBy=multi-user.target
