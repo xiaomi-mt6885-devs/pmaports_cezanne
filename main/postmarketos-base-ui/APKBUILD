@@ -1,6 +1,6 @@
 # Maintainer: Clayton Craft <clayton@craftyguy.net>
 pkgname=postmarketos-base-ui
-pkgver=20
+pkgver=9999
 pkgrel=0
 pkgdesc="Meta package for minimal postmarketOS UI base"
 url="https://postmarketos.org"
@@ -119,7 +119,7 @@ bluez() {
 
 elogind() {
 	install_if="$pkgname=$pkgver-r$pkgrel elogind"
-	depends="sleep-inhibitor"
+	depends="sleep-inhibitor !systemd-logind"
 	install="$subpkgname.pre-upgrade $subpkgname.post-install"
 	replaces="
 		elogind
@@ -177,7 +177,6 @@ networkmanager() {
 		gojq
 		networkmanager
 		networkmanager-cli
-		networkmanager-openrc
 		networkmanager-tui
 		networkmanager-wifi
 		networkmanager-wwan
