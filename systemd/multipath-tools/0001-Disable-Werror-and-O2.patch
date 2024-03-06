@@ -1,0 +1,31 @@
+From 1494b5a3d96d8e8273c8c4e12cb08b2a86162842 Mon Sep 17 00:00:00 2001
+From: Leonardo Arena <rnalrd@alpinelinux.org>
+Date: Mon, 13 Sep 2021 07:18:04 +0000
+Subject: [PATCH] Disable 'O2' and 'Werror' CFLAGS
+
+--- a/Makefile.inc
++++ b/Makefile.inc
+@@ -97,8 +97,8 @@ ERROR_DISCARDED_QUALIFIERS := $(call TEST_CC_OPTION,-Werror=discarded-qualifiers
+ WNOCLOBBERED := $(call TEST_CC_OPTION,-Wno-clobbered -Wno-error=clobbered,)
+ WFORMATOVERFLOW := $(call TEST_CC_OPTION,-Wformat-overflow=2,)
+ 
+-OPTFLAGS	:= -O2 -g $(STACKPROT) --param=ssp-buffer-size=4
+-WARNFLAGS	:= -Werror -Wall -Wextra -Wformat=2 $(WFORMATOVERFLOW) -Werror=implicit-int \
++OPTFLAGS	:= -Os -g $(STACKPROT) --param=ssp-buffer-size=4
++WARNFLAGS	:= -Wall -Wextra -Wformat=2 $(WFORMATOVERFLOW) -Werror=implicit-int \
+ 		  -Werror=implicit-function-declaration -Werror=format-security \
+ 		  $(WNOCLOBBERED) -Werror=cast-qual $(ERROR_DISCARDED_QUALIFIERS)
+ CPPFLAGS	:= -Wp,-D_FORTIFY_SOURCE=2
+--- a/libmultipath/configure.c
++++ b/libmultipath/configure.c
+@@ -10,6 +10,7 @@
+ #include <stdlib.h>
+ #include <unistd.h>
+ #include <string.h>
++char *basename();
+ #include <sys/file.h>
+ #include <errno.h>
+ #include <ctype.h>
+-- 
+2.32.0
+

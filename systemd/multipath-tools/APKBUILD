@@ -1,0 +1,60 @@
+# Forked from Alpine to remove eudev dependency
+
+pkgname=multipath-tools
+pkgver=99990.9.7
+_pkgver=0.9.7
+pkgrel=0
+pkgdesc="Device Mapper Multipathing Driver"
+url="http://christophe.varoqui.free.fr/"
+arch="all"
+license="LGPL-2.0-only"
+depends="device-mapper"
+makedepends="
+	json-c-dev
+	libaio-dev
+	lvm2-dev
+	ncurses-dev
+	perl
+	readline-dev
+	systemd-dev
+	userspace-rcu-dev
+	util-linux-dev
+	"
+subpackages="$pkgname-doc $pkgname-openrc"
+source="$pkgname-$_pkgver.tar.gz::https://github.com/opensvc/multipath-tools/archive/refs/tags/$_pkgver.tar.gz
+	multipath-tools.conf
+	multipath.initd
+	multipathd.initd
+	0001-Disable-Werror-and-O2.patch
+	"
+options="!check"
+builddir="$srcdir"/multipath-tools-"$_pkgver"
+
+build() {
+	make prefix="/usr" \
+		sysconfdir="/etc" \
+		configdir="/etc/multipath/conf.d" \
+		mandir="/usr/share/man" \
+		infodir="/usr/share/info"
+}
+
+package() {
+	make prefix="/usr" SYSTEMDPATH="/usr/lib" LIB=lib DESTDIR="$pkgdir" install
+
+	install -D -m644 "$srcdir"/$pkgname.conf \
+		"$pkgdir"/etc/multipath.conf
+	install -D -m755 "$srcdir"/multipathd.initd \
+		"$pkgdir"/etc/init.d/multipathd
+	install -D -m755 "$srcdir"/multipath.initd \
+		"$pkgdir"/etc/init.d/multipath
+	install -D -m644 README.md \
+		"$pkgdir"/usr/share/doc/$pkgname/README.md
+}
+
+sha512sums="
+0f4c97179a3de5a0c77893fec229eb183293fed8e5e01a9945b261845ccf5d13f8ef2c2ff0c17c9345217d236275caed4765422ec95aed80821f11658bf96e26  multipath-tools-0.9.7.tar.gz
+e81462b22c0cbc92ea935d7544b9f9a0c4ccbcf13f3bc03dadf6de96407c9cf49964c9bbf02f12a134e1255c66421c6fde39d54b15eef975e8df81bdc88b2213  multipath-tools.conf
+97deeee57daee787d807da0a4dbf50baae047ddcda30925f7000ec822b5a17a3dc55196c3e032c8ffbc2caeac690ce5ca485b0a7c99f15e66bddaa000439112a  multipath.initd
+71933b27a9ed76d00766ee29e0583ccf08bd689805cf77e284bc318bae62ad7bcde1894b2e50993019462b0c9787eaa780b271244ff11ef52cca290604900343  multipathd.initd
+7235f38f7e86d0b035bf8904397bebfa2439bfc2d52986cfa60b39432eaadd6283fdfb7d73169d80a44ec5119cde37e25892e45c76e89cd145915207aa4c908f  0001-Disable-Werror-and-O2.patch
+"
