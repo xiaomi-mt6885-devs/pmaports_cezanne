@@ -1,0 +1,58 @@
+# Maintainer: Oliver Smith <ollipearanoid@postmarketos.org>
+# pmbootstrap installs this, if systemd is selected in "pmbootstrap init".
+pkgname=postmarketos-base-systemd
+pkgver=1
+pkgrel=0
+pkgdesc="Meta package for running postmarketOS with systemd"
+url="https://postmarketos.org"
+arch="noarch"
+license="GPL-3.0-or-later"
+options="!check"
+depends="
+	openssh-server-pam
+	polkit
+	systemd
+	tzdata
+	linux-pam=1.5.3-r8
+	"
+replaces="alpine-baselayout postmarketos-base systemd"
+
+_source644="
+	etc/motd.ansi
+	etc/profile.d/99motd.sh
+	etc/systemd/logind.conf
+	etc/ssh/sshd_config.d/usepam.conf
+"
+
+_source755="
+	usr/bin/setup-timezone
+"
+
+flatpath() {
+	local i
+	for i in $@; do
+		echo "rootfs-$i" | sed s./.-.g
+	done
+}
+source="$(flatpath $_source644 $_source755)"
+
+package() {
+	local i
+	for i in $_source644; do
+		install -Dm644 "$srcdir/$(flatpath "$i")" "$pkgdir/$i"
+	done
+	for i in $_source755; do
+		install -Dm755 "$srcdir/$(flatpath "$i")" "$pkgdir/$i"
+	done
+
+	# This gets printed still so overwrite it with an empty file.
+	touch $pkgdir/etc/motd
+}
+
+sha512sums="
+a6c27ab5d365807a40b16328918b6ca3d7f97a4128381674001cf46133928d8bb073ff4691b78c82f7965bcc2649d7ca4bf3e7453dd61be9b9341bbe6b448fd6  rootfs-etc-motd.ansi
+fbaa33425e507062a454f11bda48508f261c2144e5c23a20f567dc1cef14ce1dec57f8d934f418f5b6095509757f8503481aba9790a04c8f9f6995e65833d8c9  rootfs-etc-profile.d-99motd.sh
+2faac294bb632762e247b850f09ff4b544ccff6c462efd8d4faca71ba30bdfa9c460377a0dc88e92c5dbbe251017d164064a56ac0e0410f224b45d4f5f81866c  rootfs-etc-systemd-logind.conf
+208f53c1d142151277cfcf0a95df839919ce8cb15ec888d50890dc6b3631a994335bfa12194cec856b649f97cfd7c80019c595cc0ea2c5ee96498a3e76a9950b  rootfs-etc-ssh-sshd_config.d-usepam.conf
+605df1f004783d2e0ec5dd99a688bca27502c8c24bc05fb4dc26589b2070b0fbd1cf9bd56e6861d7cda2f8ac8147e7eb040acfd886185c01c8cf9de8b1ce2dcd  rootfs-usr-bin-setup-timezone
+"

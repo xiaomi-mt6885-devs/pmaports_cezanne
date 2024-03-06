@@ -1,0 +1,13 @@
+\033[1;33mNOTICE:\033[22m This build is for showcasing systemd support, it is buggy,
+unreliable, and NOT suitable for use on devices you rely on.
+
+As there is no binary repository for systemd packages yet, please
+do not run \033[38;5;252mapk upgrade -a\033[33m as it *will* break your system.
+
+For up to date info on the state of systemd support in postmarketOS,
+please see \033[38;5;75mhttps://postmarketos.org/systemd\033[0m
+
+This distribution is based on Alpine Linux.
+First time using postmarketOS? Make sure to read the cheatsheet in the wiki:
+
+-> \033[38;5;75mhttps://postmarketos.org/cheatsheet\033[0m
