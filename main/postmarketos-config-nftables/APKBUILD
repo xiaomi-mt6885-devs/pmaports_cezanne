@@ -1,12 +1,12 @@
 # Maintainer: Clayton Craft <clayton@craftyguy.net>
 pkgname=postmarketos-config-nftables
-pkgver=0.16
+pkgver=0.17
 pkgrel=0
 pkgdesc="nftables firewall configuration for postmarketOS"
 url="https://gitlab.com/postmarketos"
 arch="noarch"
 license="MIT"
-depends="nftables-openrc"
+depends=""
 subpackages="
 	$pkgname-openusb:openusb
 	$pkgname-log:log
@@ -19,6 +19,7 @@ subpackages="
 	$pkgname-vlc-chromecast:vlc_chromecast
 	$pkgname-vncserver:vncserver
 	$pkgname-wifi-display:wifi_display
+	$pkgname-openrc:openrc
 "
 source="
 	rules/00_log_all.nft
@@ -53,6 +54,13 @@ openusb() {
 	description="Adds a rule to accept all incoming connections to the usb* interface"
 
 	amove etc/nftables.d/60_usb.nft
+}
+
+openrc() {
+	install_if="$pkgname=$pkgver-r$pkgrel openrc"
+	depends="nftables-openrc"
+
+	mkdir "$subpkgdir"
 }
 
 log() {
