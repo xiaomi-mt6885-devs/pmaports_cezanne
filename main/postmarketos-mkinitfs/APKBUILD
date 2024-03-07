@@ -1,7 +1,8 @@
 # Maintainer: Oliver Smith <ollieparanoid@postmarketos.org>
 # Co-Maintainer: Clayton Craft <clayton@craftyguy.net>
 pkgname=postmarketos-mkinitfs
-pkgver=2.4.0
+pkgver=9992.3.1
+_pkgver=2.2.2
 pkgrel=0
 pkgdesc="Tool to generate initramfs images for postmarketOS"
 url="https://postmarketos.org"
@@ -23,11 +24,12 @@ triggers="$pkgname.trigger=\
 
 # mkinitfs-vendor-$pkgver.tar.gz: vendored Go deps, is part of the release:
 # https://gitlab.com/postmarketOS/postmarketos-mkinitfs/-/releases
+_commit="23183e62daa08984bf38ba22ca041cf75bd30cae"
 source="
-	https://gitlab.com/postmarketOS/postmarketos-mkinitfs/-/archive/$pkgver/postmarketos-mkinitfs-$pkgver.tar.gz
-	https://gitlab.com/api/v4/projects/postmarketOS%2Fpostmarketos-mkinitfs/packages/generic/mkinitfs-vendor-$pkgver/$pkgver/mkinitfs-vendor-$pkgver.tar.gz
+	postmarketos-mkinitfs-$_commit.tar.gz::https://gitlab.com/postmarketOS/postmarketos-mkinitfs/-/archive/$_commit/postmarketos-mkinitfs-$_commit.tar.gz
+	https://gitlab.com/api/v4/projects/postmarketOS%2Fpostmarketos-mkinitfs/packages/generic/mkinitfs-vendor-$_pkgver/$_pkgver/mkinitfs-vendor-$_pkgver.tar.gz
 	"
-
+builddir="$srcdir/postmarketos-mkinitfs-$_commit"
 install="$pkgname.post-upgrade"
 arch="all"
 license="GPL-2.0-or-later"
@@ -47,7 +49,7 @@ prepare() {
 
 build() {
 	unset LDFLAGS  # passed to Go as linker flags, which are invalid
-	make VERSION="$pkgver"
+	make VERSION="$_pkgver"
 }
 
 package() {
@@ -59,6 +61,6 @@ check() {
 }
 
 sha512sums="
-999cc57ebd9c9a1ef22f76093802bd95712b8f03578d50884818f4452cbc1887e306a8856a3631b6fcca6f132c7b12ce55023d0673f809b884c36c31ad3e861f  postmarketos-mkinitfs-2.4.0.tar.gz
-ee20b2bf71f5cd584aab04da9937462d87a8ec29691681588208d862ae85dedc02f1ca0e0aa8d3020fdbe65e16f4dcf215fd12e285056a3f654523c7891afac3  mkinitfs-vendor-2.4.0.tar.gz
+39e7ed557d76f7b7997d0a9ea82dc7cc528fca3d1a5c572e88fdf4c4cb51619e11419f984c2bd480119ac53711b87bdc1d37b5225309b83f4ab3196d8653f7db  postmarketos-mkinitfs-23183e62daa08984bf38ba22ca041cf75bd30cae.tar.gz
+34ecfb29d3b0e547ba3ba3e50fa0e962c3c381cc200b12504354a9cfcc46a1b2987a69f298eedb5c39a6cdb06bc270119c991ffe1f96399e37ec8c20e90385f4  mkinitfs-vendor-2.2.2.tar.gz
 "
