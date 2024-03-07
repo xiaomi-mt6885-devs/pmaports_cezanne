@@ -1,0 +1,12 @@
+[Unit]
+Description=Kill pbsplash!
+After=graphical.target
+Requisite=graphical.target
+
+[Service]
+ExecStart=-/usr/bin/killall pbsplash
+Type=oneshot
+RemainAfterExit=yes
+
+[Install]
+WantedBy=graphical.target
