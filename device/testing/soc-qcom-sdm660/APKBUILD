@@ -1,7 +1,7 @@
 # Maintainer: Max Buchholz <max.buchholz@gmx.de>
 pkgname=soc-qcom-sdm660
 pkgdesc="Common package for Qualcomm SDM630/636/660 devices"
-pkgver=1
+pkgver=2
 pkgrel=0
 url="https://postmarketos.org"
 license="BSD-3-Clause"
@@ -19,13 +19,16 @@ package() {
 rproc() {
 	pkgdesc="Modem and Wifi services and configuration"
 	depends="
+		bootmac
 		msm-modem
-		pd-mapper
-		pd-mapper-openrc
+		qcom-diag
+		qcom-diag-openrc
+		rmtfs
+		rmtfs-openrc
 		tqftpserv
 		tqftpserv-openrc
 	"
-	install="$subpkgname.post-install"
+	install="$subpkgname.post-install $subpkgname.post-upgrade"
 	mkdir "$subpkgdir"
 }
 
