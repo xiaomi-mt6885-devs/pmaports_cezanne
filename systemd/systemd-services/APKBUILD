@@ -6,7 +6,7 @@
 # How to add a new service file (4 steps):
 pkgname=systemd-services
 # 1. bump pkgver
-pkgver=4
+pkgver=5
 pkgrel=0
 pkgdesc="Systemd service files"
 url="https://postmarketos.org"
@@ -31,6 +31,7 @@ subpackages="
 	nftables-service:_service
 	openssh-server-pam-service:_service
 	pd-mapper-service:_service
+	phosh-service:_service
 	pulseaudio-service:_service
 	q6voiced-service:_service
 	qbootctl-service:_service
@@ -57,6 +58,7 @@ _modemmanager_sources="system/ModemManager.service"
 _nftables_sources="system/nftables.service"
 _openssh_server_pam_sources="system/sshd.service system/sshdgenkeys.service"
 _pd_mapper_sources="system/pd-mapper.service"
+_phosh_sources="system/phosh.service"
 _pulseaudio_sources="user/pulseaudio.service user/pulseaudio.socket"
 _q6voiced_sources="system/q6voiced.service"
 _qbootctl_sources="system/qbootctl.service"
@@ -95,6 +97,7 @@ source="$(flatpath \
 	$_nftables_sources \
 	$_openssh_server_pam_sources \
 	$_pd_mapper_sources \
+	$_phosh_sources \
 	$_pulseaudio_sources \
 	$_q6voiced_sources \
 	$_qbootctl_sources \
@@ -139,6 +142,7 @@ d41d0aa1d4d577cd718185399c95055c0511d4aeb902c771ccec13655354aafc85c3f270431fd3de
 fa445c4a53214524baed4e9c52a5463592a074f88a5a286eacb60d0907c0545f725afde23abd68cf611067add80c2ccb289a381fc5ff6a5f654ea49c81f02fe8  system-sshd.service
 c0badea3905c1d53d213fbfe11d25b556a2e484fe77eb50e9f4d42e25b67b56a0804e7d8e1b7731cd280cbb3525b4c60311817609381e2308d9f2dfb7c0d7072  system-sshdgenkeys.service
 0bed9a8a719661609ad84d1c6fcdf2fe9213e741682b7ddebad82d9744f137c593788ed522868f10b95b599d81743d07ec3212630a7e99d333261dfa1bf1cc11  system-pd-mapper.service
+5f53e07a48c64ab27deead4c1dc64dbea048de5632026d131e27e0fc3115723a1138d043199e2fdba9a281c420b3286a0aa96b063ed7f02c1153487ef732dd98  system-phosh.service
 416cdca1d43af8f7a9fcb5c04abdc666500f918fa5a6985736be6132da074aa1f322ba891d74eefaeff4b8911240a3942bf82ef21ec3ba0c1f10ccc37e6cea49  user-pulseaudio.service
 26c47085980e3f11f214d51846509f41ec9367360355b2d3fb40c7dc6e4394e04d084e645081d03c794669b902141513fbc6c3828b599588e308f98e28d99a92  user-pulseaudio.socket
 4c4c3f1e5e829ff67dd35df59120ab59730ff1f1ca0aab93f16d670132979a99099fad59e6c736908cc19df9172c9bdfe476ec721a1cc28de8c2210da46ce1f1  system-q6voiced.service
