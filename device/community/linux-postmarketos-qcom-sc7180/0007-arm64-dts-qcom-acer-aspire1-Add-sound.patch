@@ -1,7 +1,7 @@
-From d081eaf8adc96ae9ba68ffe3f69f3057ead4bc63 Mon Sep 17 00:00:00 2001
+From bf688cd32b158a962bbce6103b3f43dda5d80a5a Mon Sep 17 00:00:00 2001
 From: Nikita Travkin <nikita@trvn.ru>
 Date: Tue, 5 Dec 2023 16:48:12 +0500
-Subject: [PATCH 16/17] arm64: dts: qcom: acer-aspire1: Add sound
+Subject: [PATCH 7/8] arm64: dts: qcom: acer-aspire1: Add sound
 
 This laptop has two i2s speakers; an i2s audio codec for the headset
 jack; two DMIC microphones in the lid and the displayport audio channel.
@@ -23,7 +23,7 @@ Signed-off-by: Bjorn Andersson <andersson@kernel.org>
  1 file changed, 153 insertions(+)
 
 diff --git a/arch/arm64/boot/dts/qcom/sc7180-acer-aspire1.dts b/arch/arm64/boot/dts/qcom/sc7180-acer-aspire1.dts
-index 7bde69f39c8a..58f694d8e762 100644
+index 00b442696618..5afcb8212f49 100644
 --- a/arch/arm64/boot/dts/qcom/sc7180-acer-aspire1.dts
 +++ b/arch/arm64/boot/dts/qcom/sc7180-acer-aspire1.dts
 @@ -3,6 +3,7 @@
@@ -148,7 +148,7 @@ index 7bde69f39c8a..58f694d8e762 100644
  	reg_tp_3p3: touchpad-regulator {
  		compatible = "regulator-fixed";
  		regulator-name = "tp_3p3";
-@@ -366,6 +474,45 @@ &pm6150_rtc {
+@@ -368,6 +476,45 @@ &pm6150_rtc {
  	status = "okay";
  };
  
@@ -194,7 +194,7 @@ index 7bde69f39c8a..58f694d8e762 100644
  &qupv3_id_0 {
  	status = "okay";
  };
-@@ -374,6 +521,12 @@ &qupv3_id_1 {
+@@ -376,6 +523,12 @@ &qupv3_id_1 {
  	status = "okay";
  };
  
@@ -208,5 +208,5 @@ index 7bde69f39c8a..58f694d8e762 100644
  	firmware-name = "qcom/sc7180/acer/aspire1/qcmpss7180_nm.mbn";
  	status = "okay";
 -- 
-2.43.0
+2.43.2
 

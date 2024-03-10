@@ -1,7 +1,7 @@
-From 73db0fa78b569523c6a5fa8e68ddfbe83a07be6c Mon Sep 17 00:00:00 2001
+From 419d22eeba6b335ba58d8dd9d064b871a37cb1fb Mon Sep 17 00:00:00 2001
 From: Nikita Travkin <nikita@trvn.ru>
 Date: Thu, 7 Sep 2023 15:02:37 +0500
-Subject: [PATCH 10/17] arm64: dts: qcom: sc7180: Add ADSP
+Subject: [PATCH 3/8] arm64: dts: qcom: sc7180: Add ADSP
 
 sc7180 has an ADSP remoteproc that exclusively controls the audio
 hardware on devices that use Qualcomm firmware.
@@ -18,10 +18,10 @@ Signed-off-by: Bjorn Andersson <andersson@kernel.org>
  1 file changed, 122 insertions(+)
 
 diff --git a/arch/arm64/boot/dts/qcom/sc7180.dtsi b/arch/arm64/boot/dts/qcom/sc7180.dtsi
-index 6988140a5270..b9d6c95191ae 100644
+index db5d04181ac4..3683419ee8f5 100644
 --- a/arch/arm64/boot/dts/qcom/sc7180.dtsi
 +++ b/arch/arm64/boot/dts/qcom/sc7180.dtsi
-@@ -19,6 +19,8 @@
+@@ -20,6 +20,8 @@
  #include <dt-bindings/reset/qcom,sdm845-aoss.h>
  #include <dt-bindings/reset/qcom,sdm845-pdc.h>
  #include <dt-bindings/soc/qcom,rpmh-rsc.h>
@@ -30,7 +30,7 @@ index 6988140a5270..b9d6c95191ae 100644
  #include <dt-bindings/thermal/thermal.h>
  
  / {
-@@ -3635,6 +3637,126 @@ wifi: wifi@18800000 {
+@@ -3781,6 +3783,126 @@ wifi: wifi@18800000 {
  			status = "disabled";
  		};
  
@@ -158,5 +158,5 @@ index 6988140a5270..b9d6c95191ae 100644
  			compatible = "qcom,sc7180-lpasscorecc";
  			reg = <0 0x62d00000 0 0x50000>,
 -- 
-2.43.0
+2.43.2
 

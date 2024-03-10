@@ -1,7 +1,7 @@
-From 904af70e09880a072393d4871abe16f99cdde2eb Mon Sep 17 00:00:00 2001
+From f997651c8dbcdbff191306117c4d4339d09e0924 Mon Sep 17 00:00:00 2001
 From: Nikita Travkin <nikita@trvn.ru>
 Date: Thu, 7 Sep 2023 15:02:36 +0500
-Subject: [PATCH 09/17] arm64: dts: qcom: sc7180: Add tertiary mi2s pinctrl
+Subject: [PATCH 2/8] arm64: dts: qcom: sc7180: Add tertiary mi2s pinctrl
 
 Some devices use tertiary mi2s to connect external audio codec.
 Add it near the other two i2s pinctrl definitions so the devices don't
@@ -17,12 +17,12 @@ Signed-off-by: Bjorn Andersson <andersson@kernel.org>
  1 file changed, 5 insertions(+)
 
 diff --git a/arch/arm64/boot/dts/qcom/sc7180.dtsi b/arch/arm64/boot/dts/qcom/sc7180.dtsi
-index 64ae9f27ba80..6988140a5270 100644
+index f7c528ecb224..db5d04181ac4 100644
 --- a/arch/arm64/boot/dts/qcom/sc7180.dtsi
 +++ b/arch/arm64/boot/dts/qcom/sc7180.dtsi
-@@ -1957,6 +1957,11 @@ pinmux {
- 					function = "lpass_ext";
- 				};
+@@ -2042,6 +2042,11 @@ pri_mi2s_mclk_active: pri-mi2s-mclk-active-state {
+ 				pins = "gpio57";
+ 				function = "lpass_ext";
  			};
 +
 +			ter_mi2s_active: ter-mi2s-active-state {
@@ -33,5 +33,5 @@ index 64ae9f27ba80..6988140a5270 100644
  
  		remoteproc_mpss: remoteproc@4080000 {
 -- 
-2.43.0
+2.43.2
 
