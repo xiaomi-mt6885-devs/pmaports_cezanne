@@ -20,8 +20,6 @@ depends="
 	postmarketos-base-ui-gnome
 	postmarketos-base-ui-qt-tweaks
 	postmarketos-base-ui-qt-wayland
-	tinydm
-	tinydm-openrc
 	udiskie
 	xdg-desktop-portal-wlr
 	"
@@ -45,7 +43,11 @@ source="
 	mimeapps.list
 	udiskie.desktop
 	"
-options="!check pmb:gpu-accel"
+options="!check pmb:gpu-accel pmb:systemd"
+subpackages="
+	$pkgname-openrc:openrc
+	$pkgname-systemd:systemd
+"
 
 package() {
 	install -Dm644 "$srcdir"/01_postmarketos-ui-phosh.gschema.override \
@@ -54,6 +56,26 @@ package() {
 		"$pkgdir"/usr/share/applications/mimeapps.list
 	install -Dm644 "$srcdir"/udiskie.desktop \
 		"$pkgdir"/etc/xdg/autostart/udiskie.desktop
+}
+
+openrc() {
+	install_if="$pkgname=$pkgver-r$pkgrel openrc"
+	install="$subpkgname.post-install"
+	depends="
+		tinydm
+		tinydm-openrc
+	"
+	mkdir "$subpkgdir"
+}
+
+systemd() {
+	install_if="$pkgname=$pkgver-r$pkgrel systemd"
+	install="$subpkgname.post-install"
+	depends="
+		libcap-utils
+		phosh-service
+	"
+	mkdir "$subpkgdir"
 }
 
 sha512sums="

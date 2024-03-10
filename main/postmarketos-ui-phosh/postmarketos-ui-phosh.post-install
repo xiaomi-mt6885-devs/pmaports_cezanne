@@ -1,9 +1,5 @@
 #!/bin/sh
 
-rc-update add tinydm default
-rc-update add waked default
-tinydm-set-session -s /usr/share/wayland-sessions/phosh.desktop
-
 # Add the user to relevant groups in post-upgrade (symlink to post-install).
 # Note that we don't want to rely on users existing in post-install
 # (pmaports#820), therefore the group is also set via _pmb_groups during
