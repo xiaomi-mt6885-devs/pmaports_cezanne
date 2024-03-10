@@ -49,7 +49,7 @@ _pmb_recommends="
 	"
 provides="postmarketos-ui-sxmo"
 provider_priority=10
-options="!check" # has no tests
+options="!check pmb:systemd-never"
 
 package() {
 	mkdir -p "$pkgdir"
