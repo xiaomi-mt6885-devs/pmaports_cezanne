@@ -29,7 +29,6 @@ makedepends="
 	kcrash-dev
 	kdegraphics-mobipocket-dev
 	kdoctools-dev
-	khtml-dev
 	kiconthemes-dev
 	kio-dev
 	kirigami-dev
@@ -51,7 +50,7 @@ makedepends="
 	"
 checkdepends="xvfb-run"
 _repo_url="https://invent.kde.org/graphics/okular.git"
-source="https://nightly.postmarketos.org/plasma-mobile/sources/2024-03-03/okular-$_commit.tar.xz"
+source="https://nightly.postmarketos.org/plasma-mobile/sources/2024-03-12/okular-$_commit.tar.xz"
 subpackages="
 	$pkgname-common
 	$pkgname-common-qml:common_qml

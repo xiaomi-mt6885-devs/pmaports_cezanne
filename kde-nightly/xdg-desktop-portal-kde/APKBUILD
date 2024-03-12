@@ -4,9 +4,9 @@
 # The group tag is just to easily find this APKBUILD by some scripts for automation
 # group=kde-plasma
 pkgname=xdg-desktop-portal-kde
-pkgver=9999_git20240301
+pkgver=9999_git20240303
 pkgrel=0
-_commit="b5e2ac11caedf6b8004d5270219f429f8465c98b"
+_commit="da3adf848e794d44cfeb4fa8905be2cc3b6df09a"
 pkgdesc="A backend implementation for xdg-desktop-portal that is using Qt/KDE"
 # armhf blocked by extra-cmake-modules
 arch="all !armhf"
@@ -38,7 +38,7 @@ case "$pkgver" in
 	*) _rel=stable;;
 esac
 _repo_url="https://invent.kde.org/plasma/xdg-desktop-portal-kde.git"
-source="https://nightly.postmarketos.org/plasma-mobile/sources/2024-03-03/xdg-desktop-portal-kde-$_commit.tar.xz"
+source="https://nightly.postmarketos.org/plasma-mobile/sources/2024-03-12/xdg-desktop-portal-kde-$_commit.tar.xz"
 
 options="!check"
 builddir="$srcdir/xdg-desktop-portal-kde-$_commit"
@@ -59,5 +59,5 @@ package() {
 }
 
 sha512sums="
-7af05031dbf04fccaa3322a1d658715cad25885652c7061b3dc50c525db90f0d97bda1b04031ef1113d32537b34dafc76babe929b3e379016fa442fd9ec84639  xdg-desktop-portal-kde-b5e2ac11caedf6b8004d5270219f429f8465c98b.tar.xz
+bd7ca67858b760466a14afb0643bedab0ecf2109cd0d2894b4e88f7b8040939560453358f4d3b5be77d7684856ee92bc4f02f86a1659ea7545f596eac209fd58  xdg-desktop-portal-kde-da3adf848e794d44cfeb4fa8905be2cc3b6df09a.tar.xz
 "
