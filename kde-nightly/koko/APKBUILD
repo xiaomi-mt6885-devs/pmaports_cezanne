@@ -4,9 +4,9 @@
 # The group tag is just to easily find this APKBUILD by some scripts for automation
 # group=kde-applications
 pkgname=koko
-pkgver=9999_git20240301
+pkgver=9999_git20240310
 pkgrel=0
-_commit="8735a7b90b853cb4082bcaba63b6d6b4ea094747"
+_commit="af47b60a69b9009c443e34c5f331d8f7e8159460"
 _geonames_pkgver=9999_git20231016
 pkgdesc="Image gallery application for Plasma Mobile"
 url="https://invent.kde.org/graphics/koko"
@@ -41,7 +41,7 @@ makedepends="
 subpackages="$pkgname-lang"
 _repo_url="https://invent.kde.org/graphics/koko.git"
 _data_date=2023-09-02
-source="https://nightly.postmarketos.org/plasma-mobile/sources/2024-03-12/koko-$_commit.tar.xz
+source="https://nightly.postmarketos.org/plasma-mobile/sources/2024-03-14/koko-$_commit.tar.xz
 	https://dev.alpinelinux.org/archive/koko/cities1000-$_data_date.zip
 	https://dev.alpinelinux.org/archive/koko/admin1CodesASCII-$_data_date.txt
 	https://dev.alpinelinux.org/archive/koko/admin2Codes-$_data_date.txt
@@ -90,7 +90,7 @@ package() {
 }
 
 sha512sums="
-bc37170cd8417e31136cc07f05689b3850cbb3a60da863e52c0be4a0a83f820d48dcc0b0f4057eb4e91278e56aa255f463fc7228fec05bf3e1bb40adeca3e9f8  koko-8735a7b90b853cb4082bcaba63b6d6b4ea094747.tar.xz
+405234c082550d166d844833421fce910b37a28e3d86753344e5c4ee88c93d9464cba856ce2e836eee6d8e8c4dd97132c7d7f00e026fca6d7492880797329f44  koko-af47b60a69b9009c443e34c5f331d8f7e8159460.tar.xz
 780b1a27bacd1c5ec4b5c4d37b2cedbdd0dfef1d4761b9d10385d6bf5fdaddb90f08afc9e69f8c7d995684682a9ab6575dbec19460125ed456e12045381cbffd  cities1000-2023-09-02.zip
 6729409e1a229df729d568eabec42ca0ac4abbb6efcb62612bbeaa8682b77c562a7460d86d20329fe5c53858c5d62cc1915cec485760ffe55c4e66274bb99941  admin1CodesASCII-2023-09-02.txt
 8de976fe0642b7f3d3133f3928cb050e2f7fd25d65c8bd82ddf06d275f8054b31bfb20f019ce410383bbd466181aaf9469a55e1e36c97c7f550eccb7ec865a3c  admin2Codes-2023-09-02.txt

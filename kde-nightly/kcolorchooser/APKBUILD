@@ -4,9 +4,9 @@
 # The group tag is just to easily find this APKBUILD by some scripts for automation
 # group=kde-applications
 pkgname=kcolorchooser
-pkgver=9999_git20240301
+pkgver=9999_git20240310
 pkgrel=0
-_commit="baf3d1fea9e548ccc7b678f87facef5f12ccacbb"
+_commit="fef8bc2d966768c94f3b4b2d119410e96ef3e7a1"
 # armhf blocked by extra-cmake-modules
 arch="all !armhf"
 url="https://kde.org/applications/graphics/org.kde.kcolorchooser"
@@ -20,7 +20,7 @@ makedepends="
 	samurai
 	"
 _repo_url="https://invent.kde.org/graphics/kcolorchooser.git"
-source="https://nightly.postmarketos.org/plasma-mobile/sources/2024-03-12/kcolorchooser-$_commit.tar.xz"
+source="https://nightly.postmarketos.org/plasma-mobile/sources/2024-03-14/kcolorchooser-$_commit.tar.xz"
 subpackages="$pkgname-lang"
 options="!check" # No tests
 
@@ -44,5 +44,5 @@ package() {
 }
 
 sha512sums="
-84dc56447214d8be3538982781e53cf8f685556db77408a5e4f16a1698349a9f5bba7313bef41140d953fd499271e33564a46ba1c052feecaa94d2227d018063  kcolorchooser-baf3d1fea9e548ccc7b678f87facef5f12ccacbb.tar.xz
+015e68c00620686923035a05c352efff2e1dc25ecca33684f2551b570da822266786a4dc1984ebe6023bf7a16a9696483ec8ab30bfd6d35d50c6f4739f540208  kcolorchooser-fef8bc2d966768c94f3b4b2d119410e96ef3e7a1.tar.xz
 "

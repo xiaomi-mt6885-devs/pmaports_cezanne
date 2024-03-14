@@ -4,9 +4,9 @@
 # The group tag is just to easily find this APKBUILD by some scripts for automation
 # group=kde-applications
 pkgname=sweeper
-pkgver=9999_git20240301
+pkgver=9999_git20240310
 pkgrel=0
-_commit="5f35cbc3a07854acc3a23480ad6ca95588f4807c"
+_commit="3938e3e963836e4563c2ab98b20ec09d06cbba89"
 # armhf blocked by extra-cmake-modules
 arch="all !armhf"
 url="https://kde.org/applications/utilities/org.kde.sweeper"
@@ -29,7 +29,7 @@ makedepends="
 	samurai
 	"
 _repo_url="https://invent.kde.org/utilities/sweeper.git"
-source="https://nightly.postmarketos.org/plasma-mobile/sources/2024-03-12/sweeper-$_commit.tar.xz"
+source="https://nightly.postmarketos.org/plasma-mobile/sources/2024-03-14/sweeper-$_commit.tar.xz"
 subpackages=" $pkgname-lang"
 
 options="!check"
@@ -52,5 +52,5 @@ package() {
 }
 
 sha512sums="
-dec11b3692fb6f69f81e07e2a85c402f30698eec41f88b449ca932b374e935fd3432700353d8d389423642a7396fb3629f26393f243d0c3d431c5be3d0a165fc  sweeper-5f35cbc3a07854acc3a23480ad6ca95588f4807c.tar.xz
+392a36dc9a5b492b8c28d9d3fafe3711eb5a35f0ff7af092b90fdf59447446da9e804a60abe59cffac325314d30afaf86f6a4b06a6b8a0be8540a4ec55b9ca01  sweeper-3938e3e963836e4563c2ab98b20ec09d06cbba89.tar.xz
 "

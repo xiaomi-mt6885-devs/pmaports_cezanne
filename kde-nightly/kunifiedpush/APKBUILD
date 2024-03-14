@@ -4,9 +4,9 @@
 # The group tag is just to easily find this APKBUILD by some scripts for automation
 # group=kde-applications
 pkgname=kunifiedpush
-pkgver=9999_git20240301
+pkgver=9999_git20240310
 pkgrel=0
-_commit="78a262beb573c61031de8572011db4cd164cc5e8"
+_commit="9b3ad92b4f6a0b8d741d75da1cbb031d07ad7249"
 # armhf blocked by extra-cmake-modules
 arch="all !armhf"
 url="https://invent.kde.org/libraries/kunifiedpush"
@@ -27,7 +27,7 @@ makedepends="$depends_dev
 	samurai
 	"
 _repo_url="https://invent.kde.org/libraries/kunifiedpush.git"
-source="https://nightly.postmarketos.org/plasma-mobile/sources/2024-03-12/kunifiedpush-$_commit.tar.xz"
+source="https://nightly.postmarketos.org/plasma-mobile/sources/2024-03-14/kunifiedpush-$_commit.tar.xz"
 subpackages="$pkgname-dev"
 
 options="!check"
@@ -50,5 +50,5 @@ package() {
 }
 
 sha512sums="
-8a06f0a08aaed7910c697e18e20178001e774d0717b1e7dab7f32202b6d7e5acd9ebf824a0ffe7543817a3ed49f4b6935f318473e295a3a5a1ac284d4b3ddb8f  kunifiedpush-78a262beb573c61031de8572011db4cd164cc5e8.tar.xz
+d7eb2a22b8135dbee6b45c31756fe7bb7e4aaf438fd43e421db03b0a2c68ce6afad4a3a4a5e3010c89e54c49b713ab68c5364ca9eb51146cf678599108980614  kunifiedpush-9b3ad92b4f6a0b8d741d75da1cbb031d07ad7249.tar.xz
 "

@@ -4,9 +4,9 @@
 # The group tag is just to easily find this APKBUILD by some scripts for automation
 # group=kde-applications
 pkgname=libkomparediff2
-pkgver=9999_git20240101
+pkgver=9999_git20240309
 pkgrel=0
-_commit="d406581fbe70546450c248b911fc8d2da4884b23"
+_commit="1916d4c514d69a201ca3993fec00ad5c7a962064"
 # armhf blocked by extra-cmake-modules
 arch="all !armhf"
 url="https://kde.org/applications/development"
@@ -24,7 +24,7 @@ makedepends="
 	samurai
 	"
 _repo_url="https://invent.kde.org/sdk/libkomparediff2.git"
-source="https://nightly.postmarketos.org/plasma-mobile/sources/2024-03-12/libkomparediff2-$_commit.tar.xz"
+source="https://nightly.postmarketos.org/plasma-mobile/sources/2024-03-14/libkomparediff2-$_commit.tar.xz"
 subpackages="$pkgname-dev $pkgname-lang"
 
 options="!check"
@@ -47,5 +47,5 @@ package() {
 }
 
 sha512sums="
-2b2731ba3dc71431a84f02ae0d1872b52ef8e6f72e99a9c933ac68d3d7877ba425a5623f100fb70d317caf76aad015598a62a33d2ef2460e833ae0816b1dacb5  libkomparediff2-d406581fbe70546450c248b911fc8d2da4884b23.tar.xz
+17abca1004d907e305083d0b37cf593c9c5d92d8bd207352b2126e7bc73cda61ad0599907b5eab3c8789ae04a10a9cf3018931e37c4cac1610043bffd2bac860  libkomparediff2-1916d4c514d69a201ca3993fec00ad5c7a962064.tar.xz
 "

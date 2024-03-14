@@ -4,9 +4,9 @@
 # The group tag is just to easily find this APKBUILD by some scripts for automation
 # group=kde-applications
 pkgname=kio-extras
-pkgver=9999_git20240303
+pkgver=9999_git20240310
 pkgrel=0
-_commit="269c493dea8be110121e06a315338ec9f0592205"
+_commit="4c1362f008923c7c859d3771ecc4f5d51a86acad"
 # armhf blocked by extra-cmake-modules
 arch="all !armhf"
 url="https://www.kde.org/applications/internet/"
@@ -55,7 +55,7 @@ checkdepends="
 	"
 subpackages="$pkgname-doc $pkgname-lang"
 _repo_url="https://invent.kde.org/network/kio-extras.git"
-source="https://nightly.postmarketos.org/plasma-mobile/sources/2024-03-12/kio-extras-$_commit.tar.xz"
+source="https://nightly.postmarketos.org/plasma-mobile/sources/2024-03-14/kio-extras-$_commit.tar.xz"
 
 replaces="kio5"
 
@@ -80,5 +80,5 @@ package() {
 }
 
 sha512sums="
-11c9b684dd7ffe97aaaf6e75131db0b98f36e7802be34665c1b56ee1402ee3d2177c2278f0c7ad1bbe84ba7f9e1a63912ef8eee91e2668c296556a3341c09dac  kio-extras-269c493dea8be110121e06a315338ec9f0592205.tar.xz
+a467df41ff5e8a390a3f16f393be5ab7bfb5bff81a055c087e91e5267d06f3dbef03212310ef338004d5cf316cbe89a408217a2d476a866b53b28a98269cb248  kio-extras-4c1362f008923c7c859d3771ecc4f5d51a86acad.tar.xz
 "

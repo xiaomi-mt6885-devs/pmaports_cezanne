@@ -4,9 +4,9 @@
 # The group tag is just to easily find this APKBUILD by some scripts for automation
 # group=kde-applications
 pkgname=kpat
-pkgver=9999_git20240302
+pkgver=9999_git20240310
 pkgrel=0
-_commit="2195a98f47906e8c6b5b6f27abeb0096a8e8c0c9"
+_commit="46ce1baad4049ff612e1a7451bc687b8c42273a7"
 pkgdesc="KPatience offers a selection of solitaire card games"
 # armhf blocked by extra-cmake-modules
 arch="all !armhf"
@@ -37,7 +37,7 @@ makedepends="
 	"
 checkdepends="xvfb-run"
 _repo_url="https://invent.kde.org/games/kpat.git"
-source="https://nightly.postmarketos.org/plasma-mobile/sources/2024-03-12/kpat-$_commit.tar.xz"
+source="https://nightly.postmarketos.org/plasma-mobile/sources/2024-03-14/kpat-$_commit.tar.xz"
 subpackages="$pkgname-doc $pkgname-lang"
 # Broken tests
 options="!check"
@@ -62,5 +62,5 @@ package() {
 }
 
 sha512sums="
-efd16610f241f3feac64e542ee77b66a8babebad66ca866ffb3f54c2d5b83e1c180cc33e65ac2e15b07baf72c14621accb56a6cc0f04303435df906742fd452a  kpat-2195a98f47906e8c6b5b6f27abeb0096a8e8c0c9.tar.xz
+b708057ccbda837d9ab98903f74c43c853930c148ff46c7b822452e87f6d550611b4994666f207b09194bef1bbb33c882cd7188d760187cdfe49c9f818472526  kpat-46ce1baad4049ff612e1a7451bc687b8c42273a7.tar.xz
 "

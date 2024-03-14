@@ -4,9 +4,9 @@
 # The group tag is just to easily find this APKBUILD by some scripts for automation
 # group=kde-applications
 pkgname=kdenetwork-filesharing
-pkgver=9999_git20240301
+pkgver=9999_git20240312
 pkgrel=0
-_commit="c48491dbb7ddb9d4973d7717590fa69125245b36"
+_commit="914e191685764eabd02aaac5f86fb892468a63ac"
 # armhf blocked by extra-cmake-modules
 arch="all !armhf"
 url="https://www.kde.org/applications/internet/"
@@ -27,7 +27,7 @@ makedepends="
 	samurai
 	"
 _repo_url="https://invent.kde.org/network/kdenetwork-filesharing.git"
-source="https://nightly.postmarketos.org/plasma-mobile/sources/2024-03-12/kdenetwork-filesharing-$_commit.tar.xz"
+source="https://nightly.postmarketos.org/plasma-mobile/sources/2024-03-14/kdenetwork-filesharing-$_commit.tar.xz"
 subpackages="$pkgname-lang"
 options="!check" # No tests
 
@@ -52,5 +52,5 @@ package() {
 }
 
 sha512sums="
-57a3b374fc2f67ed39437ec3497524457e351359a84dc479d17f9dc81803df7887f78656e319b65a2576285ceb0c51a1603734df7376caf645e85f0fd5f7d7bd  kdenetwork-filesharing-c48491dbb7ddb9d4973d7717590fa69125245b36.tar.xz
+653b8487a2680afee2b41824cbff31e9edc19f15b889fa23ace17223817d5d08eff23b9a19d455b7e3fe3fd5bbda21a006bbedd239f9ea33707f3fdbe8bfc1b0  kdenetwork-filesharing-914e191685764eabd02aaac5f86fb892468a63ac.tar.xz
 "
