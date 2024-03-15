@@ -1,7 +1,7 @@
 # Reference: https://postmarketos.org/uipkg
 # Maintainer: Jakko <jahau@rocketmail.com>
 pkgname=postmarketos-ui-mate
-pkgver=7
+pkgver=8
 pkgrel=0
 pkgdesc="(X11) MATE Desktop Environment, fork of GNOME2 (stylus recommended)"
 url="http://mate-desktop.org/"
@@ -22,6 +22,7 @@ depends="
 	postmarketos-base-ui
 	postmarketos-base-ui-networkmanager
 	postmarketos-artwork-wallpapers
+	postmarketos-artwork-wallpapers-v23.12
 	xorg-server
 	"
 _pmb_recommends="
@@ -68,8 +69,8 @@ package() {
 }
 
 sha512sums="
-b4eded3d1aba2086d53507d434da6f2d5aae24fa49c7a8619abb1d81f87898d7a6d813be777a285ce988d78db236bea7507e7868c39fe020e5d23c230dd36242  000-system-background.gschema.override
-fe6a37a1e22fbf29a8b6de3b3e137bc19becd6d80d391ad1a0c7908cb996dd9982c88ef55b84fd258a81263e37d47df5a81566ce7c337886ae4c0d7a83d640aa  001-screensaver.gschema.override
+c4820ef1de3bca17a6105612be41c13c0eebb2627e366ab2addaccb922553425701d70cd4b24fe588b44d183f69aa674a404f9f98ae6fedad5c835db3c0f7ea5  000-system-background.gschema.override
+abcd68151598c39a6015333c13063957bf2b8a6587f33e4071d05f69fa959191e2f243dbdd97b49719a7068a60a1057679891bd286b831034ffc2aa0e4fbdc6c  001-screensaver.gschema.override
 c69d44f1c69e3880ba822a4b98bc59f4049f7b8e228bec31076b9d3fa510e8e205ecf7e3e4b7b00fb28b39a447a55126aaede7e5e5741350aff2a37172b77659  10_caja_single-click.gschema.override
 edef87a2b88a09d023dd51e8b32e2fc1cc9f5bec4a00b88b4f2adfb844ae2dc72747ef8891fc8a08652ae563fb1b914fba214c28a93e77de76b489a5fb50a96c  10_mate-terminal_colors.gschema.override
 114d77e6e7c11fc87244fc7c179244274c8f8711f111fcb1b9774ef6b226bd2bea01f85395da130f53670a870cfe571babd7f1c233ba85e1ef5a056ab65bd0b7  10_onboard.gschema.override

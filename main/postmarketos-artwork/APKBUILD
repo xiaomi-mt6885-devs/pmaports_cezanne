@@ -1,17 +1,18 @@
 # Maintainer: Oliver Smith <ollieparanoid@postmarketos.org>
 pkgname=postmarketos-artwork
-pkgver=4
+pkgver=5
 pkgrel=0
 pkgdesc="Meta package for the postmarketOS artwork"
 url="https://postmarketos.org/"
 arch="noarch"
 license="CC-BY-SA-4.0"
-_hash="9657eb69b2918e83bf0eb06170cc173b84727cb5"
+_hash="f5423a3a7316718a3b275430815c7594449e9d22"
 source="postmarketos-artwork-$_hash.tar.gz::https://gitlab.com/postmarketOS/artwork/-/archive/$_hash/artwork-$_hash.tar.gz"
 subpackages="
 	$pkgname-wallpapers
 	$pkgname-wallpapers-extra:wallpapers_extra
 	$pkgname-wallpapers-gnome:wallpapers_gnome
+	$pkgname-wallpapers-v23.12:wallpapers_v23_12
 	$pkgname-icons
 	$pkgname-sounds
 	"
@@ -58,6 +59,15 @@ wallpapers_gnome() {
 		"$subpkgdir"/usr/share/gnome-background-properties/postmarketos-gnome.xml
 }
 
+wallpapers_v23_12() {
+	pkgdesc="Release wallpaper from postmarketOS v23.12"
+	ls "$builddir"/wallpapers/2024/meadow
+	install -Dm644 "$builddir"/wallpapers/2024/meadow/meadow-light.png \
+		-t "$subpkgdir"/usr/share/wallpapers/v23.12
+	install -Dm644 "$builddir"/wallpapers/2024/meadow/meadow-dark.png \
+		-t "$subpkgdir"/usr/share/wallpapers/v23.12
+}
+
 icons() {
 	pkgdesc="Icons for postmarketOS"
 	install -Dm644 "$builddir"/logo/logo.svg \
@@ -78,5 +88,5 @@ sounds() {
 }
 
 sha512sums="
-17cc39e6ed3e95d9e50c257d9fced448d10f872dc69e0913f2295b1ac679ac3d8d0d5a7aba7b4f99500adedbdc0565944f2d8201ec966568d0db1d16bfffbaa0  postmarketos-artwork-9657eb69b2918e83bf0eb06170cc173b84727cb5.tar.gz
+2abce7285fb6b533340376a775a1bba9b661a1813a8bf70f4ee0e008069864fb22e7e46c3c056cec3516f8d08bf6caa7f7d2d74af052df41e23833327303e440  postmarketos-artwork-f5423a3a7316718a3b275430815c7594449e9d22.tar.gz
 "
