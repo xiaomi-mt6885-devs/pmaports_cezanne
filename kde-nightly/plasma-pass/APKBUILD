@@ -4,9 +4,9 @@
 # The group tag is just to easily find this APKBUILD by some scripts for automation
 # group=kde-other
 pkgname=plasma-pass
-pkgver=9999_git20240310
+pkgver=9999_git20240314
 pkgrel=0
-_commit="e35ca462c3d8f29439aea03ac62076dc581cd2ae"
+_commit="11a56aa355059c8b6f4bba3d22c4a602128d2549"
 pkgdesc="Plasma applet for the Pass password manager"
 # armhf blocked by qt6-qtdeclarative
 arch="all !armhf"
@@ -25,7 +25,7 @@ makedepends="
 	samurai
 	"
 _repo_url="https://invent.kde.org/plasma/plasma-pass.git"
-source="https://nightly.postmarketos.org/plasma-mobile/sources/2024-03-14/plasma-pass-$_commit.tar.xz"
+source="https://nightly.postmarketos.org/plasma-mobile/sources/2024-03-16/plasma-pass-$_commit.tar.xz"
 subpackages="$pkgname-lang"
 
 options="!check"
@@ -48,5 +48,5 @@ package() {
 }
 
 sha512sums="
-1b72008a3296348f22f60a87abf6347b9e6c729efc2a9f59267494374d38858c4b7897c345fda90587ae4ac5d83985c19a00599458e1a3c3faf2c0cbfd87c173  plasma-pass-e35ca462c3d8f29439aea03ac62076dc581cd2ae.tar.xz
+d09cddcee9e51adb41c45bccff5eec00e7d3f2625ea702718861ada46823291a960af6343b36b8143638526bc5f2f9f765f2fe05ef8f6c3183b2d51d08e6ee39  plasma-pass-11a56aa355059c8b6f4bba3d22c4a602128d2549.tar.xz
 "

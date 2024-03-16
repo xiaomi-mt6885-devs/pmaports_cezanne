@@ -4,9 +4,9 @@
 # The group tag is just to easily find this APKBUILD by some scripts for automation
 # group=kde-other
 pkgname=kuserfeedback
-pkgver=9999_git20240312
+pkgver=9999_git20240314
 pkgrel=0
-_commit="3a0e65c554811f2ae14770ddd8b15e1e61646207"
+_commit="381319e5ea75d2d6175db1cc4f4dae2144500d1f"
 pkgdesc="Framework for collecting user feedback for applications via telemetry and surveys"
 url="https://kde.org/products/frameworks/"
 arch="all !armhf"
@@ -24,7 +24,7 @@ makedepends="$depends_dev
 checkdepends="xvfb-run"
 subpackages="$pkgname-dev $pkgname-lang"
 _repo_url="https://invent.kde.org/libraries/kuserfeedback.git"
-source="https://nightly.postmarketos.org/plasma-mobile/sources/2024-03-14/kuserfeedback-$_commit.tar.xz"
+source="https://nightly.postmarketos.org/plasma-mobile/sources/2024-03-16/kuserfeedback-$_commit.tar.xz"
 
 options="!check"
 builddir="$srcdir/kuserfeedback-$_commit"
@@ -47,5 +47,5 @@ package() {
 }
 
 sha512sums="
-69dabc681bdeb32f435e4105d6b6197010e3169f67b187da966517496160ffb750b35a4731311a33547bf83e17eda049c2f875479a34ed38e64c376a4582b90c  kuserfeedback-3a0e65c554811f2ae14770ddd8b15e1e61646207.tar.xz
+44cd00db4f744d8c1137a8b903d92cf7e0f76168fd9cf1fb9551071e4e06c0fc3f3cb5f1782a8f40c339ee3d3f9099217a69dc110acbc4cd347fb7309f2bb1db  kuserfeedback-381319e5ea75d2d6175db1cc4f4dae2144500d1f.tar.xz
 "
