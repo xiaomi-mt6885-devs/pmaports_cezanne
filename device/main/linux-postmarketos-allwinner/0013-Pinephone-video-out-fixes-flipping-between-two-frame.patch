@@ -1,0 +1,295 @@
+From 9c48406cf3f28894a77339d0596587728cc1f60a Mon Sep 17 00:00:00 2001
+From: Frank Oltmanns <frank@oltmanns.dev>
+Date: Sun, 10 Mar 2024 14:21:10 +0100
+Subject: [PATCH] Pinephone video out fixes (flipping between two frames)
+
+On some pinephones the video output sometimes freezes (flips between two
+frames) [1]. It seems to be that the reason for this behaviour is that
+PLL-MIPI is outside its limits, and the GPU is not running at a fixed
+rate.
+
+In this patch series I propose the following changes:
+  1. sunxi-ng: Adhere to the following constraints given in the
+     Allwinner A64 Manual regarding PLL-MIPI:
+      * M/N <= 3
+      * (PLL_VIDEO0)/M >= 24MHz
+      * 500MHz <= clockrate <= 1400MHz
+
+  2. Remove two operating points from the A64 DTS OPPs, so that the GPU
+     runs at a fixed rate of 432 MHz.
+
+Note, that when pinning the GPU to 432 MHz the issue [1] completely
+disappears for me. I've searched the BSP and could not find any
+indication that supports the idea of having the three OPPs. The only
+frequency I found in the BPSs for A64 is 432 MHz, which has also proven
+stable for me.
+
+I very much appreciate your feedback!
+
+[1] https://gitlab.com/postmarketOS/pmaports/-/issues/805
+
+Signed-off-by: Frank Oltmanns <frank@oltmanns.dev>
+
+---
+
+clk: sunxi-ng: common: Support minimum and maximum rate
+
+The Allwinner SoC's typically have an upper and lower limit for their
+clocks' rates. Up until now, support for that has been implemented
+separately for each clock type.
+
+Implement that functionality in the sunxi-ng's common part making use of
+the CCF rate liming capabilities, so that it is available for all clock
+types.
+
+Suggested-by: Maxime Ripard <mripard@kernel.org>
+Signed-off-by: Frank Oltmanns <frank@oltmanns.dev>
+Cc: stable@vger.kernel.org
+
+---
+
+clk: sunxi-ng: a64: Set minimum and maximum rate for PLL-MIPI
+
+When the Allwinner A64's TCON0 searches the ideal rate for the connected
+panel, it may happen that it requests a rate from its parent PLL-MIPI
+which PLL-MIPI does not support.
+
+This happens for example on the Olimex TERES-I laptop where TCON0
+requests PLL-MIPI to change to a rate of several GHz which causes the
+panel to stay blank. It also happens on the pinephone where a rate of
+less than 500 MHz is requested which causes instabilities on some
+phones.
+
+Set the minimum and maximum rate of Allwinner A64's PLL-MIPI according
+to the Allwinner User Manual.
+
+Fixes: ca1170b69968 ("clk: sunxi-ng: a64: force select PLL_MIPI in TCON0 mux")
+Reported-by: Diego Roversi <diegor@tiscali.it>
+Closes: https://groups.google.com/g/linux-sunxi/c/Rh-Uqqa66bw
+Tested-by: Diego Roversi <diegor@tiscali.it>
+Cc: stable@vger.kernel.org
+Reviewed-by: Maxime Ripard <mripard@kernel.org>
+Signed-off-by: Frank Oltmanns <frank@oltmanns.dev>
+
+---
+
+clk: sunxi-ng: nkm: Support constraints on m/n ratio and parent rate
+
+The Allwinner A64 manual lists the following constraints for the
+PLL-MIPI clock:
+ - M/N <= 3
+ - (PLL_VIDEO0)/M >= 24MHz
+
+The PLL-MIPI clock is implemented as ccu_nkm. Therefore, add support for
+these constraints.
+
+Reviewed-by: Jernej Skrabec <jernej.skrabec@gmail.com>
+Signed-off-by: Frank Oltmanns <frank@oltmanns.dev>
+
+---
+
+clk: sunxi-ng: a64: Add constraints on PLL-MIPI's n/m ratio and parent rate
+
+The Allwinner A64 manual lists the following constraints for the
+PLL-MIPI clock:
+ - M/N <= 3
+ - (PLL_VIDEO0)/M >= 24MHz
+
+Use these constraints.
+
+Reviewed-by: Jernej Skrabec <jernej.skrabec@gmail.com>
+Signed-off-by: Frank Oltmanns <frank@oltmanns.dev>
+
+---
+
+arm64: dts: allwinner: a64: Run GPU at 432 MHz
+
+The Allwinner A64's GPU has currently three operating points. However,
+the BSP runs the GPU fixed at 432 MHz. In addition, at least one of the
+devices using that SoC - the pinephone - shows unstabilities (see link)
+that can be circumvented by running the GPU at a fixed rate.
+
+Therefore, remove the other two operating points from the GPU OPP table,
+so that the GPU runs at a fixed rate of 432 MHz.
+
+Link: https://gitlab.com/postmarketOS/pmaports/-/issues/805
+Signed-off-by: Frank Oltmanns <frank@oltmanns.dev>
+---
+ arch/arm64/boot/dts/allwinner/sun50i-a64.dtsi |  8 -------
+ drivers/clk/sunxi-ng/ccu-sun50i-a64.c         | 14 ++++++++-----
+ drivers/clk/sunxi-ng/ccu_common.c             | 19 +++++++++++++++++
+ drivers/clk/sunxi-ng/ccu_common.h             |  3 +++
+ drivers/clk/sunxi-ng/ccu_nkm.c                | 21 +++++++++++++++++++
+ drivers/clk/sunxi-ng/ccu_nkm.h                |  2 ++
+ 6 files changed, 54 insertions(+), 13 deletions(-)
+
+diff --git a/arch/arm64/boot/dts/allwinner/sun50i-a64.dtsi b/arch/arm64/boot/dts/allwinner/sun50i-a64.dtsi
+index 2bf345c04514..7d9541d47ed2 100644
+--- a/arch/arm64/boot/dts/allwinner/sun50i-a64.dtsi
++++ b/arch/arm64/boot/dts/allwinner/sun50i-a64.dtsi
+@@ -113,14 +113,6 @@ de: display-engine {
+ 	gpu_opp_table: opp-table-gpu {
+ 		compatible = "operating-points-v2";
+ 
+-		opp-120000000 {
+-			opp-hz = /bits/ 64 <120000000>;
+-		};
+-
+-		opp-312000000 {
+-			opp-hz = /bits/ 64 <312000000>;
+-		};
+-
+ 		opp-432000000 {
+ 			opp-hz = /bits/ 64 <432000000>;
+ 		};
+diff --git a/drivers/clk/sunxi-ng/ccu-sun50i-a64.c b/drivers/clk/sunxi-ng/ccu-sun50i-a64.c
+index 9801a62b45f9..a42a4d1a4e95 100644
+--- a/drivers/clk/sunxi-ng/ccu-sun50i-a64.c
++++ b/drivers/clk/sunxi-ng/ccu-sun50i-a64.c
+@@ -191,17 +191,21 @@ static struct ccu_nkm pll_mipi_clk = {
+ 	 * user manual, and by experiments the PLL doesn't work without
+ 	 * these bits toggled.
+ 	 */
+-	.enable		= BIT(31) | BIT(23) | BIT(22),
+-	.lock		= BIT(28),
+-	.n		= _SUNXI_CCU_MULT(8, 4),
+-	.k		= _SUNXI_CCU_MULT_MIN(4, 2, 2),
+-	.m		= _SUNXI_CCU_DIV(0, 4),
++	.enable			= BIT(31) | BIT(23) | BIT(22),
++	.lock			= BIT(28),
++	.n			= _SUNXI_CCU_MULT(8, 4),
++	.k			= _SUNXI_CCU_MULT_MIN(4, 2, 2),
++	.m			= _SUNXI_CCU_DIV(0, 4),
++	.max_m_n_ratio		= 3,
++	.min_parent_m_ratio	= 24000000,
+ 	.common		= {
+ 		.reg		= 0x040,
+ 		.hw.init	= CLK_HW_INIT("pll-mipi", "pll-video0",
+ 					      &ccu_nkm_ops,
+ 					      CLK_SET_RATE_UNGATE | CLK_SET_RATE_PARENT),
+ 		.features	= CCU_FEATURE_CLOSEST_RATE,
++		.min_rate	= 500000000,
++		.max_rate	= 1400000000,
+ 	},
+ };
+ 
+diff --git a/drivers/clk/sunxi-ng/ccu_common.c b/drivers/clk/sunxi-ng/ccu_common.c
+index 8babce55302f..ac0091b4ce24 100644
+--- a/drivers/clk/sunxi-ng/ccu_common.c
++++ b/drivers/clk/sunxi-ng/ccu_common.c
+@@ -44,6 +44,16 @@ bool ccu_is_better_rate(struct ccu_common *common,
+ 			unsigned long current_rate,
+ 			unsigned long best_rate)
+ {
++	unsigned long min_rate, max_rate;
++
++	clk_hw_get_rate_range(&common->hw, &min_rate, &max_rate);
++
++	if (current_rate > max_rate)
++		return false;
++
++	if (current_rate < min_rate)
++		return false;
++
+ 	if (common->features & CCU_FEATURE_CLOSEST_RATE)
+ 		return abs(current_rate - target_rate) < abs(best_rate - target_rate);
+ 
+@@ -122,6 +132,7 @@ static int sunxi_ccu_probe(struct sunxi_ccu *ccu, struct device *dev,
+ 
+ 	for (i = 0; i < desc->hw_clks->num ; i++) {
+ 		struct clk_hw *hw = desc->hw_clks->hws[i];
++		struct ccu_common *common = hw_to_ccu_common(hw);
+ 		const char *name;
+ 
+ 		if (!hw)
+@@ -136,6 +147,14 @@ static int sunxi_ccu_probe(struct sunxi_ccu *ccu, struct device *dev,
+ 			pr_err("Couldn't register clock %d - %s\n", i, name);
+ 			goto err_clk_unreg;
+ 		}
++
++		if (common->max_rate)
++			clk_hw_set_rate_range(hw, common->min_rate,
++					      common->max_rate);
++		else
++			WARN(common->min_rate,
++			     "No max_rate, ignoring min_rate of clock %d - %s\n",
++			     i, name);
+ 	}
+ 
+ 	ret = of_clk_add_hw_provider(node, of_clk_hw_onecell_get,
+diff --git a/drivers/clk/sunxi-ng/ccu_common.h b/drivers/clk/sunxi-ng/ccu_common.h
+index 942a72c09437..329734f8cf42 100644
+--- a/drivers/clk/sunxi-ng/ccu_common.h
++++ b/drivers/clk/sunxi-ng/ccu_common.h
+@@ -31,6 +31,9 @@ struct ccu_common {
+ 	u16		lock_reg;
+ 	u32		prediv;
+ 
++	unsigned long	min_rate;
++	unsigned long	max_rate;
++
+ 	unsigned long	features;
+ 	spinlock_t	*lock;
+ 	struct clk_hw	hw;
+diff --git a/drivers/clk/sunxi-ng/ccu_nkm.c b/drivers/clk/sunxi-ng/ccu_nkm.c
+index 853f84398e2b..1168d894d636 100644
+--- a/drivers/clk/sunxi-ng/ccu_nkm.c
++++ b/drivers/clk/sunxi-ng/ccu_nkm.c
+@@ -16,6 +16,20 @@ struct _ccu_nkm {
+ 	unsigned long	m, min_m, max_m;
+ };
+ 
++static bool ccu_nkm_is_valid_rate(struct ccu_common *common, unsigned long parent,
++				  unsigned long n, unsigned long m)
++{
++	struct ccu_nkm *nkm = container_of(common, struct ccu_nkm, common);
++
++	if (nkm->max_m_n_ratio && (m > nkm->max_m_n_ratio * n))
++		return false;
++
++	if (nkm->min_parent_m_ratio && (parent < nkm->min_parent_m_ratio * m))
++		return false;
++
++	return true;
++}
++
+ static unsigned long ccu_nkm_find_best_with_parent_adj(struct ccu_common *common,
+ 						       struct clk_hw *parent_hw,
+ 						       unsigned long *parent, unsigned long rate,
+@@ -31,6 +45,10 @@ static unsigned long ccu_nkm_find_best_with_parent_adj(struct ccu_common *common
+ 				unsigned long tmp_rate, tmp_parent;
+ 
+ 				tmp_parent = clk_hw_round_rate(parent_hw, rate * _m / (_n * _k));
++
++				if (!ccu_nkm_is_valid_rate(common, tmp_parent, _n, _m))
++					continue;
++
+ 				tmp_rate = tmp_parent * _n * _k / _m;
+ 
+ 				if (ccu_is_better_rate(common, rate, tmp_rate, best_rate) ||
+@@ -64,6 +82,9 @@ static unsigned long ccu_nkm_find_best(unsigned long parent, unsigned long rate,
+ 	for (_k = nkm->min_k; _k <= nkm->max_k; _k++) {
+ 		for (_n = nkm->min_n; _n <= nkm->max_n; _n++) {
+ 			for (_m = nkm->min_m; _m <= nkm->max_m; _m++) {
++				if (!ccu_nkm_is_valid_rate(common, parent, _n, _m))
++					continue;
++
+ 				unsigned long tmp_rate;
+ 
+ 				tmp_rate = parent * _n * _k / _m;
+diff --git a/drivers/clk/sunxi-ng/ccu_nkm.h b/drivers/clk/sunxi-ng/ccu_nkm.h
+index 6601defb3f38..c409212ee40e 100644
+--- a/drivers/clk/sunxi-ng/ccu_nkm.h
++++ b/drivers/clk/sunxi-ng/ccu_nkm.h
+@@ -27,6 +27,8 @@ struct ccu_nkm {
+ 	struct ccu_mux_internal	mux;
+ 
+ 	unsigned int		fixed_post_div;
++	unsigned long		max_m_n_ratio;
++	unsigned long		min_parent_m_ratio;
+ 
+ 	struct ccu_common	common;
+ };
+-- 
+2.44.0
+
