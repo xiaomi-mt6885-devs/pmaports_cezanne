@@ -4,9 +4,9 @@
 # The group tag is just to easily find this APKBUILD by some scripts for automation
 # group=kde-plasma
 pkgname=plasma-pa
-pkgver=9999_git20240314
+pkgver=9999_git20240317
 pkgrel=0
-_commit="f83796ec18b07a851fad7b59f3fabac23c1aee9d"
+_commit="bf7ec5018c5b70bc03bd07c35829bbb5db87dab7"
 pkgdesc="Plasma applet for audio volume management using PulseAudio"
 # armhf blocked by qt6-qtdeclarative
 arch="all !armhf"
@@ -40,7 +40,7 @@ case "$pkgver" in
 	*) _rel=stable;;
 esac
 _repo_url="https://invent.kde.org/plasma/plasma-pa.git"
-source="https://nightly.postmarketos.org/plasma-mobile/sources/2024-03-16/plasma-pa-$_commit.tar.xz"
+source="https://nightly.postmarketos.org/plasma-mobile/sources/2024-03-18/plasma-pa-$_commit.tar.xz"
 subpackages="$pkgname-doc $pkgname-lang"
 
 options="!check"
@@ -64,5 +64,5 @@ package() {
 }
 
 sha512sums="
-779b562a082097fe01840b9d1369b5a98403fc6ce1102abc1c1d5e5affb39c55293e1d0b00e8723387fb93dbf1249001a635c1af15c50dc8b4aafe0a302dff0d  plasma-pa-f83796ec18b07a851fad7b59f3fabac23c1aee9d.tar.xz
+e0915a24fb6d78754190748254414ca083d9fe25d15fcaf10e47be49da9ccd86246b03cb6a94cb8ca869272fc26e23642d4c4e28a139f4b7baca04c65a45c574  plasma-pa-bf7ec5018c5b70bc03bd07c35829bbb5db87dab7.tar.xz
 "

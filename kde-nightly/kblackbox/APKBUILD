@@ -4,9 +4,9 @@
 # The group tag is just to easily find this APKBUILD by some scripts for automation
 # group=kde-applications
 pkgname=kblackbox
-pkgver=9999_git20240314
+pkgver=9999_git20240317
 pkgrel=0
-_commit="d6a8154cbbc2e4877d8d7233a697b4f2cb8e7456"
+_commit="3b99350b60e807f692ad58ea86f2086f1f8a148f"
 # armhf blocked by extra-cmake-modules
 arch="all !armhf"
 url="https://kde.org/applications/games/org.kde.kblackbox"
@@ -29,7 +29,7 @@ makedepends="
 	samurai
 	"
 _repo_url="https://invent.kde.org/games/kblackbox.git"
-source="https://nightly.postmarketos.org/plasma-mobile/sources/2024-03-16/kblackbox-$_commit.tar.xz"
+source="https://nightly.postmarketos.org/plasma-mobile/sources/2024-03-18/kblackbox-$_commit.tar.xz"
 subpackages="$pkgname-doc $pkgname-lang"
 options="!check" # No tests
 
@@ -53,5 +53,5 @@ package() {
 }
 
 sha512sums="
-9e01021f4950af04ab923ebcc9c6baca0ede85b31c76bbde735bb697e2f56f5757594eafe626016d9d4aef9dbadb7f2fac6351a0f9c4d22ff6f008cfb82dd7ad  kblackbox-d6a8154cbbc2e4877d8d7233a697b4f2cb8e7456.tar.xz
+1e47a6d6b872a37f98e3a88621739ee857b44696f189718d78d269a445d45a8e6cd35bfea74bf3bdebd6b8f6dc748a6fa28c5caad9376eda7dd14750c1457c95  kblackbox-3b99350b60e807f692ad58ea86f2086f1f8a148f.tar.xz
 "

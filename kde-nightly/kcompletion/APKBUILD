@@ -4,9 +4,9 @@
 # The group tag is just to easily find this APKBUILD by some scripts for automation
 # group=kde-frameworks
 pkgname=kcompletion
-pkgver=9999_git20240314
+pkgver=9999_git20240317
 pkgrel=0
-_commit="12669c66e9cb7bc2a7d3a833fd292fb7f4efa372"
+_commit="bb6a5ee1a109c7419175d6b1716263bc08ae6eb7"
 pkgdesc="Text completion helpers and widgets"
 # armhf blocked by extra-cmake-modules
 arch="all !armhf"
@@ -26,7 +26,7 @@ makedepends="$depends_dev
 	"
 checkdepends="xvfb-run"
 _repo_url="https://invent.kde.org/frameworks/kcompletion.git"
-source="https://nightly.postmarketos.org/plasma-mobile/sources/2024-03-16/kcompletion-$_commit.tar.xz"
+source="https://nightly.postmarketos.org/plasma-mobile/sources/2024-03-18/kcompletion-$_commit.tar.xz"
 subpackages="$pkgname-dev $pkgname-doc $pkgname-lang"
 
 options="!check"
@@ -50,5 +50,5 @@ package() {
 }
 
 sha512sums="
-921a27adf4955d23822c268c4a4f1150d870a0926a8e97424d33db20c43e942faeb6fc86da489a778bfd6b929f8caaba78bc7619ccd337f8ad7769bd8e7b94ce  kcompletion-12669c66e9cb7bc2a7d3a833fd292fb7f4efa372.tar.xz
+8d59d55102f9fcfd48392580f7ebaf246b1d5266a305071dafca146e872885dc7f7bbd0f1ffea4355ff016d6c3478a86767ff021272a0f320e344088153a169a  kcompletion-bb6a5ee1a109c7419175d6b1716263bc08ae6eb7.tar.xz
 "

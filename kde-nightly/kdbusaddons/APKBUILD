@@ -4,9 +4,9 @@
 # The group tag is just to easily find this APKBUILD by some scripts for automation
 # group=kde-frameworks
 pkgname=kdbusaddons
-pkgver=9999_git20240314
+pkgver=9999_git20240317
 pkgrel=0
-_commit="020a5137b3b1003374e17444e4ca9dd8f831fb65"
+_commit="cece0c7f547f48651c2ad8a9b8db43928dba7132"
 pkgdesc="Addons to QtDBus"
 # armhf blocked by extra-cmake-modules
 arch="all !armhf"
@@ -22,7 +22,7 @@ makedepends="
 	"
 checkdepends="dbus"
 _repo_url="https://invent.kde.org/frameworks/kdbusaddons.git"
-source="https://nightly.postmarketos.org/plasma-mobile/sources/2024-03-16/kdbusaddons-$_commit.tar.xz"
+source="https://nightly.postmarketos.org/plasma-mobile/sources/2024-03-18/kdbusaddons-$_commit.tar.xz"
 subpackages="$pkgname-dev $pkgname-doc $pkgname-lang"
 
 options="!check"
@@ -46,5 +46,5 @@ package() {
 }
 
 sha512sums="
-57325700e880540e31d475b844431247a253acef8ba67112fe28a48fc3e038b30b5fe341a7484d47ac125b4485a6aebd68849134ccfb2f0728c08f3acd10fddf  kdbusaddons-020a5137b3b1003374e17444e4ca9dd8f831fb65.tar.xz
+664b4272a901792100f70918e2ecdd48c7aaf55818dbdcc3db764976d7ea50f26a4c3182c5f27bf4c2a7e3dacfc54a14abcd73cf59cb821ed013a493a2ea818d  kdbusaddons-cece0c7f547f48651c2ad8a9b8db43928dba7132.tar.xz
 "

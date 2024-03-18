@@ -4,9 +4,9 @@
 # The group tag is just to easily find this APKBUILD by some scripts for automation
 # group=kde-applications
 pkgname=kgeography
-pkgver=9999_git20240314
+pkgver=9999_git20240317
 pkgrel=0
-_commit="c20baa15f89f62316e0a0cf706ed63bf679d349c"
+_commit="469d90ea5f313597b3fd5916713e0533af7a8f87"
 # armhf blocked by extra-cmake-modules
 arch="all !armhf"
 url="https://edu.kde.org/kgeography"
@@ -27,7 +27,7 @@ makedepends="
 	samurai
 	"
 _repo_url="https://invent.kde.org/education/kgeography.git"
-source="https://nightly.postmarketos.org/plasma-mobile/sources/2024-03-16/kgeography-$_commit.tar.xz"
+source="https://nightly.postmarketos.org/plasma-mobile/sources/2024-03-18/kgeography-$_commit.tar.xz"
 subpackages="$pkgname-doc $pkgname-lang"
 options="!check" # No tests
 
@@ -51,5 +51,5 @@ package() {
 }
 
 sha512sums="
-a3bef6911afe66d3e83123de76f3ff195d3f66e6367ef5a725c9ce91668693a1b81410e7e64c5950ce67ebdcd9396ba56c8dc43c93e90815dec864bf7393cd01  kgeography-c20baa15f89f62316e0a0cf706ed63bf679d349c.tar.xz
+1f066fbe16f1198955ad36f5f485255dbe83229e3bf76d9141ac4a1c8be5a8394cbc9e2e5e51bf6d49e457701d6a8d15b89589cfbb1b6438e98b6cb3add0fc86  kgeography-469d90ea5f313597b3fd5916713e0533af7a8f87.tar.xz
 "
