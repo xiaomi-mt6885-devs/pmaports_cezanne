@@ -4,9 +4,9 @@
 # The group tag is just to easily find this APKBUILD by some scripts for automation
 # group=kde-frameworks
 pkgname=kitemmodels
-pkgver=9999_git20240304
+pkgver=9999_git20240318
 pkgrel=0
-_commit="f8fcf486df5aff8e91fee7790e5525279f067701"
+_commit="258b9a9db02c3dac5c013bf2165d646bd8b57cc6"
 pkgdesc="Models for Qt Model/View system"
 arch="all !armhf" # armhf blocked by extra-cmake-modules
 url="https://community.kde.org/Frameworks"
@@ -22,7 +22,7 @@ makedepends="$depends_dev
 	"
 checkdepends="xvfb-run"
 _repo_url="https://invent.kde.org/frameworks/kitemmodels.git"
-source="https://nightly.postmarketos.org/plasma-mobile/sources/2024-03-18/kitemmodels-$_commit.tar.xz"
+source="https://nightly.postmarketos.org/plasma-mobile/sources/2024-03-20/kitemmodels-$_commit.tar.xz"
 subpackages="$pkgname-dev $pkgname-doc"
 
 options="!check"
@@ -48,5 +48,5 @@ package() {
 }
 
 sha512sums="
-7bc6ae753fe4aa378bf7ff01fe10b697a408c9235ae9d8ccfc0bc1c9fb2a3396de51980923b9bcdcdd47ccdcbfed57808ceaa3101ff1f652530150c73cb503dc  kitemmodels-f8fcf486df5aff8e91fee7790e5525279f067701.tar.xz
+51bde2b71c73c8fb65407e6dfa02650289bdb1e49aaf00093dfa9d05a237be7a5b6e76166a72155a08e083a946fd3f495aba8addeb365802dbad250a899296e7  kitemmodels-258b9a9db02c3dac5c013bf2165d646bd8b57cc6.tar.xz
 "

@@ -4,9 +4,9 @@
 # The group tag is just to easily find this APKBUILD by some scripts for automation
 # group=kde-plasma
 pkgname=libkscreen
-pkgver=9999_git20240317
+pkgver=9999_git20240318
 pkgrel=0
-_commit="2ffe46adac183978fde9b6b8e115e6148f1d52bb"
+_commit="941841191e5b9985c97c087250ec9a649ac9f50d"
 pkgdesc="KDE screen management software"
 arch="all !armhf" # armhf blocked by extra-cmake-modules
 url="https://kde.org/plasma-desktop/"
@@ -30,7 +30,7 @@ case "$pkgver" in
 	*) _rel=stable;;
 esac
 _repo_url="https://invent.kde.org/plasma/libkscreen.git"
-source="https://nightly.postmarketos.org/plasma-mobile/sources/2024-03-18/libkscreen-$_commit.tar.xz"
+source="https://nightly.postmarketos.org/plasma-mobile/sources/2024-03-20/libkscreen-$_commit.tar.xz"
 subpackages="$pkgname-dev $pkgname-doc"
 options="!check" # Fails due to requiring dbus-x11 and it running
 
@@ -57,5 +57,5 @@ package() {
 }
 
 sha512sums="
-7e5de527e4d6e1117eebc1ed89e5ee49bea6ad0d6e40dbc91a5c69ce076efb7ece543592125b825b1869ca95bb0d77cbc3d618c8b3132e8243b470d554657929  libkscreen-2ffe46adac183978fde9b6b8e115e6148f1d52bb.tar.xz
+3ae9042fd047a36970618e5dd7dcb1425c1c098911ae18c288fe7b3a567819d64b60f32d3afcd2c8815bdc9392886dedf5eaa4ebf8f8faebd883ae17299199ef  libkscreen-941841191e5b9985c97c087250ec9a649ac9f50d.tar.xz
 "

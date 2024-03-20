@@ -4,9 +4,9 @@
 # The group tag is just to easily find this APKBUILD by some scripts for automation
 # group=kde-applications
 pkgname=grantleetheme
-pkgver=9999_git20240317
+pkgver=9999_git20240318
 pkgrel=0
-_commit="6c45431e511c187125cda2efd05549c863650b57"
+_commit="2b037168c2efc950158fff6f0e9958d0082ea4a6"
 pkgdesc="KDE PIM mail related libraries"
 # armhf blocked by extra-cmake-modules
 # s390x and riscv64 blocked by knewstuff
@@ -28,7 +28,7 @@ makedepends="$depends_dev
 	"
 checkdepends="xvfb-run"
 _repo_url="https://invent.kde.org/pim/grantleetheme.git"
-source="https://nightly.postmarketos.org/plasma-mobile/sources/2024-03-18/grantleetheme-$_commit.tar.xz"
+source="https://nightly.postmarketos.org/plasma-mobile/sources/2024-03-20/grantleetheme-$_commit.tar.xz"
 subpackages="$pkgname-dev $pkgname-doc $pkgname-lang"
 
 options="!check"
@@ -52,5 +52,5 @@ package() {
 	DESTDIR="$pkgdir" cmake --install build
 }
 sha512sums="
-3ad2e19ef2460ee6c8892fbb59614a29155d1d0db02c6e6b3c562e78965d9a43c4aa0ceb117afe8b26dad496e9382a2fcb33b01375a14598f02cad2b2e02967e  grantleetheme-6c45431e511c187125cda2efd05549c863650b57.tar.xz
+0245a0154a8a0de2a193b78ad01513cc1f3da30934fd21dae0b8d4cf16bb9ee2ba8c9089a0a14285afa0fb9883590ae6fc5da3fd99516e6081b5555529b002e1  grantleetheme-2b037168c2efc950158fff6f0e9958d0082ea4a6.tar.xz
 "

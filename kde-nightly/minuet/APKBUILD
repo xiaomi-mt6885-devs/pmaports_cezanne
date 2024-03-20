@@ -4,9 +4,9 @@
 # The group tag is just to easily find this APKBUILD by some scripts for automation
 # group=kde-applications
 pkgname=minuet
-pkgver=9999_git20240317
+pkgver=9999_git20240318
 pkgrel=0
-_commit="ee930399fcc45a47fb50a2a0010cd81187778fdb"
+_commit="60151b47b41afbef19bad8b007cea1705e8d8597"
 arch="all !armhf" # armhf blocked by qt6-qtdeclarative
 url="https://minuet.kde.org/"
 pkgdesc="Minuet Music Education"
@@ -25,7 +25,7 @@ makedepends="
 	samurai
 	"
 _repo_url="https://invent.kde.org/education/minuet.git"
-source="https://nightly.postmarketos.org/plasma-mobile/sources/2024-03-18/minuet-$_commit.tar.xz"
+source="https://nightly.postmarketos.org/plasma-mobile/sources/2024-03-20/minuet-$_commit.tar.xz"
 subpackages="$pkgname-doc $pkgname-lang $pkgname-dev"
 options="!check" # No tests
 
@@ -49,5 +49,5 @@ package() {
 }
 
 sha512sums="
-45605d78f0966ba1b20ac400856048bc744b15d2166ebdc27f7fd3337cc83ff10108c9e7efb196fa5d1f66a65d3450efeb74e4aed432d7d1cfbb2fd0744d8227  minuet-ee930399fcc45a47fb50a2a0010cd81187778fdb.tar.xz
+851bf711a232bb138bff75e6c5f39bb2cf1630a197df44464576fb66de69c2016e78c38ed66274e5c74ae032e1396c44fd966a71eaef9f46ed466c179eca3350  minuet-60151b47b41afbef19bad8b007cea1705e8d8597.tar.xz
 "

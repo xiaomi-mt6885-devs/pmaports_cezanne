@@ -4,9 +4,9 @@
 # The group tag is just to easily find this APKBUILD by some scripts for automation
 # group=kde-frameworks
 pkgname=purpose
-pkgver=9999_git20240317
+pkgver=9999_git20240318
 pkgrel=0
-_commit="d0bdbad04d90dcaab8e3d52a0f3fe98d4d55e0db"
+_commit="dffc849264560881791bb4dadda8fa27d8d225a9"
 pkgdesc="Framework for providing abstractions to get the developer's purposes fulfilled"
 # armhf blocked by extra-cmake-modules
 # ppc64le, s390x and riscv64 blocked by qt6-qtwebengine -> kaccounts-integration
@@ -28,7 +28,7 @@ makedepends="$depends_dev
 	"
 checkdepends="xvfb-run"
 _repo_url="https://invent.kde.org/frameworks/purpose.git"
-source="https://nightly.postmarketos.org/plasma-mobile/sources/2024-03-18/purpose-$_commit.tar.xz"
+source="https://nightly.postmarketos.org/plasma-mobile/sources/2024-03-20/purpose-$_commit.tar.xz"
 subpackages="$pkgname-dev $pkgname-lang"
 options="!check" # fails on builders
 
@@ -55,5 +55,5 @@ package() {
 }
 
 sha512sums="
-6ada2292979c7c342b90e694c8a6c263b78a1833d16ca31b839df399e2ad329bacd74c84ab075e7d8d5c82b3dc6fe25f0787ac8dce59a770d2debc3409f0b3f1  purpose-d0bdbad04d90dcaab8e3d52a0f3fe98d4d55e0db.tar.xz
+0f500b2f668bf8aa329c0b69db71c9ced1040b4139c3df8963b8c55ad5cc958dc012c5e226a907d1f099a6c539b1b6351c908c25a44c269ef9fb91597a7b04ff  purpose-dffc849264560881791bb4dadda8fa27d8d225a9.tar.xz
 "

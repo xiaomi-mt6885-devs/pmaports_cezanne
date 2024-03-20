@@ -4,9 +4,9 @@
 # The group tag is just to easily find this APKBUILD by some scripts for automation
 # group=kde-frameworks
 pkgname=kidletime
-pkgver=9999_git20240308
+pkgver=9999_git20240318
 pkgrel=0
-_commit="68a1e22b643e04cbe813108e4b1c5ec2460b097e"
+_commit="2244ee942d5abef02e1b76703fb5ab115eaa7104"
 pkgdesc="Monitoring user activity"
 # armhf blocked by extra-cmake-modules
 arch="all !armhf"
@@ -23,7 +23,7 @@ makedepends="
 	wayland-protocols
 	"
 _repo_url="https://invent.kde.org/frameworks/kidletime.git"
-source="https://nightly.postmarketos.org/plasma-mobile/sources/2024-03-18/kidletime-$_commit.tar.xz"
+source="https://nightly.postmarketos.org/plasma-mobile/sources/2024-03-20/kidletime-$_commit.tar.xz"
 subpackages="$pkgname-dev $pkgname-doc"
 
 options="!check"
@@ -48,5 +48,5 @@ package() {
 }
 
 sha512sums="
-c8ef9f447e4d7e816c2cd9f77b15d6d5d098fce7d5aa4102a360d8c29c3b223f3cdfd28297510bb5e979fc2aea9c728cfeeebbd2920666010ce3e2a29da94ecc  kidletime-68a1e22b643e04cbe813108e4b1c5ec2460b097e.tar.xz
+83da61c81caac27af7959294c709bad85cc6f4ea195b0ff3c27f1ed5eeda9b6ed726e0267a7fc7193a47f3e85707db00700aea16ebeb3025d71e5259dcec6711  kidletime-2244ee942d5abef02e1b76703fb5ab115eaa7104.tar.xz
 "

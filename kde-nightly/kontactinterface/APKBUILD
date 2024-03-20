@@ -4,9 +4,9 @@
 # The group tag is just to easily find this APKBUILD by some scripts for automation
 # group=kde-applications
 pkgname=kontactinterface
-pkgver=9999_git20240317
+pkgver=9999_git20240318
 pkgrel=0
-_commit="dc4d9080c4b5ae86c30795720ba58064eb7dbb3e"
+_commit="a6b1039b8dbbec24430d07ac9decb5fc9c120013"
 # armhf blocked by extra-cmake-modules
 arch="all !armhf"
 url="https://kontact.kde.org/"
@@ -26,7 +26,7 @@ makedepends="
 	samurai
 	"
 _repo_url="https://invent.kde.org/pim/kontactinterface.git"
-source="https://nightly.postmarketos.org/plasma-mobile/sources/2024-03-18/kontactinterface-$_commit.tar.xz"
+source="https://nightly.postmarketos.org/plasma-mobile/sources/2024-03-20/kontactinterface-$_commit.tar.xz"
 subpackages="$pkgname-dev $pkgname-lang"
 
 options="!check"
@@ -49,5 +49,5 @@ package() {
 }
 
 sha512sums="
-f0ec71efe568f99713124b6d7cf0210265ac871df2dead99738229d4d243af8f10778e61de60f4974b0463253f317124bcfeb054974847617f0ab05b1599a5ee  kontactinterface-dc4d9080c4b5ae86c30795720ba58064eb7dbb3e.tar.xz
+54c7ccae457d2dcb6f04d8811b56927672b7a73c772c5d62ba698f1db5eee9d24d9e7975ac0376087802521cd087413bfa51be0cc9eabfcecf0e45c668633fd0  kontactinterface-a6b1039b8dbbec24430d07ac9decb5fc9c120013.tar.xz
 "

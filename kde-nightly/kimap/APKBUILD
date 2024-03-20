@@ -4,9 +4,9 @@
 # The group tag is just to easily find this APKBUILD by some scripts for automation
 # group=kde-applications
 pkgname=kimap
-pkgver=9999_git20240317
+pkgver=9999_git20240318
 pkgrel=0
-_commit="053655b57c0b97aae339300e6c36fed03697f9ad"
+_commit="08647a842213d7f0aa68e2d0c993380abf0a56c4"
 pkgdesc="Job-based API for interacting with IMAP servers"
 # armhf blocked by extra-cmake-modules
 arch="all !armhf"
@@ -25,7 +25,7 @@ makedepends="$depends_dev
 	samurai
 	"
 _repo_url="https://invent.kde.org/pim/kimap.git"
-source="https://nightly.postmarketos.org/plasma-mobile/sources/2024-03-18/kimap-$_commit.tar.xz"
+source="https://nightly.postmarketos.org/plasma-mobile/sources/2024-03-20/kimap-$_commit.tar.xz"
 subpackages="$pkgname-dev"
 
 options="!check"
@@ -49,5 +49,5 @@ package() {
 }
 
 sha512sums="
-2573d47ced3646f76700c0bc7e054f54013bbb9b9f51c82e3ec4f66ce18aba5c4bd9350bafa54cf5f624e686116ce9c52513a2acae8432d3abcf6b6cd4a5e4fe  kimap-053655b57c0b97aae339300e6c36fed03697f9ad.tar.xz
+2a077ee0d4ca1a39e2c90cc0a9e0611b106583f7486129909a927d0241863c057cc52ec8dd71c2213212ee831a02480a91a50ff283d8dbd8d3a223f0fe8a59d9  kimap-08647a842213d7f0aa68e2d0c993380abf0a56c4.tar.xz
 "
