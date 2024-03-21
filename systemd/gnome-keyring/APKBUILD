@@ -1,0 +1,68 @@
+# Forked from Alpine
+# systemd unit activation
+
+pkgname=gnome-keyring
+pkgver=99942.1
+_pkgver=42.1
+pkgrel=2
+pkgdesc="GNOME keyring"
+url="https://wiki.gnome.org//Projects/GnomeKeyring"
+arch="all"
+license="GPL-2.0-only LGPL-2.0-only"
+# the gcr binaries are needed for things to open the keyring via libsecret
+depends="gcr"
+makedepends="
+	autoconf
+	automake
+	gcr-dev
+	gobject-introspection-dev
+	gtk+3.0-dev
+	gtk-doc
+	intltool
+	libcap-ng-dev
+	libgcrypt-dev
+	libxslt
+	linux-pam-dev
+	openssh-client
+	systemd-dev
+	"
+checkdepends="
+	dbus-x11
+	python3
+	xvfb-run
+	"
+provides="dbus:org.freedesktop.Secrets"
+# Highest priority of the bunch since it has the least deps
+provider_priority=500
+options="!check" # Failing tests on 32-bit architectures
+subpackages="$pkgname-lang $pkgname-doc"
+source="https://download.gnome.org/sources/gnome-keyring/${_pkgver%.*}/gnome-keyring-$_pkgver.tar.xz
+	0001-build-Use-p11_module_configs-as-default-pkcs11-confi.patch"
+builddir="$srcdir/gnome-keyring-$_pkgver"
+
+build() {
+	export LDFLAGS="$LDFLAGS -lintl"
+	./configure \
+		--build=$CBUILD \
+		--host=$CHOST \
+		--prefix=/usr \
+		--sysconfdir=/etc \
+		--with-pam-dir=/usr/lib/security \
+		--disable-selinux \
+		--with-libcap-ng=no
+	make
+}
+
+check() {
+	xvfb-run make check -j1
+}
+
+package() {
+	export GCONF_DISABLE_MAKEFILE_SCHEMA_INSTALL=1
+	make DESTDIR="$pkgdir" install
+}
+
+sha512sums="
+560dc409c21768dcbdf42151986a5bbbfb9a092d2c36295cf76bd603cdf9650fa80670631c7fb8b3e1822bed6a1f55c34b2170a1419ce45fbe8ca08c7eaf3a57  gnome-keyring-42.1.tar.xz
+427b6f95d1860fb2d8bdb44782d3e504d8adcec9ffe949726b2bf278ce9d483e8ae72362f339d49cdd945988e6b21a3863e2249a14c2b3c8fc5c351fa3f8b25a  0001-build-Use-p11_module_configs-as-default-pkcs11-confi.patch
+"

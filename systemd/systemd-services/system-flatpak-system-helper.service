@@ -1,0 +1,12 @@
+[Unit]
+Description=flatpak system helper
+
+[Service]
+BusName=org.freedesktop.Flatpak.SystemHelper
+# Differs from Alpine which does
+# XDG_DATA_DIRS=$HOME/.local/share/flatpak/exports/share/:/var/lib/flatpak/exports/share/:/usr/local/share/:/usr/share/
+# via gdm env
+Environment=XDG_DATA_DIRS=/var/lib/flatpak/exports/share/:/usr/local/share/:/usr/share/
+ExecStart=/usr/lib/flatpak/flatpak-system-helper
+Type=dbus
+IOSchedulingClass=idle

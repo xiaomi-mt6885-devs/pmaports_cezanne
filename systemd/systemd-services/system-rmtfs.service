@@ -1,0 +1,10 @@
+[Unit]
+Description=Qualcomm remotefs service
+
+[Service]
+ExecStart=/usr/sbin/rmtfs -r -P -s
+Restart=always
+RestartSec=1
+
+[Install]
+WantedBy=multi-user.target

@@ -1,0 +1,14 @@
+# FIXME: this should be a template unit file with -sdsp and -adsp options
+# it would also be nice to have a custom target for remoteprocs
+[Unit]
+Description=Qualcomm Sensor DSP FastRPC filesystem proxy
+
+[Service]
+ExecStart=/usr/bin/hexagonrpcd -f /dev/fastrpc-sdsp -s
+Restart=always
+RestartSec=3
+User=fastrpc
+Group=fastrpc
+
+[Install]
+WantedBy=multi-user.target

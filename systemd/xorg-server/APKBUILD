@@ -1,0 +1,214 @@
+# Forked from Alpine to adjust dependencies for systemd
+
+pkgname=xorg-server
+pkgver=9999
+_pkgver=21.1.10
+pkgrel=0
+pkgdesc="X.Org X servers"
+url="https://www.x.org/wiki"
+arch="all"
+license="MIT"
+options="suid"
+subpackages="
+	$pkgname-dbg
+	$pkgname-dev
+	$pkgname-doc
+	xvfb
+	$pkgname-xephyr
+	$pkgname-xnest
+	$pkgname-common::noarch
+	"
+depends="
+	font-cursor-misc
+	font-misc-misc
+	mesa-egl
+	xinit
+	xkbcomp
+	xkeyboard-config
+	xorg-server-common
+	"
+depends_dev="
+	libepoxy-dev
+	libpciaccess-dev
+	libxfont2-dev
+	mesa-dev
+	"
+makedepends="
+	$depends_dev
+	dbus-dev
+	libdrm-dev
+	libx11-dev
+	libxau-dev
+	libxcb-dev
+	libxcvt-dev
+	libxdmcp-dev
+	libxext-dev
+	libxkbfile-dev
+	libxshmfence-dev
+	meson
+	nettle-dev
+	pixman-dev
+	udev-dev
+	wayland-dev
+	wayland-protocols
+	xcb-util-dev
+	xcb-util-image-dev
+	xcb-util-keysyms-dev
+	xcb-util-renderutil-dev
+	xcb-util-wm-dev
+	xkbcomp-dev
+	xorgproto
+	xtrans
+	xz
+	"
+source="https://www.x.org/releases/individual/xserver/xorg-server-$_pkgver.tar.xz
+	ms-rotate.patch"
+builddir="$srcdir/xorg-server-$_pkgver"
+
+# the modesetting driver is now shipped with xorg server
+provides="xf86-video-modesetting=$pkgver-r$pkgrel"
+replaces="xf86-video-modesetting"
+
+
+# secfixes:
+#   21.1.7-r0:
+#     - CVE-2023-0494
+#   21.1.5-r0:
+#     - CVE-2022-4283
+#     - CVE-2022-46340
+#     - CVE-2022-46341
+#     - CVE-2022-46342
+#     - CVE-2022-46343
+#     - CVE-2022-46344
+#   21.1.4-r0:
+#     - CVE-2022-2319
+#     - CVE-2022-2320
+#   21.1.2-r0:
+#     - CVE-2021-4008
+#     - CVE-2021-4009
+#     - CVE-2021-4010
+#     - CVE-2021-4011
+#   1.20.10-r5:
+#     - CVE-2021-3472
+#   1.20.10-r0:
+#     - CVE-2020-14360
+#     - CVE-2020-25712
+#   1.20.9-r0:
+#     - CVE-2020-14362
+#     - CVE-2020-14361
+#     - CVE-2020-14346
+#     - CVE-2020-14345
+#   1.20.8-r4:
+#     - CVE-2020-14347
+#   1.20.3-r0:
+#     - CVE-2018-14665
+#   1.19.5-r0:
+#     - CVE-2017-12176
+#     - CVE-2017-12177
+#     - CVE-2017-12178
+#     - CVE-2017-12179
+#     - CVE-2017-12180
+#     - CVE-2017-12181
+#     - CVE-2017-12182
+#     - CVE-2017-12183
+#     - CVE-2017-12184
+#     - CVE-2017-12185
+#     - CVE-2017-12186
+#     - CVE-2017-12187
+#     - CVE-2017-13721
+#     - CVE-2017-13723
+
+prepare() {
+	default_prepare
+	sed -i -e 's/termio.h/termios.h/' hw/xfree86/os-support/xf86_OSlib.h
+}
+
+build() {
+	# xorg modules does not work with the -z now and it seems like we
+	# cannot pass over the linker flag to .so files. so we tweak the
+	# gcc specs.
+	export CFLAGS="${CFLAGS/-fno-plt}"
+	export CXXFLAGS="${CXXFLAGS/-fno-plt}"
+	export LDFLAGS="$LDFLAGS -Wl,-z,lazy"
+	_fontroot="/usr/share/fonts"
+
+	# 32-bit fails otherwise
+	export CFLAGS="$CFLAGS -Wno-error=array-bounds"
+
+	abuild-meson \
+		-Db_lto=true \
+		-Dxorg=true \
+		-Dxephyr=true \
+		-Dglamor=true \
+		-Dxnest=true \
+		-Dxvfb=true \
+		-Dxwin=false \
+		-Ddefault_font_path=$_fontroot/misc,$_fontroot/100dpi:unscaled,$_fontroot/75dpi:unscaled,$_fontroot/TTF,$_fontroot/Type1 \
+		-Dglx=true \
+		-Dxdmcp=true \
+		-Dxdm-auth-1=true \
+		-Dxcsecurity=true \
+		-Dsecure-rpc=false \
+		-Dipv6=true \
+		-Dxkb_dir=/usr/share/X11/xkb \
+		-Dxkb_output_dir=/var/lib/xkb \
+		-Dlisten_tcp=false \
+		-Dlisten_unix=true \
+		-Dlisten_local=true \
+		-Dsuid_wrapper=true \
+		-Dpciaccess=true \
+		-Dudev=true \
+		-Dhal=false \
+		-Dsystemd_logind=true \
+		-Ddpms=true \
+		-Ddri1=true \
+		-Ddri2=true \
+		-Ddri3=true \
+		. output
+	meson compile -C output
+}
+
+check() {
+	meson test --no-rebuild --print-errorlogs -C output
+}
+
+package() {
+	DESTDIR="$pkgdir" meson install --no-rebuild -C output
+
+	chmod u+s "$pkgdir"/usr/libexec/Xorg.wrap
+
+	# Don't conflict with xf86-input-evdev
+	rm -f "$pkgdir"/usr/share/X11/xorg.conf.d/10-evdev.conf
+
+	install -Dm0644 xkb/README.compiled -t "$pkgdir"/var/lib/xkb
+}
+
+xvfb() {
+	pkgdesc="Virtual Framebuffer 'fake' X server"
+
+	amove usr/bin/Xvfb
+}
+
+xephyr() {
+	pkgdesc="kdrive based X Server which targets a window on a host X Server as its framebuffer"
+
+	amove usr/bin/Xephyr
+}
+
+xnest() {
+	pkgdesc="A nested Xorg server"
+
+	amove usr/bin/Xnest
+}
+
+common() {
+	depends=""
+	pkgdesc="Xorg server common files"
+
+	amove usr/lib/xorg/protocol.txt
+}
+
+sha512sums="
+8135d9b7c0c71f427ba0a3b80741fee4f6ae195779399b73261a00858882f3516e367a08e2da1403734b04eacabae9aa231e5375eff23b57a3ff764e9caf8926  xorg-server-21.1.10.tar.xz
+9ed9c731a7275a3821476eedd55f453027fdf9bcdfd8f259259a5d053c73e8b9298f048cbb009a4fb05230fb2a9ab7cc38a44d708973f09daa8570fae376236e  ms-rotate.patch
+"

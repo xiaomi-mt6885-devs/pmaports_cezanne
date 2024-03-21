@@ -1,7 +1,8 @@
-# Forked from Alpine to add phone adaptivity patches
+# Forked from Alpine to add phone adaptivity patches and systemd!
 
 pkgname=gnome-shell-mobile
-pkgver=45_git20230908
+pkgver=99945_git20230908
+_pkgver=45_git20230908
 pkgrel=0
 pkgdesc="GNOME shell"
 url="https://wiki.gnome.org/Projects/GnomeShell"
@@ -11,7 +12,6 @@ depends="
 	accountsservice
 	adwaita-icon-theme
 	caribou
-	elogind
 	font-adobe-source-code-pro
 	font-cantarell
 	gnome-bluetooth
@@ -24,12 +24,15 @@ depends="
 	ibus
 	librsvg
 	networkmanager-common
+	polkit
+	systemd
 	unzip
 	upower
+	xorg-server
 	"
 makedepends="
 	asciidoc
-	elogind-dev
+	systemd-dev
 	evolution-data-server-dev evolution-dev
 	gcr4-dev
 	gjs-dev>=1.64.0
@@ -45,7 +48,7 @@ makedepends="
 	libxml2-dev
 	libxml2-utils
 	meson
-	mutter-mobile-dev>=45_git20230905
+	mutter-mobile-dev>=44_git20230405
 	networkmanager-dev
 	pipewire-dev
 	polkit-dev
@@ -60,14 +63,17 @@ checkdepends="
 	mesa-dri-gallium
 	"
 	# gdm is also needed but introduces circular dep
-provides="gnome-shell=$pkgver-r$pkgrel"
+provides="gnome-shell=$_pkgver-r$pkgrel"
 subpackages="$pkgname-dbg $pkgname-doc $pkgname-lang $pkgname-schemas::noarch"
 _commit="df3f6b4c512d2f181e86ff7f6b1646ce7b907344"
 _gvc_commit="8e7a5a4c3e51007ce6579292642517e3d3eb9c50"
 source="mobile-shell-$_commit.tar.gz::https://gitlab.gnome.org/verdre/mobile-shell/-/archive/$_commit/mobile-shell-$_commit.tar.gz
 	libgnome-volume-control-$_gvc_commit.tar.gz::https://gitlab.gnome.org/GNOME/libgnome-volume-control/-/archive/$_gvc_commit/gnome-shell-$_gvc_commit.tar.gz
 	disable-telepathy-integration.patch
-	gsh.patch"
+	gsh.patch
+	gnome-shell-uclamp.sh
+	uclamp-override.conf
+	"
 builddir="$srcdir/mobile-shell-$_commit"
 options="!check" # Tests have circular dependency 'gnome-shell <-> gdm'
 
@@ -85,7 +91,6 @@ prepare() {
 
 build() {
 	abuild-meson \
-		-Dsystemd=false \
 		-Dtests=false \
 		. output
 	meson compile ${JOBS:+-j ${JOBS}} -C output
@@ -98,7 +103,7 @@ check() {
 schemas() {
 	pkgdesc="GNOME Shell gsetting schemas"
 	depends=""
-	provides="gnome-shell-schemas=$pkgver-r$pkgrel"
+	provides="gnome-shell-schemas=$_pkgver-r$pkgrel"
 
 	amove usr/share/glib-2.0/schemas
 	amove usr/share/gnome-control-center/keybindings
@@ -106,7 +111,7 @@ schemas() {
 
 lang() {
 	default_lang
-	provides="gnome-shell-lang=$pkgver-r$pkgrel"
+	provides="gnome-shell-lang=$_pkgver-r$pkgrel"
 }
 
 package() {
@@ -114,6 +119,10 @@ package() {
 
 	# owned by postmarketos-hidden-desktop-entries
 	rm $pkgdir/usr/share/applications/org.gnome.Extensions.desktop
+
+	install -Dm755 "$srcdir/gnome-shell-uclamp.sh" "$pkgdir/usr/libexec/gnome-shell-uclamp"
+	install -Dm644 "$srcdir/uclamp-override.conf" \
+		"$pkgdir/etc/systemd/user/org.gnome.Shell@.service.d/override.conf"
 }
 
 sha512sums="
@@ -121,4 +130,6 @@ f7445d29006496865f9ea9d70efd1e2f1be1886b97bdd09bb5b000db6b576200d076178050527e92
 ebc6985afbda5ddebcda44d8b6732a9abc2d7249aff3adf7a76a90aa681590f830dcf2e5f3534a624adc32d1f0445e261ee149d65c221f733e0c33e0690a004d  libgnome-volume-control-8e7a5a4c3e51007ce6579292642517e3d3eb9c50.tar.gz
 2ca70115fab957fdf276b7f0772786e1afd56b0b22bcfd92f5b5f1d29676dc97c19cfb079434d0dbf7b459f1d133dbd8d1faa0d88f7b94846040a23856f951f8  disable-telepathy-integration.patch
 dba79b94ab4bcf0db51aa4a19c5fb52f9dae05909fe13531fe9dc06d9db334ac3328bd4040484eac8ef851057ee471a28d86800aa2ae82eec7274f5f79b9146a  gsh.patch
+545d584307ee90894525a75b7c2b99c4e05d7f903dd2181509ca0c04c5711b50a539c2f1263a8dfe26380cf121817ff2eaecac38f4fc2d0bdde5629d73f7ee0c  gnome-shell-uclamp.sh
+71ac6a8694ddcda211ff4060a55c374ae5b8eb7c3cd2a057b6eccac2c83b87bac18e09fda1d572054357d7f2e6e57b79f80a6a3cebeca75335931e1676011055  uclamp-override.conf
 "
