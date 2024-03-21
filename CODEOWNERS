@@ -62,6 +62,7 @@ device/*/device-nvidia-tegra-armv7/		@clamor95 @okias @mschwalm @nokun
 device/*/device-odroid-xu4/			@Grimler
 device/*/device-oneplus-enchilada/		@calebccff
 device/*/device-oneplus-fajita/			@calebccff
+device/*/device-postmarketos-trailblazer/	@calebccff
 device/*/device-qemu-aarch64/			@Minecrell @ollieparanoid
 device/*/device-qemu-amd64/			@Minecrell @ollieparanoid
 device/*/device-qemu-riscv64/			@Minecrell @z3ntu
