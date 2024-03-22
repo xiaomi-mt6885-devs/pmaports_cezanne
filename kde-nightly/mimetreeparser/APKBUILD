@@ -4,9 +4,9 @@
 # The group tag is just to easily find this APKBUILD by some scripts for automation
 # group=kde-applications
 pkgname=mimetreeparser
-pkgver=9999_git20240318
+pkgver=9999_git20240320
 pkgrel=0
-_commit="df97619d932874afa19ff6dd01235033e3ccc125"
+_commit="951678fa2c16fb3b7ecbe117661d0c565c88cdb7"
 pkgdesc="Parser for MIME trees"
 # armhf blocked by extra-cmake-modules
 arch="all !armhf"
@@ -31,7 +31,7 @@ makedepends="
 	samurai
 	"
 _repo_url="https://invent.kde.org/pim/mimetreeparser.git"
-source="https://nightly.postmarketos.org/plasma-mobile/sources/2024-03-20/mimetreeparser-$_commit.tar.xz"
+source="https://nightly.postmarketos.org/plasma-mobile/sources/2024-03-22/mimetreeparser-$_commit.tar.xz"
 subpackages="$pkgname-dev $pkgname-doc $pkgname-lang"
 
 options="!check"
@@ -54,5 +54,5 @@ package() {
 	DESTDIR="$pkgdir" cmake --install build
 }
 sha512sums="
-9de2b815375aa9adbe8452fdf0cfee1424b8f95040edd8daff91552f1edfb4c4a61e973652c0a29295d0a5c79d5d73f69595e45754ce72e1a46bfc79f4d9b9d8  mimetreeparser-df97619d932874afa19ff6dd01235033e3ccc125.tar.xz
+652cb823e956d051bbccb8c3dbda5e47212c4fa3a6e0460a1b01d8b25d4dd1a2ab16c7234e8c89970d904ef7a371a43ee6243a8b7af46b5db7f2089cdb00d293  mimetreeparser-951678fa2c16fb3b7ecbe117661d0c565c88cdb7.tar.xz
 "

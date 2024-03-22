@@ -6,7 +6,7 @@
 pkgname=kdoctools
 pkgver=9999_git20240318
 pkgrel=0
-_commit="ea13792d82797fc7e68c80145221b85ab27021e1"
+_commit="f7afe73afa411e5457bc85befc101dc89054f5d4"
 pkgdesc="Documentation generation from docbook"
 arch="all !armhf" # armhf blocked by extra-cmake-modules
 url="https://community.kde.org/Frameworks"
@@ -32,7 +32,7 @@ makedepends="$depends_dev
 	samurai
 	"
 _repo_url="https://invent.kde.org/frameworks/kdoctools.git"
-source="https://nightly.postmarketos.org/plasma-mobile/sources/2024-03-20/kdoctools-$_commit.tar.xz"
+source="https://nightly.postmarketos.org/plasma-mobile/sources/2024-03-22/kdoctools-$_commit.tar.xz"
 subpackages="$pkgname-dev $pkgname-doc"
 
 options="!check"
@@ -56,5 +56,5 @@ package() {
 }
 
 sha512sums="
-bef832ad7d46add098ea02548725d49d589d094a3121e116e2818786f3576744ae7d31c4646a037336e53c9d8099a59e1b6fa060491ff307a613ef6f483ee585  kdoctools-ea13792d82797fc7e68c80145221b85ab27021e1.tar.xz
+4c1c2be2b9a23c26a464e23e1b03bca666c042705380d22893e9a2015d0ea9f33d291a8d7b48f1e6ddb2620105051bd7c55b4c44fe5a2d9807f40ad70668380c  kdoctools-f7afe73afa411e5457bc85befc101dc89054f5d4.tar.xz
 "

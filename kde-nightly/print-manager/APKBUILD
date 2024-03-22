@@ -4,9 +4,9 @@
 # The group tag is just to easily find this APKBUILD by some scripts for automation
 # group=kde-plasma
 pkgname=print-manager
-pkgver=9999_git20240318
+pkgver=9999_git20240319
 pkgrel=0
-_commit="483180a068316aaa2558c112f5b7afafdbe5102c"
+_commit="13ee0d01440cc97efd0475ae967e6b916ea4edc0"
 # armhf blocked by qt6-qtdeclarative
 arch="all !armhf"
 url="https://www.kde.org/applications/utilities/"
@@ -33,7 +33,7 @@ makedepends="
 	samurai
 	"
 _repo_url="https://invent.kde.org/plasma/print-manager.git"
-source="https://nightly.postmarketos.org/plasma-mobile/sources/2024-03-20/print-manager-$_commit.tar.xz"
+source="https://nightly.postmarketos.org/plasma-mobile/sources/2024-03-22/print-manager-$_commit.tar.xz"
 subpackages="$pkgname-lang"
 options="!check" # No tests available
 
@@ -57,5 +57,5 @@ package() {
 }
 
 sha512sums="
-62f48eb0ed1a4db81df104e3d4d32e1baa78f16036b4a28ca6e649cf9dfb189ddefd103566249cb567c4228abeeb10322e9a6395f23ee41dc0a5f54996b02d20  print-manager-483180a068316aaa2558c112f5b7afafdbe5102c.tar.xz
+847132a728bffddcc2459a5121843a3c0e4bda4605b5b18a6d48d48d4312f18fccc3bb51b9678f54c9211a67b6f997b8e04339ad97fc204db43ff90f21e3b8b6  print-manager-13ee0d01440cc97efd0475ae967e6b916ea4edc0.tar.xz
 "

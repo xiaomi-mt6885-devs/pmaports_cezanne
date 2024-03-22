@@ -4,9 +4,9 @@
 # The group tag is just to easily find this APKBUILD by some scripts for automation
 # group=kde-plasma
 pkgname=oxygen-sounds
-pkgver=9999_git20240220
+pkgver=9999_git20240320
 pkgrel=0
-_commit="6fae0bf7e2dd3ea63a6b77258a5685640ba24388"
+_commit="b2c070c92f2e9b5f8b67c62ac60f2f0fcdc0d32b"
 pkgdesc="The Oxygen Sound Theme"
 # armhf blocked by extra-cmake-modules
 arch="noarch !armhf"
@@ -23,7 +23,7 @@ case "$pkgver" in
 	*) _rel=stable;;
 esac
 _repo_url="https://invent.kde.org/plasma/oxygen-sounds.git"
-source="https://nightly.postmarketos.org/plasma-mobile/sources/2024-03-20/oxygen-sounds-$_commit.tar.xz"
+source="https://nightly.postmarketos.org/plasma-mobile/sources/2024-03-22/oxygen-sounds-$_commit.tar.xz"
 
 options="!check"
 builddir="$srcdir/oxygen-sounds-$_commit"
@@ -45,5 +45,5 @@ package() {
 }
 
 sha512sums="
-d9478a4da74178546e8a2ae3d4712d9fef28c51662446b8bf115ef189ca36c62ab36416a6135dd969ad6ac5196a422c6a4ebcb809ba659a31a8f206212ae7331  oxygen-sounds-6fae0bf7e2dd3ea63a6b77258a5685640ba24388.tar.xz
+0cf5fabd2bf3da2d1222a7a4c912c29dc502982c511418def103e3e0223acdf39bc5dff49a28014c35356ed9b4465ee29104f51dfbf8dcc8100619b2d8eeaad3  oxygen-sounds-b2c070c92f2e9b5f8b67c62ac60f2f0fcdc0d32b.tar.xz
 "
