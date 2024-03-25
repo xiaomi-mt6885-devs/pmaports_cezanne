@@ -8,29 +8,24 @@ stages:
   - lint
   - build
 
-# defaults for "only"
-# We need to run the CI jobs in a "merge request specific context", if CI is
-# running in a merge request. Otherwise the environment variable that holds the
-# merge request ID is not available. This means, we must set the "only"
-# variable accordingly - and if we only do it for one job, all other jobs will
-# not get executed. So have the defaults here, and use them in all jobs that
-# should run on both the master branch, and in merge requests.
-# https://docs.gitlab.com/ee/ci/merge_request_pipelines/index.html#excluding-certain-jobs
-.only-default: &only-default
-  only:
-    - master
-    - merge_requests
-    - tags
+# This defines the rules for when a pipeline should run.
+workflow:
+  rules:
+    # Don't run branch pipeline if an MR is open (only the MR pipeline will run)
+    - if: $CI_COMMIT_BRANCH && $CI_OPEN_MERGE_REQUESTS && $CI_PIPELINE_SOURCE == "push"
+      when: never
+    # Run for merge requests
+    - if: $CI_PIPELINE_SOURCE == "merge_request_event"
+    # Run scheduled pipeline for autoupdate
+    - if: $CI_PIPELINE_SOURCE == "schedule"
 
 # device documentation
 wiki:
   stage: lint
-  <<: *only-default
-  only:
-    refs:
-      - merge_requests
-    changes:
-      - device/*/device-*/*
+  rules:
+    - if: $CI_PIPELINE_SOURCE == "merge_request_event" || $CI_COMMIT_REF_PROTECTED == "false"
+      changes:
+        - device/*/device-*/*
   script:
     - .ci/lib/gitlab_prepare_ci.sh
     - .ci/wiki.sh
@@ -38,14 +33,12 @@ wiki:
 # testcases linting
 ruff:
   stage: lint
-  <<: *only-default
-  only:
-    refs:
-      - merge_requests
-    changes:
-      - .ci/*
-      - .ci/*/*
-      - .gitlab-ci.yml
+  rules:
+    - if: $CI_PIPELINE_SOURCE == "merge_request_event" || $CI_COMMIT_REF_PROTECTED == "false"
+      changes:
+        - .ci/*
+        - .ci/*/*
+        - .gitlab-ci.yml
   before_script:
     - "echo 'https://dl-cdn.alpinelinux.org/alpine/edge/testing' >> /etc/apk/repositories"
   script:
@@ -55,8 +48,9 @@ ruff:
 # shellcheck and various grep checks
 shellcheck-grep:
   stage: lint
-  <<: *only-default
   image: alpine:edge
+  rules:
+    - if: $CI_PIPELINE_SOURCE == "merge_request_event" || $CI_COMMIT_REF_PROTECTED == "false"
   script:
     - .ci/lib/gitlab_prepare_ci.sh
     - .ci/shellcheck.sh
@@ -65,8 +59,9 @@ shellcheck-grep:
 
 editor-config:
   stage: lint
-  <<: *only-default
   image: alpine:edge
+  rules:
+    - if: $CI_PIPELINE_SOURCE == "merge_request_event" || $CI_COMMIT_REF_PROTECTED == "false"
   script:
     - .ci/lib/gitlab_prepare_ci.sh
     - .ci/ec.sh
@@ -74,7 +69,8 @@ editor-config:
 # aports checks (generic)
 pytest-commits:
   stage: lint
-  <<: *only-default
+  rules:
+    - if: $CI_PIPELINE_SOURCE == "merge_request_event" || $CI_COMMIT_REF_PROTECTED == "false"
   script:
     - .ci/lib/gitlab_prepare_ci.sh
     - .ci/pytest.sh
@@ -90,23 +86,21 @@ pytest-commits:
 # APKBUILD linting
 aport-lint:
   stage: lint
+  rules:
+    - if: $CI_PIPELINE_SOURCE == "merge_request_event" || $CI_COMMIT_REF_PROTECTED == "false"
   script:
     - .ci/lib/gitlab_prepare_ci.sh
     - .ci/apkbuild-lint.sh
-  only:
-    - merge_requests
   allow_failure: true
 
 # kernel kconfig check
 kernel-kconfig:
   stage: lint
-  only:
-    refs:
-      - master
-      - merge_requests
-    changes:
-      - device/*/linux-*/config-*
-      - main/linux-*/config-*
+  rules:
+    - if: $CI_PIPELINE_SOURCE == "merge_request_event" || $CI_COMMIT_REF_PROTECTED == "false"
+      changes:
+        - device/*/linux-*/config-*
+        - main/linux-*/config-*
   script:
     - .ci/lib/gitlab_prepare_ci.sh
     - .ci/kconfig.sh
@@ -115,8 +109,8 @@ kernel-kconfig:
 # (Checks for "Allow commits from members who can merge to the target branch")
 mr-settings:
   stage: lint
-  only:
-    - merge_requests
+  rules:
+    - if: $CI_PIPELINE_SOURCE == "merge_request_event"
   before_script:
     - apk -q add python3
   script:
@@ -126,7 +120,8 @@ mr-settings:
 # build changed aports
 .build:
   stage: build
-  <<: *only-default
+  rules:
+    - if: $CI_PIPELINE_SOURCE == "merge_request_event" || $CI_COMMIT_REF_PROTECTED == "false"
   before_script:
     - .ci/lib/gitlab_prepare_ci.sh
   after_script:
