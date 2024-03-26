@@ -7,6 +7,7 @@ after_script:
 stages:
   - lint
   - build
+  - autoupdate
 
 # This defines the rules for when a pipeline should run.
 workflow:
@@ -161,3 +162,12 @@ build-riscv64:
   extends: .build
   script:
     - .ci/build-riscv64.sh
+
+auto-update:
+  stage: autoupdate
+  rules:
+    - if: $AUTOUPDATE_PACKAGES != null && $CI_PIPELINE_SOURCE == "schedule"
+  before_script:
+    - .ci/lib/gitlab_prepare_ci.sh
+  script:
+    - .ci/autoupdate.sh "$AUTOUPDATE_PACKAGES"
