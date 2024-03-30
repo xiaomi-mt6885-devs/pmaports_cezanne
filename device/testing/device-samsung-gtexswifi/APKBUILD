@@ -1,0 +1,29 @@
+# Reference: <https://postmarketos.org/devicepkg>
+pkgname=device-samsung-gtexswifi
+pkgdesc="Samsung Galaxy Tab A 7.0"
+pkgver=0.1
+pkgrel=0
+url="https://postmarketos.org"
+license="MIT"
+arch="armv7"
+options="!check !archcheck"
+depends="
+	linux-samsung-gtexswifi
+	mkbootimg
+	postmarketos-base
+	msm-fb-refresher
+"
+makedepends="devicepkg-dev"
+source="deviceinfo"
+
+build() {
+	devicepkg_build $startdir $pkgname
+}
+
+package() {
+	devicepkg_package $startdir $pkgname
+}
+
+sha512sums="
+30ee77a25535eaceeec429f81b66e6de00597515433f08efff6dc00824e346f99480b1cf70e9ed6db0628bfe7e0d535eb4bb792474d145168c28251c3798a83a  deviceinfo
+"
