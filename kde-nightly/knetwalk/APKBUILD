@@ -4,9 +4,9 @@
 # The group tag is just to easily find this APKBUILD by some scripts for automation
 # group=kde-applications
 pkgname=knetwalk
-pkgver=9999_git20240318
+pkgver=9999_git20240329
 pkgrel=0
-_commit="0d50b91e182726c77808d29a9e5d5b4bf27d201e"
+_commit="f0a6dc3f9c6d749fbe4452cd9dbecf311ba88c13"
 pkgdesc="Connect all the terminals to the server, in as few turns as possible"
 # armhf blocked by extra-cmake-modules
 arch="all !armhf"
@@ -30,7 +30,7 @@ makedepends="
 	samurai
 	"
 _repo_url="https://invent.kde.org/games/knetwalk.git"
-source="https://nightly.postmarketos.org/plasma-mobile/sources/2024-03-22/knetwalk-$_commit.tar.xz"
+source="https://nightly.postmarketos.org/plasma-mobile/sources/2024-03-30/knetwalk-$_commit.tar.xz"
 subpackages="$pkgname-doc $pkgname-lang"
 
 options="!check"
@@ -53,5 +53,5 @@ package() {
 }
 
 sha512sums="
-e2dbff407fddcef08afe7ba16f6199118bd830388910b7375e3598bbc0a983fd7c1f9df729b1148eaa8b8895f9873a807c0afc83ce718303e15dd05138ab6b97  knetwalk-0d50b91e182726c77808d29a9e5d5b4bf27d201e.tar.xz
+e645d79598c36ebc1f9e994a5fc09bf94a688f15c49437342358ea880c8226168294304e9b36110ccb37f06405df8e3040bc6bb04d8e515b4284c9ec71cbd192  knetwalk-f0a6dc3f9c6d749fbe4452cd9dbecf311ba88c13.tar.xz
 "

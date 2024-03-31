@@ -4,9 +4,9 @@
 # The group tag is just to easily find this APKBUILD by some scripts for automation
 # group=kde-applications
 pkgname=granatier
-pkgver=9999_git20240318
+pkgver=9999_git20240329
 pkgrel=0
-_commit="bed813660528e4f8461e24fe68ab375c4bca4f02"
+_commit="7261d97ca4d7d6f766361a42e00afbf7a88c4794"
 # armhf blocked by extra-cmake-modules
 arch="all !armhf"
 url="https://kde.org/applications/games/org.kde.granatier"
@@ -31,7 +31,7 @@ makedepends="
 	samurai
 	"
 _repo_url="https://invent.kde.org/games/granatier.git"
-source="https://nightly.postmarketos.org/plasma-mobile/sources/2024-03-22/granatier-$_commit.tar.xz"
+source="https://nightly.postmarketos.org/plasma-mobile/sources/2024-03-30/granatier-$_commit.tar.xz"
 subpackages="$pkgname-doc $pkgname-lang"
 
 options="!check"
@@ -54,5 +54,5 @@ package() {
 }
 
 sha512sums="
-65d738fb6a756cf1c2e1e11fbb26b89d39a148b5c8fe440f0e8a6562c1ed193cd276e84b5a221cf596f6ccf71bfd7839619889817efe659fc17b509cb8c54ee1  granatier-bed813660528e4f8461e24fe68ab375c4bca4f02.tar.xz
+a5c2b66e255e00e14c386d324034c7b260f5086bbe908efacc3ffcf0e0b7ea8a60b5d2bb64046b7056f1d82e4abbd491df38c98509d057d69174f075adcd2bd4  granatier-7261d97ca4d7d6f766361a42e00afbf7a88c4794.tar.xz
 "

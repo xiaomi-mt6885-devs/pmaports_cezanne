@@ -4,9 +4,9 @@
 # The group tag is just to easily find this APKBUILD by some scripts for automation
 # group=kde-plasma
 pkgname=kwallet-pam
-pkgver=9999_git20240311
+pkgver=9999_git20240314
 pkgrel=0
-_commit="c679d0be2c08610ea77ab0a5e5cd175127fe0251"
+_commit="2f2b92bfa515374948cdc5b905440a441838d04d"
 pkgdesc="KWallet PAM integration"
 # armhf blocked by extra-cmake-modules
 arch="all !armhf"
@@ -26,7 +26,7 @@ case "$pkgver" in
 	*) _rel=stable;;
 esac
 _repo_url="https://invent.kde.org/plasma/kwallet-pam.git"
-source="https://nightly.postmarketos.org/plasma-mobile/sources/2024-03-22/kwallet-pam-$_commit.tar.xz"
+source="https://nightly.postmarketos.org/plasma-mobile/sources/2024-03-30/kwallet-pam-$_commit.tar.xz"
 options="!check" # No tests available
 
 options="!check"
@@ -49,5 +49,5 @@ package() {
 }
 
 sha512sums="
-2378ce780d53bf5bb51b8df22aeb5751b8db771eae63c428e521c95a9fb6fea68ae57b102fa081e4d41d8a6026b54499e083ea4f981982b80f12b4941f6cc818  kwallet-pam-c679d0be2c08610ea77ab0a5e5cd175127fe0251.tar.xz
+aef315769d849e8f94ccdc878d02765b505e014435f64e713ecee24b31ccede34148af38c1401df5752ea8af70f7431e27924ab9db149b40a752ed7e06af8c05  kwallet-pam-2f2b92bfa515374948cdc5b905440a441838d04d.tar.xz
 "

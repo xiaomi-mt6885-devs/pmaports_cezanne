@@ -4,9 +4,9 @@
 # The group tag is just to easily find this APKBUILD by some scripts for automation
 # group=kde-plasma
 pkgname=kgamma5
-pkgver=9999_git20240318
+pkgver=9999_git20240329
 pkgrel=0
-_commit="9f7eb207a2b0d8d2852d6c26bef9c08c9f23e62a"
+_commit="8958fbf2100d764d8ea559fbcc6f740229f3f162"
 pkgdesc="Adjust your monitor's gamma settings"
 # armhf blocked by extra-cmake-modules
 arch="all !armhf"
@@ -28,7 +28,7 @@ case "$pkgver" in
 	*) _rel=stable;;
 esac
 _repo_url="https://invent.kde.org/plasma/kgamma5.git"
-source="https://nightly.postmarketos.org/plasma-mobile/sources/2024-03-22/kgamma5-$_commit.tar.xz"
+source="https://nightly.postmarketos.org/plasma-mobile/sources/2024-03-30/kgamma5-$_commit.tar.xz"
 subpackages="$pkgname-doc"
 
 options="!check"
@@ -51,5 +51,5 @@ package() {
 }
 
 sha512sums="
-279771c1d04778736bdc8bdb6c784d97867250afc467c851ee1df61bc8a717325d3e0d2b780057ea1351a78789caf847429a73330d65ae1333a169e2cb800d12  kgamma5-9f7eb207a2b0d8d2852d6c26bef9c08c9f23e62a.tar.xz
+89492fd524965dd7b71c512840011902e1ebe054b01f2d3f70c983fd75fb2413f086ba82af6edff11fe28fa9f27c96008a1978849079fd6f72f9aaca738e4104  kgamma5-8958fbf2100d764d8ea559fbcc6f740229f3f162.tar.xz
 "

@@ -4,9 +4,9 @@
 # The group tag is just to easily find this APKBUILD by some scripts for automation
 # group=kde-applications
 pkgname=akregator
-pkgver=9999_git20240319
+pkgver=9999_git20240329
 pkgrel=0
-_commit="423e676ac56f8faff99260d95879372e60a1d1f0"
+_commit="3945861f1f20213f825264f16c6eb1eb3384d6fc"
 # armhf blocked by extra-cmake-modules
 # ppc64le, s390x and riscv64 blocked by qt6-qtwebengine
 arch="all !armhf !ppc64le !s390x !riscv64"
@@ -42,7 +42,7 @@ makedepends="
 	"
 checkdepends="xvfb-run"
 _repo_url="https://invent.kde.org/pim/akregator.git"
-source="https://nightly.postmarketos.org/plasma-mobile/sources/2024-03-22/akregator-$_commit.tar.xz"
+source="https://nightly.postmarketos.org/plasma-mobile/sources/2024-03-30/akregator-$_commit.tar.xz"
 subpackages="$pkgname-doc $pkgname-lang"
 
 options="!check"
@@ -65,5 +65,5 @@ package() {
 }
 
 sha512sums="
-928703c9f1d136373f64f00d6d6a93d80430636656a134e6605fc29bb267da06fcaebfe6d5641aaa04f919c74691d5e50ddfa23d711359345f7cc12596f61f56  akregator-423e676ac56f8faff99260d95879372e60a1d1f0.tar.xz
+9477d3e746bc6a1781176f6e2a204843c5fea62abcf790de4e63d7a00bde3af8cae48ed4e7c391c0dacab2c4c7d7e5d31f032dca75eb9ef4c5abb8e9eb2e7975  akregator-3945861f1f20213f825264f16c6eb1eb3384d6fc.tar.xz
 "

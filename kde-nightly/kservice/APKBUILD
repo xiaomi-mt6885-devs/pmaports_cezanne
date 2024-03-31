@@ -4,9 +4,9 @@
 # The group tag is just to easily find this APKBUILD by some scripts for automation
 # group=kde-frameworks
 pkgname=kservice
-pkgver=9999_git20240318
+pkgver=9999_git20240329
 pkgrel=0
-_commit="310834b3802bc955427c918df606dbf9aca5fc51"
+_commit="343e3ad5a5a87380b75fe88f0cc89d1dc7698c38"
 pkgdesc="Advanced plugin and service introspection"
 arch="all !armhf" # armhf blocked by extra-cmake-modules
 url="https://community.kde.org/Frameworks"
@@ -28,7 +28,7 @@ makedepends="$depends_dev
 	samurai
 	"
 _repo_url="https://invent.kde.org/frameworks/kservice.git"
-source="https://nightly.postmarketos.org/plasma-mobile/sources/2024-03-22/kservice-$_commit.tar.xz"
+source="https://nightly.postmarketos.org/plasma-mobile/sources/2024-03-30/kservice-$_commit.tar.xz"
 subpackages="$pkgname-dev $pkgname-doc $pkgname-lang"
 
 options="!check"
@@ -66,5 +66,5 @@ package() {
 }
 
 sha512sums="
-43839492c121b7812e0d87d5257b7df973626246daa7c94abc247f59f37ba25e7a46b116a4eef753406482de8e3b3cfc0a9ef32f59d8d2574fdd3c85bda34ea2  kservice-310834b3802bc955427c918df606dbf9aca5fc51.tar.xz
+6e8b0ff481988a2af827fa47309e92abde74271c53c302c8b5417f6bf522cb6dbe6bf6dbfc84ef8fea6e830e947b9f6b1955c0bcbb1ab6bc3a8afd0ba333dfef  kservice-343e3ad5a5a87380b75fe88f0cc89d1dc7698c38.tar.xz
 "
