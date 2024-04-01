@@ -30,6 +30,8 @@ _config="config-$_flavor.$arch"
 source="
 	$pkgname-$_commit.tar.gz::https://github.com/bfourk/$_repository/archive/$_commit.tar.gz
 	$_config
+	00_fix_return_address.patch
+	fix-dts.patch
 	fix_recordmcount.patch
 	gcc7-give-up-on-ilog2-const-optimizations.patch
 	gcc8-fix-put-user.patch
@@ -37,6 +39,8 @@ source="
 	kernel-use-the-gnu89-standard-explicitly.patch
 	linux3.4-ARM-8933-1-replace-Sun-Solaris-style-flag-on-section.patch
 	linux3.4-fix-piggy.gzip.S.patch
+	sprdfb-check-for-buffering.patch
+	sprdfb-fix-swapped-colors.patch
 "
 builddir="$srcdir/$_repository-$_commit"
 _outdir="out"

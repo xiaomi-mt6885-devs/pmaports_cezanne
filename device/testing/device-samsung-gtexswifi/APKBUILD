@@ -11,7 +11,7 @@ depends="
 	linux-samsung-gtexswifi
 	mkbootimg
 	postmarketos-base
-	msm-fb-refresher
+	mesa-dri-swrast
 "
 makedepends="devicepkg-dev"
 source="deviceinfo"
