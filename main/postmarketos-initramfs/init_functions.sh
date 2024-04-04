@@ -7,30 +7,29 @@ PMOS_ROOT=""
 
 # Redirect stdout and stderr to logfile
 setup_log() {
-	local log_to_console=""
+	# Disable kmsg ratelimiting for userspace (it gets re-enabled again before switch_root)
+	echo on > /proc/sys/kernel/printk_devkmsg
 
-	grep -q PMOS_NO_OUTPUT_REDIRECT /proc/cmdline && log_to_console="true"
+	# Spawn syslogd to log to the kernel
+	syslogd -K
 
+	# Stash fd1/2 so we can restore them before switch_root
+	exec 3>&1 4>&2
+
+	local pmsg="/dev/pmsg0"
+
+	if ! [ -e "$pmsg" ]; then
+		pmsg="/dev/null"
+	fi
+
+	# Redirect to a subshell which outputs to the logfile as well
+	# as to the kernel ringbuffer and pstore (if available).
+	# Process substitution is technically non-POSIX, but is supported by busybox
+	# shellcheck disable=SC3001
+	exec > >(tee /pmOS_init.log "$pmsg" | logger -t "$LOG_PREFIX" -p user.info) 2>&1
+
+	# Say hello
 	echo "### postmarketOS initramfs ###"
-
-	if [ -z "$log_to_console" ]; then
-		echo "Add PMOS_NO_OUTPUT_REDIRECT to your kernel command line"
-		echo "to enable initramfs logging to console (e.g. for serial)."
-	fi
-
-	# Start redirect
-	exec >/pmOS_init.log 2>&1
-	echo "### postmarketOS initramfs ###"
-
-	# Pipe logs to console if PMOS_NO_OUTPUT_REDIRECT is set
-	if [ -n "$log_to_console" ]; then
-		tail -f /pmOS_init.log > /dev/console &
-	fi
-
-	# Pipe logs to pmsg if PMOS_NO_OUTPUT_REDIRECT is set and /dev/pmsg0 is available
-	if [ -n "$log_to_console" ] && [ -e "/dev/pmsg0" ]; then
-		tail -f /pmOS_init.log > /dev/pmsg0 &
-	fi
 }
 
 mount_proc_sys_dev() {
@@ -46,6 +45,8 @@ mount_proc_sys_dev() {
 	# /dev/pts (needed for telnet)
 	mkdir -p /dev/pts
 	mount -t devpts devpts /dev/pts
+
+	ln -s /proc/self/fd /dev/fd
 }
 
 setup_firmware_path() {

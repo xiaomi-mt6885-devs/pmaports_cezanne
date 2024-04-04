@@ -2,6 +2,7 @@
 # shellcheck disable=SC1091
 
 IN_CI="false"
+LOG_PREFIX="[pmOS.rd]"
 
 [ -e /hooks/10-verbose-initfs.sh ] && set -x
 
@@ -85,13 +86,18 @@ mount_boot_partition /sysroot/boot "rw"
 init="/sbin/init"
 setup_bootchart2
 
-# Switch root
-killall telnetd mdev udevd msm-fb-refresher 2>/dev/null
+# Restore stdout and stderr to their original values
+exec 1>&3 2>&4
+
+# Re-enable kmsg ratelimiting (might have been disabled for logging)
+echo ratelimit > /proc/sys/kernel/printk_devkmsg
+
+killall telnetd mdev udevd msm-fb-refresher syslogd 2>/dev/null
 
 # shellcheck disable=SC2093
 exec switch_root /sysroot "$init"
 
-echo "ERROR: switch_root failed!"
-echo "Looping forever. Install and use the debug-shell hook to debug this."
-echo "For more information, see <https://postmarketos.org/debug-shell>"
+echo "$LOG_PREFIX ERROR: switch_root failed!" > /dev/kmsg
+echo "$LOG_PREFIX Looping forever. Install and use the debug-shell hook to debug this." > /dev/kmsg
+echo "$LOG_PREFIX For more information, see <https://postmarketos.org/debug-shell>" > /dev/kmsg
 fail_halt_boot
