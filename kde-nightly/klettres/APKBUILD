@@ -4,9 +4,9 @@
 # The group tag is just to easily find this APKBUILD by some scripts for automation
 # group=kde-applications
 pkgname=klettres
-pkgver=9999_git20240329
+pkgver=9999_git20240331
 pkgrel=0
-_commit="a10665bad7090d3063a3cbc38cd0d6437fae416c"
+_commit="db38c1889c75fcb761db52c4dbc4585a97f3dd2b"
 # armhf blocked by extra-cmake-modules
 arch="all !armhf"
 url="https://edu.kde.org/klettres"
@@ -27,7 +27,7 @@ makedepends="
 	samurai
 	"
 _repo_url="https://invent.kde.org/education/klettres.git"
-source="https://nightly.postmarketos.org/plasma-mobile/sources/2024-03-30/klettres-$_commit.tar.xz"
+source="https://nightly.postmarketos.org/plasma-mobile/sources/2024-04-04/klettres-$_commit.tar.xz"
 subpackages="$pkgname-doc $pkgname-lang"
 options="!check" # No tests
 
@@ -51,5 +51,5 @@ package() {
 }
 
 sha512sums="
-c2877648e39c3517cd4004bd25a82a29a43758babc2d39a0f1b3d64d96f92739672a9712308505b93c6ea940aeea2bbc011edec7acf85c1e0e2674b5cbd7f54f  klettres-a10665bad7090d3063a3cbc38cd0d6437fae416c.tar.xz
+0f5a2890d5ad9fc8ccf6a893e99859efe5755be09555de3fb3023c051906b7a87e061b032e8a5bdc545c572ff17ef9ff60c5e039d79d05c3f08aeb624c0ed4fa  klettres-db38c1889c75fcb761db52c4dbc4585a97f3dd2b.tar.xz
 "

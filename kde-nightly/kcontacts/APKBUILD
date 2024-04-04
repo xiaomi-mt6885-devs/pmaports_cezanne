@@ -4,9 +4,9 @@
 # The group tag is just to easily find this APKBUILD by some scripts for automation
 # group=kde-frameworks
 pkgname=kcontacts
-pkgver=9999_git20240329
+pkgver=9999_git20240331
 pkgrel=0
-_commit="3cf8dc9fef30e9538bfe1dac1d0fa8a8ce739ab8"
+_commit="4852cb967ae1aa471ea296e7b20491b9b3112185"
 pkgdesc="Address book API for KDE"
 arch="all !armhf" # armhf blocked by extra-cmake-modules
 url="https://community.kde.org/Frameworks"
@@ -32,7 +32,7 @@ makedepends="$depends_dev
 	"
 checkdepends="xvfb-run"
 _repo_url="https://invent.kde.org/frameworks/kcontacts.git"
-source="https://nightly.postmarketos.org/plasma-mobile/sources/2024-03-30/kcontacts-$_commit.tar.xz"
+source="https://nightly.postmarketos.org/plasma-mobile/sources/2024-04-04/kcontacts-$_commit.tar.xz"
 subpackages="$pkgname-dev $pkgname-doc $pkgname-lang"
 
 options="!check"
@@ -57,5 +57,5 @@ package() {
 }
 
 sha512sums="
-63d9b9593e48b19b7eac239099b0b396e225112d2cd9d6236d5e30deb33e2e06d95e4a600a8d7df08da271a7e9221ba0ee7efdec3546e7add3eb2fae418b98c1  kcontacts-3cf8dc9fef30e9538bfe1dac1d0fa8a8ce739ab8.tar.xz
+e0b6343faf67714724cbca9d169d21ad65517ea6782b251c933acedd6a499b76a6dad03846cd7b5c675a7ebe343bb930fe66b1de5869a9b43b6399fd8bf52d8a  kcontacts-4852cb967ae1aa471ea296e7b20491b9b3112185.tar.xz
 "

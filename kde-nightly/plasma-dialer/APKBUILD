@@ -4,9 +4,9 @@
 # The group tag is just to easily find this APKBUILD by some scripts for automation
 # group=kde-mobile
 pkgname=plasma-dialer
-pkgver=9999_git20240329
+pkgver=9999_git20240331
 pkgrel=0
-_commit="dfde7e163bf581532a9f2880ee30d1c72a568dc3"
+_commit="6e6791faaa009d7558268ed3da449e3feaeeaa0c"
 pkgdesc="A dialer for Plasma Mobile"
 # armhf blocked by extra-cmake-modules
 arch="all !armhf"
@@ -40,7 +40,7 @@ makedepends="
 	"
 subpackages="$pkgname-dbg $pkgname-lang"
 _repo_url="https://invent.kde.org/plasma-mobile/plasma-dialer.git"
-source="https://nightly.postmarketos.org/plasma-mobile/sources/2024-03-30/plasma-dialer-$_commit.tar.xz"
+source="https://nightly.postmarketos.org/plasma-mobile/sources/2024-04-04/plasma-dialer-$_commit.tar.xz"
 options="!check" # No tests
 
 options="!check"
@@ -63,5 +63,5 @@ package() {
 }
 
 sha512sums="
-0d5e1a958dfb667c92a82faa0db8e56befd942a678181f297879fbfcdbfd420cddb7e882fe8680eeb4489679d9f90268d88161bde0456dcbe38b4ff992b65bfc  plasma-dialer-dfde7e163bf581532a9f2880ee30d1c72a568dc3.tar.xz
+6e8646f69ccbeb08a8da659c7b61b33512d619f0a46d67b102dcdc5be17fd6f1874f671c7369179767e16bd5b76b66fb3b2744dcd2e9929413449ea3b7ceae7e  plasma-dialer-6e6791faaa009d7558268ed3da449e3feaeeaa0c.tar.xz
 "

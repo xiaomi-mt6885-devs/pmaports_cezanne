@@ -6,7 +6,7 @@
 pkgname=syndication
 pkgver=9999_git20240329
 pkgrel=0
-_commit="3ce5b9a5b8cbdd16a3d89d092d5a734cb824a551"
+_commit="7e6caaabb64f74a654db722e4efaae9e43a1cbbe"
 pkgdesc="An RSS/Atom parser library"
 arch="all !armhf" # armhf blocked by extra-cmake-modules
 url="https://community.kde.org/Frameworks"
@@ -23,7 +23,7 @@ makedepends="$depends_dev
 	samurai
 	"
 _repo_url="https://invent.kde.org/frameworks/syndication.git"
-source="https://nightly.postmarketos.org/plasma-mobile/sources/2024-03-30/syndication-$_commit.tar.xz"
+source="https://nightly.postmarketos.org/plasma-mobile/sources/2024-04-04/syndication-$_commit.tar.xz"
 subpackages="$pkgname-dev $pkgname-doc"
 
 options="!check"
@@ -47,5 +47,5 @@ package() {
 }
 
 sha512sums="
-43531cc65241950fdac1ad6286afe5f3133c8a3dbe5b5cf8d0734a4ce2045ee23312c027307183c3742e84a45956fc6238e50d44d05c03cfea5321b60925409d  syndication-3ce5b9a5b8cbdd16a3d89d092d5a734cb824a551.tar.xz
+4deaa567379feea74d07134ac428e3e2a599ed0d9dbdbbefefc013fa02bb408fa0664407beed4fa097f935b39451dcb764abd9d48e4b148d526f2e34f7d1c682  syndication-7e6caaabb64f74a654db722e4efaae9e43a1cbbe.tar.xz
 "

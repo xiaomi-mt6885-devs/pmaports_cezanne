@@ -4,9 +4,9 @@
 # The group tag is just to easily find this APKBUILD by some scripts for automation
 # group=kde-frameworks
 pkgname=prison
-pkgver=9999_git20240318
+pkgver=9999_git20240329
 pkgrel=0
-_commit="da84a7033d6825a3f3d18c962a7fd6ea7e7791a5"
+_commit="46e38e560c877e6b89f968302d161eb93b6095e0"
 pkgdesc="A barcode API to produce QRCode barcodes and DataMatrix barcodes"
 arch="all !armhf" # armhf blocked by qt6-qtdeclarative
 url="https://community.kde.org/Frameworks"
@@ -26,7 +26,7 @@ makedepends="$depends_dev
 	samurai
 	"
 _repo_url="https://invent.kde.org/frameworks/prison.git"
-source="https://nightly.postmarketos.org/plasma-mobile/sources/2024-03-30/prison-$_commit.tar.xz"
+source="https://nightly.postmarketos.org/plasma-mobile/sources/2024-04-04/prison-$_commit.tar.xz"
 subpackages="$pkgname-dev $pkgname-doc"
 
 options="!check"
@@ -54,5 +54,5 @@ package() {
 }
 
 sha512sums="
-59f5392b19f18ba73f65b3b24fae66418c3fded3923b4c49f6928ae456c1937317b7353db07aab3c9421e803c9aef31cda33e583b949f71ff26e96db10263129  prison-da84a7033d6825a3f3d18c962a7fd6ea7e7791a5.tar.xz
+37b2ce3f1e29cd8f77f2f8fe4a716c97b7d8c95d91af7564dea349b7dfc66ca5e78f4bb5d87b5290833c1dc4cba2f22c31f8ec7b0a0881eec894fbd1785acc4c  prison-46e38e560c877e6b89f968302d161eb93b6095e0.tar.xz
 "

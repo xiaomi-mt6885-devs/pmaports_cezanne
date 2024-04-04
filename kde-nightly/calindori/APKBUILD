@@ -4,9 +4,9 @@
 # The group tag is just to easily find this APKBUILD by some scripts for automation
 # group=kde-applications
 pkgname=calindori
-pkgver=9999_git20240325
+pkgver=9999_git20240331
 pkgrel=0
-_commit="13af6cb0129eecab03d39d2c0b537cf52c3fdf67"
+_commit="c00ca4ffd34dfe3a3cc2c9b5d39cb53f221d7204"
 pkgdesc="Calendar for Plasma Mobile"
 # armhf blocked by qt6-qtdeclarative
 arch="all !armhf"
@@ -28,7 +28,7 @@ makedepends="
 	samurai
 	"
 _repo_url="https://invent.kde.org/plasma-mobile/calindori.git"
-source="https://nightly.postmarketos.org/plasma-mobile/sources/2024-03-30/calindori-$_commit.tar.xz"
+source="https://nightly.postmarketos.org/plasma-mobile/sources/2024-04-04/calindori-$_commit.tar.xz"
 subpackages="$pkgname-lang"
 options="!check" # No tests
 
@@ -47,5 +47,5 @@ package() {
 }
 
 sha512sums="
-c1f52cda1c5946fba6bc123ab02bbeab544d09124f269c2456e5d89f17c2c9fee493aec6444876e79b0d7296ad861b073245a12b3ebefc763627de10446ece7b  calindori-13af6cb0129eecab03d39d2c0b537cf52c3fdf67.tar.xz
+d13633cd63fdd8ff90494c2634ee8fd99339ed46b8fc25524a7ce85b496cd31ea7ba59532095a87d127379840657b126544fa799f8af99a4183df8a34a81b1d6  calindori-c00ca4ffd34dfe3a3cc2c9b5d39cb53f221d7204.tar.xz
 "
