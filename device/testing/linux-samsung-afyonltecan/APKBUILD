@@ -2,7 +2,7 @@
 
 pkgname=linux-samsung-afyonltecan
 pkgver=3.4.113
-pkgrel=0
+pkgrel=1
 pkgdesc="Samsung Galaxy Core LTE kernel fork"
 arch="armv7"
 _carch="arm"
