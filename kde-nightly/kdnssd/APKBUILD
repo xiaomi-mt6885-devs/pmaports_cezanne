@@ -4,9 +4,9 @@
 # The group tag is just to easily find this APKBUILD by some scripts for automation
 # group=kde-frameworks
 pkgname=kdnssd
-pkgver=9999_git20240331
+pkgver=9999_git20240404
 pkgrel=0
-_commit="c9dbfb7bead954d80a631d0936ad119172557a77"
+_commit="21f5af359ab51343af5793170b4483ec09f13db1"
 arch="all !armhf" # armhf blocked by extra-cmake-modules
 pkgdesc="Network service discovery using Zeroconf"
 url="https://community.kde.org/Frameworks"
@@ -23,7 +23,7 @@ makedepends="$depends_dev
 	samurai
 	"
 _repo_url="https://invent.kde.org/frameworks/kdnssd.git"
-source="https://nightly.postmarketos.org/plasma-mobile/sources/2024-04-04/kdnssd-$_commit.tar.xz"
+source="https://nightly.postmarketos.org/plasma-mobile/sources/2024-04-05/kdnssd-$_commit.tar.xz"
 subpackages="$pkgname-dev $pkgname-doc $pkgname-lang"
 
 options="!check"
@@ -47,5 +47,5 @@ package() {
 }
 
 sha512sums="
-c4f626cea40b3974cd8b16037997aa2dab02825bd3de5dd3cbe63ace62735e184db5f3d87b1c2505e6b220a2b8c58758993489a9ef7fae202dd227c9ce602de1  kdnssd-c9dbfb7bead954d80a631d0936ad119172557a77.tar.xz
+d74a22993fabf752d8d1e92047d4cacc07a24a7beaec19ca33f536ff5970b8350c587ad891addf0a8048d92095374ffe0c5ae6d015e564cc3193609596b5161b  kdnssd-21f5af359ab51343af5793170b4483ec09f13db1.tar.xz
 "

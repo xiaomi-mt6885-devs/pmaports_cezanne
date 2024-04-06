@@ -3,9 +3,9 @@
 # The group tag is just to easily find this APKBUILD by some scripts for automation
 # group=kde-other
 pkgname=phonon
-pkgver=9999_git20240318
+pkgver=9999_git20240404
 pkgrel=0
-_commit="6febf7f04cf8971e9812f73860c92fb5e9514308"
+_commit="f39069c93f90b17147b43425ff459af7a0140385"
 pkgdesc="KDE multimedia backend"
 url="https://userbase.kde.org/Phonon"
 arch="all !armhf" # armhf blocked by qt6-qtdeclarative
@@ -26,7 +26,7 @@ makedepends="$depends_dev
 	"
 subpackages="$pkgname-dev $pkgname-lang $pkgname-qt5 $pkgname-qt6"
 _repo_url="https://invent.kde.org/libraries/phonon.git"
-source="https://nightly.postmarketos.org/plasma-mobile/sources/2024-04-04/phonon-$_commit.tar.xz"
+source="https://nightly.postmarketos.org/plasma-mobile/sources/2024-04-05/phonon-$_commit.tar.xz"
 options="!check" # No tests
 
 options="!check"
@@ -56,5 +56,5 @@ qt6() {
 }
 
 sha512sums="
-6d487ee7a8f11b04e17eebca3fadf7995d9c2115f8de4303913b203a95f3b5b15d00a282d17a4b5c2b8b63728f90d02cacb028d7e53818f0963cf8c33abe476d  phonon-6febf7f04cf8971e9812f73860c92fb5e9514308.tar.xz
+f7eef5018af38686926c92ee44f338a9fec04828a89b5cf991e56c31a0cfdf749507d9705d5682dacf65d39eae9d9b5798cc035f0acdfdec933c0dfde7d88538  phonon-f39069c93f90b17147b43425ff459af7a0140385.tar.xz
 "

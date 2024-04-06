@@ -4,9 +4,9 @@
 # The group tag is just to easily find this APKBUILD by some scripts for automation
 # group=kde-applications
 pkgname=kmailtransport
-pkgver=9999_git20240331
+pkgver=9999_git20240403
 pkgrel=0
-_commit="545690bddc06839664dc1e14360e6fdf39fdd019"
+_commit="8a8a98f30f6a84c51e864c1edd35526eeddca9d1"
 pkgdesc="Manage mail transport"
 # armhf blocked by extra-cmake-modules
 # ppc64le and s390x blocked by libkgapi
@@ -32,7 +32,7 @@ makedepends="$depends_dev
 	"
 checkdepends="xvfb-run"
 _repo_url="https://invent.kde.org/pim/kmailtransport.git"
-source="https://nightly.postmarketos.org/plasma-mobile/sources/2024-04-04/kmailtransport-$_commit.tar.xz"
+source="https://nightly.postmarketos.org/plasma-mobile/sources/2024-04-05/kmailtransport-$_commit.tar.xz"
 subpackages="$pkgname-dev $pkgname-lang"
 options="!check" # Requires OpenGL and running dbus
 
@@ -56,5 +56,5 @@ package() {
 }
 
 sha512sums="
-8d0babc1c443613f1c870ac77165163e280ecb18926385424f18443018f55e3bbdc3048020192894f7d253176d2328e1b4e731c8b3d2a7d500185be0c1d6114c  kmailtransport-545690bddc06839664dc1e14360e6fdf39fdd019.tar.xz
+6a734bf5884ae5034c19aa62717ab27883704d487d84c3d67494f7433c4415270c907bccab284e940158de1b7b8aa7849651319314b96be04c451cf54071ac28  kmailtransport-8a8a98f30f6a84c51e864c1edd35526eeddca9d1.tar.xz
 "

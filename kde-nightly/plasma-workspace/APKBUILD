@@ -4,9 +4,9 @@
 # The group tag is just to easily find this APKBUILD by some scripts for automation
 # group=kde-plasma
 pkgname=plasma-workspace
-pkgver=9999_git20240331
+pkgver=9999_git20240404
 pkgrel=0
-_commit="764a51a170f9ed6026eee74bca69a0d23028d6ce"
+_commit="368d7036f6c558c8d37e147b29cba59815b8c629"
 pkgdesc="KDE Plasma Workspace"
 # armhf blocked by extra-cmake-modules
 arch="all !armhf"
@@ -105,7 +105,7 @@ case "$pkgver" in
 esac
 subpackages="$pkgname-dbg $pkgname-dev $pkgname-libs $pkgname-doc $pkgname-lang $pkgname-zsh-completion"
 _repo_url="https://invent.kde.org/plasma/plasma-workspace.git"
-source="https://nightly.postmarketos.org/plasma-mobile/sources/2024-04-04/plasma-workspace-$_commit.tar.xz"
+source="https://nightly.postmarketos.org/plasma-mobile/sources/2024-04-05/plasma-workspace-$_commit.tar.xz"
 
 replaces="plasma5support"
 
@@ -157,5 +157,5 @@ package() {
 }
 
 sha512sums="
-71ed0de43c77a92f09ec9a7951cff3fa8859629fee7281cb8dc63e4de3d8e6ada2f243640eb40ed353204fe19725a5f22e62956e218d52118a7b4683aa08fd06  plasma-workspace-764a51a170f9ed6026eee74bca69a0d23028d6ce.tar.xz
+c8bb3ce50a7c6b95c0b145a2f4b2972ec640bd535d5f302480e1607e00c5e654934c459fd898ab012b0f7cb07860060044752b2a3151cef32269521490d2cec2  plasma-workspace-368d7036f6c558c8d37e147b29cba59815b8c629.tar.xz
 "

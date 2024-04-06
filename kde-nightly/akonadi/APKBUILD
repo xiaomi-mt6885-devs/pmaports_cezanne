@@ -6,7 +6,7 @@
 pkgname=akonadi
 pkgver=9999_git20240331
 pkgrel=0
-_commit="7b61025f1cf26c6fb01e4fe729d476f975fc7ee5"
+_commit="9f95ce9c30e829b938d662ba5528f8f5b40c574d"
 pkgdesc="A cross-desktop storage service for PIM data and meta data providing concurrent read, write, and query access"
 # armhf blocked by extra-cmake-modules
 # ppc64le, s390x and riscv64 blocked by kaccounts-integration
@@ -49,7 +49,7 @@ checkdepends="
 	xvfb-run
 	"
 _repo_url="https://invent.kde.org/pim/akonadi.git"
-source="https://nightly.postmarketos.org/plasma-mobile/sources/2024-04-04/akonadi-$_commit.tar.xz"
+source="https://nightly.postmarketos.org/plasma-mobile/sources/2024-04-05/akonadi-$_commit.tar.xz"
 subpackages="$pkgname-dbg $pkgname-dev $pkgname-lang"
 
 options="!check"
@@ -100,5 +100,5 @@ package() {
 	DESTDIR="$pkgdir" cmake --install build
 }
 sha512sums="
-c20ee26e4dcfd71952cfc2339d69f2c33ca8ea264691d4ee8174c9d3f3b239ddfc5f789403bd02a571c7db26d65bda917b8e373db739a244448922ff44087155  akonadi-7b61025f1cf26c6fb01e4fe729d476f975fc7ee5.tar.xz
+4aa847935ae855a8405a042ff37a85a1aeaaef1d731a8636027376520399cbf42f23c286bc0f61515cad8938779034dbe033db43e2618d845059f4fd1c8eaa12  akonadi-9f95ce9c30e829b938d662ba5528f8f5b40c574d.tar.xz
 "

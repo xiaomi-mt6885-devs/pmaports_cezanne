@@ -4,9 +4,9 @@
 # The group tag is just to easily find this APKBUILD by some scripts for automation
 # group=kde-applications
 pkgname=kblocks
-pkgver=9999_git20240331
+pkgver=9999_git20240403
 pkgrel=0
-_commit="dd6868ebdc507284ef75713f486291d22c4ffebe"
+_commit="79a2400ac7409bc08690191b588a3b9bf76c75b2"
 pkgdesc="The classic falling blocks game"
 url="https://kde.org/applications/games/kblocks/"
 # armhf blocked by extra-cmake-modules
@@ -30,7 +30,7 @@ makedepends="
 	"
 checkdepends="xvfb-run"
 _repo_url="https://invent.kde.org/games/kblocks.git"
-source="https://nightly.postmarketos.org/plasma-mobile/sources/2024-04-04/kblocks-$_commit.tar.xz"
+source="https://nightly.postmarketos.org/plasma-mobile/sources/2024-04-05/kblocks-$_commit.tar.xz"
 subpackages="$pkgname-doc $pkgname-lang"
 
 options="!check"
@@ -53,5 +53,5 @@ package() {
 }
 
 sha512sums="
-c75e6a9239a71d495973436a2dcf6f9d22b18539d6c4cb0724f2c1fad2c34a965e5bcd8691aed6cd6a3694e55f2b35b7673c709fb3cf00a5a90cd21d95638f5a  kblocks-dd6868ebdc507284ef75713f486291d22c4ffebe.tar.xz
+e3c9596898aefbd6621f61d7e83cf3f0822a8c67159bc6b1da9d5101702dd5fdc29440fc4b2f31545f1a46d7e92ba22709058bc7c85ffd5fb9d9a163064416ca  kblocks-79a2400ac7409bc08690191b588a3b9bf76c75b2.tar.xz
 "
