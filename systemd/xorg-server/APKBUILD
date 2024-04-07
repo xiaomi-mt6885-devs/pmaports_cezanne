@@ -8,7 +8,8 @@ pkgdesc="X.Org X servers"
 url="https://www.x.org/wiki"
 arch="all"
 license="MIT"
-options="suid"
+# !check: fails with pmbootstrap cross compile to armv7
+options="suid !check"
 subpackages="
 	$pkgname-dbg
 	$pkgname-dev
