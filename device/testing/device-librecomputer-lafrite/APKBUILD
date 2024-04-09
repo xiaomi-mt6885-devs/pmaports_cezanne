@@ -3,7 +3,7 @@
 pkgname=device-librecomputer-lafrite
 pkgdesc="Libre Computer AML-S805X-AC-V1.0"
 pkgver=0.2
-pkgrel=2
+pkgrel=3
 url="https://postmarketos.org"
 license="MIT"
 arch="aarch64"
@@ -12,7 +12,7 @@ depends="
 	linux-postmarketos-amlogic
 	postmarketos-base
 	soc-amlogic-s905
-	u-boot-librecomputer-lafrite
+	u-boot-amlogic-librecomputer-lafrite
 "
 makedepends="devicepkg-dev"
 source="

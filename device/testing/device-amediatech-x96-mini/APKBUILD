@@ -2,13 +2,13 @@
 # Maintainer: exkc <exxxxkc@getgoogleoff.me>
 pkgname=device-amediatech-x96-mini
 pkgver=1
-pkgrel=3
+pkgrel=4
 pkgdesc="Amediatech X96 mini"
 url="https://postmarketos.org"
 license="MIT"
 arch="aarch64"
 options="!check !archcheck"
-depends="postmarketos-base u-boot-amediatech-x96-mini soc-amlogic-s905 linux-postmarketos-amlogic"
+depends="postmarketos-base u-boot-amlogic-amediatech-x96-mini soc-amlogic-s905 linux-postmarketos-amlogic"
 makedepends="devicepkg-dev"
 subpackages="$pkgname-nonfree-firmware:nonfree_firmware"
 source="asound.state deviceinfo modules-initfs"
