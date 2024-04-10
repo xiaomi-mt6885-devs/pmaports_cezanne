@@ -5,6 +5,8 @@ ROOT_PARTITION_RESIZED=0
 PMOS_BOOT=""
 PMOS_ROOT=""
 
+CONFIGFS=/config/usb_gadget
+
 # Redirect stdout and stderr to logfile
 setup_log() {
 	# Disable kmsg ratelimiting for userspace (it gets re-enabled again before switch_root)
@@ -607,7 +609,6 @@ setup_usb_configfs_udc() {
 # $1: if set, skip writing to the UDC
 setup_usb_network_configfs() {
 	# See: https://www.kernel.org/doc/Documentation/usb/gadget_configfs.txt
-	CONFIGFS=/config/usb_gadget
 	local skip_udc="$1"
 
 	if ! [ -e "$CONFIGFS" ]; then
