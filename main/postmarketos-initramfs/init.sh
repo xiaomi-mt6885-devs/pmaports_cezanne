@@ -34,7 +34,6 @@ if [ "$IN_CI" = "false" ]; then
 	show_splash "Loading..."
 	setup_mdev
 	setup_dynamic_partitions "${deviceinfo_super_partitions:=}"
-	mount_subpartitions
 else
 	# loads all modules
 	setup_udev
@@ -52,6 +51,8 @@ fi
 # or get activated after the initramfs is done with an OpenRC service).
 setup_usb_network
 start_unudhcpd
+
+mount_subpartitions
 
 wait_boot_partition
 mount_boot_partition /boot
