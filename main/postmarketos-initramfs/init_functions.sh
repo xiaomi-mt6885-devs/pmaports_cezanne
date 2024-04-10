@@ -6,6 +6,9 @@ PMOS_BOOT=""
 PMOS_ROOT=""
 
 CONFIGFS=/config/usb_gadget
+CONFIGFS_ACM_FUNCTION="acm.usb0"
+
+deviceinfo_codename=""
 
 # Redirect stdout and stderr to logfile
 setup_log() {
@@ -29,9 +32,6 @@ setup_log() {
 	# Process substitution is technically non-POSIX, but is supported by busybox
 	# shellcheck disable=SC3001
 	exec > >(tee /pmOS_init.log "$pmsg" | logger -t "$LOG_PREFIX" -p user.info) 2>&1
-
-	# Say hello
-	echo "### postmarketOS initramfs ###"
 }
 
 mount_proc_sys_dev() {
@@ -48,6 +48,7 @@ mount_proc_sys_dev() {
 	mkdir -p /dev/pts
 	mount -t devpts devpts /dev/pts
 
+	# This is required for process substitution to work (as used in setup_log())
 	ln -s /proc/self/fd /dev/fd
 }
 
@@ -730,6 +731,145 @@ start_unudhcpd() {
 	(
 		unudhcpd -i "$INTERFACE" -s "$host_ip" -c "$client_ip"
 	) &
+}
+
+setup_usb_acm_configfs() {
+	active_udc="$(cat $CONFIGFS/g1/UDC)"
+
+	if ! [ -e "$CONFIGFS" ]; then
+		echo "  /config/usb_gadget does not exist, can't set up serial gadget"
+		return 1
+	fi
+
+	# unset UDC
+	echo "" > /config/usb_gadget/g1/UDC
+
+	# Create acm function
+	mkdir "$CONFIGFS/g1/functions/$CONFIGFS_ACM_FUNCTION" \
+		|| echo "  Couldn't create $CONFIGFS/g1/functions/$CONFIGFS_ACM_FUNCTION"
+
+	# Link the acm function to the configuration
+	ln -s "$CONFIGFS/g1/functions/$CONFIGFS_ACM_FUNCTION" "$CONFIGFS/g1/configs/c.1" \
+		|| echo "  Couldn't symlink $CONFIGFS_ACM_FUNCTION"
+
+	# Reconfigure the UDC
+	setup_usb_configfs_udc
+
+	return 0
+}
+
+# Spawn a subshell to restart the getty if it exits
+# $1: tty
+run_getty() {
+	{
+		while /sbin/getty -n -l /sbin/pmos_getty "$1" 115200 vt100; do
+			sleep 0.2
+		done
+	} &
+}
+
+debug_shell() {
+	echo "Entering debug shell"
+	setup_usb_acm_configfs
+
+	# mount pstore, if possible
+	if [ -d /sys/fs/pstore ]; then
+		mount -t pstore pstore /sys/fs/pstore || true
+	fi
+
+	mount -t debugfs none /sys/kernel/debug || true
+	# make a symlink like Android recoveries do
+	ln -s /sys/kernel/debug /d
+
+	cat <<-EOF > /README
+	postmarketOS debug shell
+	https://postmarketos.org/debug-shell
+
+	  Kernel: $(uname -r)
+	  Device: $deviceinfo_codename
+	  OS ver: $VERSION
+	  initrd: $INITRAMFS_PKG_VERSION
+
+	Run 'pmos_continue_boot' to continue booting.
+	Run 'pmos_logdump' to generate a log dump and expose it over USB.
+	EOF
+
+	if [ -f /usr/bin/setup_usb_storage ]; then
+		cat <<-EOF >> /README
+		You can expose storage devices over USB with
+		'setup_usb_storage /dev/DEVICE'
+		EOF
+	fi
+
+	# Display some info
+	cat <<-EOF > /etc/profile
+	cat /README
+	. /init_functions.sh
+	EOF
+
+	cat <<-EOF > /sbin/pmos_getty
+	#!/bin/sh
+	exec /bin/sh -l
+	EOF
+	chmod +x /sbin/pmos_getty
+
+	cat <<-EOF > /sbin/pmos_continue_boot
+	#!/bin/sh
+	echo "Continuing boot..."
+	touch /tmp/continue_boot
+	while sleep 1; do :; done
+	EOF
+	chmod +x /sbin/pmos_continue_boot
+
+	cat <<-EOF > /sbin/pmos_logdump
+	#!/bin/sh
+	echo "Dumping logs, check for a new mass storage device"
+	touch /tmp/dump_logs
+	EOF
+	chmod +x /sbin/pmos_logdump
+
+	# Get the console (ttyX) associated with /dev/console
+	active_console="$(cat /sys/devices/virtual/tty/console/active)"
+
+	# Spawn a getty on the active console
+	run_getty "$active_console"
+
+	# And on the usb acm port (if it exists)
+	if [ -e /dev/ttyGS0 ] && [ "$active_console" != "ttyGS0" ]; then
+		run_getty ttyGS0
+	fi
+
+	# wait until we get the signal to continue boot
+	while ! [ -e /tmp/continue_boot ]; do
+		sleep 0.2
+		if [ -e /tmp/dump_logs ]; then
+			rm -f /tmp/dump_logs
+			export_logs
+		fi
+	done
+
+	# Remove the ACM gadget device
+	rm -f $CONFIGFS/g1/configs/c.1/"$CONFIGFS_ACM_FUNCTION"
+	rmdir $CONFIGFS/g1/functions/"$CONFIGFS_ACM_FUNCTION"
+	setup_usb_configfs_udc
+
+	show_splash "Loading..."
+
+	pkill -f fbkeyboard || true
+}
+
+# Check if the user is pressing a key and either drop to a shell or halt boot as applicable
+# $1: If set, also trigger debug shell if "pmos.debug-shell" is in kernel cmdline
+check_keys() {
+	# If the user is pressing either the left control key or the volume down
+	# key then drop to a debug shell.
+	if { [ -n "$1" ] && grep -q "pmos.debug-shell" /proc/cmdline; } || iskey KEY_LEFTCTRL KEY_VOLUMEDOWN; then
+		debug_shell
+	# If instead they're pressing left shift or volume up, then fail boot
+	# and dump logs
+	elif iskey KEY_LEFTSHIFT KEY_VOLUMEUP; then
+		fail_halt_boot
+	fi
 }
 
 # $1: Message to show

@@ -2,7 +2,7 @@
 # shellcheck disable=SC1091
 
 IN_CI="false"
-LOG_PREFIX="[pmOS.rd]"
+LOG_PREFIX="[pmOS-rd]"
 
 [ -e /hooks/10-verbose-initfs.sh ] && set -x
 
@@ -46,11 +46,10 @@ if [ "$IN_CI" = "true" ]; then
 	fail_halt_boot
 fi
 
-# Always run dhcp daemon/usb networking for now (later this should only
-# be enabled, when having the debug-shell hook installed for debugging,
-# or get activated after the initramfs is done with an OpenRC service).
 setup_usb_network
 start_unudhcpd
+
+check_keys true
 
 mount_subpartitions
 
@@ -94,6 +93,13 @@ exec 1>&3 2>&4
 echo ratelimit > /proc/sys/kernel/printk_devkmsg
 
 killall telnetd mdev udevd msm-fb-refresher syslogd 2>/dev/null
+
+# Kill any getty shells that might be running
+for pid in $(pidof sh); do
+	if ! [ "$pid" = "1" ]; then
+		kill -9 "$pid"
+	fi
+done
 
 # shellcheck disable=SC2093
 exec switch_root /sysroot "$init"
