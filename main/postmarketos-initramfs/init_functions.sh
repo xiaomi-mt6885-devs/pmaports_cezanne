@@ -600,7 +600,9 @@ setup_usb_configfs_udc() {
 	fi
 
 	# Remove any existing UDC to avoid "write error: Resource busy" when setting UDC again
-	echo "" > /config/usb_gadget/g1/UDC || echo "  Couldn't write to clear UDC"
+	if [ "$(wc -w <$CONFIGFS/g1/UDC)" -gt 0 ]; then
+		echo "" > /config/usb_gadget/g1/UDC || echo "  Couldn't write to clear UDC"
+	fi
 	# Link the gadget instance to an USB Device Controller. This activates the gadget.
 	# See also: https://gitlab.com/postmarketOS/pmbootstrap/issues/338
 	echo "$_udc_dev" > /config/usb_gadget/g1/UDC || echo "  Couldn't write new UDC"
