@@ -2,19 +2,20 @@
 
 pkgname=firmware-shift-sdm845
 pkgver=20230815
-pkgrel=3
+pkgrel=4
 pkgdesc="Firmware for SHIFT sdm845 devices"
-url="https://gitlab.com/sdm845-mainline/firmware-shift-sdm845"
+url="https://gitlab.com/flamingradian/firmware-shift-sdm845"
 arch="aarch64"
 depends="
 	linux-firmware-ath10k
 	linux-firmware-qcom
 "
+makedepends="linux-firmware-qcom linux-firmware-ath10k"
 license="proprietary"
 # Textrels appear in DSP libraries which we cannot avoid
 options="!check !strip !archcheck !tracedeps textrels pmb:cross-native"
 
-_version="ba16d92aa0e0eaa697eeb937f3349de7089c5f0a"
+_version="7065892b9e6302e16803872231b30d588ef4b0da"
 _board2_commit="fc750b3f1bda29c08cfe9329eb781c0ae3608456"
 
 source="$pkgname.tar.gz::$url/-/archive/$_version/$pkgname-$_version.tar.gz
@@ -28,16 +29,14 @@ subpackages="
 "
 
 package() {
-	cd "$srcdir/$pkgname-$_version/"
 	while IFS="" read -r _i || [ -n "$_i" ]; do
 		[ ! -d $(dirname $_i) ] && mkdir -p $(dirname $_i)
-		echo $_i
-		install -Dm644 $_i "$pkgdir/$_i"
+		install -Dm644 "$srcdir/$pkgname-$_version/$_i" "$pkgdir/$_i"
 	done < "$srcdir/firmware.files"
 
-	# Install board-2.bin until upstream
-	install -Dm644 "$srcdir"/board-2.bin \
-		"$pkgdir"/lib/firmware/postmarketos/ath10k/WCN3990/hw1.0/board-2.bin
+	# Install symlinks for using upstream firmware
+	ln -s "$pkgdir/lib/firmware/qcom/sdm845/axolotl/mba.mbn" "$pkgdir/lib/firmware/qcom/sdm845/mba.mbn"
+	ln -s "$pkgdir/lib/firmware/qcom/sdm845/axolotl/wlanmdsp.mbn" "$pkgdir/lib/firmware/ath10k/WCN3990/hw1.0/wlanmdsp.mbn"
 }
 
 pmtest() {
@@ -62,9 +61,9 @@ firmware_sensors() {
 }
 
 sha512sums="
-72cbbbc2d1ea2698ee25e554cdb099729c059a01ab21efe66d2dd60c7aff7b138ec1b4dc1b5b86e5d69a87ef2950b614f36089e919c9436881cc2a3fbe384d55  firmware-shift-sdm845.tar.gz
-2f1087a2133d5dbdaad94927be9e88acdceb6873eab731b76b295b5248e5a91c3e9e6498b4400fc7219ba378ca4362448b882ccd87d2e73ae5fbf0fd613277ba  firmware.files
-be1aa0e7d1a5689d2f6b85d6244d0a2ec0729b92d3a165fc5162f039849ee2da49b311a4713cd11924ee70933dacb88c879b805504bb89709f10807d89207a15  sensors.files
+19d0f5debd851f6c5f2b460b72ee714265d48e5e12051cbde321dc97ebe235897ba377e67fc34cd6234611b12bdf20da6696f60621b855d9a9b912260d0f440e  firmware-shift-sdm845.tar.gz
+842f4e182da48cff45a41dcdb0cfe0a8fce1e1883a95177fe176a59797ade722a5b444eae1e572c7b2a9d5c8c0e4511ca2d561a3fc22cf79e853d3ccc9f676b6  firmware.files
+d2857c03a448642845ce614250c04ebe28c8c54f8e2a4136a2bb604954328749c5b42f2235d6b2dd6c755da43699afa98191e84f20e7ef739266226d6a1934cc  sensors.files
 97756b554cc0f91a69f511496663a012287517ec5853167246fe59c4deeb1cbf1eb352ec267bd0ad897e3f30547d2ad2818e70b597d9dfec26db45efca85b3f2  30-shift-sdm845-firmware-ci.files
 a8eaab63f467553a65789a316d6f58cc15b0ad9bf3f698e6dbe51efa841db7f62a69d0c24b69da4f36de4a01dc29b723911d9cf17f925d3ce1170cbfa6b16029  board-2.bin
 "
