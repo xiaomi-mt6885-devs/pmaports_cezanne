@@ -129,7 +129,7 @@ mount_subpartitions() {
 	attempt_start=$(get_uptime_seconds)
 	wait_seconds=10
 	echo "Trying to mount subpartitions for $wait_seconds seconds..."
-	while [ -z "$(find_boot_partition)" ]; do
+	while [ -z "$(find_root_partition)" ]; do
 		partitions="$android_parts $(grep -v "loop\|ram" < /proc/diskstats |\
 			sed 's/\(\s\+[0-9]\+\)\+\s\+//;s/ .*//;s/^/\/dev\//')"
 		for partition in $partitions; do
@@ -140,7 +140,7 @@ mount_subpartitions() {
 					# Ensure that this was the *correct* subpartition
 					# Some devices have mmc partitions that appear to have
 					# subpartitions, but aren't our subpartition.
-					if [ -n "$(find_boot_partition)" ]; then
+					if [ -n "$(find_root_partition)" ]; then
 						break
 					fi
 					kpartx -d "$partition"
