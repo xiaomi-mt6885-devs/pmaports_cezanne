@@ -1,0 +1,46 @@
+# Archived: Downstream port, maybe useful for EPDC performance improvement
+# needs special userspace to show up anything
+# Reference: <https://postmarketos.org/devicepkg>
+pkgname=device-kobo-clara-downstream
+pkgdesc="Kobo Clara HD downstream"
+pkgver=0.1
+pkgrel=0
+url="https://postmarketos.org"
+license="MIT"
+arch="armv7"
+options="!check !archcheck"
+depends="
+	postmarketos-base
+	u-boot-kobo-clara-downstream
+	u-boot-tools
+	linux-kobo-clara-downstream
+"
+makedepends="devicepkg-dev"
+subpackages="$pkgname-nonfree-firmware:nonfree_firmware"
+
+source="
+	deviceinfo
+	uboot-script-downstream.cmd
+"
+
+build() {
+	devicepkg_build $startdir $pkgname
+}
+
+package() {
+	devicepkg_package $startdir $pkgname
+	mkimage -A arm -O linux -T script -n postmarketOS \
+		-d "$srcdir"/uboot-script-downstream.cmd "$srcdir/boot-downstream.scr"
+	install -Dm644 "$srcdir/boot-downstream.scr" "$pkgdir/boot/boot.scr"
+}
+
+nonfree_firmware() {
+	pkgdesc="Kobo Clara HD firmware"
+	depends="firmware-kobo-clara-downstream"
+	mkdir "$subpkgdir"
+}
+
+sha512sums="
+84b9e5385b7fd77af6891b31d7e95ec424645f741d54168d3d38f6f703071d622829d9f7cf5a29136bf6eb9ec5b2a50a05efe76ddc3e047bb4a69e197fbfde24  deviceinfo
+4bfc2714a2670efc451860bd97d36ba12559e00aed41afdde1ac3e01b41458390358ac7f6bc96a6dee6be6a34f534da52d845b02df0566b25f4868774ef69b1d  uboot-script-downstream.cmd
+"
