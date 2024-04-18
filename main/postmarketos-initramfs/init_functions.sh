@@ -361,23 +361,41 @@ extract_initramfs_extra() {
 }
 
 wait_boot_partition() {
-	while [ -z "$(find_boot_partition)" ]; do
-		show_splash "ERROR: boot partition not found, retrying...\\nhttps://postmarketos.org/troubleshooting"
-		echo "Could not find the boot partition."
-		echo "If your install is on a removable disk, maybe you need to insert it?"
-		echo "Trying again..."
+	if [ -n "$PMOS_BOOT" ]; then
+		return
+	fi
+
+	show_splash "Waiting for boot partition...\\nhttps://postmarketos.org/troubleshooting"
+	for _ in $(seq 1 30); do
+		if [ -n "$(find_boot_partition)" ]; then
+			return
+		fi
+		echo "Waiting for boot partition..."
 		sleep 1
+		check_keys ""
 	done
+
+	show_splash "ERROR: Boot partition not found!\\nhttps://postmarketos.org/troubleshooting"
+	fail_halt_boot
 }
 
 wait_root_partition() {
-	while [ -z "$(find_root_partition)" ]; do
-		show_splash "ERROR: root partition not found, retrying...\\nhttps://postmarketos.org/troubleshooting"
-		echo "Could not find the rootfs."
-		echo "If your install is on a removable disk, maybe you need to insert it?"
-		echo "Trying again..."
+	if [ -n "$PMOS_ROOT" ]; then
+		return
+	fi
+
+	show_splash "Waiting for root partition...\\nhttps://postmarketos.org/troubleshooting"
+	for _ in $(seq 1 30); do
+		if [ -n "$(find_root_partition)" ]; then
+			return
+		fi
+		echo "Waiting for root partition..."
 		sleep 1
+		check_keys ""
 	done
+
+	show_splash "ERROR: Root partition not found!\\nhttps://postmarketos.org/troubleshooting"
+	fail_halt_boot
 }
 
 delete_old_install_partition() {
