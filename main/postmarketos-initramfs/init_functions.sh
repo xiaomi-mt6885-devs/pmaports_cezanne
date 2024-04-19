@@ -852,6 +852,13 @@ debug_shell() {
 	# Spawn a getty on the active console
 	run_getty "$active_console"
 
+	hide_splash
+	modprobe uinput
+	buffyboard 2>/dev/tty1 &
+	if [ "$active_console" != "tty1" ]; then
+		run_getty tty1
+	fi
+
 	# And on the usb acm port (if it exists)
 	if [ -e /dev/ttyGS0 ] && [ "$active_console" != "ttyGS0" ]; then
 		run_getty ttyGS0
@@ -873,7 +880,7 @@ debug_shell() {
 
 	show_splash "Loading..."
 
-	pkill -f fbkeyboard || true
+	pkill -f buffyboard || true
 }
 
 # Check if the user is pressing a key and either drop to a shell or halt boot as applicable

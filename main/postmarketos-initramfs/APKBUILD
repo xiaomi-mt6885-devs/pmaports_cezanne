@@ -11,6 +11,7 @@ provider_priority=10
 depends="
 	blkid
 	btrfs-progs
+	buffyboard
 	busybox-extras
 	bzip2
 	cryptsetup
@@ -19,6 +20,7 @@ depends="
 	e2fsprogs
 	e2fsprogs-extra
 	f2fs-tools
+	font-terminus
 	iskey
 	lz4
 	mdev-conf
