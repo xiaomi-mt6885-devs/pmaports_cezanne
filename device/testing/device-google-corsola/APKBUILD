@@ -2,7 +2,7 @@
 # Maintainer: Jenneron <jenneron@protonmail.com>
 pkgname=device-google-corsola
 pkgdesc="Google Corsola Chromebooks"
-pkgver=1
+pkgver=2
 pkgrel=0
 url="https://postmarketos.org"
 license="MIT"
@@ -18,7 +18,12 @@ depends="
 	soc-mediatek-mt8183
 "
 makedepends="devicepkg-dev"
-source="deviceinfo modules-initfs"
+_ucm_commit="b728563a07ebcd05545c60989412ae023b1dd06d"
+source="
+	deviceinfo
+	modules-initfs
+	alsa-ucm-conf-$_ucm_commit.tar.gz::https://github.com/alsa-project/alsa-ucm-conf/archive/$_ucm_commit.tar.gz
+"
 subpackages="$pkgname-nonfree-firmware:nonfree_firmware"
 
 build() {
@@ -31,11 +36,30 @@ package() {
 
 nonfree_firmware() {
 	pkgdesc="WiFi/BT firmware"
-	depends="linux-firmware-mediatek"
-	mkdir "$subpkgdir"
+	depends="linux-firmware-mediatek alsa-ucm-conf"
+
+	# Symlink for SOF firmware
+	_dir="$subpkgdir/lib/firmware/mediatek/sof-tplg"
+	mkdir -p "$_dir"
+	ln -s sof-mt8186.tplg "$_dir"/sof-mt8186-google-steelix.tplg
+
+	# Alsa UCM configs
+	_ucm_files="
+		ucm2/MediaTek/mt8186-sof/init.conf
+		ucm2/MediaTek/mt8186-sof/mt6366-rt1019-rt5682s/HiFi.conf
+		ucm2/MediaTek/mt8186-sof/mt6366-rt1019-rt5682s/init.conf
+		ucm2/MediaTek/mt8186-sof/mt6366-rt1019-rt5682s/sof-mt8186-mt6366-rt1019-rt5682s.conf
+		ucm2/conf.d/sof-mt8186_rt10/sof-mt8186_rt1019_rt5682s.conf
+	"
+	for file in $_ucm_files
+	do
+		install -Dm644 "$srcdir/alsa-ucm-conf-$_ucm_commit/$file" \
+			"$subpkgdir/usr/share/alsa/$file"
+	done
 }
 
 sha512sums="
 9c086f8b411a3ba742640e899de1a9d2144e078a1e5ea36c118696ff075389bfb94ba05bb50f1fd26fa053222de084aa507cbfb8ebb4bd83049fc251c4560264  deviceinfo
 56fdcaa7a610497ed1bddbbfc0850f895bcfd79173b2e7de4bcf196f69120e1b62680da2a0b74543f153cb3d2b84055e71e258e7df938913aff66dca47061d7a  modules-initfs
+d33545d435755c2cca3b916d920464f3f711c6f09f48b68622f740f389c4faf95544467d9e3b418e562fadb8141ae37f2311166f228d5149434183736710567d  alsa-ucm-conf-b728563a07ebcd05545c60989412ae023b1dd06d.tar.gz
 "
