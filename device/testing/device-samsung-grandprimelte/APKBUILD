@@ -1,7 +1,7 @@
 # Reference: <https://postmarketos.org/devicepkg>
-pkgname=device-samsung-gprimeltexx
+pkgname=device-samsung-grandprimelte
 pkgdesc="Samsung Galaxy Grand Prime (G530FZ)"
-pkgver=2.1
+pkgver=2.2
 pkgrel=0
 url="https://postmarketos.org"
 license="MIT"
@@ -17,7 +17,6 @@ source="
 subpackages="$pkgname-nonfree-firmware:nonfree_firmware"
 _pmb_select="soc-qcom-msm8916-rproc"
 
-
 build() {
 	devicepkg_build $startdir $pkgname
 }
@@ -28,11 +27,11 @@ package() {
 
 nonfree_firmware() {
 	pkgdesc="GPU/WiFi/BT/Modem/Video firmware"
-	depends="firmware-qcom-adreno-a300 msm-firmware-loader firmware-samsung-gprimeltexx-wcnss-nv"
+	depends="firmware-qcom-adreno-a300 msm-firmware-loader firmware-samsung-grandprimelte-wcnss-nv"
 	mkdir "$subpkgdir"
 }
 
 sha512sums="
-036e06b40e7bdc505caf2f395b1100d9fdc978176bf6297ca1a89b6aea7f75e7ef2a88a41c6c6634aa67d9c82a0235ac503583637f40266b12f87a81732d7400  deviceinfo
+6dc69f88dcf3ace23abb2e951e504fdede71bbc03b03e38d3a4ff89ce88c57a83e13db4e78228784d6c166b18e1ce0883e69b629c257c9f93681876596b52959  deviceinfo
 02b6d383149ba2ec3a31b206767be7ead31d9f0e7ee5cab11047000c53ccad387a118cbddb06093bca5cae3e82f884c02194de47b8e7a9c76102ac46506bb111  modules-initfs
 "

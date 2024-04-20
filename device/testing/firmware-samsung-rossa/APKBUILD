@@ -1,7 +1,7 @@
-pkgname=firmware-samsung-cprime
-pkgver=1
-pkgrel=1
-_name="Samsung Galaxy Core Prime"
+pkgname=firmware-samsung-rossa
+pkgver=1.1
+pkgrel=0
+_name="Samsung Galaxy Core Prime LTE"
 pkgdesc="Firmware for $_name"
 url="https://postmarketos.org"
 subpackages="$pkgname-wcnss-nv:wcnss_nv"
@@ -27,5 +27,5 @@ wcnss_nv() {
 }
 
 sha512sums="
-e8ed6f0e5fe9789821fd4bf90d682dff7aae6f4fed33f6aa62aabb7ae97bb50e7033d5e2f51ed2308b88fe27313ca4bdfa479a2a5d9c80762b22c4b4fdcc337c  firmware-samsung-cprime-WCNSS_qcom_wlan_nv.bin.base64
+e8ed6f0e5fe9789821fd4bf90d682dff7aae6f4fed33f6aa62aabb7ae97bb50e7033d5e2f51ed2308b88fe27313ca4bdfa479a2a5d9c80762b22c4b4fdcc337c  firmware-samsung-rossa-WCNSS_qcom_wlan_nv.bin.base64
 "
