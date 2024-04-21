@@ -4,7 +4,7 @@ _flavor=postmarketos-allwinner
 _config="config-$_flavor.$CARCH"
 pkgname=linux-$_flavor
 pkgver=6.8.4_git20240405
-pkgrel=1
+pkgrel=2
 _tag="orange-pi-6.8-20240405-1842"
 pkgdesc="Kernel fork with Pine64 patches (megi's tree, slightly patched)"
 arch="aarch64 armv7"
@@ -44,6 +44,7 @@ source="$pkgname-$_tag.tar.gz::https://codeberg.org/megi/linux/archive/$_tag.tar
 	0010-eMMC-workaround.patch
 	0011-arm64-dts-allwinner-orangepi-3-fix-ethernet.patch
 	0012-ARM-dts-allwinner-sun5i-a13-pocketbook-614-plus-Add-.patch
+	0013-usb-quirks-Add-USB_QUIRK_RESET-for-Quectel-EG25G-Mod.patch
 	"
 builddir="$srcdir/linux"
 
@@ -82,8 +83,8 @@ package() {
 
 sha512sums="
 c1cd45c10536b729377190507af1fe646826adb2f9e8cd0bf8a6096d480ae2b53fe8231d7dd4a3855ec645d66ac31e9c781c8b9a6efe4b4d3f12ec744d7cd905  linux-postmarketos-allwinner-orange-pi-6.8-20240405-1842.tar.gz
-1f6bc947852f00125644a9ff661244b522fc033c2c43078a216c1e23771b44d49fa2fb062445b568ab5d9c4480125fe2a69a8cb622d394f38cd25d5d45d219af  config-postmarketos-allwinner.aarch64
-b00738187d2092a356a6295aed7ce993dce5cd7042e1b221a2850098c215e4e063b2e9ba62c1f792f5cb2d60200d329cd472e118a3db0a5cc8bb00c3fa8b6ca0  config-postmarketos-allwinner.armv7
+3ad3a419c6a537e47473235856a2f5d203a4cf9e1e5607d1d90ee85e1172296f5ce1da2855778f3f60e3e95502d1ad10eb7e1e6220d39f49e1b17df0a7b02c9e  config-postmarketos-allwinner.aarch64
+5ca61e715ea5c0c8c85a855e7ed4c37f6af937e9daca8a72f50eeb56f97c59c4dc35d9e9b0ef750c981aba1387b5904aa8e8eb89e7ced3be0583aa57601f855a  config-postmarketos-allwinner.armv7
 a45678961d0ad1ef65ca3e3817a2d24f45f8048734fdcbe7983f188be86e9dc16a84c047b5d7ceb35b76a9e28e765ecbb48e7e6430c412fa0ebe070537d3be64  0001-dts-add-dontbeevil-pinephone-devkit.patch
 46920fccbdd8e21f6c7cee9fe762f9b082889ed53ba57c0823570177c86f40ea08fe369245c3d179e53990d5f285105ab23d018be2b1eb7a649273b3f16b306d  0002-dts-add-pinetab-dev-old-display-panel.patch
 1827612578b73f01f5c52c2b4a01980d8168cf12336ef56c147029bd14ace6d3c0d4a1803a7d5ca79556c6614ab16176e7962048617930ce7db8ed79772a7172  0003-dts-pinetab-add-missing-ohci1.patch
@@ -96,4 +97,5 @@ c76484821710e17b9b381ebb77298dfe8a74140f8769f9381567d2dd752fc418e2e0c1bb900abe0b
 63246de2077f2f6d9494f5816c974dd033747178878b0834c6de9520a15333cff8f44663c43d6d937c46d9ee81a34c7d09a825ab4b0b8de6ed5277cf07957a93  0010-eMMC-workaround.patch
 e68796dc481aa198855b458ff1917c5e8813f93c90cb97860fe391c088ae684c9ebed750029f25a06e2962d5c38d92fb0acb7c2bfbee1162b0bda21fbca2418b  0011-arm64-dts-allwinner-orangepi-3-fix-ethernet.patch
 a1bc4d8d0232614ef28d96e17386e231b3be65f4d93533c947f3c03ad8ffaec968b41ff1367fb65f3762f476cc17340590ca700c1df09259ab3efed4a55e7fd7  0012-ARM-dts-allwinner-sun5i-a13-pocketbook-614-plus-Add-.patch
+606a9f20b5bd924fe61f4bb7ddf197ab8178a0310978947b9eeb888d6cc531a51ac9b2f66c6e1f5b840a5b9193821d68b002a2384fa8709c82de9c1694ee73c7  0013-usb-quirks-Add-USB_QUIRK_RESET-for-Quectel-EG25G-Mod.patch
 "
