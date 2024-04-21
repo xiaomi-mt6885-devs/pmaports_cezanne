@@ -4,7 +4,7 @@ _flavor=postmarketos-allwinner
 _config="config-$_flavor.$CARCH"
 pkgname=linux-$_flavor
 pkgver=6.8.4_git20240405
-pkgrel=1
+pkgrel=2
 _tag="orange-pi-6.8-20240405-1842"
 pkgdesc="Kernel fork with Pine64 patches (megi's tree, slightly patched)"
 arch="aarch64 armv7"
@@ -44,6 +44,7 @@ source="$pkgname-$_tag.tar.gz::https://codeberg.org/megi/linux/archive/$_tag.tar
 	0010-eMMC-workaround.patch
 	0011-arm64-dts-allwinner-orangepi-3-fix-ethernet.patch
 	0012-ARM-dts-allwinner-sun5i-a13-pocketbook-614-plus-Add-.patch
+	0013-Pinephone-video-out-fixes-flipping-between-two-frame.patch
 	"
 builddir="$srcdir/linux"
 
@@ -96,4 +97,5 @@ c76484821710e17b9b381ebb77298dfe8a74140f8769f9381567d2dd752fc418e2e0c1bb900abe0b
 63246de2077f2f6d9494f5816c974dd033747178878b0834c6de9520a15333cff8f44663c43d6d937c46d9ee81a34c7d09a825ab4b0b8de6ed5277cf07957a93  0010-eMMC-workaround.patch
 e68796dc481aa198855b458ff1917c5e8813f93c90cb97860fe391c088ae684c9ebed750029f25a06e2962d5c38d92fb0acb7c2bfbee1162b0bda21fbca2418b  0011-arm64-dts-allwinner-orangepi-3-fix-ethernet.patch
 a1bc4d8d0232614ef28d96e17386e231b3be65f4d93533c947f3c03ad8ffaec968b41ff1367fb65f3762f476cc17340590ca700c1df09259ab3efed4a55e7fd7  0012-ARM-dts-allwinner-sun5i-a13-pocketbook-614-plus-Add-.patch
+0d97e6f70d6c43c65e3285e3cd44813cfab5bf7f928fdb9964c13ea243a2bb2b04c012a638697881aa98128503d9faacb7c8f3f115f1bb0e00f4b6d7899a6069  0013-Pinephone-video-out-fixes-flipping-between-two-frame.patch
 "
