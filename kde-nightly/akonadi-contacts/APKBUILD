@@ -4,9 +4,9 @@
 # The group tag is just to easily find this APKBUILD by some scripts for automation
 # group=kde-applications
 pkgname=akonadi-contacts
-pkgver=9999_git20240405
+pkgver=9999_git20240417
 pkgrel=0
-_commit="5618080f8668dee8683415a8f5da5e9585759492"
+_commit="8901ac02ccb2b6bba20122b46ad7ba44f929ec1b"
 pkgdesc="Libraries and daemons to implement Contact Management in Akonadi"
 # armhf blocked by extra-cmake-modules
 # s390x and riscv64 blocked by akonadi
@@ -44,7 +44,7 @@ makedepends="$depends_dev
 	"
 checkdepends="xvfb-run"
 _repo_url="https://invent.kde.org/pim/akonadi-contacts.git"
-source="https://nightly.postmarketos.org/plasma-mobile/sources/2024-04-09/akonadi-contacts-$_commit.tar.xz"
+source="https://nightly.postmarketos.org/plasma-mobile/sources/2024-04-24/akonadi-contacts-$_commit.tar.xz"
 subpackages="$pkgname-dev $pkgname-lang"
 
 options="!check"
@@ -66,5 +66,5 @@ package() {
 	DESTDIR="$pkgdir" cmake --install build
 }
 sha512sums="
-f6570e3120323f4256c8ca62503a9458fa298ff5253ba3250590dc52f1ed07253a73d5dff86324f87e231eecd8166af7a729a66ccc76511a05fc52b1335c4eae  akonadi-contacts-5618080f8668dee8683415a8f5da5e9585759492.tar.xz
+5ab75d87a419fe759c8d84044ca47b9798e2db8d93acd468415505542af3af232e7cd918cbecb4788dbcc5ac120f2f20619055fb8ec9c2ea8a9d438202996fd5  akonadi-contacts-8901ac02ccb2b6bba20122b46ad7ba44f929ec1b.tar.xz
 "

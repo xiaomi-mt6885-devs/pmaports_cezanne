@@ -4,9 +4,9 @@
 # The group tag is just to easily find this APKBUILD by some scripts for automation
 # group=kde-frameworks
 pkgname=frameworkintegration
-pkgver=9999_git20240405
+pkgver=9999_git20240412
 pkgrel=0
-_commit="11406f8eb20853a165401235f7bb0fbe145443e8"
+_commit="65f3524222833e1944e6ac635755db5f32afba6e"
 pkgdesc="Framework providing components to allow applications to integrate with a KDE Workspace"
 # armhf blocked by extra-cmake-modules
 arch="all !armhf"
@@ -30,7 +30,7 @@ makedepends="$depends_dev
 	"
 checkdepends="xvfb-run"
 _repo_url="https://invent.kde.org/frameworks/frameworkintegration.git"
-source="https://nightly.postmarketos.org/plasma-mobile/sources/2024-04-09/frameworkintegration-$_commit.tar.xz"
+source="https://nightly.postmarketos.org/plasma-mobile/sources/2024-04-24/frameworkintegration-$_commit.tar.xz"
 subpackages="$pkgname-dev"
 
 options="!check"
@@ -53,5 +53,5 @@ package() {
 }
 
 sha512sums="
-d443d50ddb5b9c7dfbdc6fd57ca09cad4f29ecb7981c72e89d2e0cebee60e25ed505294364bb8c9e5de0e8371c611869a3b94ef3d2b348d1dd6ecfd935af0e81  frameworkintegration-11406f8eb20853a165401235f7bb0fbe145443e8.tar.xz
+dd099bd273aa8fe4c933b6b48f8d013c4f13aad71251c372414a2dbf52af1d47f140419df7f7f725e493e462206bd99d7d6e61cec20d7d5fe4c6ce5ea7e9d7f4  frameworkintegration-65f3524222833e1944e6ac635755db5f32afba6e.tar.xz
 "

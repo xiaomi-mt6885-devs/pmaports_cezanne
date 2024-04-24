@@ -4,9 +4,9 @@
 # The group tag is just to easily find this APKBUILD by some scripts for automation
 # group=kde-applications
 pkgname=kteatime
-pkgver=9999_git20240406
+pkgver=9999_git20240416
 pkgrel=0
-_commit="d0eaf7726188b3cf815d0d53bfc6ca2621ec9050"
+_commit="2b69c5cd4c1433b9596f719dc9f2574a2dc330c8"
 arch="all !armhf"
 url="https://kde.org/applications/utilities/org.kde.kteatime"
 pkgdesc="A handy timer for steeping tea"
@@ -27,7 +27,7 @@ makedepends="
 	samurai
 	"
 _repo_url="https://invent.kde.org/utilities/kteatime.git"
-source="https://nightly.postmarketos.org/plasma-mobile/sources/2024-04-09/kteatime-$_commit.tar.xz"
+source="https://nightly.postmarketos.org/plasma-mobile/sources/2024-04-24/kteatime-$_commit.tar.xz"
 subpackages=" $pkgname-lang"
 options="!check" # No tests
 
@@ -47,5 +47,5 @@ package() {
 }
 
 sha512sums="
-4131597632f2492d4d4270093ad9e0fc98899fbc345e296f17c0464b6a0e23829c8c6d55a12d4413bb0edfc184ed47457ed8380fd856901244383dd472b80426  kteatime-d0eaf7726188b3cf815d0d53bfc6ca2621ec9050.tar.xz
+2bd99bfd2e5f82e30dc605b9024d8d405d3c754fea9f668ba08ccb72fc07758fe9c2c2525573ece00c93443d3bcd55fd2c3f675b6bb37d7e90ee36a0dc932aa4  kteatime-2b69c5cd4c1433b9596f719dc9f2574a2dc330c8.tar.xz
 "

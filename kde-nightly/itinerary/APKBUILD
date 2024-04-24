@@ -4,9 +4,9 @@
 # The group tag is just to easily find this APKBUILD by some scripts for automation
 # group=kde-applications
 pkgname=itinerary
-pkgver=9999_git20240406
+pkgver=9999_git20240417
 pkgrel=0
-_commit="683eb7db5218a2888a4a3264a36991708a39387f"
+_commit="7a5e610214c94c890cab27e500576798558d60f6"
 # armhf blocked by qt6-qtdeclarative
 # ppc64le blocked by kitinerary
 # s390x blocked by qt6-qtdeclarative
@@ -52,7 +52,7 @@ checkdepends="
 	xvfb-run
 	"
 _repo_url="https://invent.kde.org/pim/itinerary.git"
-source="https://nightly.postmarketos.org/plasma-mobile/sources/2024-04-09/itinerary-$_commit.tar.xz"
+source="https://nightly.postmarketos.org/plasma-mobile/sources/2024-04-24/itinerary-$_commit.tar.xz"
 subpackages="$pkgname-lang"
 
 options="!check"
@@ -76,5 +76,5 @@ package() {
 }
 
 sha512sums="
-bde7ab6770703e94f8e61a0673eb67b9ceb250808559eba661bcc0a9307d05fc49228e0f365114bb683023193cebe8cb86bcc04429c13b6c6bbb5abc9cc6bd86  itinerary-683eb7db5218a2888a4a3264a36991708a39387f.tar.xz
+780aa5b64177b5015d766d8090b59b06fb2cd388d1d3328fbf9e1e43fe961af27fd60ad9845c6e40923cee34850430ebd6a43cb0322a4883f182db4b075f2409  itinerary-7a5e610214c94c890cab27e500576798558d60f6.tar.xz
 "

@@ -4,9 +4,9 @@
 # The group tag is just to easily find this APKBUILD by some scripts for automation
 # group=kde-applications
 pkgname=kio-zeroconf
-pkgver=9999_git20240405
+pkgver=9999_git20240417
 pkgrel=0
-_commit="7aa20db91754f5c83145800e7a1c2f9188310668"
+_commit="69d57feb25b96542c7618307ddfb959ea4ceded3"
 # armhf blocked by extra-cmake-modules
 arch="all !armhf"
 url="https://www.kde.org/applications/internet/"
@@ -22,7 +22,7 @@ makedepends="
 	samurai
 	"
 _repo_url="https://invent.kde.org/network/kio-zeroconf.git"
-source="https://nightly.postmarketos.org/plasma-mobile/sources/2024-04-09/kio-zeroconf-$_commit.tar.xz"
+source="https://nightly.postmarketos.org/plasma-mobile/sources/2024-04-24/kio-zeroconf-$_commit.tar.xz"
 subpackages="$pkgname-lang"
 options="!check" # No tests
 
@@ -46,5 +46,5 @@ package() {
 }
 
 sha512sums="
-496e545ce1ac4272e6f5feecd81c523a24c53a5a7881de0c3632c3ad8215e552724b3db51fc2273708cbebb281884a99f3456a19b52632ae3f60f2269e017508  kio-zeroconf-7aa20db91754f5c83145800e7a1c2f9188310668.tar.xz
+1659130f3d2f73eb1171b18e6afe886b9dd6413c0f53ac918a68336095acfd42a141d48ce2c01b9a2eb6f3988e0bfb5570dc22a9539104fb4361a97d50b36826  kio-zeroconf-69d57feb25b96542c7618307ddfb959ea4ceded3.tar.xz
 "
