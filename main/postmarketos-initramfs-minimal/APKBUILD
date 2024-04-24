@@ -1,13 +1,13 @@
-# Maintainer: Oliver Smith <ollieparanoid@postmarketos.org>
-# Co-Maintainer: Clayton Craft <clayton@craftyguy.net>
-pkgname=postmarketos-initramfs
+# WARNING: this package is deprecated and currently unmaintained. It should
+# only be used on devices that do not have space for the full size ramdisk.
+pkgname=postmarketos-initramfs-minimal
 pkgver=2.5.6
 pkgrel=0
-pkgdesc="Base files for the postmarketOS initramfs / initramfs-extra"
+pkgdesc="Deprecated minimal initramfs for space constrained devices"
 url="https://postmarketos.org"
 options="!check"  # no tests
 provides="postmarketos-ramdisk"
-provider_priority=10
+provider_priority=1
 depends="
 	blkid
 	btrfs-progs
