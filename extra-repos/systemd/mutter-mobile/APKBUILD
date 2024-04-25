@@ -3,7 +3,7 @@
 pkgname=mutter-mobile
 pkgver=99945_git20230908
 _pkgver=45_git20230908
-pkgrel=0
+pkgrel=1
 pkgdesc="clutter-based window manager and compositor"
 url="https://wiki.gnome.org/Projects/Mutter/"
 # ricsv64: doesn't build currently:
@@ -65,7 +65,7 @@ makedepends="
 	xorg-server
 	"
 options="!check" # Can't be run with release builds
-provides="mutter=$_pkgver-r$pkgrel"
+provides="mutter=$pkgver-r$pkgrel"
 subpackages="$pkgname-dbg $pkgname-dev $pkgname-doc $pkgname-lang $pkgname-schemas::noarch"
 _commit="0f08f5aba4c9b5ac34b2d5711182d50b719d838e"
 source="mobile-mutter-$_commit.tar.gz::https://gitlab.gnome.org/verdre/mobile-mutter/-/archive/$_commit/mobile-mutter-$_commit.tar.gz
@@ -98,7 +98,7 @@ build() {
 
 schemas() {
 	pkgdesc="Mutter schemas related files"
-	provides="mutter-schemas=$_pkgver-r$pkgrel"
+	provides="mutter-schemas=$pkgver-r$pkgrel"
 	depends=""
 
 	amove usr/share/glib-2.0/schemas
@@ -108,13 +108,13 @@ schemas() {
 
 lang() {
 	default_lang
-	provides="mutter-lang=$_pkgver-r$pkgrel"
+	provides="mutter-lang=$pkgver-r$pkgrel"
 }
 
 dev() {
 	default_dev
 
-	provides="mutter-dev=$_pkgver-r$pkgrel"
+	provides="mutter-dev=$pkgver-r$pkgrel"
 }
 
 package() {
