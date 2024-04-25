@@ -15,6 +15,9 @@ import pmb.helpers.pmaports
 
 def build_strict(packages, arch):
     common.run_pmbootstrap(["build_init"])
+    common.run_pmbootstrap(["config", "mirrors_postmarketos",
+                            "http://mirror.postmarketos.org/postmarketos/staging/systemd/"])
+    common.run_pmbootstrap(["config", "systemd", "always"])
     common.run_pmbootstrap(["--details-to-stdout", "--no-ccache", "build",
                             "--strict", "--force",
                             "--arch", arch, ] + list(packages))
