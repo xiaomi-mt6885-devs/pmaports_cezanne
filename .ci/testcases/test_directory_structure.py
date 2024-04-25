@@ -10,6 +10,7 @@ expected_directories = [
     "device/main",
     "device/testing",
     "device/unmaintained",
+    "extra-repos/systemd",
     "main",
     "modem",
     "non-free",
