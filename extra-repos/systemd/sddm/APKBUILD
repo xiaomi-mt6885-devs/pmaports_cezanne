@@ -1,8 +1,9 @@
 # Contributor: Bart Ribbers <bribbers@disroot.org>
 # Maintainer: Bart Ribbers <bribbers@disroot.org>
 pkgname=sddm
-pkgver=0.21.0
-pkgrel=1
+pkgver=9999_git20240428
+_pkgver=0.21.0
+pkgrel=0
 pkgdesc="Simple Desktop Display Manager"
 url="https://github.com/sddm/sddm/"
 # armhf blocked by qt5-qtdeclarative
@@ -32,12 +33,13 @@ install="sddm.pre-install"
 langdir="/usr/share/sddm/translations"
 pkgusers="sddm"
 pkggroups="sddm"
-source="https://github.com/sddm/sddm/archive/v$pkgver/sddm-v$pkgver.tar.gz
+source="https://github.com/sddm/sddm/archive/v$_pkgver/sddm-v$_pkgver.tar.gz
 	0001-pam-path-fix.patch
 	0003-disable-automatic-portal-launching.patch
 	sddm.initd
 	sddm.confd
 	"
+builddir="$srcdir/$pkgname-$_pkgver"
 
 # secfixes:
 #   0.19.0-r0:

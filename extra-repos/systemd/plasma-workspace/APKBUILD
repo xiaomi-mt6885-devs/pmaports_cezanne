@@ -4,8 +4,9 @@
 # The group tag is just to easily find this APKBUILD by some scripts for automation
 # group=kde-plasma
 pkgname=plasma-workspace
-pkgver=6.0.2
-pkgrel=1
+pkgver=9999_git20240428
+_pkgver=6.0.4
+pkgrel=0
 pkgdesc="KDE Plasma Workspace"
 # armhf blocked by extra-cmake-modules
 arch="all !armhf"
@@ -98,13 +99,15 @@ makedepends="$depends_dev
 	"
 checkdepends="xvfb-run"
 
-case "$pkgver" in
+case "$_pkgver" in
 	*.90*) _rel=unstable;;
 	*) _rel=stable;;
 esac
 subpackages="$pkgname-dbg $pkgname-dev $pkgname-libs $pkgname-doc $pkgname-lang $pkgname-zsh-completion"
 _repo_url="https://invent.kde.org/plasma/plasma-workspace.git"
-source="https://download.kde.org/$_rel/plasma/$pkgver/plasma-workspace-$pkgver.tar.xz"
+source="https://download.kde.org/$_rel/plasma/$_pkgver/plasma-workspace-$_pkgver.tar.xz"
+builddir="$srcdir/$pkgname-$_pkgver"
+
 replaces="plasma-desktop<5.24 breeze<5.22.90"
 
 build() {
@@ -149,5 +152,5 @@ package() {
 }
 
 sha512sums="
-c357554537218e7f8e3e0fac0f6749c3bc8e6d79648aa30db13ed1a2699480222b49cb8b4fa651bb9a7d20c25516036b779065decf6471e56a4d9d0a7d3d4f27  plasma-workspace-6.0.2.tar.xz
+d55cd7232b2d4da4172e813cdaa432e9582f3d16a7f38055303617a0c66f67511c6e20cc19bfb8bff68e06515c445783040dd212fbb686b2993f469ec6757466  plasma-workspace-6.0.4.tar.xz
 "
