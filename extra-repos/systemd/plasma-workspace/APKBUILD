@@ -1,0 +1,153 @@
+# Contributor: Bart Ribbers <bribbers@disroot.org>
+# Maintainer: team/kde <bribbers@disroot.org>
+
+# The group tag is just to easily find this APKBUILD by some scripts for automation
+# group=kde-plasma
+pkgname=plasma-workspace
+pkgver=6.0.2
+pkgrel=1
+pkgdesc="KDE Plasma Workspace"
+# armhf blocked by extra-cmake-modules
+arch="all !armhf"
+url="https://kde.org/plasma-desktop/"
+license="(GPL-2.0-only OR GPL-3.0-only) AND LGPL-2.1-or-later AND GPL-2.0-or-later AND MIT AND LGPL-2.1-only AND LGPL-2.0-or-later AND (LGPL-2.1-only OR LGPL-3.0-only) AND LGPL-2.0-only"
+depends="
+	accountsservice
+	fprintd
+	kactivitymanagerd
+	kde-cli-tools
+	kded
+	kio-extras
+	kirigami
+	kirigami-addons
+	kwin
+	milou
+	pipewire-session-manager
+	plasma-integration
+	qt6-qttools
+	tzdata
+	"
+depends_dev="
+	baloo-dev
+	breeze-dev
+	eudev-dev
+	gpsd-dev
+	icu-dev
+	iso-codes-dev
+	karchive-dev
+	kauth-dev
+	kcmutils-dev
+	kcoreaddons-dev
+	kcrash-dev
+	kdbusaddons-dev
+	kdeclarative-dev
+	kded-dev
+	kglobalaccel-dev
+	kglobalacceld-dev
+	kguiaddons-dev
+	kholidays-dev
+	ki18n-dev
+	kiconthemes-dev
+	kidletime-dev
+	kio-dev
+	kitemmodels-dev
+	knewstuff-dev
+	knotifications-dev
+	knotifyconfig-dev
+	kpackage-dev
+	kparts-dev
+	kpipewire-dev
+	kquickcharts-dev
+	krunner-dev
+	kscreenlocker-dev
+	kstatusnotifieritem-dev
+	ksvg-dev
+	ktexteditor-dev
+	ktextwidgets-dev
+	kunitconversion-dev
+	kuserfeedback-dev
+	kwayland-dev
+	kwin-dev
+	layer-shell-qt-dev
+	libcanberra-dev
+	libkexiv2-dev
+	libkscreen-dev
+	libksysguard-dev
+	libplasma-dev
+	libqalculate-dev
+	networkmanager-qt-dev
+	phonon-dev
+	plasma-activities-stats-dev
+	plasma-wayland-protocols
+	plasma5support-dev
+	prison-dev
+	qt6-qtwayland-dev
+	wayland-dev
+	wayland-protocols
+	zlib-dev
+	"
+makedepends="$depends_dev
+	extra-cmake-modules
+	kded
+	kdoctools-dev
+	libxtst-dev
+	qt6-qttools-dev
+	samurai
+	xdotool
+	systemd
+	"
+checkdepends="xvfb-run"
+
+case "$pkgver" in
+	*.90*) _rel=unstable;;
+	*) _rel=stable;;
+esac
+subpackages="$pkgname-dbg $pkgname-dev $pkgname-libs $pkgname-doc $pkgname-lang $pkgname-zsh-completion"
+_repo_url="https://invent.kde.org/plasma/plasma-workspace.git"
+source="https://download.kde.org/$_rel/plasma/$pkgver/plasma-workspace-$pkgver.tar.xz"
+replaces="plasma-desktop<5.24 breeze<5.22.90"
+
+build() {
+	# reduce size of debug syms
+	CFLAGS="$CFLAGS -O2 -g1" CXXFLAGS="$CXXFLAGS -O2 -g1" \
+	cmake -B build -G Ninja \
+		-DCMAKE_BUILD_TYPE=RelWithDebInfo \
+		-DCMAKE_INSTALL_PREFIX=/usr \
+		-DCMAKE_INSTALL_LIBDIR=lib \
+		-DPLASMA_WAYLAND_DEFAULT_SESSION=TRUE
+	cmake --build build
+}
+
+check() {
+	# nightcolortest requires running dbus
+	# testdesktop, lookandfeel-kcmTest, test_kio_fonts, servicerunnertest systemtraymodeltest are broken
+	# tst_triangleFilter requires plasma-workspace to be installed
+	# locationsrunnertest requires a running Wayland environment
+	local skipped_tests="("
+	local tests="
+		nightcolortest
+		testdesktop
+		lookandfeel-kcmTest
+		test_kio_fonts
+		servicerunnertest
+		systemtraymodeltest
+		tst_triangleFilter
+		locationsrunnertest
+		"
+	case "$CARCH" in
+		arm*|aarch64|ppc64le) tests="$tests calculatorrunnertest" ;;
+	esac
+	for test in $tests; do
+		skipped_tests="$skipped_tests|$test"
+	done
+	skipped_tests="$skipped_tests)"
+	xvfb-run ctest --test-dir build --output-on-failure -E "$skipped_tests"
+}
+
+package() {
+	DESTDIR="$pkgdir" cmake --install build
+}
+
+sha512sums="
+c357554537218e7f8e3e0fac0f6749c3bc8e6d79648aa30db13ed1a2699480222b49cb8b4fa651bb9a7d20c25516036b779065decf6471e56a4d9d0a7d3d4f27  plasma-workspace-6.0.2.tar.xz
+"
