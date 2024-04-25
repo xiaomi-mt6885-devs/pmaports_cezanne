@@ -59,30 +59,9 @@ def get_upstream_branch():
         channels.cfg from master to retrieve the upstream branch.
 
         :returns: branch name, e.g. "v20.05" """
-    global cache
-    if "upstream_branch" in cache:
-        return cache["upstream_branch"]
 
-    # Get channel (e.g. "stable") from pmaports.cfg
-    # https://postmarketos.org/pmaports.cfg
-    pmaports_dir = get_pmaports_dir()
-    pmaports_cfg = configparser.ConfigParser()
-    pmaports_cfg.read(f"{pmaports_dir}/pmaports.cfg")
-    channel = pmaports_cfg["pmaports"]["channel"]
-
-    # Get branch_pmaports (e.g. "v20.05") from channels.cfg
-    # https://postmarketos.org/channels.cfg
-    channels_cfg_str = run_git(["show", "upstream/master:channels.cfg"])
-    channels_cfg = configparser.ConfigParser()
-    channels_cfg.read_string(channels_cfg_str)
-    assert channel in channels_cfg, \
-        f"Channel '{channel}' from pmaports.cfg in your branch is unknown." \
-        " This appears to be an old branch, consider recreating your change" \
-        " on top of master."
-
-    ret = channels_cfg[channel]["branch_pmaports"]
-    cache["upstream_branch"] = ret
-    return ret
+    # HACK for master_staging_systemd branch
+    return "master_staging_systemd"
 
 
 def get_changed_files(removed=True):
