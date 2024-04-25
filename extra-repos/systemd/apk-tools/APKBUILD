@@ -1,4 +1,5 @@
-# Forked from Alpine INSERT-REASON-HERE (CHANGEME!)
+# Forked from Alpine to support usr-merge:
+# https://gitlab.alpinelinux.org/alpine/apk-tools/-/merge_requests/155
 
 pkgname=apk-tools
 pkgver=9992.14
