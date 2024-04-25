@@ -8,6 +8,5 @@ if [ -f ${SDDM_CONF} ]; then
 	fi
 fi
 
+rc-update add modemmanager default
 rc-update add sddm default
-rc-update add networkmanager default
-rc-update add bluetooth default

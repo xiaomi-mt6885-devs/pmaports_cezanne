@@ -29,15 +29,15 @@ _pmb_recommends="
 	spacebar
 	ttyescape
 	"
-install="$pkgname.post-install $pkgname.post-upgrade"
 source="
+	plasma-mobile.service
 	kscreenlockerrc
 	maliit-plasmamobile.json
 	org.kde.phone.homescreen.js
 	"
-subpackages="$pkgname-extras"
+subpackages="$pkgname-extras $pkgname-openrc $pkgname-systemd"
 replaces="plasma-mobile"
-options="!check pmb:gpu-accel"
+options="!check pmb:gpu-accel pmb:systemd"
 
 package() {
 	install -Dm644 \
@@ -72,8 +72,30 @@ extras() {
 	mkdir -p "$subpkgdir"
 }
 
+openrc() {
+	install_if="$pkgname=$pkgrel-r$pkgrel openrc"
+	install="$subpkgname.post-install $subpkgname.post-upgrade"
+	depends="
+		modemmanager-openrc
+		tinydm
+		tinydm-openrc
+		"
+
+	mkdir -p "$subpkgdir"
+}
+
+systemd() {
+	install_if="$pkgname=$pkgver-r$pkgrel systemd"
+	install="$subpkgname.post-install $subpkgname.post-upgrade"
+
+	install -Dm644 "$srcdir"/plasma-mobile.service \
+		"$subpkgdir"/usr/lib/systemd/system/plasma-mobile.service
+}
+
+
 
 sha512sums="
+e12d8e98e28a795f879aebcceb32a991ee4abcb3bc5ec458aa5378bb52ff86cf39be04bc4a196925f532d623304b3005f561fa5e55d1c87944d718058ec4c0e6  plasma-mobile.service
 b3aa8ee26c01de103c0c0af23532bf232f7071fdd02c53bd787d78e5974faa5662fc5776ce9be417392214ae73334b0eb0d073fe24f616a0ce99081f30b9158c  kscreenlockerrc
 70ee87860842057b557a433a9ae7d54653f076a612b3d9de2d413d598806d23ec19390262eaa398cddf39437f1213d14922402a8d978878e5e98f3767ce0b9eb  maliit-plasmamobile.json
 50dbb5e0b1550776ca6fc5b91468412b23d49aa502af77cf7d5d15af11eaf61b1632b205f42eac3274bf28a0b7b278a4d6bfc98c6c12ea29830fd258bad5107d  org.kde.phone.homescreen.js

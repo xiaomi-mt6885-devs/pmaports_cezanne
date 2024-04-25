@@ -2,7 +2,7 @@
 # Maintainer: Bart Ribbers <bribbers@disroot.org>
 pkgname=postmarketos-base-ui-plasma
 pkgver=2
-pkgrel=0
+pkgrel=1
 pkgdesc="Meta package for shared configuration for Plasma-based UIs"
 url="https://postmarketos.org"
 arch="noarch !armhf" # armhf is not supported
@@ -12,15 +12,11 @@ depends="
 	bluez-openrc
 	breeze
 	dnsmasq
-	elogind
-	elogind-openrc
 	iio-sensor-proxy
-	iio-sensor-proxy-openrc
 	kscreen
 	kwallet-pam
 	kwayland-integration
 	modemmanager
-	modemmanager-openrc
 	pipewire
 	polkit-kde-agent-1
 	postmarketos-base-ui
@@ -28,13 +24,10 @@ depends="
 	powerdevil
 	pulseaudio
 	urfkill
-	urfkill-openrc
 	xdg-desktop-portal-kde
 	"
 # Required to launch
 depends="$depends
-	tinydm
-	tinydm-openrc
 	xorg-server
 	"
 _pmb_recommends="
@@ -51,7 +44,7 @@ _pmb_recommends="
 	postmarketos-artwork-wallpapers
 	xdg-user-dirs
 	"
-install="$pkgname.post-install $pkgname.post-upgrade"
+subpackages="$pkgname-openrc $pkgname-systemd"
 source="
 	gtk-app-wayland.sh
 	kdewallet.kwl
@@ -76,6 +69,26 @@ package() {
 		"$srcdir"/kdewallet.salt
 }
 
+openrc() {
+	install_if="$pkgname=$pkgver-r$pkgrel openrc"
+	install="$subpkgname.post-install $subpkgname.post-upgrade"
+	depends="
+		elogind
+		elogind-openrc
+		iio-sensor-proxy-openrc
+		urfkill-openrc
+		"
+
+	mkdir -p "$subpkgdir"
+}
+
+systemd() {
+	install_if="$pkgname=$pkgver-r$pkgrel systemd"
+	install="$subpkgname.post-install $subpkgname.post-upgrade"
+	depends="systemd-services"
+
+	mkdir -p "$subpkgdir"
+}
 
 sha512sums="
 57793bb079c76ba3bdcfca7880aa887de11fe80e7a05557b78435e57feabab70fbaeedc42da3aec6f914c35bba8e8ee9918367516eb45ee247f63f694624f179  gtk-app-wayland.sh
