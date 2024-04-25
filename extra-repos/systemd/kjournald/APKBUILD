@@ -1,0 +1,56 @@
+# Contributor: Bart Ribbers <bribbers@disroot.org>
+# Maintainer: Bart Ribbers <bribbers@disroot.org>
+
+# The group tag is just to easily find this APKBUILD by some scripts for automation
+# group=kde-applications
+pkgname=kjournald
+pkgver=24.02.0
+pkgrel=0
+pkgdesc="Framework for interacting with systemd-journald"
+# armhf blocked by extra-cmake-modules
+arch="all !armhf"
+url="https://invent.kde.org/system/kjournald"
+license="BSD-3-Clause AND LGPL-2.1-or-later AND MIT"
+depends_dev="
+	kcoreaddons-dev
+	ki18n-dev
+	qt6-qtbase-dev
+	qt6-qtdeclarative-dev
+	systemd-dev
+	"
+makedepends="$depends_dev
+	extra-cmake-modules
+	samurai
+	"
+checkdepends="xvfb-run"
+subpackages="$pkgname-dev $pkgname-lang"
+
+case "$pkgver" in
+	*.90*) _rel=unstable;;
+	*) _rel=stable;;
+esac
+_repo_url="https://invent.kde.org/system/kjournald.git"
+source="https://download.kde.org/$_rel/release-service/$pkgver/src/kjournald-$pkgver.tar.xz
+	0001-kjournald-missing-include.patch
+	"
+
+build() {
+	cmake -B build -G Ninja \
+		-DCMAKE_BUILD_TYPE=RelWithDebInfo \
+		-DCMAKE_INSTALL_PREFIX=/usr \
+		-DCMAKE_INSTALL_LIBDIR=lib
+	cmake --build build
+}
+
+check() {
+	ctest --test-dir build --output-on-failure -E "test_(viewmodel|filtercriteriamodel|remotejournal)"
+}
+
+package() {
+	DESTDIR="$pkgdir" cmake --install build
+}
+
+sha512sums="
+a0104b4a9e3de9a5d8186d87743685dd4ee2fa20ec20efd4c3f978c494592bf6088b6381ce98ee695f92f112df39581b170757969da5d6e087c3ee0e39ae9492  kjournald-24.02.0.tar.xz
+5e5b67d49d45fb3721522f4682c8cfbf6cd6a68caba45b58c52712dc173652bc48409f5d0f4b2b9872b0f44f2e0daeefb32f4db351ad79fe0b3d69801d01d985  0001-kjournald-missing-include.patch
+"

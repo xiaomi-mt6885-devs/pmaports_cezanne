@@ -1,0 +1,12 @@
+diff --git a/lib/journaldexportreader.cpp b/lib/journaldexportreader.cpp
+index 7ad19d6..b304a46 100644
+--- a/lib/journaldexportreader.cpp
++++ b/lib/journaldexportreader.cpp
+@@ -5,6 +5,7 @@
+ 
+ #include "journaldexportreader.h"
+ #include "kjournaldlib_log_general.h"
++#include <endian.h>
+ #include <QDebug>
+ #include <QVector>
+ #include <QIODevice>
