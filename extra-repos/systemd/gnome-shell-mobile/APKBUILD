@@ -3,7 +3,7 @@
 pkgname=gnome-shell-mobile
 pkgver=99945_git20230908
 _pkgver=45_git20230908
-pkgrel=0
+pkgrel=1
 pkgdesc="GNOME shell"
 url="https://wiki.gnome.org/Projects/GnomeShell"
 arch="all !armhf !s390x !riscv64" # gjs / riscv64: mutter-mobile
@@ -62,7 +62,7 @@ checkdepends="
 	mesa-dri-gallium
 	"
 	# gdm is also needed but introduces circular dep
-provides="gnome-shell=$_pkgver-r$pkgrel"
+provides="gnome-shell=$pkgver-r$pkgrel"
 subpackages="$pkgname-dbg $pkgname-doc $pkgname-lang $pkgname-schemas::noarch"
 _commit="df3f6b4c512d2f181e86ff7f6b1646ce7b907344"
 _gvc_commit="8e7a5a4c3e51007ce6579292642517e3d3eb9c50"
@@ -102,7 +102,7 @@ check() {
 schemas() {
 	pkgdesc="GNOME Shell gsetting schemas"
 	depends=""
-	provides="gnome-shell-schemas=$_pkgver-r$pkgrel"
+	provides="gnome-shell-schemas=$pkgver-r$pkgrel"
 
 	amove usr/share/glib-2.0/schemas
 	amove usr/share/gnome-control-center/keybindings
@@ -110,7 +110,7 @@ schemas() {
 
 lang() {
 	default_lang
-	provides="gnome-shell-lang=$_pkgver-r$pkgrel"
+	provides="gnome-shell-lang=$pkgver-r$pkgrel"
 }
 
 package() {
