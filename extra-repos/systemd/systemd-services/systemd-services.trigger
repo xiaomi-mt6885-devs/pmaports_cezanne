@@ -11,7 +11,7 @@ fi
 
 while read -r cmd service; do
     echo "=> $cmd $service"
-    systemctl $cmd $service
+    systemctl "$cmd" "$service"
 done < /run/rc-update.failed
 
 rm -f /run/rc-update.failed

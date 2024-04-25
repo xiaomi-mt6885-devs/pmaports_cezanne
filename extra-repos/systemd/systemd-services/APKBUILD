@@ -7,7 +7,7 @@
 pkgname=systemd-services
 # 1. bump pkgver
 pkgver=5
-pkgrel=0
+pkgrel=1
 pkgdesc="Systemd service files"
 url="https://postmarketos.org"
 arch="noarch"
