@@ -3,7 +3,7 @@
 
 pkgname=systemd
 pkgver=255.2
-pkgrel=0
+pkgrel=1
 pkgdesc="System and service manager"
 url="https://github.com/systemd/systemd"
 arch="all !ppc64le !armhf !s390x" # blocked by pmboostrap not supporting
@@ -62,6 +62,7 @@ makedepends="
 # and not the Alpine ones.
 depends="
 	!openrc
+	kbd
 	kmod
 "
 if [ -z "$BOOTSTRAP" ] || [ "$BOOTSTRAP" -gt 2 ]; then
