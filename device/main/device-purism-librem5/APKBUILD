@@ -3,7 +3,7 @@
 # Co-Maintainer: Alistair Francis <alistair@alistair23.me>
 # Co-Maintainer: Newbyte <newbyte@postmarketos.org>
 pkgname=device-purism-librem5
-pkgver=2
+pkgver=3
 pkgrel=0
 _confver=64
 _purismrel=1
@@ -49,7 +49,6 @@ source="
 	modemmanager.conf
 	udev/70-brcm-bluetooth.rules
 	udev/70-wifi-pm.rules
-	udev/77-mm-broadmobi-port-types.rules
 "
 subpackages="
 	$pkgname-camera
@@ -213,5 +212,4 @@ c723764d507ccd4b04aa5ce79b1d1ebc131873cdc37a943cb0f92b8a08a3c69eb9e0d31fcd4589fd
 e089b0c4320c8cb5a6bd1e85f12b6afb24d035958f2bdc7a8ed2cee5b0f379e6fdfad876d8d22c03c9cb0576b4aa7c20c3e9986ba8147500add6d93b44e5f266  modemmanager.conf
 b7f5ecd0fefe8a122ed20e7ac21a23a65e007f62a7343c7178712955ed580f5473ca923cedb9f86cd10ecb13a76ab50c91a2f7b8b2fd456ee8420aeca75f3fec  70-brcm-bluetooth.rules
 8b6fa7b12c15f439c561901f3ffe24a1ef2a0c343401c0a79281060854ab29e08a1fb5e7adae8684b12aa9f535ed99e2dad993dce9724822cb0fbf2497dd86e5  70-wifi-pm.rules
-00355d9ad085a77e157f3c62eb4f1bcac2823d3b341e34d1128edbfb1444fba83e8eacd263ea61da9f6d853f1328ab7fbe5ea63bd08c8a1bc9b8eaf44ae1f1c6  77-mm-broadmobi-port-types.rules
 "
