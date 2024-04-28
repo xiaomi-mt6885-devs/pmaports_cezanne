@@ -8,7 +8,7 @@ deviceinfo_codename="samsung-fortuna"
 deviceinfo_year="2014"
 deviceinfo_dtb_fortuna3g="qcom/msm8916-samsung-fortuna3g"
 deviceinfo_dtb_gprimeltecan="qcom/msm8916-samsung-gprimeltecan"
-deviceinfo_dtb_grandprimelte="qcom/msm8916-samsung-fortuna3g"
+deviceinfo_dtb_grandprimelte="qcom/msm8916-samsung-grandprimelte"
 deviceinfo_append_dtb="true"
 deviceinfo_arch="aarch64"
 
