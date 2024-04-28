@@ -3,7 +3,6 @@
 /bin/sh
 /etc/deviceinfo
 /etc/unudhcpd.conf
-/lib/mdev/persistent-storage
 /sbin/blkid
 /usr/bin/iskey
 /usr/bin/unudhcpd
@@ -11,7 +10,13 @@
 /usr/share/deviceinfo/deviceinfo
 /usr/share/initramfs/init.sh:/init
 /usr/share/initramfs/init_functions.sh:/init_functions.sh
-/usr/share/initramfs/mdev.conf:/etc/mdev.conf
 /usr/share/misc/source_deviceinfo
 /usr/bin/buffyboard
 /usr/share/consolefonts/ter-128n.psf.gz
+/usr/bin/iskey
+/usr/share/libinput/*.quirks
+/bin/udevadm
+/sbin/udevd
+/etc/udev/rules.d
+/lib/udev/rules.d
+/lib/udev/scsi_id

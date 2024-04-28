@@ -67,31 +67,19 @@ setup_firmware_path() {
 	echo -n /lib/firmware/postmarketos >$SYS
 }
 
-# shellcheck disable=SC3043
-load_modules() {
-	local file="$1"
-	local modules="$2"
-	[ -f "$file" ] && modules="$modules $(grep -v ^\# "$file")"
-	# shellcheck disable=SC2086
-	modprobe -a $modules
-}
-
-setup_mdev() {
-	# Start mdev daemon
-	mdev -d
-}
-
 setup_udev() {
-	# Use udev to coldplug all devices so that they can be used via libinput (e.g.
-	# by unl0kr). This is the same series of steps performed by the udev,
+	if ! command -v udevd > /dev/null || ! command -v udevadm > /dev/null; then
+		echo "ERROR: udev not found!"
+		return
+	fi
+
+	# This is the same series of steps performed by the udev,
 	# udev-trigger and udev-settle RC services. See also:
 	# - https://git.alpinelinux.org/aports/tree/main/eudev/setup-udev
 	# - https://git.alpinelinux.org/aports/tree/main/udev-init-scripts/APKBUILD
-	if command -v udevd > /dev/null && command -v udevadm > /dev/null; then
-		udevd -d
-		udevadm trigger --type=devices --action=add
-		udevadm settle
-	fi
+	udevd -d --resolve-names=never
+	udevadm trigger --type=devices --action=add
+	udevadm settle
 }
 
 get_uptime_seconds() {
