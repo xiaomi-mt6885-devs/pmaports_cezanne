@@ -2,7 +2,7 @@
 # Maintainer: Oliver Smith <ollieparanoid@postmarketos.org>
 pkgname=postmarketos-ui-gnome
 pkgver=3
-pkgrel=8
+pkgrel=9
 pkgdesc="(Wayland) Gnome Shell"
 url="https://gnome.org/"
 # armhf blocked by gnome-shell -> gjs -> mozjs102
@@ -19,6 +19,8 @@ depends="
 	"
 _pmb_recommends="
 	gnome-calendar
+	gnome-disk-utility
+	gnome-system-monitor
 	nautilus
 	"
 install="$pkgname.post-install $pkgname.post-upgrade"
