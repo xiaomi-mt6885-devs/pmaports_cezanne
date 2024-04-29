@@ -2,8 +2,8 @@
 # Co-Maintainer: Oliver Smith <ollieparanoid@postmarketos.org>
 pkgname=device-generic-x86_64
 pkgdesc="Generic x86_64 system, with EFI"
-pkgver=12
-pkgrel=1
+pkgver=13
+pkgrel=0
 url="https://postmarketos.org"
 license="MIT"
 arch="x86_64"
@@ -22,12 +22,12 @@ install="$pkgname.post-install $pkgname.post-upgrade"
 subpackages="
 	$pkgname-kernel-edge:kernel_edge
 	$pkgname-kernel-lts:kernel_lts
-	$pkgname-mesa
 "
 _pmb_recommends="
+	firmware-ath6kl
 	linux-firmware
-	oem-intel
 	oem-amd
+	oem-intel
 "
 provides="device-tablet-x64uefi=$pkgver-r$pkgrel device-tablet-x86uefi=$pkgver-r$pkgrel"
 replaces="device-tablet-x64uefi device-tablet-x86uefi"
@@ -38,14 +38,6 @@ build() {
 
 package() {
 	devicepkg_package $startdir $pkgname
-}
-
-mesa() {
-	install_if="$pkgname=$pkgver-r$pkgrel mesa-gl"
-	provides="device-tablet-x64uefi-mesa=$pkgver-r$pkgrel device-tablet-x86uefi-mesa=$pkgver-r$pkgrel"
-	replaces="device-tablet-x64uefi-mesa device-tablet-x86uefi-mesa"
-	depends="mesa-dri-gallium"
-	mkdir "$subpkgdir"
 }
 
 kernel_edge() {
@@ -65,6 +57,6 @@ kernel_lts() {
 }
 
 sha512sums="
-33f0450413c7b364390fdc715578b41389bced5ff69f04a2128155f5ad828ed0e1cc17a20b610eccf4bd99560e21be91e362faaa72e9decad4623f8669e8ab7a  deviceinfo
+e9dfcd70ccfb9a0fdaa0cdc52faf3be96d6de8af8c60a758bb703c515b0648cec4552e0eaf56e5168b0004cd3fc4b28118abb05dad2c581d3579a2e9134862cb  deviceinfo
 cf9ad3e80b43aa799a8123289e3ab77f6a1c37cee3d48db737688b93afd4f1094db76008ec0f28358c35dd1e115c4fabf9452f9abee76481a2630f02e3ae0953  modules-initfs
 "
