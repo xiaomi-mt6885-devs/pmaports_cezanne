@@ -4,8 +4,9 @@
 # The group tag is just to easily find this APKBUILD by some scripts for automation
 # group=kde-plasma
 pkgname=kwin
-pkgver=6.0.2
-pkgrel=1
+pkgver=9999_git20240428
+_pkgver=6.0.4.1
+pkgrel=0
 pkgdesc="An easy to use, but flexible, composited Window Manager"
 # armhf blocked by qt6-qtdeclarative
 arch="all !armhf"
@@ -87,11 +88,12 @@ case "$pkgver" in
 esac
 subpackages="$pkgname-dbg $pkgname-dev $pkgname-doc $pkgname-lang"
 _repo_url="https://invent.kde.org/plasma/kwin.git"
-source="https://download.kde.org/stable/plasma/$pkgver/kwin-$pkgver.tar.xz
+source="https://download.kde.org/stable/plasma/${_pkgver%.*}/kwin-$_pkgver.tar.xz
 	0001-$pkgname-Fix-building-of-tests.patch::https://invent.kde.org/plasma/kwin/-/commit/a879c59a082707e0e7dfa8ebeb7b239551ec9c71.patch
 	"
 # Broken, fails to setup due to missing or invalid XDG_RUNTIME_DIR?
 options="!check"
+builddir="$srcdir/$pkgname-$_pkgver"
 
 build() {
 	# significantly reduce debug symbol size
@@ -113,6 +115,6 @@ package() {
 	DESTDIR="$pkgdir" cmake --install build
 }
 sha512sums="
-f6f82afe2f007a14114fbf18e0aba6859328d928d14bf5369e9f879ec24baa50a9a1084db49877067eab17ab3dae13991d507c85458b4a588086ecfb4924a8a6  kwin-6.0.2.tar.xz
+a38605dea13a225220544b77f835bff5bb191861ad34dd5ea6de06069921bc6db1f2683cb361d421ab3f7a82c58d2ff914512074a17e8e554bac3e5303f19ab5  kwin-6.0.4.1.tar.xz
 14c4ddceca2ef51a139319bdd64bc84d7a1df7c6419e86bdbb04572be3212ca46f5c25cd61fa3b511d7644046f92a07408e472e41d95aab93ec494138a09c1a9  0001-kwin-Fix-building-of-tests.patch
 "
