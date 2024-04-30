@@ -1,7 +1,7 @@
 # Reference: <https://postmarketos.org/devicepkg>
 pkgname=device-htc-memul
 pkgdesc="HTC One Mini 2"
-pkgver=4
+pkgver=5
 pkgrel=0
 url="https://postmarketos.org"
 license="MIT"
@@ -54,7 +54,7 @@ nonfree_firmware() {
 }
 
 sha512sums="
-5917cf95d3a8aec92590d7634858fa9fb0b10ea5eb0cc5cbed71d1577ff77de543339c8d43e06d24583d78d4e46f3881f2239ef12db2ae62b820cec2f6803d7b  deviceinfo
+870d033562ba1438194529ef9e5eeec77605675df40e491edf35984a7374d1fa99258027e234831ccd4993c80543d41d8c077af2f942ae047eff8a51190f01f2  deviceinfo
 765abaad5fda0dfda5e62e1e48414d3eea822198f39d0792171a04d73f86f6273a6e562afab430cbfcdd084412568a0ad03d012e9c40c5564f5cd1b9c0f181eb  initfs-hook.sh
 9ebe6ca9e371b5091e4e47ecbe3ec0c72d055e4bc2281880119eb0dee4c56b71f20f7d3cf1f1cb62e6814604e745fb17bbbfcfed2fec42398871e50b17685533  modules-initfs.mainline
 "

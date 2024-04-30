@@ -1,6 +1,6 @@
 pkgname=firmware-htc-memul
 pkgver=1
-pkgrel=1
+pkgrel=2
 pkgdesc="Firmware for HTC One Mini 2"
 subpackages="
 	$pkgname-adsp
@@ -25,7 +25,7 @@ done
 builddir="$srcdir/memul-firmware-$_fw_commit"
 
 build() {
-	for i in *.mdt; do
+	for i in adsp.mdt mba.mdt modem.mdt; do
 		pil-squasher "$(basename "$i" .mdt)".mbn "$i"
 	done
 }
@@ -54,7 +54,9 @@ modem() {
 wcnss() {
 	pkgdesc="HTC One Mini 2 - WCNSS firmware"
 
-	install -Dm644 "$builddir"/wcnss.mbn -t \
+	# Squashing wcnss firmware leads to incomplete .mbn, so keep installing
+	# the original .mdt + .b0* files
+	install -Dm644 "$builddir"/wcnss.* -t \
 		"$subpkgdir/lib/firmware/qcom/msm8926/memul/"
 	cd "$builddir"
 	for _i in $_wififiles; do
