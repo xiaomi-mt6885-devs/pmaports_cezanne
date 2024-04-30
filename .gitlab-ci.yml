@@ -27,6 +27,8 @@ wiki:
   rules:
     - if: $CI_PIPELINE_SOURCE == "merge_request_event" || $CI_COMMIT_REF_PROTECTED == "false"
       changes:
+        - .ci/**/*
+        - .gitlab-ci.yml
         - device/*/device-*/*
   script:
     - .ci/lib/gitlab_prepare_ci.sh
@@ -41,9 +43,6 @@ ruff:
         - .ci/*
         - .ci/*/*
         - .gitlab-ci.yml
-  before_script:
-    - "echo 'https://dl-cdn.alpinelinux.org/alpine/edge/testing' >> /etc/apk/repositories"
-    - *global_before_scripts
   script:
     - .ci/lib/gitlab_prepare_ci.sh
     - .ci/ruff.sh
