@@ -1,0 +1,53 @@
+From 4990bead3e1dc8c98921e773d3d74fbcc3919715 Mon Sep 17 00:00:00 2001
+From: Alexey Minnekhanov <alexey.min@gmail.com>
+Date: Sun, 28 Apr 2024 18:41:42 +0300
+Subject: [PATCH] meson: Specify project and library version
+
+Specify project version in meson project() call.
+Withouth this in generated qrtr.pc pkg-config file
+version will be undefined, and this is a packaging error.
+E.g. Alpine Linux's build system doesn't allow this to pass.
+
+Specify also shared library soversion.
+This reults in library being called libqrtr.so.1.1 and
+symlinks generated and installed as:
+
+ libqrtr.so -> libqrtr.so.1
+ libqrtr.so.1 -> libqrtr.so.1.1
+
+This is important for -dev subpackage.
+
+Signed-off-by: Alexey Minnekhanov <alexey.min@gmail.com>
+---
+ lib/meson.build | 3 ++-
+ meson.build     | 1 +
+ 2 files changed, 3 insertions(+), 1 deletion(-)
+
+diff --git a/lib/meson.build b/lib/meson.build
+index 7a894b3..d60d2f5 100644
+--- a/lib/meson.build
++++ b/lib/meson.build
+@@ -6,6 +6,7 @@ libqrtr_srcs = ['logging.c', 'qmi.c', 'qrtr.c']
+ libqrtr = shared_library('qrtr',
+                          libqrtr_srcs,
+                          include_directories : inc,
+-                         install: true)
++                         install : true,
++                         version : meson.project_version())
+ 
+ pkg.generate(libqrtr)
+diff --git a/meson.build b/meson.build
+index 4478263..c378761 100644
+--- a/meson.build
++++ b/meson.build
+@@ -3,6 +3,7 @@
+ project('qrtr',
+         'c',
+         license : [ 'BSD-3-Clause'],
++        version : '1.1',
+         default_options : [
+         'warning_level=1',
+         'buildtype=release',
+-- 
+2.43.2
+

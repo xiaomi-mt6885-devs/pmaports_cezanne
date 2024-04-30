@@ -1,34 +1,34 @@
 # Maintainer: Minecrell <minecrell@minecrell.net>
 pkgname=qrtr
-pkgver=0.3_git20201207
-_commit="9dc7a88548c27983e06465d3fbba2ba27d4bc050"
-pkgrel=1
+pkgver=1.1
+pkgrel=0
 pkgdesc="Userspace reference for net/qrtr in the Linux kernel"
-url="https://github.com/andersson/qrtr"
+url="https://github.com/linux-msm/qrtr"
 arch="all"
 license="BSD-3-Clause"
 depends_dev="linux-headers"
-makedepends="$depends_dev"
-subpackages="$pkgname-doc $pkgname-dev $pkgname-libs $pkgname-openrc $pkgname-pmtest"
+makedepends="$depends_dev meson"
+subpackages="$pkgname-doc $pkgname-dev $pkgname-libs $pkgname-pmtest"
 source="
-	qrtr-$_commit.tar.gz::https://github.com/andersson/qrtr/archive/$_commit.tar.gz
-	qrtr-ns.initd
+	qrtr-$pkgver.tar.gz::https://github.com/linux-msm/qrtr/archive/refs/tags/v$pkgver.tar.gz
+	0001-meson-Specify-project-and-library-version.patch
 	lookup-test.files
 	lookup-test.sh
 "
-builddir="$srcdir/qrtr-$_commit"
 options="!check"
 
 build() {
-	make prefix=/usr all
+	abuild-meson \
+		-Dqrtr-ns=disabled \
+		-Dsystemd-service=disabled \
+		. output
+	meson compile -C output
 }
 
 package() {
-	make prefix=/usr DESTDIR="$pkgdir" install
-	rm -r "$pkgdir"/usr/lib/systemd
+	DESTDIR="$pkgdir" meson install --no-rebuild -C output
 
 	install -Dm644 LICENSE "$pkgdir"/usr/share/licenses/$pkgname/COPYING
-	install -Dm755 "$srcdir"/qrtr-ns.initd "$pkgdir"/etc/init.d/qrtr-ns
 }
 
 pmtest() {
@@ -42,8 +42,8 @@ pmtest() {
 }
 
 sha512sums="
-d3dd93983382a105372665dd1e1abb944adace37fabab0980dec3dded175586e37dc0da480d21be5876921274f4420bdf032bd5cc0e86ab951e3ec704ec396e0  qrtr-9dc7a88548c27983e06465d3fbba2ba27d4bc050.tar.gz
-68c27e5c1c70ffdec0498cd4746208dd571e392ba030cf1a52f4a05394a57e399cf7437a1f27631dd288c7771fb656946aa27d7aec5b23d41fe13c5199ae390a  qrtr-ns.initd
+68cc8731d500b2e7f5702471a3c239f415bd97035678d972d40d28ceb58bcaa1ee271816fd2002776a2d370611fc9e5e54a79d1a16ce2bce258b9411d9aec824  qrtr-1.1.tar.gz
+9209bdc7d06bc231f191230b88bbb666edee82ad03da95bcc00d29ac47144f89f0430f5c649820f6cece4edcdb1991d1bfb94a5d59bb12ca415968797e956c76  0001-meson-Specify-project-and-library-version.patch
 00b26c284b2765ddc46cf4b9eb4013e09ae96dfa4a9ac1c49f608a735579bbb442cda2a116417131c5dec234aca224bac824a2167f280990a04c90bc3065a51d  lookup-test.files
 6daecca1be580176cc275a07e87086151fe2426a4f032264a305a5deb49d888acd29e05e6efbabb1693cd5ebdfb62a7543138d2149c9a1154d1451b3d854dfdc  lookup-test.sh
 "

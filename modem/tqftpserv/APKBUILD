@@ -1,43 +1,35 @@
 # Maintainer: Luca Weiss <luca@z3ntu.xyz>
 pkgname=tqftpserv
-pkgver=0_git20240122
-pkgrel=1
-_commit="289214a5d152c0f2fcd57fcad274d037480d220b"
+pkgver=0_git20240423
+pkgrel=0
+_commit="5f9f263ae291fbbb9fc86756911e4185aa059964"
 pkgdesc="Trivial File Transfer Protocol server over AF_QIPCRTR"
-url="https://github.com/andersson/tqftpserv"
+url="https://github.com/linux-msm/tqftpserv"
 arch="all"
 license="BSD-3-Clause"
-makedepends="qrtr-dev"
-source="https://github.com/andersson/tqftpserv/archive/$_commit/tqftpserv-$_commit.tar.gz
+makedepends="meson qrtr-dev"
+source="https://github.com/linux-msm/tqftpserv/archive/$_commit/tqftpserv-$_commit.tar.gz
+	0001-meson.build-Make-systemd-dep-optional.patch
 	tqftpserv.initd
-	0001-tqftpserv-allow-sending-data-packet-with-0-byte-data.patch
-	0002-tqftpserv-add-seek-option-parsing.patch
-	0003-tqftpserv-handle-rsize-offset-options.patch
-	0004-tqftpserv-add-rsize-offset-options-to-RRQ-print.patch
-	0005-tqftpserv-don-t-print-End-of-Transfer-as-an-error.patch
 	"
 subpackages="$pkgname-doc $pkgname-openrc"
 builddir="$srcdir/tqftpserv-$_commit"
 options="!check" # No test suite
 
 build() {
-	make prefix="/usr"
+	abuild-meson . output
+	meson compile -C output
 }
 
 package() {
-	make prefix="/usr" DESTDIR="$pkgdir" install
-	rm -r "$pkgdir"/usr/lib/systemd
+	DESTDIR="$pkgdir" meson install --no-rebuild -C output
 
 	install -Dm644 LICENSE "$pkgdir"/usr/share/licenses/$pkgname/COPYING
 	install -Dm755 "$srcdir"/tqftpserv.initd "$pkgdir"/etc/init.d/tqftpserv
 }
 
 sha512sums="
-dd9814bef4fbe6184b70446c3ab0c61f212856c69abace1739ef38efb7077a6112adefe6be26109e67ffb8dc0df95f1e6546a92a1d794a867ad0fd0a1d13f9df  tqftpserv-289214a5d152c0f2fcd57fcad274d037480d220b.tar.gz
+69b603691a636ea6203b8aba98b8600b32c89f1e3864710f7b5664ec787509c19dbd46c40a38c49d1f17aa80699ef98acb68d6442c2046b4ed5873ecce468699  tqftpserv-5f9f263ae291fbbb9fc86756911e4185aa059964.tar.gz
+501cdbaeb6167ef87b60e891a79229df2756c5e043e064aeba1343a296cdb5f72f5242d9871cc41721f78aa5d32dd3aee20f284bd9f1a57e139e03861109a237  0001-meson.build-Make-systemd-dep-optional.patch
 9fde613a1ed53e633ab676e37245d40598deb4b6896c379054389adad5af9f110fcf95871fe31bad3f0ed9321ba3cee8a2160b95e56873719382f81063a85721  tqftpserv.initd
-d392f0554bdba666df8a8d7fc8fcf3a584fe8af950ef53132fff901297b39923264f533f77b49a76a1d474112994b57f742470f588761f9b424cb1bd831b4f91  0001-tqftpserv-allow-sending-data-packet-with-0-byte-data.patch
-52cd89af5edd09c648e0f9196357dda3d332be6c071703738a92d76ae0e4b1c331370c4bed0b9403d00fc8512e931c7a355d9865353dcddf2fd2e1cb151cb053  0002-tqftpserv-add-seek-option-parsing.patch
-d69716e49ba8727178b132fa24946552f8f2ced3364be379d4deed25d585279274bc15c7a74634a5b1767d54684a2dd3d2d90979dbd3262a44fa21167b101823  0003-tqftpserv-handle-rsize-offset-options.patch
-530b138b5525d923a40ab449ea77d32ed14751abbccbfa59e7e3b6e0ace4ba3a6b4abe2eedb6218113a8e4026eefd1df4ec34bfed984fbc8ab6b7f234016ffbb  0004-tqftpserv-add-rsize-offset-options-to-RRQ-print.patch
-26812c8120bee7d80f8949015420daf67d243710b83ac79139447ae324d34cc0c5ff36d7f8b26316de0469ad5af3cd855cf7884c0d151ae67c0cf24239df6468  0005-tqftpserv-don-t-print-End-of-Transfer-as-an-error.patch
 "

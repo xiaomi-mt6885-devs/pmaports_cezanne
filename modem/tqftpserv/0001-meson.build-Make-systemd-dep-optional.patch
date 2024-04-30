@@ -1,0 +1,65 @@
+From 7bdf6439bbb3418a648dcd4575647648959ccf1e Mon Sep 17 00:00:00 2001
+From: Alexey Minnekhanov <alexey.min@gmail.com>
+Date: Sun, 28 Apr 2024 15:39:14 +0300
+Subject: [PATCH] meson.build: Make systemd dep optional
+
+Some distros still don't use SystemD (yet), make it optional.
+
+It is not required to build the binary, just to install systemd
+unit file.
+
+Signed-off-by: Alexey Minnekhanov <alexey.min@gmail.com>
+---
+ meson.build | 32 +++++++++++++++++++-------------
+ 1 file changed, 19 insertions(+), 13 deletions(-)
+
+diff --git a/meson.build b/meson.build
+index f991c48..5b57249 100644
+--- a/meson.build
++++ b/meson.build
+@@ -6,12 +6,16 @@ project('tqftpserv',
+         ])
+ 
+ prefix = get_option('prefix')
+-systemd = dependency('systemd')
+-systemd_system_unit_dir = get_option('systemd-unit-prefix')
+-if systemd_system_unit_dir == ''
+-        systemd_system_unit_dir = systemd.get_variable(
+-                pkgconfig : 'systemdsystemunitdir',
+-                pkgconfig_define: ['prefix', prefix])
++
++# Not required to build the executable, only to install unit file
++systemd = dependency('systemd', required : false)
++if systemd.found()
++        systemd_system_unit_dir = get_option('systemd-unit-prefix')
++        if systemd_system_unit_dir == ''
++                systemd_system_unit_dir = systemd.get_variable(
++                        pkgconfig : 'systemdsystemunitdir',
++                        pkgconfig_define: ['prefix', prefix])
++        endif
+ endif
+ 
+ qrtr_dep = dependency('qrtr')
+@@ -23,10 +27,12 @@ executable('tqftpserv',
+            dependencies : qrtr_dep,
+            install : true)
+ 
+-systemd_unit_conf = configuration_data()
+-systemd_unit_conf.set('prefix', prefix)
+-configure_file(
+-               input : 'tqftpserv.service.in',
+-               output : 'tqftpserv.service',
+-               configuration : systemd_unit_conf,
+-               install_dir : systemd_system_unit_dir)
++if systemd.found()
++        systemd_unit_conf = configuration_data()
++        systemd_unit_conf.set('prefix', prefix)
++        configure_file(
++                input : 'tqftpserv.service.in',
++                output : 'tqftpserv.service',
++                configuration : systemd_unit_conf,
++                install_dir : systemd_system_unit_dir)
++endif
+-- 
+2.43.2
+
