@@ -4,9 +4,9 @@
 # The group tag is just to easily find this APKBUILD by some scripts for automation
 # group=kde-other
 pkgname=plasma-wayland-protocols
-pkgver=9999_git20240130
+pkgver=9999_git20240423
 pkgrel=0
-_commit="b3c18264c789871c6c769baa6123221bece5ef24"
+_commit="bb8df19db98dba1596ee533fe0575d662ecfb86c"
 pkgdesc="Plasma Specific Protocols for Wayland"
 # armhf blocked by extra-cmake-modules
 arch="noarch !armhf"
@@ -18,7 +18,7 @@ makedepends="
 	samurai
 	"
 _repo_url="https://invent.kde.org/libraries/plasma-wayland-protocols.git"
-source="https://nightly.postmarketos.org/plasma-mobile/sources/2024-04-24/plasma-wayland-protocols-$_commit.tar.xz"
+source="https://nightly.postmarketos.org/plasma-mobile/sources/2024-04-30/plasma-wayland-protocols-$_commit.tar.xz"
 options="!check" # No tests
 
 options="!check"
@@ -37,5 +37,5 @@ package() {
 }
 
 sha512sums="
-d75647899ec3ef835c07acd53401f7534e3a5bac6ffd629e04fbae3f694496f93cf01055a24754f2d2cae8ca6f6632b82ccf507a1cf6f9bfc40c570daee369c1  plasma-wayland-protocols-b3c18264c789871c6c769baa6123221bece5ef24.tar.xz
+ac1a0f980652287fd5b881ad2678b354d4702d1641ae5b85ac852ebaca5a64325cfb85938239385ba65c56ce99510f859bba057b7af8d9a7f742ad99089fd1e1  plasma-wayland-protocols-bb8df19db98dba1596ee533fe0575d662ecfb86c.tar.xz
 "

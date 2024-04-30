@@ -4,9 +4,9 @@
 # The group tag is just to easily find this APKBUILD by some scripts for automation
 # group=kde-frameworks
 pkgname=kxmlgui
-pkgver=9999_git20240417
+pkgver=9999_git20240423
 pkgrel=0
-_commit="6dba725baade6a40cab0b97aaf6a5a763796a617"
+_commit="1f26bd928e4e0dc5d9b1892c73d1dbde8db8f369"
 pkgdesc="User configurable main windows"
 # armhf blocked by extra-cmake-modules
 arch="all !armhf"
@@ -36,7 +36,7 @@ checkdepends="
 	xvfb-run
 	"
 _repo_url="https://invent.kde.org/frameworks/kxmlgui.git"
-source="https://nightly.postmarketos.org/plasma-mobile/sources/2024-04-24/kxmlgui-$_commit.tar.xz"
+source="https://nightly.postmarketos.org/plasma-mobile/sources/2024-04-30/kxmlgui-$_commit.tar.xz"
 subpackages="$pkgname-dev $pkgname-doc $pkgname-lang"
 
 options="!check"
@@ -61,5 +61,5 @@ package() {
 }
 
 sha512sums="
-7255661e43ca72e321932a552199e20c1dfe1f3f6f8217fc1039b7e6c38b311fb7828a629bb8cd533a9dcf7cd6b337e5417ad0f028e10c404025e35fd4331f1e  kxmlgui-6dba725baade6a40cab0b97aaf6a5a763796a617.tar.xz
+49f5c38c292f54b1b3287910ef74f197a6911dc220bc7598b16ee13ee77de7ca9163e6d5798f17b4785143cddf799b6376ac4bd85652c8faffd5cb29f08f5370  kxmlgui-1f26bd928e4e0dc5d9b1892c73d1dbde8db8f369.tar.xz
 "

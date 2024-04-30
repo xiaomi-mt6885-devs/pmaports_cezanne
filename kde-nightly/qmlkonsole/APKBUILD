@@ -4,9 +4,9 @@
 # The group tag is just to easily find this APKBUILD by some scripts for automation
 # group=kde-applications
 pkgname=qmlkonsole
-pkgver=9999_git20240410
+pkgver=9999_git20240423
 pkgrel=0
-_commit="0f22fad69745f31c38e5632e013a863e1a8fa9fa"
+_commit="9ee652e2ea0b29e98c7861933449983b48dbe83d"
 pkgdesc="Terminal app for Plasma Mobile"
 # armhf blocked by extra-cmake-modules
 arch="all !armhf"
@@ -30,7 +30,7 @@ makedepends="
 	"
 subpackages="$pkgname-lang"
 _repo_url="https://invent.kde.org/plasma-mobile/qmlkonsole.git"
-source="https://nightly.postmarketos.org/plasma-mobile/sources/2024-04-24/qmlkonsole-$_commit.tar.xz"
+source="https://nightly.postmarketos.org/plasma-mobile/sources/2024-04-30/qmlkonsole-$_commit.tar.xz"
 options="!check" # No tests
 
 options="!check"
@@ -49,5 +49,5 @@ package() {
 }
 
 sha512sums="
-ecfefafced4505c5d5bdc8810234456494cc14ae0a658ad2f10a56655fd72a6e82c6c9fadf8d737751049757f364c2ccde211d1e7a6cf6bb31deed150e8aaf0f  qmlkonsole-0f22fad69745f31c38e5632e013a863e1a8fa9fa.tar.xz
+0ec4e7bc5a81380d1598f713329ded467af6e5534d34d4b6210dbab496b487d319bda03d02762651aa46a51d0c9ff81a23936b8321226887bda49bcaf0fc92a3  qmlkonsole-9ee652e2ea0b29e98c7861933449983b48dbe83d.tar.xz
 "

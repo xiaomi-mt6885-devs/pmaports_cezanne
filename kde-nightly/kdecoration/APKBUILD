@@ -4,9 +4,9 @@
 # The group tag is just to easily find this APKBUILD by some scripts for automation
 # group=kde-plasma
 pkgname=kdecoration
-pkgver=9999_git20240416
+pkgver=9999_git20240424
 pkgrel=0
-_commit="d702cd562e4252ae2627b13e06a557e3cac8e065"
+_commit="a5c42cb5093f463e81084a3285d23a5bf23ec991"
 pkgdesc="Plugin based library to create window decorations"
 arch="all !armhf"
 url="https://kde.org/plasma-desktop/"
@@ -27,7 +27,7 @@ case "$pkgver" in
 	*) _rel=stable;;
 esac
 _repo_url="https://invent.kde.org/plasma/kdecoration.git"
-source="https://nightly.postmarketos.org/plasma-mobile/sources/2024-04-24/kdecoration-$_commit.tar.xz"
+source="https://nightly.postmarketos.org/plasma-mobile/sources/2024-04-30/kdecoration-$_commit.tar.xz"
 subpackages="$pkgname-dev $pkgname-lang"
 
 options="!check"
@@ -50,5 +50,5 @@ package() {
 }
 
 sha512sums="
-008d268aefd2efc0bb0c64f95d41994143e644cbfd2672e739efa4f967c5588625416fd733451e229dab181ec5a0b9e90ca6c1f327b6315c65bf6638369ef69d  kdecoration-d702cd562e4252ae2627b13e06a557e3cac8e065.tar.xz
+2900089ad1a6971ffdfab8ac498a22261fcb6cdcefbb0d6a1f2b2aa29729c68d6241333c9e691ef4fef93a3e359dd266c489bb7eddd0774a767ab73a82da660e  kdecoration-a5c42cb5093f463e81084a3285d23a5bf23ec991.tar.xz
 "

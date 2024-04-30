@@ -4,9 +4,9 @@
 # The group tag is just to easily find this APKBUILD by some scripts for automation
 # group=kde-applications
 pkgname=skanlite
-pkgver=9999_git20240416
+pkgver=9999_git20240429
 pkgrel=0
-_commit="4110f77db45d1aaafda39dd1e64128ea60502da2"
+_commit="6c27abf6086d60b3a74f16879da46c7762702e42"
 # armhf blocked by extra-cmake-modules
 arch="all !armhf"
 url="https://kde.org/applications/graphics/skanlite"
@@ -25,7 +25,7 @@ makedepends="
 	"
 checkdepends="xvfb-run"
 _repo_url="https://invent.kde.org/graphics/skanlite.git"
-source="https://nightly.postmarketos.org/plasma-mobile/sources/2024-04-24/skanlite-$_commit.tar.xz"
+source="https://nightly.postmarketos.org/plasma-mobile/sources/2024-04-30/skanlite-$_commit.tar.xz"
 subpackages="$pkgname-doc $pkgname-lang"
 
 options="!check"
@@ -48,5 +48,5 @@ package() {
 }
 
 sha512sums="
-a9108c81c7a9f4e016ed6b4b24ab9b9279e5d5b4ad8cec30db3dc205f7d64661853a51cf4d3f723eb12b8fb19fabc9b29bfe40c79a84a984b8cd2981efabae29  skanlite-4110f77db45d1aaafda39dd1e64128ea60502da2.tar.xz
+10848387189315397e022a6964fa4a409bf87f32276323787e9076ae968d46d85600a5adbe10d620ed5e708ad55be287e6ed3e3365aff91b958a27b2babdb769  skanlite-6c27abf6086d60b3a74f16879da46c7762702e42.tar.xz
 "

@@ -4,9 +4,9 @@
 # The group tag is just to easily find this APKBUILD by some scripts for automation
 # group=kde-applications
 pkgname=kdeedu-data
-pkgver=9999_git20231207
+pkgver=9999_git20240423
 pkgrel=0
-_commit="5b752e68c8da06e4f2b2a4c9080fc6351ec9612c"
+_commit="a32cea9a28e6fac36b5091b5dfd80788afb6ed97"
 # armhf blocked by extra-cmake-modules
 arch="noarch !armhf"
 url="https://kde.org/applications/education"
@@ -18,7 +18,7 @@ makedepends="
 	samurai
 	"
 _repo_url="https://invent.kde.org/education/kdeedu-data.git"
-source="https://nightly.postmarketos.org/plasma-mobile/sources/2024-04-24/kdeedu-data-$_commit.tar.xz"
+source="https://nightly.postmarketos.org/plasma-mobile/sources/2024-04-30/kdeedu-data-$_commit.tar.xz"
 options="!check" # No code to test"
 
 options="!check"
@@ -37,5 +37,5 @@ package() {
 }
 
 sha512sums="
-9772d936ff97af8405cd5d9452033306141e8ae5d1dc7aa64470cbaa5c7cfcbb3f446d1f5214a6dfdf69b68e0bf1956077924d2c0c680363accbb937dae13ec5  kdeedu-data-5b752e68c8da06e4f2b2a4c9080fc6351ec9612c.tar.xz
+54f22826748b22ba6c03e64609e6363bf6d4637aa9119716f314c9b90a85aa7ee8e724d1a49514eec6f1d8c9a8412251faeabeedd3589ae757af9506fd007696  kdeedu-data-a32cea9a28e6fac36b5091b5dfd80788afb6ed97.tar.xz
 "

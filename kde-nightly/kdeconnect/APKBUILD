@@ -4,9 +4,9 @@
 # The group tag is just to easily find this APKBUILD by some scripts for automation
 # group=kde-applications
 pkgname=kdeconnect
-pkgver=9999_git20240417
+pkgver=9999_git20240428
 pkgrel=0
-_commit="52e64e32b19bd26d8203c45fd6000fbf694e622f"
+_commit="2716a7a2e6583ead4cc4e9a9a9efb831dd7b28e7"
 pkgdesc="Adds communication between KDE and your smartphone"
 url="https://community.kde.org/KDEConnect"
 # armhf blocked by extra-cmake-modules
@@ -28,7 +28,7 @@ makedepends="
 	kirigami-addons-dev
 	kirigami-dev
 	knotifications-dev
-	kpeople-dev	
+	kpeople-dev
 	kservice-dev
 	kstatusnotifieritem-dev
 	kwayland-dev
@@ -44,9 +44,9 @@ makedepends="
 	samurai
 	"
 checkdepends="xvfb-run"
-subpackages="$pkgname-doc $pkgname-lang $pkgname-nftables"
+subpackages="$pkgname-doc $pkgname-lang $pkgname-nftables::noarch $pkgname-zsh-completion"
 _repo_url="https://invent.kde.org/network/kdeconnect-kde.git"
-source="https://nightly.postmarketos.org/plasma-mobile/sources/2024-04-24/kdeconnect-kde-$_commit.tar.xz
+source="https://nightly.postmarketos.org/plasma-mobile/sources/2024-04-30/kdeconnect-kde-$_commit.tar.xz
 	60_kdeconnect.nft
 	"
 builddir="$srcdir/$pkgname-kde-$pkgver"
@@ -67,7 +67,7 @@ build() {
 	cmake --build build
 }
 
-check() {	
+check() {
 	# testsslsocketlinereader, testnotificationlistener and sendfiletest are broken
 	xvfb-run ctest --test-dir build --output-on-failure -E "testsslsocketlinereader|testnotificationlistener|sendfiletest"
 }
@@ -84,6 +84,6 @@ nftables() {
 }
 
 sha512sums="
-7bfa04aaf1cbe00bb8edb2ae962d3fd8e9b7f3fdd4a99863d079b2d7b4d8a45680fc5b62a98889cd578a696bbb1475be316b5d51df641af92403efdffb4fed80  kdeconnect-kde-52e64e32b19bd26d8203c45fd6000fbf694e622f.tar.xz
+e8c26392cb65f8fe51bcbe466d7155ec786579d1c1c79f740d739d3e6336e91fb5883c0831ed1df5f13bfac5edf378000c3ba45ccc592d31ea587a73fc68e77d  kdeconnect-kde-2716a7a2e6583ead4cc4e9a9a9efb831dd7b28e7.tar.xz
 0ccc2cb0ffd3892698b45bcf723cfdd23ad98f0e2b0436cd0a91d9ed13c6992853e2c4092ee8a0edc6216f1f262151e99e344b8f16c52237e9ff8de62fd37cae  60_kdeconnect.nft
 "

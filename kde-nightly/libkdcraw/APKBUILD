@@ -4,9 +4,9 @@
 # The group tag is just to easily find this APKBUILD by some scripts for automation
 # group=kde-applications
 pkgname=libkdcraw
-pkgver=9999_git20231123
+pkgver=9999_git20240423
 pkgrel=0
-_commit="096520fd81d8068b8d6cc17beb085021826e0946"
+_commit="615c43c3311b9e008bb2a522120561cef9bee53e"
 # armhf blocked by extra-cmake-modules
 arch="all !armhf"
 url="https://kde.org"
@@ -21,7 +21,7 @@ makedepends="$depends_dev
 	samurai
 	"
 _repo_url="https://invent.kde.org/graphics/libkdcraw.git"
-source="https://nightly.postmarketos.org/plasma-mobile/sources/2024-04-24/libkdcraw-$_commit.tar.xz"
+source="https://nightly.postmarketos.org/plasma-mobile/sources/2024-04-30/libkdcraw-$_commit.tar.xz"
 subpackages="$pkgname-dev"
 
 options="!check"
@@ -44,5 +44,5 @@ package() {
 }
 
 sha512sums="
-05a2447fc8d7e459f44d7b460347365ec1e982369ac5fea197e5087a1597f23394ccff643d4c93399e2618702cd2a874d13df90a134c273cd9429253a29df535  libkdcraw-096520fd81d8068b8d6cc17beb085021826e0946.tar.xz
+81818fe074de712530d0fdc423a487d9a9ea90012c1e15862e69aea98de197ef15075e3367af3533d6a7357fbfd2cf3389d9bab29df55b8d38886953e8405b6f  libkdcraw-615c43c3311b9e008bb2a522120561cef9bee53e.tar.xz
 "
