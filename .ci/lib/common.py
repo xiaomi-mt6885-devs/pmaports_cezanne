@@ -59,6 +59,11 @@ def get_upstream_branch():
         channels.cfg from master to retrieve the upstream branch.
 
         :returns: branch name, e.g. "v20.05" """
+
+    # Prefer gitlab CI target branch name if it's set (i.e. running in gitlab CI)
+    if target_branch := os.environ.get("CI_MERGE_REQUEST_TARGET_BRANCH_NAME"):
+        return target_branch
+
     global cache
     if "upstream_branch" in cache:
         return cache["upstream_branch"]
