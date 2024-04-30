@@ -1,6 +1,6 @@
 # Maintainer: Clayton Craft <clayton@craftyguy.net>
 pkgname=postmarketos-base-ui
-pkgver=20
+pkgver=21
 pkgrel=0
 pkgdesc="Meta package for minimal postmarketOS UI base"
 url="https://postmarketos.org"
@@ -20,6 +20,8 @@ depends="
 	wireless-regdb
 	"
 subpackages="
+	$pkgname-audio-pipewire:_audio_pipewire
+	$pkgname-audio-pulseaudio:_audio_pulseaudio
 	$pkgname-bluez
 	$pkgname-bluez-obexd:_obexd
 	$pkgname-elogind
@@ -223,6 +225,24 @@ iwd() {
 	provider_priority=90
 
 	amove usr/lib/NetworkManager/conf.d/50-iwd.conf
+}
+
+_audio_pipewire() {
+	pkgdesc="Use pipewire as the audio backend. (but may not work with all devices)"
+	depends="pipewire pipewire-alsa pipewire-pulse wireplumber"
+	provides="postmarketos-base-ui-audio=$pkgver-r$pkgrel"
+	provider_priority=90
+
+	mkdir "$subpkgdir"
+}
+
+_audio_pulseaudio() {
+	pkgdesc="Use pulseaudio as the audio backend."
+	depends="alsa-plugins-pulse pulseaudio pulseaudio-alsa"
+	provides="postmarketos-base-ui-audio=$pkgver-r$pkgrel"
+	provider_priority=100
+
+	mkdir "$subpkgdir"
 }
 
 flatpak() {
