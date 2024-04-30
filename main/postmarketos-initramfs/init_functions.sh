@@ -312,13 +312,13 @@ get_partition_type() {
 # /sysroot/boot (rw), after root has been mounted at /sysroot, so we can
 # switch_root to /sysroot and have the boot partition properly mounted.
 mount_boot_partition() {
-	partition=$(find_boot_partition)
+	partition="$(find_boot_partition)"
+	local mount_opts="-o nodev,nosuid,noexec"
 
 	if [ "$2" = "rw" ]; then
-		mount_opts=""
 		echo "Mount boot partition ($partition) to $1 (read-write)"
 	else
-		mount_opts="-o ro"
+		mount_opts="$mount_opts,ro"
 		echo "Mount boot partition ($partition) to $1 (read-only)"
 	fi
 
@@ -333,7 +333,7 @@ mount_boot_partition() {
 		vfat)
 			echo "Detected vfat filesystem"
 			modprobe vfat
-			mount_opts="-t vfat $mount_opts"
+			mount_opts="-t vfat $mount_opts,umask=0077,nosymfollow"
 			;;
 		*)	echo "WARNING: Detected unsupported '$type' filesystem ($partition)." ;;
 	esac
