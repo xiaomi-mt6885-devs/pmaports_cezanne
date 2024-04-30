@@ -1,7 +1,7 @@
 # Maintainer: Clayton Craft <clayton@craftyguy.net>
 pkgname=postmarketos-base-ui
 pkgver=21
-pkgrel=0
+pkgrel=1
 pkgdesc="Meta package for minimal postmarketOS UI base"
 url="https://postmarketos.org"
 arch="noarch"
@@ -122,7 +122,7 @@ bluez() {
 elogind() {
 	install_if="$pkgname=$pkgver-r$pkgrel elogind"
 	depends="sleep-inhibitor"
-	install="$subpkgname.pre-upgrade $subpkgname.post-install"
+	install="$subpkgname.post-install"
 	replaces="
 		elogind
 		sleep-inhibitor
