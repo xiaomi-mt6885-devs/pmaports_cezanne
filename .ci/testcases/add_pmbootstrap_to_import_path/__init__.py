@@ -34,7 +34,7 @@ def path_pmbootstrap():
             return directory
 
     # Symlink not set up properly
-    print("ERROR: 'pmbootstrap' is not a symlink to pmbootstrap.py")
+    print("ERROR: unable to find path to pmbootstrap.py. Try setting 'PMBOOTSTRAP_CMD'.")
     sys.exit(1)
 
 
