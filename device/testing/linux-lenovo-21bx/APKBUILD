@@ -1,9 +1,9 @@
 # Maintainer: Konrad Dybcio <konradybcio@kernel.org>
 # Co-Maintainer: Clayton Craft <clayton@craftyguy.net>
 pkgname=linux-lenovo-21bx
-pkgver=6.8
+pkgver=6.9_rc6
 pkgrel=0
-_commit="935f2e13e13d2dcfb923d3b0881c905861a7a9ce"
+_commit="45be9698f7ddf9d3f0596ef1081b7f2d359931b0"
 pkgdesc="Lenovo ThinkPad X13s kernel fork"
 arch="aarch64"
 _carch="arm64"
@@ -33,8 +33,6 @@ _config="config-$_flavor.$arch"
 source="
 	$pkgname-$_commit.tar.gz::https://github.com/jhovold/$_repository/archive/$_commit.tar.gz
 	$_config
-	0001-drm-panel-edp-Add-timings-for-BOE-NV133WUM-N63.patch
-	0001-Revert-Bluetooth-hci_qca-Set-BDA-quirk-bit-if-fwnode.patch
 "
 builddir="$srcdir/linux-$_commit"
 _outdir="out"
@@ -65,8 +63,6 @@ package() {
 }
 
 sha512sums="
-1df1bb75597376aacf7edc80e47f7c06c6aa5b4cc1da1fc1ca62ecc1be6a3c59a17a5034a8391e5c9e60443cd353be6e8ca7487df141263404e15877bcba3c60  linux-lenovo-21bx-935f2e13e13d2dcfb923d3b0881c905861a7a9ce.tar.gz
-908fb5923c3d191dd3137d69e249c649b070cf25375134f921d8bf46c335e8b43942785ba59b9083e45103a957ba5897906e35f936ee6980cc21dbfb42bc3c9d  config-lenovo-21bx.aarch64
-fac2fc6cd033c30d1abea6ac77c173945f77e7c3db9e547b6e2a68969e731d4d69f6093fbc3a0b7068dddffe224692edb7175a953bc28f9449b8018c91835d31  0001-drm-panel-edp-Add-timings-for-BOE-NV133WUM-N63.patch
-24d29ebf94650ba70af133f67d0f9e3c64265d051e14797d4c712f96c213cabf3c8035a788b9c2ae1f9351ed61910ff302908ff51dfbb4b26fa944b861aa7838  0001-Revert-Bluetooth-hci_qca-Set-BDA-quirk-bit-if-fwnode.patch
+d2daa2b71f6577c4577174129b538eaba3bc75b13868df171a4125694447a892d485b979f2ee45ba7b9021f22c36856949c8653a8817d19a16089701932a7b26  linux-lenovo-21bx-45be9698f7ddf9d3f0596ef1081b7f2d359931b0.tar.gz
+7efc32b808fb69cf309f6b99bb0fea3f2ef0168910f59b5b974a18faaa1a9bc3ac0ca706395f69c7b2c9e04cf09716a8ce2bc5f71fd93119673006d81eeec3b8  config-lenovo-21bx.aarch64
 "
