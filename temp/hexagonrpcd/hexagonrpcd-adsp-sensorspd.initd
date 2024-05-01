@@ -5,6 +5,5 @@ name="Hexagonrpcd ADSP SensorPD"
 description="Daemon to support Qualcomm Hexagon ADSP virtual filesystem for SensorPD"
 
 command=/usr/bin/hexagonrpcd
-command_args="-f /dev/fastrpc-adsp -s ${command_args}"
-# run fasdtrpcd as root for now
+command_args="-f /dev/fastrpc-adsp -d adsp -s ${command_args}"
 # command_user=fastrpc:fastrpc
