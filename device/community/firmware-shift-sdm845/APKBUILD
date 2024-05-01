@@ -35,8 +35,8 @@ package() {
 	done < "$srcdir/firmware.files"
 
 	# Install symlinks for using upstream firmware
-	ln -s "$pkgdir/lib/firmware/qcom/sdm845/axolotl/mba.mbn" "$pkgdir/lib/firmware/qcom/sdm845/mba.mbn"
-	ln -s "$pkgdir/lib/firmware/qcom/sdm845/axolotl/wlanmdsp.mbn" "$pkgdir/lib/firmware/ath10k/WCN3990/hw1.0/wlanmdsp.mbn"
+	ln -s "$pkgdir/lib/firmware/qcom/sdm845/mba.mbn" "$pkgdir/lib/firmware/qcom/sdm845/axolotl/mba.mbn"
+	ln -s "$pkgdir/lib/firmware/ath10k/WCN3990/hw1.0/wlanmdsp.mbn" "$pkgdir/lib/firmware/qcom/sdm845/axolotl/wlanmdsp.mbn"
 }
 
 pmtest() {
