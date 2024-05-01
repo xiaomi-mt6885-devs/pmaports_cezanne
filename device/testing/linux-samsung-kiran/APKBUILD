@@ -3,7 +3,7 @@
 
 pkgname=linux-samsung-kiran
 pkgver=3.10.17
-pkgrel=0
+pkgrel=1
 pkgdesc="Samsung Z1 kernel fork"
 arch="armv7"
 _carch="arm"
@@ -22,7 +22,7 @@ makedepends="
 	linux-headers
 	dtbtool-sprd
 	findutils
-	busybox-static-armv7
+	busybox-static
 	tizen-mkdzimage
 "
 # Source

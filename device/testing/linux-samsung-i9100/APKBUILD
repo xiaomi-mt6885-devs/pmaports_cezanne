@@ -3,7 +3,7 @@
 
 pkgname=linux-samsung-i9100
 pkgver=3.0.101
-pkgrel=18
+pkgrel=19
 pkgdesc="Samsung Galaxy SII kernel fork"
 arch="armv7"
 _carch="arm"
@@ -12,7 +12,7 @@ url="https://kernel.org"
 license="GPL-2.0-only"
 options="!strip !check !tracedeps pmb:cross-native"
 makedepends="perl sed installkernel bash gmp-dev bc linux-headers elfutils-dev devicepkg-dev
-	findutils busybox-static-armv7"
+	findutils busybox-static"
 
 # Source
 _repository="android_kernel_samsung_smdk4412"

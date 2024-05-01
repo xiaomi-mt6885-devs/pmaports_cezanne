@@ -4,7 +4,7 @@
 
 pkgname=linux-samsung-janice-downstream
 pkgver=3.0.101
-pkgrel=0
+pkgrel=1
 pkgdesc="Samsung Galaxy S Advance kernel from Epirex"
 arch="armhf"
 _carch="arm"
@@ -12,7 +12,7 @@ _flavor="samsung-janice"
 url="https://github.com/Epirex/Samsung_STE_Kernel"
 license="GPL2"
 options="!strip !check !tracedeps pmb:cross-native"
-makedepends="perl sed installkernel bash gmp-dev bc linux-headers elfutils-dev devicepkg-dev busybox-static-armhf gcc6"
+makedepends="perl sed installkernel bash gmp-dev bc linux-headers elfutils-dev devicepkg-dev busybox-static gcc6"
 
 # Compiler: this kernel was only tested with GCC6. Feel free to make a merge
 # request if you find out that it is booting working with newer GCCs as

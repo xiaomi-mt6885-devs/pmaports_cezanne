@@ -4,7 +4,7 @@
 
 pkgname=linux-postmarketos-exynos4
 pkgver=6.7.6
-pkgrel=2
+pkgrel=3
 pkgdesc="Mainline kernel fork for Samsung Exynos4 devices"
 arch="armv7"
 _carch="arm"
@@ -18,7 +18,7 @@ options="!strip !check !tracedeps
 makedepends="
 	bash
 	bison
-	busybox-static-armv7
+	busybox-static
 	findutils
 	flex
 	gmp-dev
