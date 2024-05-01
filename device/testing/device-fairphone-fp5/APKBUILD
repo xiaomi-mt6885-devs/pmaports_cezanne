@@ -3,34 +3,35 @@
 pkgname=device-fairphone-fp5
 pkgdesc="Fairphone 5"
 pkgver=3
-pkgrel=1
+pkgrel=2
 url="https://postmarketos.org"
 license="MIT"
 arch="aarch64"
 options="!check !archcheck"
 depends="
-	bootmac
+	firmware-fairphone-fp5-adreno
+	firmware-fairphone-fp5-adsp
+	firmware-fairphone-fp5-bluetooth
+	firmware-fairphone-fp5-cdsp
+	firmware-fairphone-fp5-ipa
+	firmware-fairphone-fp5-modem
+	firmware-fairphone-fp5-venus
+	firmware-fairphone-fp5-wpss
+	firmware-qcom-adreno-a660
 	linux-postmarketos-qcom-sc7280
 	make-dynpart-mappings
-	mesa-vulkan-freedreno
 	mkbootimg
 	postmarketos-base
-	qbootctl
-	qbootctl-openrc
-	swclock-offset
+	soc-qcom-sc7280
+	soc-qcom-sc7280-qbootctl
 "
 makedepends="devicepkg-dev"
-install="$pkgname.post-install $pkgname.post-upgrade"
 source="
 	deviceinfo
 	modules-initfs
 	ucm/HiFi.conf
 	ucm/fp5.conf
 	"
-subpackages="
-	$pkgname-nonfree-firmware:nonfree_firmware
-	"
-
 build() {
 	devicepkg_build $startdir $pkgname
 }
@@ -45,28 +46,6 @@ package() {
 	mkdir -p "$pkgdir"/usr/share/alsa/ucm2/conf.d/sm8250
 	ln -s /usr/share/alsa/ucm2/Fairphone/fp5/fp5.conf \
 		"$pkgdir"/usr/share/alsa/ucm2/conf.d/sm8250/Fairphone\ 5.conf
-}
-
-nonfree_firmware() {
-	pkgdesc="Firmware for Modem, WiFi, etc."
-	depends="
-		firmware-fairphone-fp5-adreno
-		firmware-fairphone-fp5-adsp
-		firmware-fairphone-fp5-bluetooth
-		firmware-fairphone-fp5-cdsp
-		firmware-fairphone-fp5-ipa
-		firmware-fairphone-fp5-modem
-		firmware-fairphone-fp5-venus
-		firmware-fairphone-fp5-wpss
-		firmware-qcom-adreno-a660
-		linux-firmware-ath11k
-		msm-modem
-		msm-modem-uim-selection
-		pd-mapper
-		tqftpserv
-		"
-	install="$subpkgname.post-install"
-	mkdir "$subpkgdir"
 }
 
 sha512sums="
