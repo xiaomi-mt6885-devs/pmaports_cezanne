@@ -3,7 +3,7 @@
 
 pkgname=linux-samsung-i9100g
 pkgver=3.0.101
-pkgrel=0
+pkgrel=1
 pkgdesc="Samsung Galaxy SII (GT-I9100G) kernel fork"
 arch="armv7"
 _carch="arm"
@@ -20,7 +20,7 @@ makedepends="
 	openssl-dev
 	perl
 	findutils
-	busybox-static-armv7
+	busybox-static
 	xz
 "
 
