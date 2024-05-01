@@ -2,7 +2,7 @@
 # Co-Maintainer: Clayton Craft <clayton@craftyguy.net>
 pkgname=linux-lenovo-21bx
 pkgver=6.9_rc6
-pkgrel=0
+pkgrel=1
 _commit="45be9698f7ddf9d3f0596ef1081b7f2d359931b0"
 pkgdesc="Lenovo ThinkPad X13s kernel fork"
 arch="aarch64"
@@ -15,6 +15,7 @@ options="!strip
 	!tracedeps
 	pmb:cross-native
 	pmb:kconfigcheck-community
+	pmb:kconfigcheck-containers
 	pmb:kconfigcheck-uefi
 	"
 makedepends="
@@ -64,5 +65,5 @@ package() {
 
 sha512sums="
 d2daa2b71f6577c4577174129b538eaba3bc75b13868df171a4125694447a892d485b979f2ee45ba7b9021f22c36856949c8653a8817d19a16089701932a7b26  linux-lenovo-21bx-45be9698f7ddf9d3f0596ef1081b7f2d359931b0.tar.gz
-7efc32b808fb69cf309f6b99bb0fea3f2ef0168910f59b5b974a18faaa1a9bc3ac0ca706395f69c7b2c9e04cf09716a8ce2bc5f71fd93119673006d81eeec3b8  config-lenovo-21bx.aarch64
+8b3e8172a7924c9e4aa2f1466ceb82d6764b654113080425c0f1017f79e951be61de57097a2e3175a879c5111235770b307664154d47b605a23fba56df761ef4  config-lenovo-21bx.aarch64
 "
