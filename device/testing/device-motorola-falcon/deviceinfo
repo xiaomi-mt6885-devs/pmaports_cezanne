@@ -6,6 +6,8 @@ deviceinfo_name="Motorola Moto G (2013)"
 deviceinfo_manufacturer="Motorola"
 deviceinfo_codename="motorola-falcon"
 deviceinfo_year="2013"
+deviceinfo_dtb_mainline="msm8226-motorola-falcon"
+deviceinfo_append_dtb_mainline="true"
 deviceinfo_arch="armv7"
 
 # Device related
@@ -18,9 +20,10 @@ deviceinfo_dev_touchscreen="/dev/input/event2"
 
 # Bootloader related
 deviceinfo_flash_method="fastboot"
-deviceinfo_kernel_cmdline="androidboot.bootdevice=msm_sdcc.1 androidboot.hardware=qcom vmalloc=400M utags.blkdev=/dev/block/platform/msm_sdcc.1/by-name/utags buildvariant=userdebug"
+deviceinfo_kernel_cmdline_downstream="androidboot.bootdevice=msm_sdcc.1 androidboot.hardware=qcom vmalloc=400M utags.blkdev=/dev/block/platform/msm_sdcc.1/by-name/utags buildvariant=userdebug"
+deviceinfo_kernel_cmdline_mainline="clk_ignore_unused pd_ignore_unused"
 deviceinfo_generate_bootimg="true"
-deviceinfo_bootimg_qcdt="true"
+deviceinfo_bootimg_qcdt_downstream="true"
 deviceinfo_flash_offset_base="0x00000000"
 deviceinfo_flash_offset_kernel="0x00008000"
 deviceinfo_flash_offset_ramdisk="0x01000000"
