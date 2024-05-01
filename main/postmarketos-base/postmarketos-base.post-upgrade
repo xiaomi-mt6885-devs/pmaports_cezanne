@@ -43,6 +43,13 @@ ln -sf "$localtime" /etc/localtime
 rm -rf /etc/zoneinfo
 [ "$restart" = "yes" ] && service -qq openrc-settingsd restart
 
+# Fixup old pmOS /etc/fstab installations that had too little options,
+# had a wrong type for fat32 and fat16, and missed some options for vfat when
+# kernels did not use default configs. See pmb!2304
+# This should be safe to remove after some releases, probably v25.06
+sed -i -e "s% /boot \(fat32\|fat16\) defaults 0 0$% /boot vfat umask=0077,nodev,nosuid,noexec,nosymfollow,codepage=437,iocharset=iso8859-1 0 0%g" /etc/fstab
+sed -i -e "s% /boot ext2 defaults 0 0$% /boot ext2 nodev,nosuid,noexec 0 0%g" /etc/fstab
+
 # To turn zram-init into a no-op, set: deviceinfo_zram_swap_pct="0"
 rc-update -q add zram-init default
 # We once enabled tmpfs in default, when it needs bootmisc: pma#2473
