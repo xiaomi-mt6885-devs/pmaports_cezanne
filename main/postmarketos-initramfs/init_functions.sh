@@ -307,20 +307,10 @@ get_partition_type() {
 }
 
 # $1: path
-# $2: set to "rw" for read-write
-# Mount the boot partition. It gets mounted twice, first at /boot (ro), then at
-# /sysroot/boot (rw), after root has been mounted at /sysroot, so we can
-# switch_root to /sysroot and have the boot partition properly mounted.
+# Mount the boot partition.
 mount_boot_partition() {
 	partition=$(find_boot_partition)
-
-	if [ "$2" = "rw" ]; then
-		mount_opts=""
-		echo "Mount boot partition ($partition) to $1 (read-write)"
-	else
-		mount_opts="-o ro"
-		echo "Mount boot partition ($partition) to $1 (read-only)"
-	fi
+	mount_opts="-o ro"
 
 	type="$(get_partition_type "$partition")"
 	case "$type" in

@@ -78,15 +78,12 @@ unlock_root_partition
 resize_root_filesystem
 mount_root_partition
 
-# Mount boot partition into sysroot, so OpenRC doesn't need to do it (#664)
-umount /boot
-mount_boot_partition /sysroot/boot "rw"
-
 init="/sbin/init"
 setup_bootchart2
 
 # Switch root
 killall telnetd mdev udevd msm-fb-refresher 2>/dev/null
+umount /boot
 
 # shellcheck disable=SC2093
 exec switch_root /sysroot "$init"
