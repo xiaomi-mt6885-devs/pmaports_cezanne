@@ -3,13 +3,24 @@
 # Co-Maintainer: Danct12 <danct12@disroot.org>
 pkgname=device-nokia-n900
 pkgver=24
-pkgrel=0
+pkgrel=1
 pkgdesc="Nokia N900"
 url="https://postmarketos.org"
 arch="armv7"
 license="MIT"
-depends="postmarketos-base linux-postmarketos-omap u-boot-tools kbd kbd-bkeymaps
-	ofono alsa-utils linux-firmware-ti-connectivity wl1251-cal wl1251-cal-openrc"
+depends="
+	alsa-utils
+	kbd
+	kbd-bkeymaps
+	linux-firmware-ti-connectivity
+	linux-postmarketos-omap
+	ofono
+	postmarketos-base
+	postmarketos-mvcfg
+	u-boot-tools
+	wl1251-cal
+	wl1251-cal-openrc
+"
 makedepends="devicepkg-dev u-boot-tools kbd kbd-bkeymaps"
 install="$pkgname.pre-upgrade $pkgname.post-install"
 subpackages="
