@@ -10,8 +10,8 @@
 # boot failure
 
 pkgname=linux-postmarketos-rockchip
-pkgver=6.2
-pkgrel=13
+pkgver=6.8
+pkgrel=0
 pkgdesc="Mainline kernel for rockchip devices"
 arch="aarch64"
 _carch="arm64"
@@ -81,6 +81,6 @@ package() {
 }
 
 sha512sums="
-a01bee0b968b95183934fe3504516be7ef5811944a061f5aed05ecebaa27b5eb64e33232fd0a8dd622b3c8743bfe462ef7e464d381734d111a0ad6a6d9f66ddd  linux-6.2.tar.xz
-7a8b7cea1a021ed32780d8b59946a19d07e99ecd01efc79eea99bc4fead3f99779d4d7588a2fdebb9946eef21ead263d0e96770fe6a32c08af86dbdac18740ce  config-postmarketos-rockchip.aarch64
+5c4eb4aa1d3f7d1ea01c0f7ddeadacdece6e144fd4bdfc16b2b925d3e10dc04de3a6db69320b79a96c3560052616f001d2c09e7a1bb4f7b731e2380a7ecce068  linux-6.8.tar.xz
+01788906246058368bfc5d701e4df01d452309703b68154a59db0d2206b893e240437d41d04739b3d3156b16ca682e7436b656e9a553ba2e3d5c5ca448dce156  config-postmarketos-rockchip.aarch64
 "
