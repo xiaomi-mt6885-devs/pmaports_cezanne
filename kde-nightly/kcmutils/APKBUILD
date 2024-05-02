@@ -4,9 +4,9 @@
 # The group tag is just to easily find this APKBUILD by some scripts for automation
 # group=kde-frameworks
 pkgname=kcmutils
-pkgver=9999_git20240429
+pkgver=9999_git20240501
 pkgrel=0
-_commit="cffb0fea341a384f94eb84e3db00da03f4161087"
+_commit="642b63f0962fa828b8bfc957c3991a068e826a99"
 pkgdesc="Utilities for interacting with KCModules"
 # armhf blocked by extra-cmake-modules
 arch="all !armhf"
@@ -30,7 +30,7 @@ makedepends="$depends_dev
 	"
 checkdepends="xvfb-run"
 _repo_url="https://invent.kde.org/frameworks/kcmutils.git"
-source="https://nightly.postmarketos.org/plasma-mobile/sources/2024-04-30/kcmutils-$_commit.tar.xz"
+source="https://nightly.postmarketos.org/plasma-mobile/sources/2024-05-01/kcmutils-$_commit.tar.xz"
 subpackages="$pkgname-dev $pkgname-doc $pkgname-lang"
 
 options="!check"
@@ -54,5 +54,5 @@ package() {
 }
 
 sha512sums="
-f6dec43ec16ad1bc16436f0d6235d9fb8180fa8307ee64bbd00ac9edd62d252130dacca7181c476ca869d8a7b75b222b25155b25a018d0174097b8f219947ad2  kcmutils-cffb0fea341a384f94eb84e3db00da03f4161087.tar.xz
+8358244bf1f26d55e070b73eecd704ae56d40bd1c487e849ef676d5a964a7c0e0463770410945aa051b903f9ee68177f699804b205dde165164ef7bb173d7f0c  kcmutils-642b63f0962fa828b8bfc957c3991a068e826a99.tar.xz
 "
