@@ -10,14 +10,15 @@ deviceinfo_year="1999"
 deviceinfo_arch="x86_64"
 
 # Device related
-deviceinfo_chassis="tablet"
-deviceinfo_keyboard="false"
+# 'desktop' type (which would include laptops) is probably the most common for
+# this generic device
+deviceinfo_chassis="desktop"
 deviceinfo_external_storage="true"
 deviceinfo_gpu_accelerated="true"
 
 # Bootloader related
 deviceinfo_flash_method="none"
-deviceinfo_kernel_cmdline="PMOS_FORCE_PARTITION_RESIZE"
+deviceinfo_kernel_cmdline="PMOS_FORCE_PARTITION_RESIZE quiet"
 deviceinfo_partition_type="gpt"
 deviceinfo_boot_filesystem="fat32"
 deviceinfo_generate_systemd_boot="true"
