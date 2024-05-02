@@ -1,12 +1,13 @@
 pkgname=firmware-samsung-kminilte
 pkgver=1
-pkgrel=1
+pkgrel=2
 pkgdesc="Samsung Galaxy S5 Mini firmware"
 url="https://github.com/Spookcity/android_vendor_samsung_kminilte"
 arch="armv7"
 license="proprietary"
 options="!check !strip !archcheck !spdx !tracedeps pmb:cross-native"
 install="$pkgname.post-install"
+subpackages="$pkgname-wpa_supplicant:_wpa_supplicant"
 
 _repository="android_vendor_samsung_kminilte"
 _commit="987649e9667dd11bb2a2b5ec7a5f23c9037adcf5"
@@ -31,6 +32,13 @@ package() {
 		_filename=$(basename $_f)
 		install -Dm644 $_f "$pkgdir"/lib/firmware/postmarketos/$_filename
 	done
+}
+
+_wpa_supplicant() {
+	install_if="$pkgname=$pkgver-r$pkgrel wpa_supplicant"
+	# note: the real purpose of this subpackage is modify wpa_supplicant config
+	# in it's .post-install script
+	mkdir -p "$subpkgdir"
 }
 
 sha512sums="
