@@ -4,9 +4,9 @@
 # The group tag is just to easily find this APKBUILD by some scripts for automation
 # group=kde-applications
 pkgname=kolourpaint
-pkgver=9999_git20240430
+pkgver=9999_git20240503
 pkgrel=0
-_commit="cfc0f777cf0259b944a01ee5f3de25f3dfb4dd9b"
+_commit="f6227a2cd87763015328ff9aaf2a9c70c6b59c07"
 # armhf blocked by extra-cmake-modules
 arch="all !armhf"
 url="http://www.kolourpaint.org/"
@@ -29,7 +29,7 @@ makedepends="
 	samurai
 	"
 _repo_url="https://invent.kde.org/graphics/kolourpaint.git"
-source="https://nightly.postmarketos.org/plasma-mobile/sources/2024-05-02/kolourpaint-$_commit.tar.xz"
+source="https://nightly.postmarketos.org/plasma-mobile/sources/2024-05-03/kolourpaint-$_commit.tar.xz"
 subpackages="$pkgname-doc $pkgname-lang"
 
 options="!check"
@@ -52,5 +52,5 @@ package() {
 }
 
 sha512sums="
-cf9e2e26a45a79ee45353c22a330709a1585449f1267196e33718823cd7e22987ed95ae768ddf9fd5a0caad00c4b30ddea3d993ba6fd0fa604a73d491922f5fb  kolourpaint-cfc0f777cf0259b944a01ee5f3de25f3dfb4dd9b.tar.xz
+30098367174b0b0afc251bb2dbc13e42f10c8c6f7a47941d627dbb81fcee01eaecade37895ad55f71c11f67a1c755cf555a7c04b544959605bf2d6d1d1c45e51  kolourpaint-f6227a2cd87763015328ff9aaf2a9c70c6b59c07.tar.xz
 "

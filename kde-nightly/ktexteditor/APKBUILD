@@ -6,7 +6,7 @@
 pkgname=ktexteditor
 pkgver=9999_git20240502
 pkgrel=0
-_commit="52989fbf95dbb1d52b75c6664558703198b547b6"
+_commit="f621c2e560f75dc1d1d1e9bbd5d8f3816479ef89"
 pkgdesc="Advanced embeddable text editor"
 # armhf blocked by extra-cmake-modules
 arch="all !armhf"
@@ -33,7 +33,7 @@ makedepends="$depends_dev
 checkdepends="xvfb-run"
 options="!check" # fail on builders
 _repo_url="https://invent.kde.org/frameworks/ktexteditor.git"
-source="https://nightly.postmarketos.org/plasma-mobile/sources/2024-05-02/ktexteditor-$_commit.tar.xz"
+source="https://nightly.postmarketos.org/plasma-mobile/sources/2024-05-03/ktexteditor-$_commit.tar.xz"
 subpackages="$pkgname-dev $pkgname-doc $pkgname-lang"
 
 replaces="ktexteditor5"
@@ -59,5 +59,5 @@ package() {
 }
 
 sha512sums="
-e55e341ca79dc4baa10ef8169db9dd1c6f3ca49e358c0fa9c4eff4dad8761b0b8c9e89a6dcb303184a1bcfe73d486358c38f03b624e2704464e29190f4861222  ktexteditor-52989fbf95dbb1d52b75c6664558703198b547b6.tar.xz
+deab54c827b30b18c3f706c1c0865f5cc03396834dfc6205b780c06576d5eeff9fc69b46cd476950e0756395a404db6e158f0299f9d359736239e3e954334ff5  ktexteditor-f621c2e560f75dc1d1d1e9bbd5d8f3816479ef89.tar.xz
 "

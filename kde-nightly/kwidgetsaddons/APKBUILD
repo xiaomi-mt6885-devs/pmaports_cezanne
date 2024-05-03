@@ -4,9 +4,9 @@
 # The group tag is just to easily find this APKBUILD by some scripts for automation
 # group=kde-frameworks
 pkgname=kwidgetsaddons
-pkgver=9999_git20240501
+pkgver=9999_git20240503
 pkgrel=0
-_commit="7377039c17904d2c50c165de9eb6bb64f07216fb"
+_commit="aea40d791d6d7a297644964d0d3088dc447c4a08"
 pkgdesc="Addons to QtWidgets"
 # armhf blocked by extra-cmake-modules
 arch="all !armhf"
@@ -24,7 +24,7 @@ checkdepends="
 	xvfb-run
 	"
 _repo_url="https://invent.kde.org/frameworks/kwidgetsaddons.git"
-source="https://nightly.postmarketos.org/plasma-mobile/sources/2024-05-02/kwidgetsaddons-$_commit.tar.xz"
+source="https://nightly.postmarketos.org/plasma-mobile/sources/2024-05-03/kwidgetsaddons-$_commit.tar.xz"
 subpackages="$pkgname-dev $pkgname-doc $pkgname-lang"
 
 options="!check"
@@ -49,5 +49,5 @@ package() {
 }
 
 sha512sums="
-10d16d7d70e10fd20c945544eba41cf01166a370a1fb187718b3a2c17204c8fa350f6bdc67924d5e6be437ac374dbd97e0d4aabcff52e700c017a1da1f8d4d80  kwidgetsaddons-7377039c17904d2c50c165de9eb6bb64f07216fb.tar.xz
+876c025b49b3ab1c35970b5ee176f6b43ff7035f900cc8994101bc10b03575f1a6dcd1bd9490e7c07212b9363537974f90f4d39f09f24c26f6def6f3137fa461  kwidgetsaddons-aea40d791d6d7a297644964d0d3088dc447c4a08.tar.xz
 "
