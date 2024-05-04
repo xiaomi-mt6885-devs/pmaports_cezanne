@@ -1,0 +1,34 @@
+# Maintainer: Caleb Connolly <caleb.connolly@linaro.org>
+pkgname=debugcc
+pkgver=0_git20240101
+pkgrel=0
+pkgdesc="Debug clocks on Qualcomm platforms"
+url="https://github.com/linux-msm/debugcc"
+arch="all"
+license="BSD-3-Clause"
+makedepends="meson"
+_commit="649e6bc9ab0fddc51387c0224d8fbe874f3d2887"
+source="https://github.com/linux-msm/debugcc/archive/$_commit.tar.gz"
+options="!check" # No tests
+builddir="$srcdir/$pkgname-$_commit"
+subpackages="$pkgname-initramfs"
+
+build() {
+	abuild-meson . build
+	meson compile ${JOBS:+-j ${JOBS}} -C build
+}
+
+package() {
+	DESTDIR="$pkgdir" meson install --no-rebuild -C build
+}
+
+initramfs() {
+	depends="$pkgname"
+	# debugcc and all aliases
+	mkdir -p "$subpkgdir"/usr/share/mkinitfs/files/
+	echo "/usr/bin/debugcc" > "$subpkgdir"/usr/share/mkinitfs/files/80-debugcc.files
+}
+
+sha512sums="
+8ddc7cdb95b20b62399fdab2a1c361e958110afd7e238a6d8dab8418f12875f023034ace7b7f200aea002d7cd7d51b4ec7960a8eae782b26f9565608eec0bf2e  649e6bc9ab0fddc51387c0224d8fbe874f3d2887.tar.gz
+"
