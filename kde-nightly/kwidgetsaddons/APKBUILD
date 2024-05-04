@@ -6,7 +6,7 @@
 pkgname=kwidgetsaddons
 pkgver=9999_git20240503
 pkgrel=0
-_commit="aea40d791d6d7a297644964d0d3088dc447c4a08"
+_commit="346f536f992d1dbee36c2fbc3ebdc82b461e84f8"
 pkgdesc="Addons to QtWidgets"
 # armhf blocked by extra-cmake-modules
 arch="all !armhf"
@@ -24,7 +24,7 @@ checkdepends="
 	xvfb-run
 	"
 _repo_url="https://invent.kde.org/frameworks/kwidgetsaddons.git"
-source="https://nightly.postmarketos.org/plasma-mobile/sources/2024-05-03/kwidgetsaddons-$_commit.tar.xz"
+source="https://nightly.postmarketos.org/plasma-mobile/sources/2024-05-04/kwidgetsaddons-$_commit.tar.xz"
 subpackages="$pkgname-dev $pkgname-doc $pkgname-lang"
 
 options="!check"
@@ -49,5 +49,5 @@ package() {
 }
 
 sha512sums="
-876c025b49b3ab1c35970b5ee176f6b43ff7035f900cc8994101bc10b03575f1a6dcd1bd9490e7c07212b9363537974f90f4d39f09f24c26f6def6f3137fa461  kwidgetsaddons-aea40d791d6d7a297644964d0d3088dc447c4a08.tar.xz
+0a99dba06b86b4c81335028e8eecf1c1760cb8de63762fdce87134f71d8856568de1d6ae0bb2d2e9e28afba2a4b45e99c7caa9b5040bc94673da79a279a87a16  kwidgetsaddons-346f536f992d1dbee36c2fbc3ebdc82b461e84f8.tar.xz
 "

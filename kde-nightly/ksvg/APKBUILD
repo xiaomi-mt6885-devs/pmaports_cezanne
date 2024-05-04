@@ -4,9 +4,9 @@
 # The group tag is just to easily find this APKBUILD by some scripts for automation
 # group=kde-frameworks
 pkgname=ksvg
-pkgver=9999_git20240425
+pkgver=9999_git20240503
 pkgrel=0
-_commit="81a7b3bbd43a4f1aae2e516380b0fd9f9b5f7ab0"
+_commit="b77289ee891c9490c17bd1e9b1b523579f172c72"
 pkgdesc="Configuration system"
 arch="all !armhf" # armhf blocked by extra-cmake-modules
 url="https://community.kde.org/Frameworks"
@@ -27,7 +27,7 @@ makedepends="
 	"
 checkdepends="xvfb-run"
 _repo_url="https://invent.kde.org/frameworks/ksvg.git"
-source="https://nightly.postmarketos.org/plasma-mobile/sources/2024-05-03/ksvg-$_commit.tar.xz"
+source="https://nightly.postmarketos.org/plasma-mobile/sources/2024-05-04/ksvg-$_commit.tar.xz"
 subpackages="$pkgname-dev $pkgname-doc"
 
 options="!check"
@@ -50,5 +50,5 @@ package() {
 	DESTDIR="$pkgdir" cmake --install build
 }
 sha512sums="
-6a21e5dc2623254c83ce2d50927a5c4a82ecffc91540bba2e1013eb670defd07c0aa38a3e78141cca8b50be4dcc8a51cf36298f8a531ecae34b74e45c981aa2a  ksvg-81a7b3bbd43a4f1aae2e516380b0fd9f9b5f7ab0.tar.xz
+f8bbdbda05a994e111155057fa8f484185a42fd7b2f0865335cd30d6c1150af0c501b7ba7086ca6c8d6279fc96728effe668fbfc059bf5caa69638fb0dcb1803  ksvg-b77289ee891c9490c17bd1e9b1b523579f172c72.tar.xz
 "

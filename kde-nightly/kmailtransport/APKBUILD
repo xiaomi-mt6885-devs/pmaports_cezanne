@@ -6,7 +6,7 @@
 pkgname=kmailtransport
 pkgver=9999_git20240503
 pkgrel=0
-_commit="9b00df65bc1f828b88af6f37a1b9fe9007b6e90e"
+_commit="61cbc34798ba7c00b4516edf5a6f79c937631154"
 pkgdesc="Manage mail transport"
 # armhf blocked by extra-cmake-modules
 # ppc64le and s390x blocked by libkgapi
@@ -32,7 +32,7 @@ makedepends="$depends_dev
 	"
 checkdepends="xvfb-run"
 _repo_url="https://invent.kde.org/pim/kmailtransport.git"
-source="https://nightly.postmarketos.org/plasma-mobile/sources/2024-05-03/kmailtransport-$_commit.tar.xz"
+source="https://nightly.postmarketos.org/plasma-mobile/sources/2024-05-04/kmailtransport-$_commit.tar.xz"
 subpackages="$pkgname-dev $pkgname-lang"
 options="!check" # Requires OpenGL and running dbus
 
@@ -56,5 +56,5 @@ package() {
 }
 
 sha512sums="
-b26ea2ad963e45d34cb4962ab37002cc5a76ad91086338e33e3bf6a97fe77983bb0bd877262681d3b8c70ec93c31cb170785de17b0528222057450af467b955f  kmailtransport-9b00df65bc1f828b88af6f37a1b9fe9007b6e90e.tar.xz
+4362e45def7f0d700c7887ce6b4e655b4456ef49c230305421721b5f2ac825a953962d45ef332af03d5d756c536ea58016eade8cfe3f5ffea4f53cbaa740d5d5  kmailtransport-61cbc34798ba7c00b4516edf5a6f79c937631154.tar.xz
 "

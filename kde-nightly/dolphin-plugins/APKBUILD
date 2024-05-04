@@ -6,7 +6,7 @@
 pkgname=dolphin-plugins
 pkgver=9999_git20240503
 pkgrel=0
-_commit="d48c784b8900f26ce6c794fcc44c37cb3e77a034"
+_commit="a59551620e7c6213a43e3927f7c5b596be455fea"
 pkgdesc="Extra Dolphin plugins"
 url="https://www.kde.org/applications/system/dolphin/"
 # armhf blocked by extra-cmake-modules
@@ -24,7 +24,7 @@ makedepends="
 	samurai
 	"
 _repo_url="https://invent.kde.org/sdk/dolphin-plugins.git"
-source="https://nightly.postmarketos.org/plasma-mobile/sources/2024-05-03/dolphin-plugins-$_commit.tar.xz"
+source="https://nightly.postmarketos.org/plasma-mobile/sources/2024-05-04/dolphin-plugins-$_commit.tar.xz"
 subpackages="$pkgname-lang"
 
 options="!check"
@@ -48,5 +48,5 @@ package() {
 }
 
 sha512sums="
-df49cf8239b00e3dbb76ddfb4ecc8e73fbbd14b6dbce718121fda9a8a2ba344bd6d96f3879cd4b6c7173855d0a38f49fd23775360eddacd9badfd9549af2c22c  dolphin-plugins-d48c784b8900f26ce6c794fcc44c37cb3e77a034.tar.xz
+0514b8af36f0a470be0e39c220821eff67110883d4d7ad88cad13ad806c8be25d9f52720afc83c6d8f406367c1bb2cdc1d497920a458884fbe98934e43d8aaf9  dolphin-plugins-a59551620e7c6213a43e3927f7c5b596be455fea.tar.xz
 "

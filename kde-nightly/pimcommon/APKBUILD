@@ -6,7 +6,7 @@
 pkgname=pimcommon
 pkgver=9999_git20240503
 pkgrel=0
-_commit="d55507e8f97b7cbfec2942dbf9ac5ed03d685b78"
+_commit="1a5f4a1865ecb8bd5918b3063055d220dd53a8da"
 pkgdesc="Common lib for KDEPim"
 # armhf blocked by extra-cmake-modules
 # ppc64le, s390x and riscv64 blocked by qt6-qtwebengine -> akonadi
@@ -49,7 +49,7 @@ makedepends="$depends_dev
 	"
 checkdepends="xvfb-run"
 _repo_url="https://invent.kde.org/pim/pimcommon.git"
-source="https://nightly.postmarketos.org/plasma-mobile/sources/2024-05-03/pimcommon-$_commit.tar.xz"
+source="https://nightly.postmarketos.org/plasma-mobile/sources/2024-05-04/pimcommon-$_commit.tar.xz"
 subpackages="$pkgname-dev $pkgname-lang"
 options="net" # net required for tests
 
@@ -73,5 +73,5 @@ package() {
 	DESTDIR="$pkgdir" cmake --install build
 }
 sha512sums="
-3758ddc65252493098f49d9a9afb6b995815cecc644e5d6a639245bade69d7e0a13d446a40028f3db43aa1ba88ecc9a35264d43d465477b8bf1a9bfc90b4f8ee  pimcommon-d55507e8f97b7cbfec2942dbf9ac5ed03d685b78.tar.xz
+70b58d6d4aad35f2d767d3799df3d8f411dea1df1d380ab9d102826e3d772aac386034b897f2031ef7a82442d1f6af371cef67bcdb34a25f31477e56c5559db1  pimcommon-1a5f4a1865ecb8bd5918b3063055d220dd53a8da.tar.xz
 "

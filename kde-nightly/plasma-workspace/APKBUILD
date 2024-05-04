@@ -6,7 +6,7 @@
 pkgname=plasma-workspace
 pkgver=9999_git20240503
 pkgrel=0
-_commit="11e38ec6e0c17ff1a69b07b08991ac53c33c0aff"
+_commit="1ad047f22c286d8b7baab1c65a7df5f062dcdae6"
 pkgdesc="KDE Plasma Workspace"
 # armhf blocked by extra-cmake-modules
 arch="all !armhf"
@@ -105,7 +105,7 @@ case "$pkgver" in
 esac
 subpackages="$pkgname-dbg $pkgname-dev $pkgname-libs $pkgname-doc $pkgname-lang $pkgname-zsh-completion"
 _repo_url="https://invent.kde.org/plasma/plasma-workspace.git"
-source="https://nightly.postmarketos.org/plasma-mobile/sources/2024-05-03/plasma-workspace-$_commit.tar.xz"
+source="https://nightly.postmarketos.org/plasma-mobile/sources/2024-05-04/plasma-workspace-$_commit.tar.xz"
 
 replaces="plasma5support"
 
@@ -157,5 +157,5 @@ package() {
 }
 
 sha512sums="
-590df37636ee248064b50d9ce4fef15c7257f34197ba017ed4bfcb1e4a2094ac1725516d341fce21e942be6bca756cb2dc59daa2ae18b63a3c49a4c67b200f5e  plasma-workspace-11e38ec6e0c17ff1a69b07b08991ac53c33c0aff.tar.xz
+828a11c063d645011ab839eb1748f1d77ac468379cfa071df38ace2bbe60ac0e42fca13fa8de433c7ab82ea3ae4f8a55078f692fc7183e3ddec60c0b52aea50b  plasma-workspace-1ad047f22c286d8b7baab1c65a7df5f062dcdae6.tar.xz
 "

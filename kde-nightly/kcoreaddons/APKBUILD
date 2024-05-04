@@ -6,7 +6,7 @@
 pkgname=kcoreaddons
 pkgver=9999_git20240503
 pkgrel=0
-_commit="316a4959e0c49d3853b2951e52d09965f49000ee"
+_commit="fdcebddb6e4876999515287dc20000f2271797d4"
 pkgdesc="Addons to QtCore"
 arch="all !armhf" # armhf blocked by extra-cmake-modules
 url="https://community.kde.org/Frameworks"
@@ -23,7 +23,7 @@ makedepends="$depends_dev
 	"
 checkdepends="xvfb-run"
 _repo_url="https://invent.kde.org/frameworks/kcoreaddons.git"
-source="https://nightly.postmarketos.org/plasma-mobile/sources/2024-05-03/kcoreaddons-$_commit.tar.xz"
+source="https://nightly.postmarketos.org/plasma-mobile/sources/2024-05-04/kcoreaddons-$_commit.tar.xz"
 subpackages="$pkgname-dev $pkgname-doc $pkgname-lang kde-default-icon-theme:icons:noarch"
 
 options="!check"
@@ -62,5 +62,5 @@ icons() {
 }
 
 sha512sums="
-e853d631e9ce6d496b65c569ecdbb5d8fd5a64c3be314900956b45adc7bc0804085a00f3d88af1aec98116b28d50fb40dcd67b1d02e52ba6a048ddb9a19e26b5  kcoreaddons-316a4959e0c49d3853b2951e52d09965f49000ee.tar.xz
+9966a30d07d11500192cf08ea05c6fe93a34934b0e5f4044cb518dc60cea4e82cef93f7b2dbce2039cf7daebd1abe6e779a4b2554f267e7efdd54829ddc48199  kcoreaddons-fdcebddb6e4876999515287dc20000f2271797d4.tar.xz
 "
