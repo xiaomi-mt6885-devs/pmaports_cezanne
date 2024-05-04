@@ -1,0 +1,1131 @@
+From e297b055962bc99144973f907ad0eee54d92b958 Mon Sep 17 00:00:00 2001
+From: jane400 <pmos@j4ne.de>
+Date: Sat, 4 May 2024 02:58:07 +0200
+Subject: [PATCH 9/9] musl fixes
+
+This includes multiple tiny patches, so adding co-authored for these.
+Co-Authored-By: Chen Qi <Qi.Chen@windriver.com>
+Co-Authored-By: Caleb Connolly <caleb@postmarketos.org>
+---
+ src/basic/arphrd-util.c                  |  3 ++-
+ src/basic/arphrd-util.h                  |  1 +
+ src/basic/fd-util.h                      |  1 +
+ src/basic/fileio.h                       |  1 +
+ src/basic/generate-arphrd-list.sh        |  2 +-
+ src/basic/glob-util.c                    | 14 --------------
+ src/basic/glob-util.h                    |  1 +
+ src/basic/gshadow.h                      |  5 +++++
+ src/basic/linux/if.h                     | 14 ++++++++++----
+ src/basic/linux/if_ether.h               |  2 +-
+ src/basic/linux/in6.h                    |  9 +++++----
+ src/basic/missing_type.h                 | 16 ++++++++++++++++
+ src/basic/pidref.h                       |  1 +
+ src/basic/sort-util.h                    |  1 +
+ src/basic/string-util.h                  |  1 +
+ src/libsystemd-network/arp-util.c        |  2 +-
+ src/libsystemd-network/sd-dhcp6-client.c |  2 +-
+ src/libsystemd/sd-journal/catalog.c      |  1 +
+ src/network/netdev/bareudp.c             |  2 +-
+ src/network/netdev/batadv.c              |  2 +-
+ src/network/netdev/bond.c                |  2 +-
+ src/network/netdev/bridge.c              |  1 -
+ src/network/netdev/dummy.c               |  2 +-
+ src/network/netdev/geneve.c              |  1 -
+ src/network/netdev/ifb.c                 |  2 +-
+ src/network/netdev/ipoib.c               |  2 +-
+ src/network/netdev/ipvlan.c              |  2 +-
+ src/network/netdev/macsec.c              |  2 +-
+ src/network/netdev/macvlan.c             |  2 +-
+ src/network/netdev/netdev.c              |  2 +-
+ src/network/netdev/netdevsim.c           |  2 +-
+ src/network/netdev/nlmon.c               |  2 +-
+ src/network/netdev/tunnel.c              |  2 +-
+ src/network/netdev/tuntap.c              |  2 +-
+ src/network/netdev/vcan.c                |  2 +-
+ src/network/netdev/veth.c                |  3 ++-
+ src/network/netdev/vlan.c                |  1 -
+ src/network/netdev/vrf.c                 |  1 -
+ src/network/netdev/vxcan.c               |  2 +-
+ src/network/netdev/vxlan.c               |  2 +-
+ src/network/netdev/wireguard.c           |  3 ++-
+ src/network/netdev/xfrm.c                |  2 +-
+ src/network/networkd-dhcp-common.c       |  2 +-
+ src/network/networkd-dhcp-server.c       |  2 +-
+ src/network/networkd-dhcp4.c             |  2 +-
+ src/network/networkd-ipv6ll.c            |  2 +-
+ src/network/networkd-link.c              |  2 +-
+ src/network/networkd-ndisc.c             |  2 +-
+ src/network/networkd-setlink.c           |  2 +-
+ src/network/networkd-sysctl.c            |  2 +-
+ src/shared/edit-util.c                   |  8 ++++----
+ src/shared/edit-util.h                   |  2 +-
+ src/shared/linux/ethtool.h               |  2 +-
+ src/shared/netif-util.c                  |  2 +-
+ src/shared/user-record-nss.c             | 20 ++++++++++++++++++++
+ src/shared/user-record-nss.h             |  2 +-
+ src/shared/userdb.c                      |  7 ++++++-
+ src/systemctl/systemctl-edit.c           |  2 +-
+ src/test/test-arphrd-util.c              |  1 -
+ src/test/test-glob-util.c                |  9 ++-------
+ src/test/test-parse-argument.c           |  1 +
+ src/test/test-recurse-dir.c              |  1 +
+ src/tmpfiles/tmpfiles.c                  |  8 ++------
+ src/udev/udev-builtin-net_id.c           |  2 +-
+ 64 files changed, 122 insertions(+), 84 deletions(-)
+ create mode 100644 src/basic/gshadow.h
+
+diff --git a/src/basic/arphrd-util.c b/src/basic/arphrd-util.c
+index 3ea2c9d09a..421c368d45 100644
+--- a/src/basic/arphrd-util.c
++++ b/src/basic/arphrd-util.c
+@@ -2,7 +2,8 @@
+ 
+ #include <errno.h>
+ #include <netinet/in.h>
+-#include <linux/if_arp.h>
++
++#include <linux/if_ether.h>
+ #include <linux/if_infiniband.h>
+ #include <string.h>
+ 
+diff --git a/src/basic/arphrd-util.h b/src/basic/arphrd-util.h
+index 33f5694abd..f4091276b1 100644
+--- a/src/basic/arphrd-util.h
++++ b/src/basic/arphrd-util.h
+@@ -3,6 +3,7 @@
+ 
+ #include <inttypes.h>
+ #include <stddef.h>
++#include <net/if_arp.h>
+ 
+ const char *arphrd_to_name(int id);
+ int arphrd_from_name(const char *name);
+diff --git a/src/basic/fd-util.h b/src/basic/fd-util.h
+index af17481dd8..fa20bfa30f 100644
+--- a/src/basic/fd-util.h
++++ b/src/basic/fd-util.h
+@@ -6,6 +6,7 @@
+ #include <stdbool.h>
+ #include <stdio.h>
+ #include <sys/socket.h>
++#include <sys/file.h>
+ 
+ #include "macro.h"
+ #include "missing_fcntl.h"
+diff --git a/src/basic/fileio.h b/src/basic/fileio.h
+index 03c3f3ff28..7d2ea99155 100644
+--- a/src/basic/fileio.h
++++ b/src/basic/fileio.h
+@@ -8,6 +8,7 @@
+ #include <stdio.h>
+ #include <sys/stat.h>
+ #include <sys/types.h>
++#include <sys/file.h>
+ 
+ #include "macro.h"
+ #include "time-util.h"
+diff --git a/src/basic/generate-arphrd-list.sh b/src/basic/generate-arphrd-list.sh
+index ca1ba7cad4..2e8fb64ba3 100755
+--- a/src/basic/generate-arphrd-list.sh
++++ b/src/basic/generate-arphrd-list.sh
+@@ -3,6 +3,6 @@
+ set -eu
+ set -o pipefail
+ 
+-${1:?} -dM -include linux/if_arp.h -include "${2:?}" - </dev/null | \
++${1:?} -dM -include net/if_arp.h -include "${2:?}" - </dev/null | \
+        awk '/^#define[ \t]+ARPHRD_[^ \t]+[ \t]+[^ \t]/ { print $2; }' | \
+        sed -e 's/ARPHRD_//'
+diff --git a/src/basic/glob-util.c b/src/basic/glob-util.c
+index 802ca8c655..878683b5ed 100644
+--- a/src/basic/glob-util.c
++++ b/src/basic/glob-util.c
+@@ -19,20 +19,6 @@ static void closedir_wrapper(void* v) {
+ int safe_glob(const char *path, int flags, glob_t *pglob) {
+         int k;
+ 
+-        /* We want to set GLOB_ALTDIRFUNC ourselves, don't allow it to be set. */
+-        assert(!(flags & GLOB_ALTDIRFUNC));
+-
+-        if (!pglob->gl_closedir)
+-                pglob->gl_closedir = closedir_wrapper;
+-        if (!pglob->gl_readdir)
+-                pglob->gl_readdir = (struct dirent *(*)(void *)) readdir_no_dot;
+-        if (!pglob->gl_opendir)
+-                pglob->gl_opendir = (void *(*)(const char *)) opendir;
+-        if (!pglob->gl_lstat)
+-                pglob->gl_lstat = lstat;
+-        if (!pglob->gl_stat)
+-                pglob->gl_stat = stat;
+-
+         errno = 0;
+         k = glob(path, flags | GLOB_ALTDIRFUNC, NULL, pglob);
+         if (k == GLOB_NOMATCH)
+diff --git a/src/basic/glob-util.h b/src/basic/glob-util.h
+index 7ca26cc27f..c1d476ff2b 100644
+--- a/src/basic/glob-util.h
++++ b/src/basic/glob-util.h
+@@ -6,6 +6,7 @@
+ 
+ #include "macro.h"
+ #include "string-util.h"
++#include "missing_type.h"
+ 
+ /* Note: this function modifies pglob to set various functions. */
+ int safe_glob(const char *path, int flags, glob_t *pglob);
+diff --git a/src/basic/gshadow.h b/src/basic/gshadow.h
+new file mode 100644
+index 0000000000..a6a56f38ce
+--- /dev/null
++++ b/src/basic/gshadow.h
+@@ -0,0 +1,5 @@
++#pragma once
++
++#define ENABLE_GSHADOW 0
++
++struct sgrp {};
+diff --git a/src/basic/linux/if.h b/src/basic/linux/if.h
+index e79f5c8ceb..52d2cbee62 100644
+--- a/src/basic/linux/if.h
++++ b/src/basic/linux/if.h
+@@ -132,8 +132,14 @@ enum net_device_flags {
+ #define IFF_ECHO			IFF_ECHO
+ #endif /* __UAPI_DEF_IF_NET_DEVICE_FLAGS_LOWER_UP_DORMANT_ECHO */
+ 
++#if !(__UAPI_DEF_IF_NET_DEVICE_FLAGS && __UAPI_DEF_IF_NET_DEVICE_FLAGS_LOWER_UP_DORMANT_ECHO && defined(IFF_VOLATILE))
++#ifdef IFF_VOLATILE
++#undef IFF_VOLATILE
++#endif
++
+ #define IFF_VOLATILE	(IFF_LOOPBACK|IFF_POINTOPOINT|IFF_BROADCAST|IFF_ECHO|\
+ 		IFF_MASTER|IFF_SLAVE|IFF_RUNNING|IFF_LOWER_UP|IFF_DORMANT)
++#endif
+ 
+ #define IF_GET_IFACE	0x0001		/* for querying only */
+ #define IF_GET_PROTO	0x0002
+@@ -181,7 +187,7 @@ enum {
+ };
+ 
+ /*
+- *	Device mapping structure. I'd just gone off and designed a 
++ *	Device mapping structure. I'd just gone off and designed a
+  *	beautiful scheme using only loadable modules with arguments
+  *	for driver options and along come the PCMCIA people 8)
+  *
+@@ -195,8 +201,8 @@ enum {
+ struct ifmap {
+ 	unsigned long mem_start;
+ 	unsigned long mem_end;
+-	unsigned short base_addr; 
+-	unsigned char irq;
++        unsigned short base_addr;
++        unsigned char irq;
+ 	unsigned char dma;
+ 	unsigned char port;
+ 	/* 3 bytes spare */
+@@ -236,7 +242,7 @@ struct ifreq {
+ 	{
+ 		char	ifrn_name[IFNAMSIZ];		/* if name, e.g. "en0" */
+ 	} ifr_ifrn;
+-	
++
+ 	union {
+ 		struct	sockaddr ifru_addr;
+ 		struct	sockaddr ifru_dstaddr;
+diff --git a/src/basic/linux/if_ether.h b/src/basic/linux/if_ether.h
+index 69e0457eb2..4bf6341acf 100644
+--- a/src/basic/linux/if_ether.h
++++ b/src/basic/linux/if_ether.h
+@@ -166,7 +166,7 @@
+ 
+ /* allow libcs like musl to deactivate this, glibc does not implement this. */
+ #ifndef __UAPI_DEF_ETHHDR
+-#define __UAPI_DEF_ETHHDR		1
++#define __UAPI_DEF_ETHHDR		0
+ #endif
+ 
+ #if __UAPI_DEF_ETHHDR
+diff --git a/src/basic/linux/in6.h b/src/basic/linux/in6.h
+index ff8d21f9e9..a256b44716 100644
+--- a/src/basic/linux/in6.h
++++ b/src/basic/linux/in6.h
+@@ -1,10 +1,10 @@
+ /* SPDX-License-Identifier: GPL-2.0+ WITH Linux-syscall-note */
+ /*
+- *	Types and definitions for AF_INET6 
+- *	Linux INET6 implementation 
++ *	Types and definitions for AF_INET6
++ *	Linux INET6 implementation
+  *
+  *	Authors:
+- *	Pedro Roque		<roque@di.fc.ul.pt>	
++ *	Pedro Roque		<roque@di.fc.ul.pt>
+  *
+  *	Sources:
+  *	IPv6 Program Interfaces for BSD Systems
+@@ -22,6 +22,7 @@
+ #ifndef _UAPI_LINUX_IN6_H
+ #define _UAPI_LINUX_IN6_H
+ 
++#include <netinet/in.h>
+ #include <linux/types.h>
+ #include <linux/libc-compat.h>
+ 
+@@ -97,7 +98,7 @@ struct in6_flowlabel_req {
+ 
+ 
+ /*
+- *	Bitmask constant declarations to help applications select out the 
++ *	Bitmask constant declarations to help applications select out the
+  *	flow label and priority fields.
+  *
+  *	Note that this are in host byte order while the flowinfo field of
+diff --git a/src/basic/missing_type.h b/src/basic/missing_type.h
+index 1d17705c35..2463fd3bcb 100644
+--- a/src/basic/missing_type.h
++++ b/src/basic/missing_type.h
+@@ -10,3 +10,19 @@
+ #if !HAVE_CHAR16_T
+ #  define char16_t uint16_t
+ #endif
++
++#ifndef __GLIBC__
++typedef int (*comparison_fn_t)(const void *, const void *);
++#endif
++
++#ifndef FTW_CONTINUE
++#define FTW_CONTINUE 0
++#endif
++
++#ifndef GLOB_BRACE
++#define GLOB_BRACE 0
++#endif
++
++#ifndef GLOB_ALTDIRFUNC
++#define GLOB_ALTDIRFUNC 0
++#endif
+diff --git a/src/basic/pidref.h b/src/basic/pidref.h
+index 9920ebb9b3..e0df1ffb27 100644
+--- a/src/basic/pidref.h
++++ b/src/basic/pidref.h
+@@ -2,6 +2,7 @@
+ #pragma once
+ 
+ #include "macro.h"
++#include "signal.h"
+ 
+ /* An embeddable structure carrying a reference to a process. Supposed to be used when tracking processes continuously. */
+ typedef struct PidRef {
+diff --git a/src/basic/sort-util.h b/src/basic/sort-util.h
+index 9c818bd747..ef10c8be2c 100644
+--- a/src/basic/sort-util.h
++++ b/src/basic/sort-util.h
+@@ -4,6 +4,7 @@
+ #include <stdlib.h>
+ 
+ #include "macro.h"
++#include "missing_type.h"
+ 
+ /* This is the same as glibc's internal __compar_d_fn_t type. glibc exports a public comparison_fn_t, for the
+  * external type __compar_fn_t, but doesn't do anything similar for __compar_d_fn_t. Let's hence do that
+diff --git a/src/basic/string-util.h b/src/basic/string-util.h
+index ff5efbcf55..b329da8d17 100644
+--- a/src/basic/string-util.h
++++ b/src/basic/string-util.h
+@@ -4,6 +4,7 @@
+ #include <stdbool.h>
+ #include <stddef.h>
+ #include <string.h>
++#include <libgen.h>
+ 
+ #include "alloc-util.h"
+ #include "macro.h"
+diff --git a/src/libsystemd-network/arp-util.c b/src/libsystemd-network/arp-util.c
+index ad61614f12..4a53f944ac 100644
+--- a/src/libsystemd-network/arp-util.c
++++ b/src/libsystemd-network/arp-util.c
+@@ -5,7 +5,7 @@
+ 
+ #include <arpa/inet.h>
+ #include <linux/filter.h>
+-#include <netinet/if_ether.h>
++#include <linux/if_ether.h>
+ 
+ #include "arp-util.h"
+ #include "ether-addr-util.h"
+diff --git a/src/libsystemd-network/sd-dhcp6-client.c b/src/libsystemd-network/sd-dhcp6-client.c
+index 9f14a32896..27c3c3d6be 100644
+--- a/src/libsystemd-network/sd-dhcp6-client.c
++++ b/src/libsystemd-network/sd-dhcp6-client.c
+@@ -5,7 +5,7 @@
+ 
+ #include <errno.h>
+ #include <sys/ioctl.h>
+-#include <linux/if_arp.h>
++
+ #include <linux/if_infiniband.h>
+ 
+ #include "sd-dhcp6-client.h"
+diff --git a/src/libsystemd/sd-journal/catalog.c b/src/libsystemd/sd-journal/catalog.c
+index a0b673f65f..29dd2fee16 100644
+--- a/src/libsystemd/sd-journal/catalog.c
++++ b/src/libsystemd/sd-journal/catalog.c
+@@ -29,6 +29,7 @@
+ #include "string-util.h"
+ #include "strv.h"
+ #include "tmpfile-util.h"
++#include "missing_type.h"
+ 
+ const char * const catalog_file_dirs[] = {
+         "/usr/local/lib/systemd/catalog/",
+diff --git a/src/network/netdev/bareudp.c b/src/network/netdev/bareudp.c
+index 1df886573b..80763cd009 100644
+--- a/src/network/netdev/bareudp.c
++++ b/src/network/netdev/bareudp.c
+@@ -2,7 +2,7 @@
+  * Copyright © 2020 VMware, Inc. */
+ 
+ #include <netinet/in.h>
+-#include <linux/if_arp.h>
++
+ 
+ #include "bareudp.h"
+ #include "netlink-util.h"
+diff --git a/src/network/netdev/batadv.c b/src/network/netdev/batadv.c
+index 26da0231d4..52cc694399 100644
+--- a/src/network/netdev/batadv.c
++++ b/src/network/netdev/batadv.c
+@@ -3,7 +3,7 @@
+ #include <inttypes.h>
+ #include <netinet/in.h>
+ #include <linux/genetlink.h>
+-#include <linux/if_arp.h>
++
+ 
+ #include "batadv.h"
+ #include "fileio.h"
+diff --git a/src/network/netdev/bond.c b/src/network/netdev/bond.c
+index 52a7f126b6..f7ffc7910e 100644
+--- a/src/network/netdev/bond.c
++++ b/src/network/netdev/bond.c
+@@ -1,7 +1,7 @@
+ /* SPDX-License-Identifier: LGPL-2.1-or-later */
+ 
+ #include <netinet/in.h>
+-#include <linux/if_arp.h>
++
+ 
+ #include "alloc-util.h"
+ #include "bond.h"
+diff --git a/src/network/netdev/bridge.c b/src/network/netdev/bridge.c
+index d426c0c501..36c504b1b1 100644
+--- a/src/network/netdev/bridge.c
++++ b/src/network/netdev/bridge.c
+@@ -2,7 +2,6 @@
+ 
+ /* Make sure the net/if.h header is included before any linux/ one */
+ #include <net/if.h>
+-#include <linux/if_arp.h>
+ #include <linux/if_bridge.h>
+ #include <netinet/in.h>
+ 
+diff --git a/src/network/netdev/dummy.c b/src/network/netdev/dummy.c
+index 00df1d2787..136a097eed 100644
+--- a/src/network/netdev/dummy.c
++++ b/src/network/netdev/dummy.c
+@@ -1,6 +1,6 @@
+ /* SPDX-License-Identifier: LGPL-2.1-or-later */
+ 
+-#include <linux/if_arp.h>
++
+ 
+ #include "dummy.h"
+ 
+diff --git a/src/network/netdev/geneve.c b/src/network/netdev/geneve.c
+index 22c2b00e1b..e6a24c0fa0 100644
+--- a/src/network/netdev/geneve.c
++++ b/src/network/netdev/geneve.c
+@@ -2,7 +2,6 @@
+ 
+ /* Make sure the net/if.h header is included before any linux/ one */
+ #include <net/if.h>
+-#include <linux/if_arp.h>
+ #include <netinet/in.h>
+ 
+ #include "alloc-util.h"
+diff --git a/src/network/netdev/ifb.c b/src/network/netdev/ifb.c
+index d7ff44cb9e..cf1f689e70 100644
+--- a/src/network/netdev/ifb.c
++++ b/src/network/netdev/ifb.c
+@@ -1,7 +1,7 @@
+ /* SPDX-License-Identifier: LGPL-2.1-or-later
+  * Copyright © 2019 VMware, Inc. */
+ 
+-#include <linux/if_arp.h>
++
+ 
+ #include "ifb.h"
+ 
+diff --git a/src/network/netdev/ipoib.c b/src/network/netdev/ipoib.c
+index d5fe299b7b..877bc01110 100644
+--- a/src/network/netdev/ipoib.c
++++ b/src/network/netdev/ipoib.c
+@@ -1,6 +1,6 @@
+ /* SPDX-License-Identifier: LGPL-2.1-or-later */
+ 
+-#include <linux/if_arp.h>
++
+ #include <linux/if_link.h>
+ 
+ #include "ipoib.h"
+diff --git a/src/network/netdev/ipvlan.c b/src/network/netdev/ipvlan.c
+index 51ae64341d..d95fce7770 100644
+--- a/src/network/netdev/ipvlan.c
++++ b/src/network/netdev/ipvlan.c
+@@ -3,7 +3,7 @@
+ /* Make sure the net/if.h header is included before any linux/ one */
+ #include <net/if.h>
+ #include <netinet/in.h>
+-#include <linux/if_arp.h>
++
+ 
+ #include "conf-parser.h"
+ #include "ipvlan.h"
+diff --git a/src/network/netdev/macsec.c b/src/network/netdev/macsec.c
+index 4b9f19cc95..dbce56221f 100644
+--- a/src/network/netdev/macsec.c
++++ b/src/network/netdev/macsec.c
+@@ -1,7 +1,7 @@
+ /* SPDX-License-Identifier: LGPL-2.1-or-later */
+ 
+ #include <netinet/in.h>
+-#include <linux/if_arp.h>
++
+ #include <linux/if_ether.h>
+ #include <linux/if_macsec.h>
+ #include <linux/genetlink.h>
+diff --git a/src/network/netdev/macvlan.c b/src/network/netdev/macvlan.c
+index 21933d3970..ed690ccb39 100644
+--- a/src/network/netdev/macvlan.c
++++ b/src/network/netdev/macvlan.c
+@@ -3,7 +3,7 @@
+ /* Make sure the net/if.h header is included before any linux/ one */
+ #include <net/if.h>
+ #include <netinet/in.h>
+-#include <linux/if_arp.h>
++
+ 
+ #include "conf-parser.h"
+ #include "macvlan.h"
+diff --git a/src/network/netdev/netdev.c b/src/network/netdev/netdev.c
+index 229520dfb2..9d6d1a2d5a 100644
+--- a/src/network/netdev/netdev.c
++++ b/src/network/netdev/netdev.c
+@@ -3,7 +3,7 @@
+ /* Make sure the net/if.h header is included before any linux/ one */
+ #include <net/if.h>
+ #include <netinet/in.h>
+-#include <linux/if_arp.h>
++
+ #include <unistd.h>
+ 
+ #include "alloc-util.h"
+diff --git a/src/network/netdev/netdevsim.c b/src/network/netdev/netdevsim.c
+index 15d5c132f9..92600c9a75 100644
+--- a/src/network/netdev/netdevsim.c
++++ b/src/network/netdev/netdevsim.c
+@@ -1,6 +1,6 @@
+ /* SPDX-License-Identifier: LGPL-2.1-or-later */
+ 
+-#include <linux/if_arp.h>
++
+ 
+ #include "netdevsim.h"
+ 
+diff --git a/src/network/netdev/nlmon.c b/src/network/netdev/nlmon.c
+index ff372092e6..3726180eac 100644
+--- a/src/network/netdev/nlmon.c
++++ b/src/network/netdev/nlmon.c
+@@ -1,6 +1,6 @@
+ /* SPDX-License-Identifier: LGPL-2.1-or-later */
+ 
+-#include <linux/if_arp.h>
++
+ 
+ #include "nlmon.h"
+ 
+diff --git a/src/network/netdev/tunnel.c b/src/network/netdev/tunnel.c
+index db84e7cf6e..f518e7cec8 100644
+--- a/src/network/netdev/tunnel.c
++++ b/src/network/netdev/tunnel.c
+@@ -2,7 +2,7 @@
+ 
+ #include <netinet/in.h>
+ #include <linux/fou.h>
+-#include <linux/if_arp.h>
++
+ #include <linux/if_tunnel.h>
+ #include <linux/ip.h>
+ #include <linux/ip6_tunnel.h>
+diff --git a/src/network/netdev/tuntap.c b/src/network/netdev/tuntap.c
+index f5be31ed94..c2e6a47f44 100644
+--- a/src/network/netdev/tuntap.c
++++ b/src/network/netdev/tuntap.c
+@@ -5,7 +5,7 @@
+ #include <errno.h>
+ #include <fcntl.h>
+ #include <linux/if_tun.h>
+-#include <netinet/if_ether.h>
++#include <linux/if_ether.h>
+ #include <sys/ioctl.h>
+ #include <sys/stat.h>
+ #include <sys/types.h>
+diff --git a/src/network/netdev/vcan.c b/src/network/netdev/vcan.c
+index 380547ee1e..7124f9f2c0 100644
+--- a/src/network/netdev/vcan.c
++++ b/src/network/netdev/vcan.c
+@@ -1,6 +1,6 @@
+ /* SPDX-License-Identifier: LGPL-2.1-or-later */
+ 
+-#include <linux/if_arp.h>
++
+ 
+ #include "vcan.h"
+ 
+diff --git a/src/network/netdev/veth.c b/src/network/netdev/veth.c
+index 78555286d1..3379309d4a 100644
+--- a/src/network/netdev/veth.c
++++ b/src/network/netdev/veth.c
+@@ -3,7 +3,8 @@
+ /* Make sure the net/if.h header is included before any linux/ one */
+ #include <net/if.h>
+ #include <errno.h>
+-#include <linux/if_arp.h>
++#include <netinet/in.h>
++
+ #include <linux/veth.h>
+ #include <netinet/in.h>
+ 
+diff --git a/src/network/netdev/vlan.c b/src/network/netdev/vlan.c
+index 60e49a5b8a..8c0189e803 100644
+--- a/src/network/netdev/vlan.c
++++ b/src/network/netdev/vlan.c
+@@ -3,7 +3,6 @@
+ /* Make sure the net/if.h header is included before any linux/ one */
+ #include <net/if.h>
+ #include <errno.h>
+-#include <linux/if_arp.h>
+ #include <linux/if_vlan.h>
+ 
+ #include "parse-util.h"
+diff --git a/src/network/netdev/vrf.c b/src/network/netdev/vrf.c
+index 24079a7203..88d649fbc3 100644
+--- a/src/network/netdev/vrf.c
++++ b/src/network/netdev/vrf.c
+@@ -2,7 +2,6 @@
+ 
+ /* Make sure the net/if.h header is included before any linux/ one */
+ #include <net/if.h>
+-#include <linux/if_arp.h>
+ #include <netinet/in.h>
+ 
+ #include "vrf.h"
+diff --git a/src/network/netdev/vxcan.c b/src/network/netdev/vxcan.c
+index c0343f45b6..f1a96bef29 100644
+--- a/src/network/netdev/vxcan.c
++++ b/src/network/netdev/vxcan.c
+@@ -1,7 +1,7 @@
+ /* SPDX-License-Identifier: LGPL-2.1-or-later */
+ 
+ #include <linux/can/vxcan.h>
+-#include <linux/if_arp.h>
++
+ 
+ #include "vxcan.h"
+ 
+diff --git a/src/network/netdev/vxlan.c b/src/network/netdev/vxlan.c
+index 37f65967a6..ee1d9e15ac 100644
+--- a/src/network/netdev/vxlan.c
++++ b/src/network/netdev/vxlan.c
+@@ -3,7 +3,7 @@
+ /* Make sure the net/if.h header is included before any linux/ one */
+ #include <net/if.h>
+ #include <netinet/in.h>
+-#include <linux/if_arp.h>
++
+ 
+ #include "conf-parser.h"
+ #include "alloc-util.h"
+diff --git a/src/network/netdev/wireguard.c b/src/network/netdev/wireguard.c
+index fed1be8d11..c12c6e3490 100644
+--- a/src/network/netdev/wireguard.c
++++ b/src/network/netdev/wireguard.c
+@@ -5,7 +5,8 @@
+ 
+ /* Make sure the net/if.h header is included before any linux/ one */
+ #include <net/if.h>
+-#include <linux/if_arp.h>
++#include <netinet/in.h>
++
+ #include <linux/ipv6_route.h>
+ #include <netinet/in.h>
+ #include <sys/ioctl.h>
+diff --git a/src/network/netdev/xfrm.c b/src/network/netdev/xfrm.c
+index 905bfc0bdf..05743977f9 100644
+--- a/src/network/netdev/xfrm.c
++++ b/src/network/netdev/xfrm.c
+@@ -1,6 +1,6 @@
+ /* SPDX-License-Identifier: LGPL-2.1-or-later */
+ 
+-#include <linux/if_arp.h>
++
+ 
+ #include "missing_network.h"
+ #include "xfrm.h"
+diff --git a/src/network/networkd-dhcp-common.c b/src/network/networkd-dhcp-common.c
+index 9f0268d934..4d871c4ea1 100644
+--- a/src/network/networkd-dhcp-common.c
++++ b/src/network/networkd-dhcp-common.c
+@@ -1,7 +1,7 @@
+ /* SPDX-License-Identifier: LGPL-2.1-or-later */
+ 
+ #include <netinet/in.h>
+-#include <linux/if_arp.h>
++#include <net/if.h>
+ 
+ #include "bus-error.h"
+ #include "bus-locator.h"
+diff --git a/src/network/networkd-dhcp-server.c b/src/network/networkd-dhcp-server.c
+index c35102af74..b60cc53b5b 100644
+--- a/src/network/networkd-dhcp-server.c
++++ b/src/network/networkd-dhcp-server.c
+@@ -1,7 +1,7 @@
+ /* SPDX-License-Identifier: LGPL-2.1-or-later */
+ 
+ #include <netinet/in.h>
+-#include <linux/if_arp.h>
++
+ #include <linux/if.h>
+ 
+ #include "sd-dhcp-server.h"
+diff --git a/src/network/networkd-dhcp4.c b/src/network/networkd-dhcp4.c
+index cb470ec4e1..3c7d76e560 100644
+--- a/src/network/networkd-dhcp4.c
++++ b/src/network/networkd-dhcp4.c
+@@ -3,7 +3,7 @@
+ #include <netinet/in.h>
+ #include <netinet/ip.h>
+ #include <linux/if.h>
+-#include <linux/if_arp.h>
++
+ 
+ #include "alloc-util.h"
+ #include "dhcp-client-internal.h"
+diff --git a/src/network/networkd-ipv6ll.c b/src/network/networkd-ipv6ll.c
+index 32229a3fc7..5e080fe8ce 100644
+--- a/src/network/networkd-ipv6ll.c
++++ b/src/network/networkd-ipv6ll.c
+@@ -1,7 +1,7 @@
+ /* SPDX-License-Identifier: LGPL-2.1-or-later */
+ 
+ #include <linux/if.h>
+-#include <linux/if_arp.h>
++
+ 
+ #include "in-addr-util.h"
+ #include "networkd-address.h"
+diff --git a/src/network/networkd-link.c b/src/network/networkd-link.c
+index 61e0e16818..297f270211 100644
+--- a/src/network/networkd-link.c
++++ b/src/network/networkd-link.c
+@@ -4,7 +4,7 @@
+ #include <net/if.h>
+ #include <netinet/in.h>
+ #include <linux/if.h>
+-#include <linux/if_arp.h>
++
+ #include <linux/if_link.h>
+ #include <linux/netdevice.h>
+ #include <sys/socket.h>
+diff --git a/src/network/networkd-ndisc.c b/src/network/networkd-ndisc.c
+index 92ff7c71f3..61d1126024 100644
+--- a/src/network/networkd-ndisc.c
++++ b/src/network/networkd-ndisc.c
+@@ -6,7 +6,7 @@
+ #include <arpa/inet.h>
+ #include <netinet/icmp6.h>
+ #include <linux/if.h>
+-#include <linux/if_arp.h>
++
+ 
+ #include "sd-ndisc.h"
+ 
+diff --git a/src/network/networkd-setlink.c b/src/network/networkd-setlink.c
+index 058bc00ba1..7f82ca6781 100644
+--- a/src/network/networkd-setlink.c
++++ b/src/network/networkd-setlink.c
+@@ -2,7 +2,7 @@
+ 
+ #include <netinet/in.h>
+ #include <linux/if.h>
+-#include <linux/if_arp.h>
++
+ #include <linux/if_bridge.h>
+ 
+ #include "missing_network.h"
+diff --git a/src/network/networkd-sysctl.c b/src/network/networkd-sysctl.c
+index 68c23e0eb7..56f71d7188 100644
+--- a/src/network/networkd-sysctl.c
++++ b/src/network/networkd-sysctl.c
+@@ -2,7 +2,7 @@
+ 
+ #include <netinet/in.h>
+ #include <linux/if.h>
+-#include <linux/if_arp.h>
++
+ 
+ #include "af-list.h"
+ #include "missing_network.h"
+diff --git a/src/shared/edit-util.c b/src/shared/edit-util.c
+index cfb2828f4e..3015139016 100644
+--- a/src/shared/edit-util.c
++++ b/src/shared/edit-util.c
+@@ -212,7 +212,7 @@ static int create_edit_temp_file(EditFile *e, const char *contents, size_t conte
+         if (fchmod(fileno(f), 0644) < 0)
+                 return log_error_errno(errno, "Failed to change mode of temporary file '%s': %m", temp);
+ 
+-        if (e->context->stdin) {
++        if (e->context->_stdin) {
+                 if (fwrite(contents, 1, contents_size, f) != contents_size)
+                         return log_error_errno(SYNTHETIC_ERRNO(EIO),
+                                                "Failed to copy input to temporary file '%s'.", temp);
+@@ -326,7 +326,7 @@ static int strip_edit_temp_file(EditFile *e) {
+         if (!tmp)
+                 return log_oom();
+ 
+-        if (e->context->marker_start && !e->context->stdin) {
++        if (e->context->marker_start && !e->context->_stdin) {
+                 /* Trim out the lines between the two markers */
+                 char *contents_start, *contents_end;
+ 
+@@ -374,7 +374,7 @@ int do_edit_files_and_install(EditFileContext *context) {
+         if (context->n_files == 0)
+                 return log_debug_errno(SYNTHETIC_ERRNO(ENOENT), "Got no files to edit.");
+ 
+-        if (context->stdin) {
++        if (context->_stdin) {
+                 r = read_full_stream(stdin, &data, &data_size);
+                 if (r < 0)
+                         return log_error_errno(r, "Failed to read stdin: %m");
+@@ -386,7 +386,7 @@ int do_edit_files_and_install(EditFileContext *context) {
+                         return r;
+         }
+ 
+-        if (!context->stdin) {
++        if (!context->_stdin) {
+                 r = run_editor(context);
+                 if (r < 0)
+                         return r;
+diff --git a/src/shared/edit-util.h b/src/shared/edit-util.h
+index 9d9c890f2a..5289782d71 100644
+--- a/src/shared/edit-util.h
++++ b/src/shared/edit-util.h
+@@ -15,7 +15,7 @@ typedef struct EditFileContext {
+         const char *marker_end;
+         bool remove_parent;
+         bool overwrite_with_origin; /* Always overwrite target with original file. */
+-        bool stdin;                 /* Read contents from stdin instead of launching an editor. */
++        bool _stdin;                 /* Read contents from stdin instead of launching an editor. */
+ } EditFileContext;
+ 
+ void edit_file_context_done(EditFileContext *context);
+diff --git a/src/shared/linux/ethtool.h b/src/shared/linux/ethtool.h
+index 3d1da515c0..633494efbd 100644
+--- a/src/shared/linux/ethtool.h
++++ b/src/shared/linux/ethtool.h
+@@ -16,7 +16,7 @@
+ 
+ #include <linux/const.h>
+ #include <linux/types.h>
+-#include <linux/if_ether.h>
++#include <netinet/if_ether.h>
+ 
+ #include <limits.h> /* for INT_MAX */
+ 
+diff --git a/src/shared/netif-util.c b/src/shared/netif-util.c
+index 8adc2c89c8..919491cea4 100644
+--- a/src/shared/netif-util.c
++++ b/src/shared/netif-util.c
+@@ -1,7 +1,7 @@
+ /* SPDX-License-Identifier: LGPL-2.1-or-later */
+ 
+ #include <linux/if.h>
+-#include <linux/if_arp.h>
++
+ 
+ #include "arphrd-util.h"
+ #include "device-util.h"
+diff --git a/src/shared/user-record-nss.c b/src/shared/user-record-nss.c
+index ffb5721466..2596c658b3 100644
+--- a/src/shared/user-record-nss.c
++++ b/src/shared/user-record-nss.c
+@@ -286,8 +286,10 @@ int nss_group_to_group_record(
+         if (isempty(grp->gr_name))
+                 return -EINVAL;
+ 
++#if ENABLE_GSHADOW
+         if (sgrp && !streq_ptr(sgrp->sg_namp, grp->gr_name))
+                 return -EINVAL;
++#endif
+ 
+         g = group_record_new();
+         if (!g)
+@@ -303,6 +305,7 @@ int nss_group_to_group_record(
+ 
+         g->gid = grp->gr_gid;
+ 
++#if ENABLE_GSHADOW
+         if (sgrp) {
+                 if (looks_like_hashed_password(utf8_only(sgrp->sg_passwd))) {
+                         g->hashed_password = strv_new(sgrp->sg_passwd);
+@@ -318,6 +321,7 @@ int nss_group_to_group_record(
+                 if (r < 0)
+                         return r;
+         }
++#endif
+ 
+         r = json_build(&g->json, JSON_BUILD_OBJECT(
+                                        JSON_BUILD_PAIR("groupName", JSON_BUILD_STRING(g->group_name)),
+@@ -341,9 +345,12 @@ int nss_sgrp_for_group(const struct group *grp, struct sgrp *ret_sgrp, char **re
+         int r;
+ 
+         assert(grp);
++#if ENABLE_GSHADOW
+         assert(ret_sgrp);
++#endif
+         assert(ret_buffer);
+ 
++#if ENABLE_GSHADOW
+         for (;;) {
+                 _cleanup_free_ char *buf = NULL;
+                 struct sgrp sgrp, *result;
+@@ -372,6 +379,9 @@ int nss_sgrp_for_group(const struct group *grp, struct sgrp *ret_sgrp, char **re
+                 buflen *= 2;
+                 buf = mfree(buf);
+         }
++#else
++        return -ESRCH;
++#endif
+ }
+ 
+ int nss_group_record_by_name(
+@@ -391,6 +401,7 @@ int nss_group_record_by_name(
+         if (r < 0)
+                 return r;
+ 
++#if ENABLE_GSHADOW
+         if (with_shadow) {
+                 r = nss_sgrp_for_group(result, &sgrp, &sbuf);
+                 if (r < 0) {
+@@ -402,6 +413,9 @@ int nss_group_record_by_name(
+                 incomplete = true;
+ 
+         r = nss_group_to_group_record(result, sresult, ret);
++#else
++        r = nss_group_to_group_record(result, NULL, ret);
++#endif
+         if (r < 0)
+                 return r;
+ 
+@@ -418,13 +432,16 @@ int nss_group_record_by_gid(
+         _cleanup_free_ char *sbuf = NULL;
+         _cleanup_free_ struct group *result = NULL;
+         bool incomplete = false;
++#if ENABLE_GSHADOW
+         struct sgrp sgrp, *sresult = NULL;
++#endif
+         int r;
+ 
+         r = getgrgid_malloc(gid, &result);
+         if (r < 0)
+                 return r;
+ 
++#if ENABLE_GSHADOW
+         if (with_shadow) {
+                 r = nss_sgrp_for_group(result, &sgrp, &sbuf);
+                 if (r < 0) {
+@@ -436,6 +453,9 @@ int nss_group_record_by_gid(
+                 incomplete = true;
+ 
+         r = nss_group_to_group_record(result, sresult, ret);
++#else
++        r = nss_group_to_group_record(result, NULL, ret);
++#endif
+         if (r < 0)
+                 return r;
+ 
+diff --git a/src/shared/user-record-nss.h b/src/shared/user-record-nss.h
+index 22ab04d6ee..bc266b681c 100644
+--- a/src/shared/user-record-nss.h
++++ b/src/shared/user-record-nss.h
+@@ -2,8 +2,8 @@
+ #pragma once
+ 
+ #include <grp.h>
+-#include <gshadow.h>
+ #include <pwd.h>
++#include <gshadow.h>
+ #include <shadow.h>
+ 
+ #include "group-record.h"
+diff --git a/src/shared/userdb.c b/src/shared/userdb.c
+index 75dece3442..4f4e21a6c4 100644
+--- a/src/shared/userdb.c
++++ b/src/shared/userdb.c
+@@ -1038,13 +1038,16 @@ int groupdb_iterator_get(UserDBIterator *iterator, GroupRecord **ret) {
+                 if (gr) {
+                         _cleanup_free_ char *buffer = NULL;
+                         bool incomplete = false;
++#if ENABLE_GSHADOW
+                         struct sgrp sgrp;
++#endif
+ 
+                         if (streq_ptr(gr->gr_name, "root"))
+                                 iterator->synthesize_root = false;
+                         if (gr->gr_gid == GID_NOBODY)
+                                 iterator->synthesize_nobody = false;
+ 
++#if ENABLE_GSHADOW
+                         if (!FLAGS_SET(iterator->flags, USERDB_SUPPRESS_SHADOW)) {
+                                 r = nss_sgrp_for_group(gr, &sgrp, &buffer);
+                                 if (r < 0) {
+@@ -1055,8 +1058,10 @@ int groupdb_iterator_get(UserDBIterator *iterator, GroupRecord **ret) {
+                                 r = -EUCLEAN;
+                                 incomplete = true;
+                         }
++#endif
++
++                        r = nss_group_to_group_record(gr, NULL, ret);
+ 
+-                        r = nss_group_to_group_record(gr, r >= 0 ? &sgrp : NULL, ret);
+                         if (r < 0)
+                                 return r;
+ 
+diff --git a/src/systemctl/systemctl-edit.c b/src/systemctl/systemctl-edit.c
+index 15398f8364..ae08d65b0f 100644
+--- a/src/systemctl/systemctl-edit.c
++++ b/src/systemctl/systemctl-edit.c
+@@ -316,7 +316,7 @@ int verb_edit(int argc, char *argv[], void *userdata) {
+                 .marker_end = DROPIN_MARKER_END,
+                 .remove_parent = !arg_full,
+                 .overwrite_with_origin = true,
+-                .stdin = arg_stdin,
++                ._stdin = arg_stdin,
+         };
+         _cleanup_strv_free_ char **names = NULL;
+         sd_bus *bus;
+diff --git a/src/test/test-arphrd-util.c b/src/test/test-arphrd-util.c
+index 15b7997750..afa876506a 100644
+--- a/src/test/test-arphrd-util.c
++++ b/src/test/test-arphrd-util.c
+@@ -2,7 +2,6 @@
+ 
+ /* Make sure the net/if.h header is included before any linux/ one */
+ #include <net/if.h>
+-#include <linux/if_arp.h>
+ 
+ #include "arphrd-util.h"
+ #include "string-util.h"
+diff --git a/src/test/test-glob-util.c b/src/test/test-glob-util.c
+index 49d71f15c7..44becc6ead 100644
+--- a/src/test/test-glob-util.c
++++ b/src/test/test-glob-util.c
+@@ -12,6 +12,7 @@
+ #include "rm-rf.h"
+ #include "tests.h"
+ #include "tmpfile-util.h"
++#include "missing_type.h"
+ 
+ TEST(glob_first) {
+         char *first, name[] = "/tmp/test-glob_first.XXXXXX";
+@@ -60,13 +61,7 @@ TEST(glob_no_dot) {
+         char template[] = "/tmp/test-glob-util.XXXXXXX";
+         const char *fn;
+ 
+-        _cleanup_globfree_ glob_t g = {
+-                .gl_closedir = closedir_wrapper,
+-                .gl_readdir = (struct dirent *(*)(void *)) readdir_no_dot,
+-                .gl_opendir = (void *(*)(const char *)) opendir,
+-                .gl_lstat = lstat,
+-                .gl_stat = stat,
+-        };
++        _cleanup_globfree_ glob_t g = {};
+ 
+         int r;
+ 
+diff --git a/src/test/test-parse-argument.c b/src/test/test-parse-argument.c
+index c07b2d9afe..5b4562740e 100644
+--- a/src/test/test-parse-argument.c
++++ b/src/test/test-parse-argument.c
+@@ -1,6 +1,7 @@
+ /* SPDX-License-Identifier: LGPL-2.1-or-later */
+ 
+ #include <signal.h>
++#include <libgen.h>
+ 
+ #include "parse-argument.h"
+ #include "stdio-util.h"
+diff --git a/src/test/test-recurse-dir.c b/src/test/test-recurse-dir.c
+index 8684d064ec..70fc2b5376 100644
+--- a/src/test/test-recurse-dir.c
++++ b/src/test/test-recurse-dir.c
+@@ -8,6 +8,7 @@
+ #include "recurse-dir.h"
+ #include "strv.h"
+ #include "tests.h"
++#include "missing_type.h"
+ 
+ static char **list_nftw = NULL;
+ 
+diff --git a/src/tmpfiles/tmpfiles.c b/src/tmpfiles/tmpfiles.c
+index ec6d8dcfa1..964e924b2f 100644
+--- a/src/tmpfiles/tmpfiles.c
++++ b/src/tmpfiles/tmpfiles.c
+@@ -2570,9 +2570,7 @@ finish:
+ }
+ 
+ static int glob_item(Context *c, Item *i, action_t action) {
+-        _cleanup_globfree_ glob_t g = {
+-                .gl_opendir = (void *(*)(const char *)) opendir_nomod,
+-        };
++        _cleanup_globfree_ glob_t g = {};
+         int r = 0, k;
+ 
+         assert(c);
+@@ -2597,9 +2595,7 @@ static int glob_item_recursively(
+                 Item *i,
+                 fdaction_t action) {
+ 
+-        _cleanup_globfree_ glob_t g = {
+-                .gl_opendir = (void *(*)(const char *)) opendir_nomod,
+-        };
++        _cleanup_globfree_ glob_t g = {};
+         int r = 0, k;
+ 
+         k = safe_glob(i->path, GLOB_NOSORT|GLOB_BRACE, &g);
+diff --git a/src/udev/udev-builtin-net_id.c b/src/udev/udev-builtin-net_id.c
+index ac4541edd7..15cdf98683 100644
+--- a/src/udev/udev-builtin-net_id.c
++++ b/src/udev/udev-builtin-net_id.c
+@@ -19,7 +19,7 @@
+ #include <stdarg.h>
+ #include <unistd.h>
+ #include <linux/if.h>
+-#include <linux/if_arp.h>
++
+ #include <linux/netdevice.h>
+ #include <linux/pci_regs.h>
+ 
+-- 
+2.45.0
+
