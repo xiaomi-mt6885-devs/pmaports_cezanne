@@ -1,7 +1,7 @@
 # Maintainer: Dylan Van Assche <me@dylanvanassche.be>
-# Forked from Alpine: upgrade to 0.3.0
+# Forked from Alpine: upgrade to 0.3.1
 pkgname=hexagonrpcd
-pkgver=0.3.0
+pkgver=0.3.1
 pkgrel=0
 pkgdesc="Qualcomm HexagonFS daemon"
 url="https://gitlab.com/sdm670-mainline/hexagonrpc"
@@ -43,8 +43,8 @@ package() {
 
 
 sha512sums="
-7d7f5a86e66f77136c26535e0b79a176608b494020c465b19049cbff1978f47e0c0da9ab79ba41f092a10d7f47207304ad458b5ddf57b7985ba9f1006fd762e9  hexagonrpc-v0.3.0.tar.gz
-d20aca9bd5a757e0049d0fe5dbdcccdd95f0feb6910adc11b9c02e06d4e9ffae000a52781b1f7106dcabde05b5f2f3c1b65e8581f1393d75a6441094fcd818bd  noshared.patch
+ce2340457390c4ba7b7b6835004bf4f2aa80736716f77e13d523175e699c2a3405d31e684a38cc03093ba49ba951fbdc8cdd6513b2068925e0ab734bae9a06d3  hexagonrpc-v0.3.1.tar.gz
+fd2a54e7725b271ed46eb8bc1360c55a544dd7c8ba8fad2d630407c98c68d9785454a3ac357098e6ce1582420969d95bad628c043e25f86781c3ede1321d36aa  noshared.patch
 f931cf5f901a7c17ffb0eb194b5de2c532fd238692898bf264c484b13b93119c9727bd8f8daf6a7d1668cc9108a9a0662231d300c6f1376e3e4edd3ce41d235d  10-fastrpc.rules
 ba4bf55ee1bde169617ef0b4b2aefc6472397f4a13bf6ff3c2dd5e582df903f617fd59abe00c8efeba458fb9eab5b69ed9a5303b3d9a7f02169d0cf39cbce849  hexagonrpcd-adsp-rootpd.initd
 dc21318e817c4f6cf9192fc574fbc3b8e5e0a737e76277cb4f23aadac21f17a1b75648057afbcb20b5972072acf1cbecb6f4b3dda05ee6c046944f2e5f59cd8b  hexagonrpcd-adsp-sensorspd.initd

@@ -5,13 +5,14 @@ diff --git a/libhexagonrpc/meson.build b/libhexagonrpc/meson.build
 index d83a9a4..a913cf1 100644
 --- a/libhexagonrpc/meson.build
 +++ b/libhexagonrpc/meson.build
-@@ -1,9 +1,8 @@
+@@ -1,10 +1,9 @@
 -libhexagonrpc = shared_library('hexagonrpc',
 +libhexagonrpc = static_library('hexagonrpc',
    'context.c',
    'fastrpc.c',
    'interfaces.c',
    'session.c',
+   c_args : cflags,
    include_directories : include,
 -  install : true
  )
