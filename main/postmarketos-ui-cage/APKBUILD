@@ -1,47 +1,18 @@
 # Maintainer: Vitaliy Ognev <vitaliy.ognev@gmail.com>
 pkgname=postmarketos-ui-cage
-pkgver=1.0.0
-pkgrel=1
+pkgver=1.1.0
+pkgrel=0
 pkgdesc="(Wayland) Kiosk WM"
 arch="all"
 url="https://postmarketos.org/"
 license="GPL-3.0-or-later"
-source="
-	cage-ui.desktop
-	cage-ui-session.sh
-"
-install="$pkgname.post-install"
-_pmb_recommends="postmarketos-demos"
-_pmb_groups="seat"
 options="!check"
-depends="
-	dnsmasq
-	postmarketos-base-ui
-	postmarketos-base-ui-networkmanager
-	wpa_supplicant
-	wireless-tools
-	wlr-randr
-	xwayland
-	cage
-	dbus
-	dbus-openrc
-	seatd
-	seatd-openrc
-	elogind
-	elogind-openrc
-	psmisc
-	tinydm
-	tinydm-openrc
-"
+depends="postmarketos-base-ui-cage"
+# https://gitlab.com/postmarketOS/pmbootstrap/-/issues/2347
+_pmb_groups="seat"
+_pmb_recommends="postmarketos-demos"
 
 package() {
-	mkdir -p pkg/$pkgname
-
-	install -Dm755 "$srcdir"/cage-ui-session.sh -t "$pkgdir"/usr/share/cage-ui/
-	install -Dm644 "$srcdir"/cage-ui.desktop -t "$pkgdir"/usr/share/wayland-sessions/
+	mkdir -p "$pkgdir"
 }
 
-sha512sums="
-b556bcff9bb62ca6580da5e1749aa4d6b8244ebb5213292a348075196704cc919f8060bff8da66c6f61a1aa071b7ae4d81fddf1b3747e89809196459bc2595d8  cage-ui.desktop
-15c3dd09cfd36e42c102c0c6065e47a7c67f9cc12fea641758e88b93e146b3b549bf5828191816ceaf35222c417fbb4b31173d6c4e9003fd23c834aa9b9f985e  cage-ui-session.sh
-"
