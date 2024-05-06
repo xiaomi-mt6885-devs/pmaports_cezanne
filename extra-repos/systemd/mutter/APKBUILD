@@ -1,0 +1,105 @@
+# Forked from Alpine to add systemd!
+
+pkgname=mutter
+pkgver=999946.1
+_pkgver=46.1
+pkgrel=0
+pkgdesc="clutter-based window manager and compositor"
+url="https://wiki.gnome.org/Projects/Mutter/"
+arch="all !s390x" # no libei-dev for s390x
+license="GPL-2.0-or-later"
+depends="
+	gnome-settings-daemon
+	gsettings-desktop-schemas
+	mutter-schemas
+	xkeyboard-config
+	"
+makedepends="
+	at-spi2-core-dev
+	cairo-dev
+	dbus-dev
+	eudev-dev
+	fribidi-dev
+	gdk-pixbuf-dev
+	glib-dev
+	gnome-desktop-dev
+	gnome-settings-daemon-dev
+	gobject-introspection-dev
+	graphene-dev
+	gtk4.0-dev
+	json-glib-dev
+	lcms2-dev
+	libcanberra-dev
+	libdrm-dev
+	libei-dev
+	libgudev-dev
+	libice-dev
+	libinput-dev
+	libsm-dev
+	libwacom-dev
+	libx11-dev
+	libxau-dev
+	libxcb-dev
+	libxcomposite-dev
+	libxcursor-dev
+	libxdamage-dev
+	libxext-dev
+	libxfixes-dev
+	libxi-dev
+	libxinerama-dev
+	libxkbcommon-dev
+	libxkbfile-dev
+	libxrandr-dev
+	libxrender-dev
+	libxtst-dev
+	mesa-dev
+	meson
+	pango-dev
+	pipewire-dev
+	startup-notification-dev
+	systemd-dev
+	wayland-dev
+	wayland-protocols
+	xkeyboard-config-dev
+	xwayland-dev
+	"
+options="!check" # Can't be run with release builds
+subpackages="$pkgname-dbg $pkgname-dev $pkgname-doc $pkgname-lang $pkgname-schemas::noarch"
+source="https://download.gnome.org/sources/mutter/${_pkgver%.*}/mutter-$_pkgver.tar.xz
+	fixudev-req.patch
+	pcversion.patch
+	"
+builddir="$srcdir/$pkgname-$_pkgver"
+
+build() {
+	abuild-meson \
+		-Db_lto=true \
+		-Degl_device=true \
+		-Dudev=true \
+		-Dnative_backend=true \
+		-Dintrospection=true \
+		-Dremote_desktop=true \
+		-Dprofiler=false \
+		-Dtests=false \
+		. output
+	meson compile -C output
+}
+
+schemas() {
+	pkgdesc="Mutter schemas related files"
+	depends=""
+
+	amove usr/share/glib-2.0/schemas
+	amove usr/share/GConf/gsettings
+	amove usr/share/gnome-control-center/keybindings
+}
+
+package() {
+	DESTDIR="$pkgdir" meson install --no-rebuild -C output
+}
+
+sha512sums="
+bb360db020c31e71ae9e247d871130dd737b180a0a48eebcafee6a3b4b5e704fe9828e12caec13e81a03d6b61bfac389c5865e747786cf154ff363ab108a003f  mutter-46.1.tar.xz
+3e5dd59f2f2fd80edde13f64d70d52a023dec303fd8dbfa3ded0d77faf7643179f2ad74d4acd3450decb67deaf6ac85a7af5146fa96f33917b4363f884413af9  fixudev-req.patch
+670927a5528f9fec4801b7dab8a377b7280c239acb1f7a9077647deef71119738deb958a94d4ce0a99d39b29eeab3b2505698f7d19b880bbcec9f5260202d3a6  pcversion.patch
+"
