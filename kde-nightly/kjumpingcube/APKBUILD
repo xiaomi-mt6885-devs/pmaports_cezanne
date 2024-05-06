@@ -6,7 +6,7 @@
 pkgname=kjumpingcube
 pkgver=9999_git20240504
 pkgrel=0
-_commit="bdf90ce7c45927f0e0a8981292ca0e57a8689004"
+_commit="ea140e6465451868331af6f94557687da36278c0"
 pkgdesc="A simple dice driven tactical game"
 # armhf blocked by extra-cmake-modules
 arch="all !armhf"
@@ -30,7 +30,7 @@ makedepends="
 	samurai
 	"
 _repo_url="https://invent.kde.org/games/kjumpingcube.git"
-source="https://nightly.postmarketos.org/plasma-mobile/sources/2024-05-04/kjumpingcube-$_commit.tar.xz"
+source="https://nightly.postmarketos.org/plasma-mobile/sources/2024-05-05/kjumpingcube-$_commit.tar.xz"
 subpackages="$pkgname-doc $pkgname-lang"
 options="!check" # No tests
 
@@ -50,5 +50,5 @@ package() {
 }
 
 sha512sums="
-2f277ef8cf137c7134ddfc12adaf6707c0ef2bba8a688d143af193541657e50572fcae09db56d790ca7f8cce8875eac0670143e15833c11422309ab68e6d2bdd  kjumpingcube-bdf90ce7c45927f0e0a8981292ca0e57a8689004.tar.xz
+23c6aaf1b9960b8f0771ff376e9623511de74cd429987f6a0332b256dd75fb61b593593f7f88be9330babe55e7326616bf6eae666e24a5a402da4abfc6883b58  kjumpingcube-ea140e6465451868331af6f94557687da36278c0.tar.xz
 "

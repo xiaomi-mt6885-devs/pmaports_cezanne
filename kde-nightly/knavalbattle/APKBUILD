@@ -6,7 +6,7 @@
 pkgname=knavalbattle
 pkgver=9999_git20240504
 pkgrel=0
-_commit="268eb2bb81582820d3e22151c7a1d884e39dac37"
+_commit="456d67a5485a26e8fee1d5feb77ff2444a62f0a9"
 # armhf blocked by extra-cmake-modules
 arch="all !armhf"
 url="https://kde.org/applications/games/knavalbattle/"
@@ -27,7 +27,7 @@ makedepends="
 	samurai
 	"
 _repo_url="https://invent.kde.org/games/knavalbattle.git"
-source="https://nightly.postmarketos.org/plasma-mobile/sources/2024-05-04/knavalbattle-$_commit.tar.xz"
+source="https://nightly.postmarketos.org/plasma-mobile/sources/2024-05-05/knavalbattle-$_commit.tar.xz"
 subpackages="$pkgname-doc "
 options="!check" # No tests
 
@@ -47,5 +47,5 @@ package() {
 }
 
 sha512sums="
-6a79748f98b9ef3a9e2c149417c377fe098e78bd2db4ce4485c213796d525ce8dd54820fd8e5124e12b2b1804bde3af2267f566156a16bada25c8e0c0574ff2a  knavalbattle-268eb2bb81582820d3e22151c7a1d884e39dac37.tar.xz
+c202daf7d6ea056468e49e47089df8572708f842c870ed5656228a9edf6e3c9214fee208a620a1b606c5debda4a40046dde9da349a70771aa10164fd4ab84c99  knavalbattle-456d67a5485a26e8fee1d5feb77ff2444a62f0a9.tar.xz
 "

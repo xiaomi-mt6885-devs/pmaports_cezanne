@@ -6,7 +6,7 @@
 pkgname=klines
 pkgver=9999_git20240504
 pkgrel=0
-_commit="7abc3a1ac1836d9851ab1dba7f5dc789c7530a1d"
+_commit="9e7c7093bd0f92a3e1d8a216fbad024c30e88fe4"
 # armhf blocked by extra-cmake-modules
 arch="all !armhf"
 url="https://kde.org/applications/games/klines/"
@@ -28,7 +28,7 @@ makedepends="
 	samurai
 	"
 _repo_url="https://invent.kde.org/games/klines.git"
-source="https://nightly.postmarketos.org/plasma-mobile/sources/2024-05-04/klines-$_commit.tar.xz"
+source="https://nightly.postmarketos.org/plasma-mobile/sources/2024-05-05/klines-$_commit.tar.xz"
 subpackages="$pkgname-doc $pkgname-lang"
 options="!check" # No tests
 
@@ -48,5 +48,5 @@ package() {
 }
 
 sha512sums="
-e4b85580e93fb1a4a732c235dff6f6b9a7c3d7fbec8c85e519ee7c44c933a3f6ba1beb2488c16dffdcc7348e90a35bc67890f8924f6e9ad9460f2ad18819ec19  klines-7abc3a1ac1836d9851ab1dba7f5dc789c7530a1d.tar.xz
+e206a1d7df44f492878c676a83768b225753827c2ce16ac95a5862661feebf88d594b218a85ffc77c71e8d8c545a891682e5c013ccc88fac76c1727fc3795f85  klines-9e7c7093bd0f92a3e1d8a216fbad024c30e88fe4.tar.xz
 "

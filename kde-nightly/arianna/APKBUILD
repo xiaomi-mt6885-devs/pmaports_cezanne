@@ -4,9 +4,9 @@
 # The group tag is just to easily find this APKBUILD by some scripts for automation
 # group=kde-applications
 pkgname=arianna
-pkgver=9999_git20240501
+pkgver=9999_git20240504
 pkgrel=0
-_commit="d597c94c66c11b8e6c4031f48401473c282a2d5b"
+_commit="96e0d0b31d4a745411a31bac19ff3cab9d7e2f54"
 pkgdesc="EPub Reader for mobile devices"
 url="https://invent.kde.org/graphics/arianna/"
 # armhf blocked by extra-cmake-modules
@@ -39,7 +39,7 @@ makedepends="
 	"
 subpackages="$pkgname-lang"
 _repo_url="https://invent.kde.org/graphics/arianna.git"
-source="https://nightly.postmarketos.org/plasma-mobile/sources/2024-05-04/arianna-$_commit.tar.xz"
+source="https://nightly.postmarketos.org/plasma-mobile/sources/2024-05-05/arianna-$_commit.tar.xz"
 options="!check" # No tests
 
 options="!check"
@@ -58,5 +58,5 @@ package() {
 }
 
 sha512sums="
-813a224eec9ae59bd59559e83a0aecf10d7b929a20565c9a4f252d80d945e3859be0bf665cf716cd6b7458bedc2fbcfe53074632677a93c6c4847f9cd1fd3f16  arianna-d597c94c66c11b8e6c4031f48401473c282a2d5b.tar.xz
+291c623096ced717ddfce67b4ca0e2377e8bc465db3d469b37231507b437f24a51f57b2ea6bf7ffcef25691a18852f7673b9b55fdd4119dd55e6e9b7352fe7fc  arianna-96e0d0b31d4a745411a31bac19ff3cab9d7e2f54.tar.xz
 "

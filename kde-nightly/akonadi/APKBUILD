@@ -4,9 +4,9 @@
 # The group tag is just to easily find this APKBUILD by some scripts for automation
 # group=kde-applications
 pkgname=akonadi
-pkgver=9999_git20240503
+pkgver=9999_git20240504
 pkgrel=0
-_commit="92a704d9a9ef847fc8f2e9932f0afb5f362ff26c"
+_commit="d4c6bfe1d93c1426de2d6609491c8d7239547fea"
 pkgdesc="A cross-desktop storage service for PIM data and meta data providing concurrent read, write, and query access"
 # armhf blocked by extra-cmake-modules
 # ppc64le, s390x and riscv64 blocked by kaccounts-integration
@@ -49,7 +49,7 @@ checkdepends="
 	xvfb-run
 	"
 _repo_url="https://invent.kde.org/pim/akonadi.git"
-source="https://nightly.postmarketos.org/plasma-mobile/sources/2024-05-04/akonadi-$_commit.tar.xz"
+source="https://nightly.postmarketos.org/plasma-mobile/sources/2024-05-05/akonadi-$_commit.tar.xz"
 subpackages="$pkgname-dbg $pkgname-dev $pkgname-lang"
 
 options="!check"
@@ -100,5 +100,5 @@ package() {
 	DESTDIR="$pkgdir" cmake --install build
 }
 sha512sums="
-bef735d54bd7108dffe7678f81f017ca1bec28bdcb9a3c57d8e531acf0f62c4570d18b54abfbdec23bfe18bea07c974c7a644893cc568131322f80664cdcd9ba  akonadi-92a704d9a9ef847fc8f2e9932f0afb5f362ff26c.tar.xz
+be611eae7ec8b01d926fd4b9f1e06642ff029d172ea33dcf72f2b119b823e2163257cf3c5cb94cc264898c918c532cfe353209d38367909dd4fc587fe669c4e9  akonadi-d4c6bfe1d93c1426de2d6609491c8d7239547fea.tar.xz
 "

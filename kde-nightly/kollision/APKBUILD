@@ -4,9 +4,9 @@
 # The group tag is just to easily find this APKBUILD by some scripts for automation
 # group=kde-applications
 pkgname=kollision
-pkgver=9999_git20240503
+pkgver=9999_git20240504
 pkgrel=0
-_commit="eddf2dd7925d55ce13ea9d1906a495d8313e4271"
+_commit="26db2fcff4d5a0607e8ed36941fc89e7cffb7e6c"
 pkgdesc="A simple ball dodging game"
 # armhf blocked by extra-cmake-modules
 arch="all !armhf"
@@ -27,7 +27,7 @@ makedepends="
 	samurai
 	"
 _repo_url="https://invent.kde.org/games/kollision.git"
-source="https://nightly.postmarketos.org/plasma-mobile/sources/2024-05-04/kollision-$_commit.tar.xz"
+source="https://nightly.postmarketos.org/plasma-mobile/sources/2024-05-05/kollision-$_commit.tar.xz"
 subpackages="$pkgname-doc $pkgname-lang"
 options="!check" # No tests
 
@@ -47,5 +47,5 @@ package() {
 }
 
 sha512sums="
-df31078807f79d0a9b1bb0661ba99b53eb6bf8df05d5048f2e938b2ce856f62632a9af9c944c7e770034039a9a8a2899e47949b3121615202cfefe85c29482f6  kollision-eddf2dd7925d55ce13ea9d1906a495d8313e4271.tar.xz
+3e24ded0bafe1aa65c7d20058170a0865e383962f208be10a6c27c30a474486bd105a514bb6b76c38928b991455c97ef8746a82364da66bff702505c81673d6e  kollision-26db2fcff4d5a0607e8ed36941fc89e7cffb7e6c.tar.xz
 "

@@ -4,9 +4,9 @@
 # The group tag is just to easily find this APKBUILD by some scripts for automation
 # group=kde-applications
 pkgname=kidentitymanagement
-pkgver=9999_git20240503
+pkgver=9999_git20240504
 pkgrel=0
-_commit="e208e1655527ac765e02e958cfdac5273653c3db"
+_commit="76caa087a1284e09d807d06a6701af52f90975d7"
 pkgdesc="KDE PIM libraries"
 # armhf blocked by extra-cmake-modules
 arch="all !armhf"
@@ -31,7 +31,7 @@ makedepends="$depends_dev
 	"
 checkdepends="xvfb-run"
 _repo_url="https://invent.kde.org/pim/kidentitymanagement.git"
-source="https://nightly.postmarketos.org/plasma-mobile/sources/2024-05-04/kidentitymanagement-$_commit.tar.xz"
+source="https://nightly.postmarketos.org/plasma-mobile/sources/2024-05-05/kidentitymanagement-$_commit.tar.xz"
 subpackages="$pkgname-dev $pkgname-lang"
 
 options="!check"
@@ -57,5 +57,5 @@ package() {
 }
 
 sha512sums="
-6b89093a7b09822f9962818ae32cb84394f8e2850683fcd25d300cb3ce4db5d14cf8badecc3b067520eb347bbdf8706a80ff2a3b0de5dde09b82a10f14db297d  kidentitymanagement-e208e1655527ac765e02e958cfdac5273653c3db.tar.xz
+0510cf00ebb18cedeee1fee407bb78b6e53fa991a9abad1e94d6ebd76152d4f8835883882d4eef268844285ded38f2f4ccfefc415ac827157233ee8807a84e93  kidentitymanagement-76caa087a1284e09d807d06a6701af52f90975d7.tar.xz
 "
