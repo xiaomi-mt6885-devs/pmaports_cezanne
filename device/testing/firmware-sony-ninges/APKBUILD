@@ -1,6 +1,6 @@
 pkgname=firmware-sony-ninges
 pkgver=1
-pkgrel=0
+pkgrel=1
 pkgdesc="Firmware for Sony Xperia XA2/Plus/Ultra & 10/10 Plus"
 url="postmarketos.org"
 arch="aarch64"
@@ -15,5 +15,5 @@ package() {
 }
 
 sha512sums="
-53a6f039264547a2f5972c45a9b4c468867a0dc2f2eaea0f085d323643a8cd2f308fa840cd30502c0511441754ca1ee2f7a242135e37e73b9123a5e4162e2da6  copy-firmware.initd
+b7ea0c8fbd04980175854c92059fe34f31f1321b28f50db4ad97e5d6d6200adac1dfde88b048cf224203bf249f0c522bbf6cf65d73517c555b16d40a72221072  copy-firmware.initd
 "

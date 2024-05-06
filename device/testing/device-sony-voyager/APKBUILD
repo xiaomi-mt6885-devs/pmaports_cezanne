@@ -1,0 +1,43 @@
+# Reference: <https://postmarketos.org/devicepkg>
+# Maintainer: Max Buchholz <max.buchholz@gmx.de>
+pkgname=device-sony-voyager
+pkgdesc="Sony Xperia XA2 Plus"
+pkgver=0.1
+pkgrel=1
+url="https://postmarketos.org"
+license="MIT"
+arch="aarch64"
+options="!check !archcheck"
+depends="
+	linux-postmarketos-qcom-sdm660
+	mkbootimg
+	postmarketos-base
+	soc-qcom-sdm660
+	soc-qcom-sdm660-rproc
+"
+makedepends="devicepkg-dev"
+install="$pkgname.post-install"
+source="
+	deviceinfo
+"
+subpackages="
+	$pkgname-nonfree-firmware:nonfree_firmware
+"
+
+build() {
+	devicepkg_build $startdir $pkgname
+}
+
+package() {
+	devicepkg_package $startdir $pkgname
+}
+
+nonfree_firmware() {
+	pkgdesc="Various firmware files required for most subsystems to run"
+	depends="firmware-sony-ninges soc-qcom-sdm660-nonfree-firmware"
+	mkdir "$subpkgdir"
+}
+
+sha512sums="
+d6577549fb55b466096f58f695ce435ef5eb215af3d5291db1571b4f3ae12c751dc03c2619df318cd914033301f8c092b79cfb791e345df64ee4e3f289765162  deviceinfo
+"
