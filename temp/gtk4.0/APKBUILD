@@ -1,8 +1,8 @@
 # Maintainer: Teemu Ikonen <tpikonen@mailbox.org>
 # Forked from Alpine to apply patches for adaptive transient window handling
 pkgname=gtk4.0
-pkgver=9999.4.14.2
-_pkgver=4.14.2
+pkgver=9999.4.14.3
+_pkgver=4.14.3
 pkgrel=0
 pkgdesc="The GTK Toolkit (v4)"
 url="https://www.gtk.org/"
@@ -133,7 +133,7 @@ lang() {
 }
 
 sha512sums="
-bd4a27091a56f35d294d1dc0700f9b2af8e11c6b7a8cd3dcbb72b6bce388877b3354582e19889e2612e6717d4cf2bf9aae30c4a393c1614582dfa2ef2b6842c9  gtk-4.14.2.tar.xz
+2502fff3e98cb45f2293c94d86c32ff9b7c88d72eb7500a19fc9e589e1eda69af94c4eae78c044dcf5cf345cb99537d264250115d633034d9552cadc67f71e8e  gtk-4.14.3.tar.xz
 85ced777c23111f502f8a7d49902c65b113f51c1156490c08de2d8f9cb4a5e85c4a3eec0f043c0fa9d9ff44d6b9ab44c4c2865ecd06c3979a3f2558b287c35fd  0001-window-Maximize-resizable-transient-windows-on-small.patch
 559f362a918f0f60dfd621daa489f16a61ea9ddd9ad0ef7ad043ceebe1013b8f2fce2f5c3c27597bfc801f2703867095909f16e2b9088e0bf374f36667e25abe  0002-windowcontrols-Force-close-buttons-for-transient-win.patch
 "
