@@ -67,31 +67,19 @@ setup_firmware_path() {
 	echo -n /lib/firmware/postmarketos >$SYS
 }
 
-# shellcheck disable=SC3043
-load_modules() {
-	local file="$1"
-	local modules="$2"
-	[ -f "$file" ] && modules="$modules $(grep -v ^\# "$file")"
-	# shellcheck disable=SC2086
-	modprobe -a $modules
-}
-
-setup_mdev() {
-	# Start mdev daemon
-	mdev -d
-}
-
 setup_udev() {
-	# Use udev to coldplug all devices so that they can be used via libinput (e.g.
-	# by unl0kr). This is the same series of steps performed by the udev,
+	if ! command -v udevd > /dev/null || ! command -v udevadm > /dev/null; then
+		echo "ERROR: udev not found!"
+		return
+	fi
+
+	# This is the same series of steps performed by the udev,
 	# udev-trigger and udev-settle RC services. See also:
 	# - https://git.alpinelinux.org/aports/tree/main/eudev/setup-udev
 	# - https://git.alpinelinux.org/aports/tree/main/udev-init-scripts/APKBUILD
-	if command -v udevd > /dev/null && command -v udevadm > /dev/null; then
-		udevd -d
-		udevadm trigger --type=devices --action=add
-		udevadm settle
-	fi
+	udevd -d --resolve-names=never
+	udevadm trigger --type=devices --action=add
+	udevadm settle
 }
 
 get_uptime_seconds() {
@@ -129,7 +117,7 @@ mount_subpartitions() {
 	attempt_start=$(get_uptime_seconds)
 	wait_seconds=10
 	echo "Trying to mount subpartitions for $wait_seconds seconds..."
-	while [ -z "$(find_boot_partition)" ]; do
+	while [ -z "$(find_root_partition)" ]; do
 		partitions="$android_parts $(grep -v "loop\|ram" < /proc/diskstats |\
 			sed 's/\(\s\+[0-9]\+\)\+\s\+//;s/ .*//;s/^/\/dev\//')"
 		for partition in $partitions; do
@@ -140,7 +128,7 @@ mount_subpartitions() {
 					# Ensure that this was the *correct* subpartition
 					# Some devices have mmc partitions that appear to have
 					# subpartitions, but aren't our subpartition.
-					if [ -n "$(find_boot_partition)" ]; then
+					if [ -n "$(find_root_partition)" ]; then
 						break
 					fi
 					kpartx -d "$partition"
@@ -361,23 +349,41 @@ extract_initramfs_extra() {
 }
 
 wait_boot_partition() {
-	while [ -z "$(find_boot_partition)" ]; do
-		show_splash "ERROR: boot partition not found, retrying...\\nhttps://postmarketos.org/troubleshooting"
-		echo "Could not find the boot partition."
-		echo "If your install is on a removable disk, maybe you need to insert it?"
-		echo "Trying again..."
+	if [ -n "$PMOS_BOOT" ]; then
+		return
+	fi
+
+	show_splash "Waiting for boot partition...\\nhttps://postmarketos.org/troubleshooting"
+	for _ in $(seq 1 30); do
+		if [ -n "$(find_boot_partition)" ]; then
+			return
+		fi
+		echo "Waiting for boot partition..."
 		sleep 1
+		check_keys ""
 	done
+
+	show_splash "ERROR: Boot partition not found!\\nhttps://postmarketos.org/troubleshooting"
+	fail_halt_boot
 }
 
 wait_root_partition() {
-	while [ -z "$(find_root_partition)" ]; do
-		show_splash "ERROR: root partition not found, retrying...\\nhttps://postmarketos.org/troubleshooting"
-		echo "Could not find the rootfs."
-		echo "If your install is on a removable disk, maybe you need to insert it?"
-		echo "Trying again..."
+	if [ -n "$PMOS_ROOT" ]; then
+		return
+	fi
+
+	show_splash "Waiting for root partition...\\nhttps://postmarketos.org/troubleshooting"
+	for _ in $(seq 1 30); do
+		if [ -n "$(find_root_partition)" ]; then
+			return
+		fi
+		echo "Waiting for root partition..."
 		sleep 1
+		check_keys ""
 	done
+
+	show_splash "ERROR: Root partition not found!\\nhttps://postmarketos.org/troubleshooting"
+	fail_halt_boot
 }
 
 delete_old_install_partition() {
@@ -834,6 +840,13 @@ debug_shell() {
 	# Spawn a getty on the active console
 	run_getty "$active_console"
 
+	hide_splash
+	modprobe uinput
+	buffyboard 2>/dev/tty1 &
+	if [ "$active_console" != "tty1" ]; then
+		run_getty tty1
+	fi
+
 	# And on the usb acm port (if it exists)
 	if [ -e /dev/ttyGS0 ] && [ "$active_console" != "ttyGS0" ]; then
 		run_getty ttyGS0
@@ -855,7 +868,7 @@ debug_shell() {
 
 	show_splash "Loading..."
 
-	pkill -f fbkeyboard || true
+	pkill -f buffyboard || true
 }
 
 # Check if the user is pressing a key and either drop to a shell or halt boot as applicable
