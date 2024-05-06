@@ -1,0 +1,125 @@
+diff --git a/hexagonrpcd/hexagonfs.c b/hexagonrpcd/hexagonfs.c
+index bd9f353..3b033c1 100644
+--- a/hexagonrpcd/hexagonfs.c
++++ b/hexagonrpcd/hexagonfs.c
+@@ -29,6 +29,107 @@
+ 
+ #include "hexagonfs.h"
+ 
++#define DEFINE_VIRT_DIR(dirname, files...)				\
++	(struct hexagonfs_dirent) {					\
++		.name = dirname,					\
++		.ops = &hexagonfs_virt_dir_ops,				\
++		.u.dir = (struct hexagonfs_dirent *[]) { files },	\
++	}
++
++#define DEFINE_MAPPED(dirname, path)		\
++	(struct hexagonfs_dirent) {		\
++		.name = dirname,		\
++		.ops = &hexagonfs_mapped_ops,	\
++		.u.phys = path,			\
++	}
++
++#define DEFINE_SYSFILE(dirname, path)			\
++	(struct hexagonfs_dirent) {			\
++		.name = dirname,			\
++		.ops = &hexagonfs_mapped_sysfs_ops,	\
++		.u.phys = path,				\
++	}
++
++struct hexagonfs_dirent hexagonfs_root_dir = DEFINE_VIRT_DIR("/",
++	&DEFINE_VIRT_DIR("mnt",
++		&DEFINE_VIRT_DIR("vendor",
++			&DEFINE_VIRT_DIR("persist",
++				&DEFINE_VIRT_DIR("sensors",
++					&DEFINE_VIRT_DIR("registry",
++						&DEFINE_MAPPED("registry",
++							       "/var/lib/qcom/sensors"),
++						NULL,
++					),
++					NULL,
++				),
++				NULL,
++			),
++			NULL,
++		),
++		NULL,
++	),
++	&DEFINE_VIRT_DIR("persist",
++		&DEFINE_VIRT_DIR("sensors",
++			&DEFINE_VIRT_DIR("registry",
++				&DEFINE_MAPPED("registry",
++					       "/var/lib/qcom/sensors"),
++				NULL,
++			),
++			NULL,
++		),
++		NULL,
++	),
++	&DEFINE_VIRT_DIR("sys",
++		&DEFINE_VIRT_DIR("devices",
++			&DEFINE_VIRT_DIR("soc0",
++				&DEFINE_SYSFILE("hw_platform",
++						"/sys/kernel/debug/qcom_socinfo/hardware_platform"),
++				&(struct hexagonfs_dirent) {
++					.name = "platform_subtype",
++					.ops = &hexagonfs_plat_subtype_name_ops,
++					.u.phys = "/sys/kernel/debug/qcom_socinfo/hardware_platform_subtype",
++				},
++				&DEFINE_SYSFILE("platform_subtype_id",
++						"/sys/kernel/debug/qcom_socinfo/hardware_platform_subtype"),
++				&DEFINE_SYSFILE("platform_version",
++						"/sys/kernel/debug/qcom_socinfo/platform_version"),
++				&DEFINE_SYSFILE("revision",
++						"/sys/devices/soc0/revision"),
++				&DEFINE_SYSFILE("soc_id",
++						"/sys/devices/soc0/soc_id"),
++				NULL,
++			),
++			NULL,
++		),
++		NULL,
++	),
++	&DEFINE_VIRT_DIR("usr",
++		&DEFINE_VIRT_DIR("lib",
++			&DEFINE_VIRT_DIR("qcom",
++				&DEFINE_MAPPED("adsp",
++					       "/usr/lib/qcom/adsp/"),
++				NULL,
++			),
++			NULL,
++		),
++		NULL,
++	),
++	&DEFINE_VIRT_DIR("vendor",
++		&DEFINE_VIRT_DIR("etc",
++			&DEFINE_VIRT_DIR("sensors",
++				&DEFINE_MAPPED("config",
++					       "/etc/qcom/sensors.d/"),
++				&DEFINE_MAPPED("sns_reg_config",
++					       "/etc/qcom/sns_reg.conf"),
++				NULL,
++			),
++			NULL,
++		),
++		NULL,
++	),
++	NULL,
++);
++
+ static char *copy_segment_and_advance(const char *path,
+ 				      bool *trailing_slash,
+ 				      const char **next)
+diff --git a/hexagonrpcd/hexagonfs.h b/hexagonrpcd/hexagonfs.h
+index 7682604..00cfc46 100644
+--- a/hexagonrpcd/hexagonfs.h
++++ b/hexagonrpcd/hexagonfs.h
+@@ -69,6 +69,8 @@ extern struct hexagonfs_file_ops hexagonfs_mapped_sysfs_ops;
+ extern struct hexagonfs_file_ops hexagonfs_plat_subtype_name_ops;
+ extern struct hexagonfs_file_ops hexagonfs_virt_dir_ops;
+ 
++extern struct hexagonfs_dirent hexagonfs_root_dir;
++
+ int hexagonfs_open_root(struct hexagonfs_fd **fds, struct hexagonfs_dirent *root);
+ int hexagonfs_openat(struct hexagonfs_fd **fds, int rootfd, int dirfd, const char *name);
+ int hexagonfs_close(struct hexagonfs_fd **fds, int fileno);

@@ -1,0 +1,76 @@
+diff --git a/hexagonrpcd/rpcd_builder.c b/hexagonrpcd/rpcd_builder.c
+index 306d666..f978034 100644
+--- a/hexagonrpcd/rpcd_builder.c
++++ b/hexagonrpcd/rpcd_builder.c
+@@ -112,7 +112,7 @@ struct hexagonfs_dirent *construct_root_dir(const char *prefix, const char *dsp)
+ {
+ 	char *acdbdata, *dsp_libs, *sns_cfg, *sns_reg, *sns_reg_config;
+ 	size_t n_prefix;
+-	struct hexagonfs_dirent *persist_dir;
++	struct hexagonfs_dirent *persist_dir, *persist_sys;
+ 
+ 	n_prefix = strlen(prefix);
+ 
+@@ -161,7 +161,35 @@ struct hexagonfs_dirent *construct_root_dir(const char *prefix, const char *dsp)
+ 				)
+ 		      );
+ 
+-	return hfs_mkdir("/", 4,
++	/*
++	 * Add sys file mapping
++	 */
++
++	persist_sys = hfs_mkdir("sys", 1,
++				hfs_mkdir("devices", 1,
++					hfs_mkdir("soc0", 6,
++						hfs_map("hw_platform",
++						"/sys/kernel/debug/qcom_socinfo/hardware_platform"),
++						hfs_map("platform_subtype",
++						"/sys/kernel/debug/qcom_socinfo/hardware_platform_subtype"),
++						hfs_map("platform_subtype_id",
++						"/sys/kernel/debug/qcom_socinfo/hardware_platform_subtype"),
++						hfs_map("platform_version",
++						"/sys/kernel/debug/qcom_socinfo/platform_version"),
++						hfs_map("revision",
++						"/sys/devies/soc0/revision"),
++						hfs_map("soc_id",
++						"/sys/devices/soc0/soc_id")
++					)
++				)
++			);
++
++
++
++
++
++
++	return hfs_mkdir("/", 5,
+ 			hfs_mkdir("mnt", 1,
+ 				hfs_mkdir("vendor", 1,
+ 					persist_dir
+@@ -175,14 +203,17 @@ struct hexagonfs_dirent *construct_root_dir(const char *prefix, const char *dsp)
+ 					)
+ 				)
+ 			),
+-			hfs_mkdir("vendor", 1,
+-				hfs_mkdir("etc", 2,
+-					hfs_mkdir("sensors", 2,
+-						hfs_map_or_empty("config", sns_cfg),
+-						hfs_map("sns_reg_config", sns_reg_config)
+-					),
+-					hfs_map("acdbdata", acdbdata)
++			hfs_mkdir("system",1,
++				hfs_mkdir("vendor", 1,
++					hfs_mkdir("etc", 2,
++						hfs_mkdir("sensors", 2,
++							hfs_map_or_empty("config", sns_cfg),
++							hfs_map("sns_reg_config", sns_reg_config)
++						),
++						hfs_map("acdbdata", acdbdata)
++					)
+ 				)
+-			)
++			),
++			persist_sys
+ 		);
+ }
