@@ -6,7 +6,7 @@
 
 pkgname=linux-samsung-klte-downstream
 pkgver=3.4.113
-pkgrel=1
+pkgrel=2
 pkgdesc="Samsung Galaxy S5 downstream kernel fork"
 arch="armv7"
 _carch="arm"
@@ -44,6 +44,8 @@ source="
 	0012-Backport-asm-generic-add-memfd_create-system-call-to-unistd.h.patch
 	0013-Backport-ARM-wire-up-memfd_create-syscall.patch
 	gcc10-extern_YYLOC_global_declaration.patch
+	linux3.4-ARM-8933-1-replace-Sun-Solaris-style-flag-on-section.patch
+	linux3.4-fix-piggy.gzip.S.patch
 "
 
 builddir="$srcdir/$_repository-$_commit"
@@ -92,4 +94,6 @@ c62d67a5fb28082e86a585b4c64891525db640ce694445f0fb19e67fb8dcd9ccbfbcb6fba8692964
 cbf6e4bdf53b02f897923d0f6eea5320acc6760c3f3ed762e69928ced7e3b6f2a5355df4a2fccf560f010a4a1968e7ae1a3f62c2db299857d6bcc9715d932822  0012-Backport-asm-generic-add-memfd_create-system-call-to-unistd.h.patch
 2f256f6ec9fa7b240dd1f9417622bfd5a8ca4a9ea12cd2ef171540e1425d4171122c0597fe12af913ef60979ef9a3dce8a6c1c523c91020cb9481560901cc92b  0013-Backport-ARM-wire-up-memfd_create-syscall.patch
 2b48f1bf0e3f70703d2cdafc47d5e615cc7c56c70bec56b2e3297d3fa4a7a1321d649a8679614553dde8fe52ff1051dae38d5990e3744c9ca986d92187dcdbeb  gcc10-extern_YYLOC_global_declaration.patch
+9e3b067fa1b19ad02500c4fce1b6142051df3845c508e615788beb650c4f953683107ac2d80670c4e3df38f532e0e91060d2d13ec04c9ec985abd2dfa82e900b  linux3.4-ARM-8933-1-replace-Sun-Solaris-style-flag-on-section.patch
+080745ca4ecaa804ee1df26ea81975ca93b74372e0c08322a6c481e97807495ae6ceb6cc77653afa24f9f2df45da8ebf8e5de6b06037fbb08e0279877ce42188  linux3.4-fix-piggy.gzip.S.patch
 "
