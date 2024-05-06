@@ -4,7 +4,7 @@
 
 pkgname=linux-postmarketos-grate
 pkgver=6.6.22
-pkgrel=0
+pkgrel=1
 pkgdesc="Linux kernel with experimental patches for Tegra"
 arch="armv7"
 url="https://gitlab.com/grate-driver/linux"
@@ -49,5 +49,5 @@ package() {
 
 sha512sums="
 db25898c5c4103e12ace113de7f7eba91b41f94a4dae270c9424341e8f796a98dee8676d1d02b229b0c4b11cc79b31454a13f9f2b7b1277b5ca9bb7328d54a39  linux-postmarketos-grate-v6.6.22-lts.tar.bz2
-e65e2cbf8cb98b571e75c1eb6232b7af27218d5a81691bb15a31d14fef4177b18209415256799c84eef0edba27249b81ea4d42b095898ce68247e1e4101a739f  config-postmarketos-grate.armv7
+651bcf10d50f5ff0f20de03384a5a0e6318e0d2b8ad527e9a19e7e119ce06c5188bb772fbafc4f6d6c97188d24639eba8bcfd1dd10c2d6a6a24414f7d9aa0576  config-postmarketos-grate.armv7
 "

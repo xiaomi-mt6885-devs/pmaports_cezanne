@@ -4,7 +4,7 @@
 # Co-Maintainer: Newbyte <newbyte@postmarketos.org>
 pkgname=linux-purism-librem5
 pkgver=6.6.22
-pkgrel=1
+pkgrel=2
 # NOTE: Don't forget to rebase the config! See prepare() for instructions.
 _purismrel=1
 # <kernel ver>.<purism kernel release>
@@ -84,5 +84,5 @@ package() {
 
 sha512sums="
 5cbf171b714be51d41eeab852e6623d5b21f18bd5ab0387a649d1792574c3ce827a3b84ed7b04bec349f430c4a44e5a3946fa410991300a618234b5150297e2e  linux-purism-librem5-6.6.22pureos1.tar.gz
-fedec4eb9316f1a35072f8c15ced57685d68d38901cb6ae171b0f2d6a5c6b78773ae3aa0ff05445ed4012fadf2489ee97fe0972d8b7e5a07188eb65a5a360995  config-purism-librem5.aarch64
+63f340f0fa2bd2c32c15d775150286a8d9dbeee3ca29f59670cd54bd438aa60cca0b7aecceb5789bf5ab91564e328a11f4845fdfb2913a1e56043ce839a79cb8  config-purism-librem5.aarch64
 "

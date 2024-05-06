@@ -2,7 +2,7 @@
 # Co-Maintainer: Jenneron <jenneron@protonmail.com>
 pkgname=linux-postmarketos-mediatek-mt8183
 pkgver=6.6.25
-pkgrel=0
+pkgrel=1
 pkgdesc="Mainline kernel for mediatek mt8183"
 arch="aarch64"
 _flavor="${pkgname#linux-}"
@@ -103,5 +103,5 @@ e9a128a8ddd98c6c8957ba45186afa2ea8ebeac83d4f2db3ff9ee8a5dd8027af90868c334a7b456b
 d74da1231181835bec82015da1b3f5b08a1fe9c3c35dd712e285891094d94d9427ceac75d32f74be3a635e17d93ad82b37adf97db8176efc91aed17535023fc2  mt8183-fix-bluetooth.patch
 9e64ef057ecd9bb23b0b0e830007c50ea9c481f64f460d063e9f64735d70d5a4bcf87d9148aa5cc90963ccd5860fe4a9e6f25556a902332b95ef48537d6ee045  Revert-ASoC-mediatek-mt8183-da7219-max98357-Map-miss.patch
 9b8707de42635734031495da055c5860addeb656051540f1a14404b10aa8b501168d8b0e274b37bce989db3bc050e9beef722189556f6d782b92cc907731488d  mt8183-kukui-jacuzzi-fennel14-rt1015p-sound.patch
-93cb166f30714f8ce813367f454110f5da4414ea26c86d0f072187b52ddb7e42e877c590a6aa5e6c07a597a49c631af84ac6843b47203474872211b92cd1524a  config-postmarketos-mediatek-mt8183.aarch64
+b99d226ad93ee3d09ffedf028bccf2d0561709e3c8f55e1c2db77eb83ae14e4bf81c545e3c016e811f4f66e6216def18893a1a347940e6db4fe3bc1a1ecc36cd  config-postmarketos-mediatek-mt8183.aarch64
 "
