@@ -6,7 +6,7 @@
 pkgname=krunner
 pkgver=9999_git20240503
 pkgrel=0
-_commit="c1cd127e190fb476d63ae4195488040b7187f0ce"
+_commit="e9912055a092bfc5423c01cc991019d87028f020"
 pkgdesc="Framework for providing different actions given a string query"
 # armhf blocked by extra-cmake-modules
 arch="all !armhf"
@@ -33,7 +33,7 @@ checkdepends="
 	xvfb-run
 	"
 _repo_url="https://invent.kde.org/frameworks/krunner.git"
-source="https://nightly.postmarketos.org/plasma-mobile/sources/2024-05-05/krunner-$_commit.tar.xz"
+source="https://nightly.postmarketos.org/plasma-mobile/sources/2024-05-06/krunner-$_commit.tar.xz"
 subpackages="$pkgname-dev $pkgname-doc"
 
 options="!check"
@@ -58,5 +58,5 @@ package() {
 }
 
 sha512sums="
-e0b3e73c63cd6f38da254abc475b33f20509c00092f1d50668bb47219ca1d01d124a9fdf4624288117bebe15ff9b16981a5e8e18aba0a7e8de5d52d5fd84dd87  krunner-c1cd127e190fb476d63ae4195488040b7187f0ce.tar.xz
+d169f2fcb76962f98ebf1c55720823d157349bf5888f58b5f2590f78a1376c6293f38aaf5524019f88327b0d4f77280e773bb8742450ee193b96faf5bee6dda0  krunner-e9912055a092bfc5423c01cc991019d87028f020.tar.xz
 "

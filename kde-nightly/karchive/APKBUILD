@@ -4,9 +4,9 @@
 # The group tag is just to easily find this APKBUILD by some scripts for automation
 # group=kde-frameworks
 pkgname=karchive
-pkgver=9999_git20240504
+pkgver=9999_git20240506
 pkgrel=0
-_commit="80155832c3d5ca86a91ad0bb68afd41c7ede10c2"
+_commit="baa66f1eea8fbbbed37e15a772cc8176e3c61a43"
 pkgdesc="Qt addon providing access to numerous types of archives"
 # armhf blocked by extra-cmake-modules
 arch="all !armhf"
@@ -25,7 +25,7 @@ makedepends="$depends_dev
 	samurai
 	"
 _repo_url="https://invent.kde.org/frameworks/karchive.git"
-source="https://nightly.postmarketos.org/plasma-mobile/sources/2024-05-05/karchive-$_commit.tar.xz"
+source="https://nightly.postmarketos.org/plasma-mobile/sources/2024-05-06/karchive-$_commit.tar.xz"
 subpackages="$pkgname-dev $pkgname-doc $pkgname-lang"
 
 options="!check"
@@ -49,5 +49,5 @@ package() {
 }
 
 sha512sums="
-b9a58fc09c37d234d7d6accef96e1f0b2dec4d52cbc013529cb7fa9f16bd25ee6d33a16e10fd2424dbd330c9ee0278df4548c98e8ab6dec95e8707723a2ffc73  karchive-80155832c3d5ca86a91ad0bb68afd41c7ede10c2.tar.xz
+afa152d72db3e5fed52232390a9ba97860f90f7a3fcc07ac38814cdfda8ece3e4a6d1d992bb26cd58b3ac150e3d195e90247b737fab1d49dbc08d070a56d7771  karchive-baa66f1eea8fbbbed37e15a772cc8176e3c61a43.tar.xz
 "
