@@ -3,7 +3,7 @@
 pkgname=device-powkiddy-x55
 pkgdesc="Powkiddy X55"
 pkgver=3
-pkgrel=0
+pkgrel=1
 url="https://postmarketos.org"
 license="MIT"
 arch="aarch64"
@@ -33,7 +33,7 @@ package() {
 
 cage_ui_addons() {
 	pkgdesc="Cage-UI addons for powkiddy x55"
-	install_if="$pkgname=$pkgver-r$pkgrel postmarketos-ui-cage"
+	install_if="$pkgname=$pkgver-r$pkgrel postmarketos-base-ui-cage"
 
 	install -Dm644 "$srcdir"/cage-ui-powkiddy-x55-rotate.sh -t "$subpkgdir"/etc/cage-ui/
 }
