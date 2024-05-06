@@ -4,7 +4,7 @@ _flavor=postmarketos-allwinner
 _config="config-$_flavor.$CARCH"
 pkgname=linux-$_flavor
 pkgver=6.7.9_git20240306
-pkgrel=2
+pkgrel=3
 _tag="orange-pi-6.7-20240306-2359"
 pkgdesc="Kernel fork with Pine64 patches (megi's tree, slightly patched)"
 arch="aarch64 armv7"
@@ -47,6 +47,7 @@ source="$pkgname-$_tag.tar.gz::https://codeberg.org/megi/linux/archive/$_tag.tar
 	0013-Revert-usb-quirks-Add-USB_QUIRK_RESET-for-Quectel-EG25G-Modem.patch
 	0014-usb-serial-option-add-reset-resume-callback-for-WWAN.patch
 	0015-ARM-dts-allwinner-sun5i-a13-pocketbook-614-plus-Add-.patch
+	0016-Define-orientation-and-rotation-for-PinePhone-camera.patch
 	"
 builddir="$srcdir/linux"
 
@@ -102,4 +103,5 @@ b7c084bb32cfc18defcec77966f1944fd3b33bb48769a4c0e257709d0f3898c5e0ca2a50c39a5d45
 c766911f76d36b997582533707d7d7a089ed1272e49a79dbe75f7c1eafef0ba3f1417d6c66f25e12e56124e0cd4bb9f443d400236e252ef1c43d53def9392a87  0013-Revert-usb-quirks-Add-USB_QUIRK_RESET-for-Quectel-EG25G-Modem.patch
 382e6e8785235788101459ae47c940ec85831007c61e3f14c4e3a43abfa21b95cdaa6bdd1b7fdd6fd26944f4c629d41b9ab776e89d9a18778fbc9f6a7785444b  0014-usb-serial-option-add-reset-resume-callback-for-WWAN.patch
 81801c25733299fe4a45154ce27ab70a80f19a00dcb7c6c67d0e6ba6bd369dbfa1b43e09b066ddaec9144e0e3f956baf2fed26d1c52f23faad33101662728e53  0015-ARM-dts-allwinner-sun5i-a13-pocketbook-614-plus-Add-.patch
+203bcca90a3b7aa061c90dc222618d0fde4a45f4d194660c96f20794e11f85dd738d27a586ac53c08715e3a029fe11dd74f121dbbca9a63a78c9ebe3a01e06db  0016-Define-orientation-and-rotation-for-PinePhone-camera.patch
 "

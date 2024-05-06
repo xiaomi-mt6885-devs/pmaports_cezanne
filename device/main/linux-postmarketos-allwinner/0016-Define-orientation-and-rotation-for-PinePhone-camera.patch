@@ -1,0 +1,92 @@
+From 86a6b358ce743c851a15ec9f3ae00a01adb585db Mon Sep 17 00:00:00 2001
+From: Arnav Singh <me@arnavion.dev>
+Date: Mon, 6 May 2024 13:41:05 -0700
+Subject: [PATCH] Define orientation and rotation for PinePhone cameras.
+
+libcamera etc need them.
+
+---
+
+arm64: dts: sun50i: Define orientation and rotation for PinePhone rear camera.
+
+This enables libcamera to detect the correct orientation from
+the device tree and propagate it further to e.g. Pipewire.
+
+Signed-off-by: Arnav Singh <me@arnavion.dev>
+
+---
+
+media: i2c: gc2145: Parse and register properties
+
+In order to propagate V4L2_CID_CAMERA_SENSOR_ROTATION and
+V4L2_CID_CAMERA_ORIENTATION values from the DT to userspace.
+
+Signed-off-by: Robert Mader <robert.mader@collabora.com>
+
+---
+
+arm64: dts: sun50i: Define orientation and rotation for PinePhone front camera.
+
+This enables libcamera to detect the correct orientation from
+the device tree and propagate it further to e.g. Pipewire.
+
+Signed-off-by: Arnav Singh <me@arnavion.dev>
+---
+ arch/arm64/boot/dts/allwinner/sun50i-a64-pinephone.dtsi | 6 ++++++
+ drivers/media/i2c/gc2145.c                              | 9 +++++++++
+ 2 files changed, 15 insertions(+)
+
+diff --git a/arch/arm64/boot/dts/allwinner/sun50i-a64-pinephone.dtsi b/arch/arm64/boot/dts/allwinner/sun50i-a64-pinephone.dtsi
+index 5b0b5a5f97ff..b75880345fbb 100644
+--- a/arch/arm64/boot/dts/allwinner/sun50i-a64-pinephone.dtsi
++++ b/arch/arm64/boot/dts/allwinner/sun50i-a64-pinephone.dtsi
+@@ -597,6 +597,9 @@ gc2145: front-camera@3c {
+ 		reset-gpios = <&pio 4 16 (GPIO_ACTIVE_LOW | GPIO_OPEN_DRAIN)>; /* PE16 */
+ 		enable-gpios = <&pio 4 17 (GPIO_ACTIVE_LOW | GPIO_OPEN_DRAIN)>; /* PE17 */
+ 
++		orientation = <0>;
++		rotation = <90>;
++
+ 		port {
+ 			gc2145_ep: endpoint {
+ 				remote-endpoint = <&csi_gc2145_ep>;
+@@ -621,6 +624,9 @@ ov5640: rear-camera@4c {
+ 		reset-gpios = <&pio 3 3 (GPIO_ACTIVE_LOW | GPIO_OPEN_DRAIN)>; /* PD3 */
+ 		powerdown-gpios = <&pio 2 0 (GPIO_ACTIVE_HIGH | GPIO_OPEN_DRAIN)>; /* PC0 */
+ 
++		orientation = <1>;
++		rotation = <270>;
++
+ 		port {
+ 			ov5640_ep: endpoint {
+ 				remote-endpoint = <&csi_ov5640_ep>;
+diff --git a/drivers/media/i2c/gc2145.c b/drivers/media/i2c/gc2145.c
+index 507734b9de7d..8b12d60e38c2 100644
+--- a/drivers/media/i2c/gc2145.c
++++ b/drivers/media/i2c/gc2145.c
+@@ -1272,6 +1272,7 @@ static int gc2145_init_controls(struct gc2145_dev *sensor)
+ 	const struct v4l2_ctrl_ops *ops = &gc2145_ctrl_ops;
+ 	struct gc2145_ctrls *ctrls = &sensor->ctrls;
+ 	struct v4l2_ctrl_handler *hdl = &ctrls->handler;
++	struct v4l2_fwnode_device_properties props;
+ 	//u8 wb_max = 0;
+ 	//u64 wb_mask = 0;
+ 	//unsigned int i;
+@@ -1324,6 +1325,14 @@ static int gc2145_init_controls(struct gc2145_dev *sensor)
+ 	ctrls->vflip = v4l2_ctrl_new_std(hdl, ops,
+ 					 V4L2_CID_VFLIP, 0, 1, 1, 0);
+ 
++	ret = v4l2_fwnode_device_parse(&sensor->i2c_client->dev, &props);
++	if (ret)
++		goto free_ctrls;
++
++	ret = v4l2_ctrl_new_fwnode_properties(hdl, &gc2145_ctrl_ops,
++					      &props);
++	if (ret)
++		goto free_ctrls;
+ 
+ 	/* Test patterns */
+ 	ctrls->test_pattern =
+-- 
+2.44.0
+
