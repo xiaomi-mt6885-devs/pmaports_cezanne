@@ -3,19 +3,19 @@
 # Co-Maintainer: Jethrob <jeybee@hotmail.com>
 pkgname=device-microsoft-surface-rt
 pkgdesc="Microsoft Surface RT"
-pkgver=7
+pkgver=8
 pkgrel=0
 url="https://postmarketos.org"
 license="MIT"
 arch="armv7"
-# pmb:strict: avoid grub-related install error during build with pmbootstrap
-options="!check !archcheck pmb:strict"
+options="!check !archcheck"
 depends="
 	alsa-ucm-conf
 	linux-postmarketos-grate
 	postmarketos-base
+	systemd-boot
 "
-makedepends="devicepkg-dev grub grub-efi"
+makedepends="devicepkg-dev"
 subpackages="
 	$pkgname-nonfree-firmware:nonfree_firmware
 	$pkgname-x11
@@ -24,28 +24,10 @@ source="deviceinfo modules-initfs"
 
 build() {
 	devicepkg_build $startdir $pkgname
-
-	grub-mkimage \
-		--prefix="/grub" \
-		--output="bootarm.efi" \
-		--format="arm-efi" \
-		--compression="xz" \
-		\
-		disk \
-		fat \
-		gzio \
-		iso9660 \
-		linux \
-		normal \
-		part_gpt \
-		part_msdos
 }
 
 package() {
 	devicepkg_package $startdir $pkgname
-
-	install -D "$srcdir"/bootarm.efi \
-		"$pkgdir"/boot/EFI/Boot/bootarm.efi
 }
 
 nonfree_firmware() {
@@ -61,6 +43,6 @@ x11() {
 }
 
 sha512sums="
-4585b96c10b86012d2ce33c623adf4f64a77219372a17e79ff3617bed1b18617f0965a4d9ea859dc7ecc6892970cbc9327936ce9413787e991d77ad57ec94ba6  deviceinfo
+9e480a8b0958e7f481aa0297b01639ab7b9ddee9043fc8af44ecd175fa44a4ee4344249f71a20fa3bbdd55258ce380c0002be11f038e91737aaaee4209cd9299  deviceinfo
 67ff4306270b7e6e292ddb48ac5fcb1472840d8eaa412f9cd989442fb20139ee3c844fd1ca5c5b923c7980403d945999a77fc6617127059e56e22bdc8dca2bf8  modules-initfs
 "
