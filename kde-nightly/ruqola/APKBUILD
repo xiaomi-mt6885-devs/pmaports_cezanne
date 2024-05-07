@@ -6,7 +6,7 @@
 pkgname=ruqola
 pkgver=9999_git20240506
 pkgrel=0
-_commit="cda2c3e75f527ffd1ac52d274598f8aee0d92507"
+_commit="c58b1ed244bb964ddf0834b5fb2abb9b53f187fa"
 pkgdesc="A Qt client for Rocket Chat"
 url="https://invent.kde.org/network/ruqola"
 # armhf blocked by qt6-qtdeclarative-dev
@@ -43,7 +43,7 @@ makedepends="
 checkdepends="xvfb-run"
 subpackages="$pkgname-doc $pkgname-lang"
 _repo_url="https://invent.kde.org/network/ruqola.git"
-source="https://nightly.postmarketos.org/plasma-mobile/sources/2024-05-06/ruqola-$_commit.tar.xz"
+source="https://nightly.postmarketos.org/plasma-mobile/sources/2024-05-07/ruqola-$_commit.tar.xz"
 
 options="!check"
 builddir="$srcdir/ruqola-$_commit"
@@ -82,5 +82,5 @@ package() {
 }
 
 sha512sums="
-ba7f12d8a3299ddc542ecc24bb8cff000125db9814e7c28a17b415af42761d4e967d349365c8875cff1f4ac5865e9a728431c0760823057517f793d8d296bdc8  ruqola-cda2c3e75f527ffd1ac52d274598f8aee0d92507.tar.xz
+1fe9ee52b0c30fec21a5930fcfb4ec4d2388c288932268dc533007041139d51ab71568deb1ef676ac439c6d6eee583e7a6c104373cec52feeacb94e47d3c96ec  ruqola-c58b1ed244bb964ddf0834b5fb2abb9b53f187fa.tar.xz
 "

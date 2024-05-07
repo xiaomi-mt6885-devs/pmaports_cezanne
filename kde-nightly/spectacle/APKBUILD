@@ -41,7 +41,7 @@ makedepends="
 	zxing-cpp-dev
 	"
 _repo_url="https://invent.kde.org/graphics/spectacle.git"
-source="https://nightly.postmarketos.org/plasma-mobile/sources/2024-05-06/spectacle-$_commit.tar.xz
+source="https://nightly.postmarketos.org/plasma-mobile/sources/2024-05-07/spectacle-$_commit.tar.xz
 	spectacle.desktop
 	"
 subpackages="$pkgname-doc $pkgname-lang"

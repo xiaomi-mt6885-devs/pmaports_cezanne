@@ -6,7 +6,7 @@
 pkgname=neochat
 pkgver=9999_git20240506
 pkgrel=0
-_commit="55b29f645bd4fcb396b2d855c7452546ca22bf48"
+_commit="47242aa66c8f3ee4b73e9e52ac33b4fd97781218"
 pkgdesc="A client for Matrix, the decentralized communication protocol"
 url="https://invent.kde.org/network/neochat/"
 # armhf blocked by extra-cmake-modules
@@ -55,7 +55,7 @@ makedepends="
 	"
 subpackages="$pkgname-doc $pkgname-lang"
 _repo_url="https://invent.kde.org/network/neochat.git"
-source="https://nightly.postmarketos.org/plasma-mobile/sources/2024-05-06/neochat-$_commit.tar.xz"
+source="https://nightly.postmarketos.org/plasma-mobile/sources/2024-05-07/neochat-$_commit.tar.xz"
 options="!check" # No tests
 
 options="!check"
@@ -76,5 +76,5 @@ package() {
 }
 
 sha512sums="
-a89183eda740d271ecc067d23de3482e26e892826e757af9b896a9c8fb31c81a7f99714b070941fa7d159e263fe2819a27cce0331e10d3fe88f9ddb39b3f7fea  neochat-55b29f645bd4fcb396b2d855c7452546ca22bf48.tar.xz
+d9af18db7ea7d43ea8c402799e7801ec8db3c9eac45b2084b9132b912c4267a8e28659835cb119817c0bb081dd1ad8afd4de891a2dee1cf896fc2893dbb79247  neochat-47242aa66c8f3ee4b73e9e52ac33b4fd97781218.tar.xz
 "
