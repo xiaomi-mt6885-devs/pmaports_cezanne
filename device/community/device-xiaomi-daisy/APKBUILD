@@ -3,7 +3,7 @@
 pkgname=device-xiaomi-daisy
 pkgdesc="Xiaomi Mi A2 Lite"
 pkgver=11
-pkgrel=1
+pkgrel=2
 url="https://postmarketos.org"
 license="MIT"
 arch="aarch64"
@@ -18,7 +18,6 @@ depends="
 	postmarketos-base
 	qbootctl
 	soc-qcom-msm8953
-	soc-qcom-msm8953-initramfs
 	soc-qcom-msm8953-modem
 "
 makedepends="devicepkg-dev"

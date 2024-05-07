@@ -3,7 +3,7 @@
 pkgname=device-xiaomi-markw
 pkgdesc="Xiaomi Redmi 4 Prime"
 pkgver=6
-pkgrel=0
+pkgrel=1
 url="https://postmarketos.org"
 license="MIT"
 arch="aarch64"
@@ -17,7 +17,6 @@ depends="
 	msm-firmware-loader
 	postmarketos-base
 	soc-qcom-msm8953
-	soc-qcom-msm8953-initramfs
 	soc-qcom-msm8953-modem
 "
 makedepends="devicepkg-dev"

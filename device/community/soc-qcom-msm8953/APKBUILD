@@ -1,7 +1,7 @@
 # Maintainer: Barnabas Czeman <trabarni@gmail.com>
 pkgname=soc-qcom-msm8953
 pkgdesc="Common package for Qualcomm MSM8953 devices"
-pkgver=8
+pkgver=9
 pkgrel=0
 url="https://postmarketos.org"
 license="BSD-3-Clause"
@@ -10,7 +10,6 @@ options="!check !archcheck !tracedeps pmb:cross-native"
 depends="$pkgname-ucm swclock-offset"
 subpackages="
 	$pkgname-gpu
-	$pkgname-initramfs
 	$pkgname-modem
 	$pkgname-ucm
 "
@@ -20,7 +19,6 @@ source="
 	$pkgname-$_ucm_commit.tar.gz::https://github.com/msm8953-mainline/alsa-ucm-conf/archive/$_ucm_commit.tar.gz
 	90-feedbackd-pm8xxx-vib.rules
 	q6voiced.conf
-	00-firmware.files
 	adreno-a506-quirks.sh
 "
 
@@ -36,10 +34,6 @@ ucm() {
 	cd "$srcdir/alsa-ucm-conf-$_ucm_commit"
 	mkdir -p "$subpkgdir"/usr/share/alsa
 	cp -r ucm2 "$subpkgdir"/usr/share/alsa
-}
-
-initramfs() {
-	install -Dm644 "$srcdir"/00-firmware.files -t "$subpkgdir"/usr/share/mkinitfs/files
 }
 
 modem() {
@@ -67,6 +61,5 @@ sha512sums="
 775ce08c1c7aebdc1347e57391cabedba7999fd91978c4b09b83c5a0394b83f771cb5333845d3845409cc3d9aaeedcfdff99579cc212f06508fe6e429eb30eb2  soc-qcom-msm8953-17f080f0762db6d7ef06a066c2ecff92095b0185.tar.gz
 90fca4a3291a2c84c0b20e41308c4698374ba896e9365ca80dbfd0c0c4f7dc08317f3dd865a3c7f6707c81b02f5bb24136d1172253d2e4fdd50039bbbf02a178  90-feedbackd-pm8xxx-vib.rules
 3a4a9322839d4b3ef9d79668a37840a9f444954759ae3c512e694051d2f9a2573db42ad6c4c1a5c75eeb861232a27ba1a8cef9b503decd54ead25a96e3dd6f98  q6voiced.conf
-23cff3b1796fc61fb494cf6ad7e25ca968dd6eb55ccd17d303c354d7a1638b25d7f152feb973b130d74cfcea2cb6aed45dfe3843ae491ffad1440fcf35389284  00-firmware.files
 d546c99ca8d406b4e2e3901a417e4e461314a38f2f01c48525e44ca524ad57af7bfc280f416bda90573b0bfb1cca27d45cb0a0ed44e999ef8d406a380d1fdbb2  adreno-a506-quirks.sh
 "
