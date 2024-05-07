@@ -1,0 +1,1589 @@
+From ef661715c2c6bc8d529c9d72d8078299a7202ecd Mon Sep 17 00:00:00 2001
+From: Gregor Parzefall <gregor.parzefall@posteo.de>
+Date: Mon, 18 Dec 2023 13:12:57 +0100
+Subject: [PATCH 1/6] Allow both mouse and touch input in GUIs in a single
+ binary
+
+---
+ src/gui/guiFormSpecMenu.cpp  | 37 +++++-------------
+ src/gui/guiHyperText.cpp     |  4 --
+ src/gui/guiInventoryList.cpp |  6 +--
+ src/gui/modalMenu.cpp        | 76 +++++++++++++++++++++---------------
+ src/gui/modalMenu.h          | 24 +++++++++---
+ 5 files changed, 76 insertions(+), 71 deletions(-)
+
+diff --git a/src/gui/guiFormSpecMenu.cpp b/src/gui/guiFormSpecMenu.cpp
+index 445c5b902d22..6745628e4b3e 100644
+--- a/src/gui/guiFormSpecMenu.cpp
++++ b/src/gui/guiFormSpecMenu.cpp
+@@ -3656,22 +3656,15 @@ void GUIFormSpecMenu::drawMenu()
+ 			NULL, m_client, IT_ROT_HOVERED);
+ 	}
+ 
+-	// On touchscreens, m_pointer is set by GUIModalMenu::preprocessEvent instead.
+-#ifndef HAVE_TOUCHSCREENGUI
+-	m_pointer = RenderingEngine::get_raw_device()->getCursorControl()->getPosition();
+-#endif
+-
+ 	/*
+ 		Draw fields/buttons tooltips and update the mouse cursor
+ 	*/
+ 	gui::IGUIElement *hovered =
+ 			Environment->getRootGUIElement()->getElementFromPoint(m_pointer);
+ 
+-#ifndef HAVE_TOUCHSCREENGUI
+ 	gui::ICursorControl *cursor_control = RenderingEngine::get_raw_device()->
+ 			getCursorControl();
+ 	gui::ECURSOR_ICON current_cursor_icon = cursor_control->getActiveIcon();
+-#endif
+ 	bool hovered_element_found = false;
+ 
+ 	if (hovered) {
+@@ -3715,11 +3708,9 @@ void GUIFormSpecMenu::drawMenu()
+ 							m_tooltips[field.fname].bgcolor);
+ 				}
+ 
+-#ifndef HAVE_TOUCHSCREENGUI
+ 				if (field.ftype != f_HyperText && // Handled directly in guiHyperText
+ 						current_cursor_icon != field.fcursor_icon)
+ 					cursor_control->setActiveIcon(field.fcursor_icon);
+-#endif
+ 
+ 				hovered_element_found = true;
+ 
+@@ -3730,10 +3721,8 @@ void GUIFormSpecMenu::drawMenu()
+ 
+ 	if (!hovered_element_found) {
+ 		// no element is hovered
+-#ifndef HAVE_TOUCHSCREENGUI
+ 		if (current_cursor_icon != ECI_NORMAL)
+ 			cursor_control->setActiveIcon(ECI_NORMAL);
+-#endif
+ 	}
+ 
+ 	m_tooltip_element->draw();
+@@ -3764,16 +3753,13 @@ void GUIFormSpecMenu::showTooltip(const std::wstring &text,
+ 	v2u32 screenSize = Environment->getVideoDriver()->getScreenSize();
+ 	int tooltip_offset_x = m_btn_height;
+ 	int tooltip_offset_y = m_btn_height;
+-#ifdef HAVE_TOUCHSCREENGUI
+-	tooltip_offset_x *= 3;
+-	tooltip_offset_y  = 0;
+-	if (m_pointer.X > (s32)screenSize.X / 2)
+-		tooltip_offset_x = -(tooltip_offset_x + tooltip_width);
+ 
+-	// Hide tooltip after ETIE_LEFT_UP
+-	if (m_pointer.X == 0)
+-		return;
+-#endif
++	if (m_pointer_type == PointerType::Touch) {
++		tooltip_offset_x *= 3;
++		tooltip_offset_y  = 0;
++		if (m_pointer.X > (s32)screenSize.X / 2)
++			tooltip_offset_x = -(tooltip_offset_x + tooltip_width);
++	}
+ 
+ 	// Calculate and set the tooltip position
+ 	s32 tooltip_x = m_pointer.X + tooltip_offset_x;
+@@ -4070,6 +4056,9 @@ void GUIFormSpecMenu::acceptInput(FormspecQuitMode quitmode)
+ 
+ bool GUIFormSpecMenu::preprocessEvent(const SEvent& event)
+ {
++	if (GUIModalMenu::preprocessEvent(event))
++		return true;
++
+ 	// The IGUITabControl renders visually using the skin's selected
+ 	// font, which we override for the duration of form drawing,
+ 	// but computes tab hotspots based on how it would have rendered
+@@ -4147,7 +4136,7 @@ bool GUIFormSpecMenu::preprocessEvent(const SEvent& event)
+ 		return handled;
+ 	}
+ 
+-	return GUIModalMenu::preprocessEvent(event);
++	return false;
+ }
+ 
+ void GUIFormSpecMenu::tryClose()
+@@ -4326,14 +4315,12 @@ bool GUIFormSpecMenu::OnEvent(const SEvent& event)
+ 			}
+ 		}
+ 
+-#ifdef HAVE_TOUCHSCREENGUI
+ 		// The second touch (see GUIModalMenu::preprocessEvent() function)
+ 		ButtonEventType touch = BET_OTHER;
+ 		if (event.EventType == EET_TOUCH_INPUT_EVENT) {
+ 			if (event.TouchInput.Event == ETIE_LEFT_UP)
+ 				touch = BET_RIGHT;
+ 		}
+-#endif
+ 
+ 		// Set this number to a positive value to generate a move action
+ 		// from m_selected_item to s.
+@@ -4678,7 +4665,6 @@ bool GUIFormSpecMenu::OnEvent(const SEvent& event)
+ 			break;
+ 		}
+ 
+-#ifdef HAVE_TOUCHSCREENGUI
+ 		if (touch == BET_RIGHT && m_selected_item && !m_left_dragging) {
+ 			if (!s.isValid()) {
+ 				// Not a valid slot
+@@ -4698,7 +4684,6 @@ bool GUIFormSpecMenu::OnEvent(const SEvent& event)
+ 				}
+ 			}
+ 		}
+-#endif
+ 
+ 		// Update left-dragged slots
+ 		if (m_left_dragging && m_left_drag_stacks.size() > 1) {
+@@ -5067,10 +5052,8 @@ bool GUIFormSpecMenu::OnEvent(const SEvent& event)
+ 		}
+ 	}
+ 
+-#ifdef HAVE_TOUCHSCREENGUI
+ 	if (m_second_touch)
+ 		return true; // Stop propagating the event
+-#endif
+ 
+ 	return Parent ? Parent->OnEvent(event) : false;
+ }
+diff --git a/src/gui/guiHyperText.cpp b/src/gui/guiHyperText.cpp
+index 66771f2e2066..4ee9eedafcb4 100644
+--- a/src/gui/guiHyperText.cpp
++++ b/src/gui/guiHyperText.cpp
+@@ -1052,14 +1052,12 @@ void GUIHyperText::checkHover(s32 X, s32 Y)
+ 		}
+ 	}
+ 
+-#ifndef HAVE_TOUCHSCREENGUI
+ 	if (m_drawer.m_hovertag)
+ 		RenderingEngine::get_raw_device()->getCursorControl()->setActiveIcon(
+ 				gui::ECI_HAND);
+ 	else
+ 		RenderingEngine::get_raw_device()->getCursorControl()->setActiveIcon(
+ 				gui::ECI_NORMAL);
+-#endif
+ }
+ 
+ bool GUIHyperText::OnEvent(const SEvent &event)
+@@ -1075,12 +1073,10 @@ bool GUIHyperText::OnEvent(const SEvent &event)
+ 	if (event.EventType == EET_GUI_EVENT &&
+ 			event.GUIEvent.EventType == EGET_ELEMENT_LEFT) {
+ 		m_drawer.m_hovertag = nullptr;
+-#ifndef HAVE_TOUCHSCREENGUI
+ 		gui::ICursorControl *cursor_control =
+ 				RenderingEngine::get_raw_device()->getCursorControl();
+ 		if (cursor_control->isVisible())
+ 			cursor_control->setActiveIcon(gui::ECI_NORMAL);
+-#endif
+ 	}
+ 
+ 	if (event.EventType == EET_MOUSE_INPUT_EVENT) {
+diff --git a/src/gui/guiInventoryList.cpp b/src/gui/guiInventoryList.cpp
+index 6f1d28e0b000..02505d436a4d 100644
+--- a/src/gui/guiInventoryList.cpp
++++ b/src/gui/guiInventoryList.cpp
+@@ -152,10 +152,10 @@ void GUIInventoryList::draw()
+ 
+ 		// Add hovering tooltip
+ 		bool show_tooltip = !item.empty() && hovering && !selected_item;
+-#ifdef HAVE_TOUCHSCREENGUI
+ 		// Make it possible to see item tooltips on touchscreens
+-		show_tooltip |= hovering && selected && m_fs_menu->getSelectedAmount() != 0;
+-#endif
++		if (m_fs_menu->getPointerType() == PointerType::Touch) {
++			show_tooltip |= hovering && selected && m_fs_menu->getSelectedAmount() != 0;
++		}
+ 		if (show_tooltip) {
+ 			std::string tooltip = orig_item.getDescription(client->idef());
+ 			if (m_fs_menu->doTooltipAppendItemname())
+diff --git a/src/gui/modalMenu.cpp b/src/gui/modalMenu.cpp
+index d4322c9f7654..0d3f81330472 100644
+--- a/src/gui/modalMenu.cpp
++++ b/src/gui/modalMenu.cpp
+@@ -19,6 +19,7 @@ with this program; if not, write to the Free Software Foundation, Inc.,
+ */
+ 
+ #include <cstdlib>
++#include <IEventReceiver.h>
+ #include "client/renderingengine.h"
+ #include "modalMenu.h"
+ #include "gettext.h"
+@@ -103,7 +104,7 @@ void GUIModalMenu::quitMenu()
+ 	m_menumgr->deletingMenu(this);
+ 	this->remove();
+ #ifdef HAVE_TOUCHSCREENGUI
+-	if (g_touchscreengui && m_touchscreen_visible)
++	if (g_touchscreengui)
+ 		g_touchscreengui->show();
+ #endif
+ }
+@@ -169,8 +170,6 @@ static bool isChild(gui::IGUIElement *tocheck, gui::IGUIElement *parent)
+ 	return false;
+ }
+ 
+-#ifdef HAVE_TOUCHSCREENGUI
+-
+ bool GUIModalMenu::simulateMouseEvent(
+ 		gui::IGUIElement *target, ETOUCH_INPUT_EVENT touch_event)
+ {
+@@ -194,41 +193,51 @@ bool GUIModalMenu::simulateMouseEvent(
+ 	default:
+ 		return false;
+ 	}
+-	if (preprocessEvent(mouse_event))
+-		return true;
+-	if (!target)
+-		return false;
+-	return target->OnEvent(mouse_event);
++
++	bool retval;
++	m_simulated_mouse = true;
++	do {
++		if (preprocessEvent(mouse_event)) {
++			retval = true;
++			break;
++		}
++		if (!target) {
++			retval = false;
++			break;
++		}
++		retval = target->OnEvent(mouse_event);
++	} while (false);
++	m_simulated_mouse = false;
++
++	return retval;
+ }
+ 
+ void GUIModalMenu::enter(gui::IGUIElement *hovered)
+ {
+ 	if (!hovered)
+ 		return;
+-	sanity_check(!m_hovered);
+-	m_hovered.grab(hovered);
++	sanity_check(!m_touch_hovered);
++	m_touch_hovered.grab(hovered);
+ 	SEvent gui_event{};
+ 	gui_event.EventType = EET_GUI_EVENT;
+-	gui_event.GUIEvent.Caller = m_hovered.get();
+-	gui_event.GUIEvent.EventType = EGET_ELEMENT_HOVERED;
++	gui_event.GUIEvent.Caller = m_touch_hovered.get();
++	gui_event.GUIEvent.EventType = irr::gui::EGET_ELEMENT_HOVERED;
+ 	gui_event.GUIEvent.Element = gui_event.GUIEvent.Caller;
+-	m_hovered->OnEvent(gui_event);
++	m_touch_hovered->OnEvent(gui_event);
+ }
+ 
+ void GUIModalMenu::leave()
+ {
+-	if (!m_hovered)
++	if (!m_touch_hovered)
+ 		return;
+ 	SEvent gui_event{};
+ 	gui_event.EventType = EET_GUI_EVENT;
+-	gui_event.GUIEvent.Caller = m_hovered.get();
+-	gui_event.GUIEvent.EventType = EGET_ELEMENT_LEFT;
+-	m_hovered->OnEvent(gui_event);
+-	m_hovered.reset();
++	gui_event.GUIEvent.Caller = m_touch_hovered.get();
++	gui_event.GUIEvent.EventType = irr::gui::EGET_ELEMENT_LEFT;
++	m_touch_hovered->OnEvent(gui_event);
++	m_touch_hovered.reset();
+ }
+ 
+-#endif
+-
+ bool GUIModalMenu::preprocessEvent(const SEvent &event)
+ {
+ #ifdef __ANDROID__
+@@ -268,25 +277,26 @@ bool GUIModalMenu::preprocessEvent(const SEvent &event)
+ 	}
+ #endif
+ 
+-#ifdef HAVE_TOUCHSCREENGUI
++	// Convert touch events into mouse events.
+ 	if (event.EventType == EET_TOUCH_INPUT_EVENT) {
+ 		irr_ptr<GUIModalMenu> holder;
+ 		holder.grab(this); // keep this alive until return (it might be dropped downstream [?])
+ 
+ 		if (event.TouchInput.touchedCount == 1) {
+-			if (event.TouchInput.Event == ETIE_PRESSED_DOWN || event.TouchInput.Event == ETIE_MOVED)
+-				m_pointer = v2s32(event.TouchInput.X, event.TouchInput.Y);
++			m_pointer_type = PointerType::Touch;
++			m_pointer = v2s32(event.TouchInput.X, event.TouchInput.Y);
++
+ 			gui::IGUIElement *hovered = Environment->getRootGUIElement()->getElementFromPoint(core::position2d<s32>(m_pointer));
+ 			if (event.TouchInput.Event == ETIE_PRESSED_DOWN)
+ 				Environment->setFocus(hovered);
+-			if (m_hovered != hovered) {
++			if (m_touch_hovered != hovered) {
+ 				leave();
+ 				enter(hovered);
+ 			}
+ 			gui::IGUIElement *focused = Environment->getFocus();
+ 			bool ret = simulateMouseEvent(focused, event.TouchInput.Event);
+-			if (!ret && m_hovered != focused)
+-				ret = simulateMouseEvent(m_hovered.get(), event.TouchInput.Event);
++			if (!ret && m_touch_hovered != focused)
++				ret = simulateMouseEvent(m_touch_hovered.get(), event.TouchInput.Event);
+ 			if (event.TouchInput.Event == ETIE_LEFT_UP)
+ 				leave();
+ 			return ret;
+@@ -306,20 +316,24 @@ bool GUIModalMenu::preprocessEvent(const SEvent &event)
+ 			return true;
+ 		}
+ 	}
+-#endif
+ 
+ 	if (event.EventType == EET_MOUSE_INPUT_EVENT) {
+-		s32 x = event.MouseInput.X;
+-		s32 y = event.MouseInput.Y;
++		if (!m_simulated_mouse) {
++			// Only set the pointer type to mouse if this is a real mouse event.
++			m_pointer_type = PointerType::Mouse;
++			m_pointer = v2s32(event.MouseInput.X, event.MouseInput.Y);
++			m_touch_hovered.reset();
++		}
++
+ 		gui::IGUIElement *hovered =
+-				Environment->getRootGUIElement()->getElementFromPoint(
+-						core::position2d<s32>(x, y));
++				Environment->getRootGUIElement()->getElementFromPoint(m_pointer);
+ 		if (!isChild(hovered, this)) {
+ 			if (DoubleClickDetection(event)) {
+ 				return true;
+ 			}
+ 		}
+ 	}
++
+ 	return false;
+ }
+ 
+diff --git a/src/gui/modalMenu.h b/src/gui/modalMenu.h
+index f811bafc9778..b3ef1944cdeb 100644
+--- a/src/gui/modalMenu.h
++++ b/src/gui/modalMenu.h
+@@ -23,6 +23,11 @@ with this program; if not, write to the Free Software Foundation, Inc.,
+ #include "irr_ptr.h"
+ #include "util/string.h"
+ 
++enum class PointerType {
++	Mouse,
++	Touch,
++};
++
+ class GUIModalMenu;
+ 
+ class IMenuManager
+@@ -58,6 +63,8 @@ class GUIModalMenu : public gui::IGUIElement
+ 	bool hasAndroidUIInput();
+ #endif
+ 
++	PointerType getPointerType() { return m_pointer_type; };
++
+ protected:
+ 	virtual std::wstring getLabelByID(s32 id) = 0;
+ 	virtual std::string getNameByID(s32 id) = 0;
+@@ -69,18 +76,25 @@ class GUIModalMenu : public gui::IGUIElement
+ 	 */
+ 	bool DoubleClickDetection(const SEvent &event);
+ 
++	// Stores the last known pointer type.
++	PointerType m_pointer_type;
++	// Stores the last known pointer position.
++	// If the last input event was a mouse event, it's the cursor position.
++	// If the last input event was a touch event, it's the finger position.
+ 	v2s32 m_pointer;
+ 	v2s32 m_old_pointer;  // Mouse position after previous mouse event
++
+ 	v2u32 m_screensize_old;
+ 	float m_gui_scale;
+ #ifdef __ANDROID__
+ 	std::string m_jni_field_name;
+ #endif
+-#ifdef HAVE_TOUCHSCREENGUI
++
+ 	// This is set to true if the menu is currently processing a second-touch event.
+ 	bool m_second_touch = false;
+-	bool m_touchscreen_visible = true;
+-#endif
++	// This is set to true if the menu is currently processing a mouse event
++	// that was synthesized by the menu itself from a touch event.
++	bool m_simulated_mouse = false;
+ 
+ private:
+ 	struct clickpos
+@@ -102,11 +116,9 @@ class GUIModalMenu : public gui::IGUIElement
+ 	// wants to launch other menus
+ 	bool m_allow_focus_removal = false;
+ 
+-#ifdef HAVE_TOUCHSCREENGUI
+-	irr_ptr<gui::IGUIElement> m_hovered;
++	irr_ptr<gui::IGUIElement> m_touch_hovered;
+ 
+ 	bool simulateMouseEvent(gui::IGUIElement *target, ETOUCH_INPUT_EVENT touch_event);
+ 	void enter(gui::IGUIElement *element);
+ 	void leave();
+-#endif
+ };
+
+From 6cc5b04de1957a6b575ff8ed4563a8bf24a0a419 Mon Sep 17 00:00:00 2001
+From: Gregor Parzefall <gregor.parzefall@posteo.de>
+Date: Fri, 22 Dec 2023 13:19:24 +0100
+Subject: [PATCH 2/6] Comment
+
+---
+ src/gui/guiFormSpecMenu.cpp | 2 ++
+ 1 file changed, 2 insertions(+)
+
+diff --git a/src/gui/guiFormSpecMenu.cpp b/src/gui/guiFormSpecMenu.cpp
+index 6745628e4b3e..6211ae8e6294 100644
+--- a/src/gui/guiFormSpecMenu.cpp
++++ b/src/gui/guiFormSpecMenu.cpp
+@@ -4056,6 +4056,8 @@ void GUIFormSpecMenu::acceptInput(FormspecQuitMode quitmode)
+ 
+ bool GUIFormSpecMenu::preprocessEvent(const SEvent& event)
+ {
++	// This must be done first so that GUIModalMenu can set m_pointer_type
++	// correctly.
+ 	if (GUIModalMenu::preprocessEvent(event))
+ 		return true;
+ 
+
+From e1aa063d8888a0ed60d6145d41853b7f72080664 Mon Sep 17 00:00:00 2001
+From: Gregor Parzefall <gregor.parzefall@posteo.de>
+Date: Fri, 22 Dec 2023 14:15:38 +0100
+Subject: [PATCH 3/6] Fix crash on Android because Irrlicht doesn't provide
+ ICursorControl there
+
+---
+ src/gui/guiFormSpecMenu.cpp | 6 ++++++
+ src/gui/guiHyperText.cpp    | 4 ++++
+ 2 files changed, 10 insertions(+)
+
+diff --git a/src/gui/guiFormSpecMenu.cpp b/src/gui/guiFormSpecMenu.cpp
+index 6211ae8e6294..398a74d8203d 100644
+--- a/src/gui/guiFormSpecMenu.cpp
++++ b/src/gui/guiFormSpecMenu.cpp
+@@ -3662,9 +3662,11 @@ void GUIFormSpecMenu::drawMenu()
+ 	gui::IGUIElement *hovered =
+ 			Environment->getRootGUIElement()->getElementFromPoint(m_pointer);
+ 
++#ifndef __ANDROID__
+ 	gui::ICursorControl *cursor_control = RenderingEngine::get_raw_device()->
+ 			getCursorControl();
+ 	gui::ECURSOR_ICON current_cursor_icon = cursor_control->getActiveIcon();
++#endif
+ 	bool hovered_element_found = false;
+ 
+ 	if (hovered) {
+@@ -3708,9 +3710,11 @@ void GUIFormSpecMenu::drawMenu()
+ 							m_tooltips[field.fname].bgcolor);
+ 				}
+ 
++#ifndef __ANDROID__
+ 				if (field.ftype != f_HyperText && // Handled directly in guiHyperText
+ 						current_cursor_icon != field.fcursor_icon)
+ 					cursor_control->setActiveIcon(field.fcursor_icon);
++#endif
+ 
+ 				hovered_element_found = true;
+ 
+@@ -3721,8 +3725,10 @@ void GUIFormSpecMenu::drawMenu()
+ 
+ 	if (!hovered_element_found) {
+ 		// no element is hovered
++#ifndef __ANDROID__
+ 		if (current_cursor_icon != ECI_NORMAL)
+ 			cursor_control->setActiveIcon(ECI_NORMAL);
++#endif
+ 	}
+ 
+ 	m_tooltip_element->draw();
+diff --git a/src/gui/guiHyperText.cpp b/src/gui/guiHyperText.cpp
+index 4ee9eedafcb4..82dc2526f398 100644
+--- a/src/gui/guiHyperText.cpp
++++ b/src/gui/guiHyperText.cpp
+@@ -1052,12 +1052,14 @@ void GUIHyperText::checkHover(s32 X, s32 Y)
+ 		}
+ 	}
+ 
++#ifndef __ANDROID__
+ 	if (m_drawer.m_hovertag)
+ 		RenderingEngine::get_raw_device()->getCursorControl()->setActiveIcon(
+ 				gui::ECI_HAND);
+ 	else
+ 		RenderingEngine::get_raw_device()->getCursorControl()->setActiveIcon(
+ 				gui::ECI_NORMAL);
++#endif
+ }
+ 
+ bool GUIHyperText::OnEvent(const SEvent &event)
+@@ -1073,10 +1075,12 @@ bool GUIHyperText::OnEvent(const SEvent &event)
+ 	if (event.EventType == EET_GUI_EVENT &&
+ 			event.GUIEvent.EventType == EGET_ELEMENT_LEFT) {
+ 		m_drawer.m_hovertag = nullptr;
++#ifndef __ANDROID__
+ 		gui::ICursorControl *cursor_control =
+ 				RenderingEngine::get_raw_device()->getCursorControl();
+ 		if (cursor_control->isVisible())
+ 			cursor_control->setActiveIcon(gui::ECI_NORMAL);
++#endif
+ 	}
+ 
+ 	if (event.EventType == EET_MOUSE_INPUT_EVENT) {
+
+From 6fc4b56e1bcb4c0d8b53c9f510feb6f7f41b9888 Mon Sep 17 00:00:00 2001
+From: Gregor Parzefall <gregor.parzefall@posteo.de>
+Date: Fri, 22 Dec 2023 15:36:25 +0100
+Subject: [PATCH 4/6] Remove irr::
+
+---
+ src/gui/modalMenu.cpp | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/src/gui/modalMenu.cpp b/src/gui/modalMenu.cpp
+index 0d3f81330472..5d4e03bafbc2 100644
+--- a/src/gui/modalMenu.cpp
++++ b/src/gui/modalMenu.cpp
+@@ -221,7 +221,7 @@ void GUIModalMenu::enter(gui::IGUIElement *hovered)
+ 	SEvent gui_event{};
+ 	gui_event.EventType = EET_GUI_EVENT;
+ 	gui_event.GUIEvent.Caller = m_touch_hovered.get();
+-	gui_event.GUIEvent.EventType = irr::gui::EGET_ELEMENT_HOVERED;
++	gui_event.GUIEvent.EventType = gui::EGET_ELEMENT_HOVERED;
+ 	gui_event.GUIEvent.Element = gui_event.GUIEvent.Caller;
+ 	m_touch_hovered->OnEvent(gui_event);
+ }
+@@ -233,7 +233,7 @@ void GUIModalMenu::leave()
+ 	SEvent gui_event{};
+ 	gui_event.EventType = EET_GUI_EVENT;
+ 	gui_event.GUIEvent.Caller = m_touch_hovered.get();
+-	gui_event.GUIEvent.EventType = irr::gui::EGET_ELEMENT_LEFT;
++	gui_event.GUIEvent.EventType = gui::EGET_ELEMENT_LEFT;
+ 	m_touch_hovered->OnEvent(gui_event);
+ 	m_touch_hovered.reset();
+ }
+
+From c6dc88f6ea778e0ef8dd1e95c4194a30fea60bd1 Mon Sep 17 00:00:00 2001
+From: David Heidelberg <david@ixit.cz>
+Date: Wed, 6 Dec 2023 01:28:26 +0100
+Subject: [PATCH 5/6] minetest: allow configurable touchscreen
+
+Signed-off-by: David Heidelberg <david@ixit.cz>
+---
+ builtin/fstk/buttonbar.lua                    |   2 +-
+ builtin/mainmenu/content/dlg_contentstore.lua |   8 +-
+ builtin/mainmenu/settings/dlg_settings.lua    |  14 +-
+ builtin/mainmenu/tab_local.lua                |   2 +-
+ builtin/settingtypes.txt                      |   5 +
+ doc/compiling/README.md                       |   2 +-
+ src/CMakeLists.txt                            |   5 +-
+ src/client/clientlauncher.cpp                 |   4 -
+ src/client/game.cpp                           | 177 ++++++++----------
+ src/client/hud.cpp                            |  11 +-
+ src/client/inputhandler.cpp                   |   4 -
+ src/client/inputhandler.h                     |  20 +-
+ src/clientdynamicinfo.h                       |   2 +-
+ src/defaultsettings.cpp                       |  19 +-
+ src/gui/CMakeLists.txt                        |   7 +-
+ src/gui/guiFormSpecMenu.cpp                   |  24 ++-
+ src/gui/guiPasswordChange.cpp                 |  10 +-
+ src/gui/guiTable.cpp                          |   6 +-
+ src/gui/modalMenu.cpp                         |  18 +-
+ src/main.cpp                                  |   4 +-
+ src/script/cpp_api/s_base.cpp                 |   7 -
+ 21 files changed, 145 insertions(+), 206 deletions(-)
+
+diff --git a/builtin/fstk/buttonbar.lua b/builtin/fstk/buttonbar.lua
+index effd0eba7bb8..1070416f762a 100644
+--- a/builtin/fstk/buttonbar.lua
++++ b/builtin/fstk/buttonbar.lua
+@@ -18,7 +18,7 @@
+ 
+ 
+ local BASE_SPACING = 0.1
+-local SCROLL_BTN_WIDTH = TOUCHSCREEN_GUI and 0.8 or 0.5
++local SCROLL_BTN_WIDTH = core.settings:get_bool("enable_touch") and 0.8 or 0.5
+ 
+ local function buttonbar_formspec(self)
+ 	if self.hidden then
+diff --git a/builtin/mainmenu/content/dlg_contentstore.lua b/builtin/mainmenu/content/dlg_contentstore.lua
+index e567fcef7a24..c45d321e5f2a 100644
+--- a/builtin/mainmenu/content/dlg_contentstore.lua
++++ b/builtin/mainmenu/content/dlg_contentstore.lua
+@@ -898,7 +898,7 @@ local function get_info_formspec(text)
+ 	return table.concat({
+ 		"formspec_version[6]",
+ 		"size[15.75,9.5]",
+-		TOUCHSCREEN_GUI and "padding[0.01,0.01]" or "position[0.5,0.55]",
++		core.settings:get_bool("enable_touch") and "padding[0.01,0.01]" or "position[0.5,0.55]",
+ 
+ 		"label[4,4.35;", text, "]",
+ 		"container[0,", H - 0.8 - 0.375, "]",
+@@ -928,7 +928,7 @@ function store.get_formspec(dlgdata)
+ 	local formspec = {
+ 		"formspec_version[6]",
+ 		"size[15.75,9.5]",
+-		TOUCHSCREEN_GUI and "padding[0.01,0.01]" or "position[0.5,0.55]",
++		core.settings:get_bool("enable_touch") and "padding[0.01,0.01]" or "position[0.5,0.55]",
+ 
+ 		"style[status,downloading,queued;border=false]",
+ 
+@@ -1175,8 +1175,8 @@ end
+ 
+ function store.handle_events(event)
+ 	if event == "DialogShow" then
+-		-- On mobile, don't show the "MINETEST" header behind the dialog.
+-		mm_game_theme.set_engine(TOUCHSCREEN_GUI)
++		-- On touchscreen, Don't show the "MINETEST" header behind the dialog.
++		mm_game_theme.set_engine(core.settings:get_bool("enable_touch"))
+ 
+ 		-- If the store is already loaded, auto-install packages here.
+ 		do_auto_install()
+diff --git a/builtin/mainmenu/settings/dlg_settings.lua b/builtin/mainmenu/settings/dlg_settings.lua
+index 01ff2dcb0e6d..459e5b62671a 100644
+--- a/builtin/mainmenu/settings/dlg_settings.lua
++++ b/builtin/mainmenu/settings/dlg_settings.lua
+@@ -316,8 +316,8 @@ local function check_requirements(name, requires)
+ 	local special = {
+ 		android = PLATFORM == "Android",
+ 		desktop = PLATFORM ~= "Android",
+-		touchscreen_gui = TOUCHSCREEN_GUI,
+-		keyboard_mouse = not TOUCHSCREEN_GUI,
++		touchscreen_gui = core.settings:get_bool("enable_touch"),
++		keyboard_mouse = not core.settings:get_bool("enable_touch"),
+ 		shaders_support = shaders_support,
+ 		shaders = core.settings:get_bool("enable_shaders") and shaders_support,
+ 		opengl = video_driver == "opengl",
+@@ -449,13 +449,13 @@ local function get_formspec(dialogdata)
+ 
+ 	local extra_h = 1 -- not included in tabsize.height
+ 	local tabsize = {
+-		width = TOUCHSCREEN_GUI and 16.5 or 15.5,
+-		height = TOUCHSCREEN_GUI and (10 - extra_h) or 12,
++		width = core.settings:get_bool("enable_touch") and 16.5 or 15.5,
++		height = core.settings:get_bool("enable_touch") and (10 - extra_h) or 12,
+ 	}
+ 
+-	local scrollbar_w = TOUCHSCREEN_GUI and 0.6 or 0.4
++	local scrollbar_w = core.settings:get_bool("enable_touch") and 0.6 or 0.4
+ 
+-	local left_pane_width = TOUCHSCREEN_GUI and 4.5 or 4.25
++	local left_pane_width = core.settings:get_bool("enable_touch") and 4.5 or 4.25
+ 	local search_width = left_pane_width + scrollbar_w - (0.75 * 2)
+ 
+ 	local back_w = 3
+@@ -468,7 +468,7 @@ local function get_formspec(dialogdata)
+ 	local fs = {
+ 		"formspec_version[6]",
+ 		"size[", tostring(tabsize.width), ",", tostring(tabsize.height + extra_h), "]",
+-		TOUCHSCREEN_GUI and "padding[0.01,0.01]" or "",
++		core.settings:get_bool("enable_touch") and "padding[0.01,0.01]" or "",
+ 		"bgcolor[#0000]",
+ 
+ 		-- HACK: this is needed to allow resubmitting the same formspec
+diff --git a/builtin/mainmenu/tab_local.lua b/builtin/mainmenu/tab_local.lua
+index c35a3f6fba7a..ff1a22398caa 100644
+--- a/builtin/mainmenu/tab_local.lua
++++ b/builtin/mainmenu/tab_local.lua
+@@ -94,7 +94,7 @@ function singleplayer_refresh_gamebar()
+ 
+ 	local btnbar = buttonbar_create(
+ 			"game_button_bar",
+-			TOUCHSCREEN_GUI and {x = 0, y = 7.25} or {x = 0, y = 7.475},
++			core.settings:get_bool("enable_touch") and {x = 0, y = 7.25} or {x = 0, y = 7.475},
+ 			{x = 15.5, y = 1.25},
+ 			"#000000",
+ 			game_buttonbar_button_handler)
+diff --git a/builtin/settingtypes.txt b/builtin/settingtypes.txt
+index 0af96cc3307b..5470f8370800 100644
+--- a/builtin/settingtypes.txt
++++ b/builtin/settingtypes.txt
+@@ -148,6 +148,11 @@ invert_hotbar_mouse_wheel (Hotbar: Invert mouse wheel direction) bool false
+ 
+ [*Touchscreen]
+ 
++#    Enables the touch screen.
++#    If disabled, touchscreen wouldn't be usable in-game
++#    Changing this setting requires a restart.
++enable_touch (Enable Touchscreen) bool true
++
+ #    The length in pixels it takes for touchscreen interaction to start.
+ #
+ #    Requires: touchscreen_gui
+diff --git a/doc/compiling/README.md b/doc/compiling/README.md
+index f4812e77d36a..d7c850bcc56f 100644
+--- a/doc/compiling/README.md
++++ b/doc/compiling/README.md
+@@ -37,7 +37,7 @@ General options and their default values:
+     INSTALL_DEVTEST=FALSE      - Whether the Development Test game should be installed alongside Minetest
+     USE_GPROF=FALSE            - Enable profiling using GProf
+     VERSION_EXTRA=             - Text to append to version (e.g. VERSION_EXTRA=foobar -> Minetest 0.4.9-foobar)
+-    ENABLE_TOUCH=FALSE         - Enable Touchscreen support (requires support by IrrlichtMt)
++    ENABLE_TOUCH=FALSE         - Enable Touchscreen support by default (requires support by IrrlichtMt)
+ 
+ Library specific options:
+ 
+diff --git a/src/CMakeLists.txt b/src/CMakeLists.txt
+index 2e0fdc7c1a3f..28dd47adf2db 100644
+--- a/src/CMakeLists.txt
++++ b/src/CMakeLists.txt
+@@ -109,9 +109,10 @@ if(BUILD_CLIENT AND ENABLE_SOUND)
+ 	endif()
+ endif()
+ 
+-option(ENABLE_TOUCH "Enable Touchscreen support" FALSE)
++option(ENABLE_TOUCH "Enable touchscreen by default" FALSE)
+ if(ENABLE_TOUCH)
+-	add_definitions(-DHAVE_TOUCHSCREENGUI)
++	message(STATUS "Touchscreen support enabled by default.")
++	add_definitions(-DENABLE_TOUCH)
+ endif()
+ 
+ if(BUILD_CLIENT)
+diff --git a/src/client/clientlauncher.cpp b/src/client/clientlauncher.cpp
+index 80381dc6ec97..26865f736d3f 100644
+--- a/src/client/clientlauncher.cpp
++++ b/src/client/clientlauncher.cpp
+@@ -256,10 +256,8 @@ bool ClientLauncher::run(GameStartData &start_data, const Settings &cmd_args)
+ 			m_rendering_engine->get_video_driver()->setTextureCreationFlag(
+ 					video::ETCF_CREATE_MIP_MAPS, g_settings->getBool("mip_map"));
+ 
+-#ifdef HAVE_TOUCHSCREENGUI
+ 			receiver->m_touchscreengui = new TouchScreenGUI(m_rendering_engine->get_raw_device(), receiver);
+ 			g_touchscreengui = receiver->m_touchscreengui;
+-#endif
+ 
+ 			the_game(
+ 				kill,
+@@ -286,11 +284,9 @@ bool ClientLauncher::run(GameStartData &start_data, const Settings &cmd_args)
+ 
+ 		m_rendering_engine->get_scene_manager()->clear();
+ 
+-#ifdef HAVE_TOUCHSCREENGUI
+ 		delete g_touchscreengui;
+ 		g_touchscreengui = NULL;
+ 		receiver->m_touchscreengui = NULL;
+-#endif
+ 
+ 		// If no main menu, show error and exit
+ 		if (skip_main_menu) {
+diff --git a/src/client/game.cpp b/src/client/game.cpp
+index 37e44edf0396..1ed01ecc4d44 100644
+--- a/src/client/game.cpp
++++ b/src/client/game.cpp
+@@ -691,12 +691,6 @@ class GameGlobalShaderConstantSetterFactory : public IShaderConstantSetterFactor
+ 	}
+ };
+ 
+-#ifdef HAVE_TOUCHSCREENGUI
+-#define SIZE_TAG "size[11,5.5]"
+-#else
+-#define SIZE_TAG "size[11,5.5,true]" // Fixed size on desktop
+-#endif
+-
+ /****************************************************************************
+  ****************************************************************************/
+ 
+@@ -1046,13 +1040,11 @@ class Game {
+ 	// this happens in pause menu in singleplayer
+ 	bool m_is_paused = false;
+ 
+-#ifdef HAVE_TOUCHSCREENGUI
+ 	bool m_cache_hold_aux1;
+ 	bool m_touch_use_crosshair;
+ 	inline bool isNoCrosshairAllowed() {
+ 		return !m_touch_use_crosshair && camera->getCameraMode() == CAMERA_MODE_FIRST;
+ 	}
+-#endif
+ #ifdef __ANDROID__
+ 	bool m_android_chat_open;
+ #endif
+@@ -1101,9 +1093,7 @@ Game::Game() :
+ 
+ 	readSettings();
+ 
+-#ifdef HAVE_TOUCHSCREENGUI
+ 	m_cache_hold_aux1 = false;	// This is initialised properly later
+-#endif
+ 
+ }
+ 
+@@ -1207,9 +1197,7 @@ bool Game::startup(bool *kill,
+ 
+ 	m_first_loop_after_window_activation = true;
+ 
+-#ifdef HAVE_TOUCHSCREENGUI
+ 	m_touch_use_crosshair = g_settings->getBool("touch_use_crosshair");
+-#endif
+ 
+ 	g_client_translations->clear();
+ 
+@@ -1244,10 +1232,8 @@ void Game::run()
+ 
+ 	set_light_table(g_settings->getFloat("display_gamma"));
+ 
+-#ifdef HAVE_TOUCHSCREENGUI
+ 	m_cache_hold_aux1 = g_settings->getBool("fast_move")
+ 			&& client->checkPrivilege("fast");
+-#endif
+ 
+ 	const irr::core::dimension2du initial_screen_size(
+ 			g_settings->getU16("screen_w"),
+@@ -1333,9 +1319,8 @@ void Game::shutdown()
+ 	if (formspec)
+ 		formspec->quitMenu();
+ 
+-#ifdef HAVE_TOUCHSCREENGUI
+-	g_touchscreengui->hide();
+-#endif
++	if (g_settings->getBool("enable_touch"))
++		g_touchscreengui->hide();
+ 
+ 	showOverlayMessage(N_("Shutting down..."), 0, 0, false);
+ 
+@@ -1523,11 +1508,10 @@ bool Game::createClient(const GameStartData &start_data)
+ 	if (client->modsLoaded())
+ 		client->getScript()->on_camera_ready(camera);
+ 	client->setCamera(camera);
+-#ifdef HAVE_TOUCHSCREENGUI
+-	if (g_touchscreengui) {
++
++	if (g_settings->getBool("enable_touch") && g_touchscreengui) {
+ 		g_touchscreengui->setUseCrosshair(!isNoCrosshairAllowed());
+ 	}
+-#endif
+ 
+ 	/* Clouds
+ 	 */
+@@ -1596,10 +1580,8 @@ bool Game::initGui()
+ 	gui_chat_console = new GUIChatConsole(guienv, guienv->getRootGUIElement(),
+ 			-1, chat_backend, client, &g_menumgr);
+ 
+-#ifdef HAVE_TOUCHSCREENGUI
+-	if (g_touchscreengui)
++	if (g_settings->getBool("enable_touch") && g_touchscreengui)
+ 		g_touchscreengui->init(texture_src);
+-#endif
+ 
+ 	return true;
+ }
+@@ -2010,18 +1992,17 @@ void Game::processUserInput(f32 dtime)
+ 		} else {
+ 			input->clear();
+ 		}
+-#ifdef HAVE_TOUCHSCREENGUI
+-		g_touchscreengui->hide();
+-#endif
++
++		if (g_settings->getBool("enable_touch"))
++			g_touchscreengui->hide();
++
+ 	} else {
+-#ifdef HAVE_TOUCHSCREENGUI
+-		if (g_touchscreengui) {
++		if (g_settings->getBool("enable_touch") && g_touchscreengui) {
+ 			/* on touchscreengui step may generate own input events which ain't
+ 			 * what we want in case we just did clear them */
+ 			g_touchscreengui->show();
+ 			g_touchscreengui->step(dtime);
+ 		}
+-#endif
+ 
+ 		m_game_focused = true;
+ 	}
+@@ -2213,13 +2194,11 @@ void Game::processItemSelection(u16 *new_playeritem)
+ 		}
+ 	}
+ 
+-#ifdef HAVE_TOUCHSCREENGUI
+-	if (g_touchscreengui) {
++	if (g_settings->getBool("enable_touch") && g_touchscreengui) {
+ 		std::optional<u16> selection = g_touchscreengui->getHotbarSelection();
+ 		if (selection)
+ 			*new_playeritem = *selection;
+ 	}
+-#endif
+ 
+ 	// Clamp selection again in case it wasn't changed but max_item was
+ 	*new_playeritem = MYMIN(*new_playeritem, max_item);
+@@ -2366,9 +2345,7 @@ void Game::toggleFast()
+ 		m_game_ui->showTranslatedStatusText("Fast mode disabled");
+ 	}
+ 
+-#ifdef HAVE_TOUCHSCREENGUI
+ 	m_cache_hold_aux1 = fast_move && has_fast_privs;
+-#endif
+ }
+ 
+ 
+@@ -2666,12 +2643,10 @@ f32 Game::getSensitivityScaleFactor() const
+ 
+ void Game::updateCameraOrientation(CameraOrientation *cam, float dtime)
+ {
+-#ifdef HAVE_TOUCHSCREENGUI
+-	if (g_touchscreengui) {
++	if (g_settings->getBool("enable_touch") && g_touchscreengui) {
+ 		cam->camera_yaw   += g_touchscreengui->getYawChange();
+ 		cam->camera_pitch += g_touchscreengui->getPitchChange();
+ 	} else {
+-#endif
+ 		v2s32 center(driver->getScreenSize().Width / 2, driver->getScreenSize().Height / 2);
+ 		v2s32 dist = input->getMousePos() - center;
+ 
+@@ -2685,9 +2660,7 @@ void Game::updateCameraOrientation(CameraOrientation *cam, float dtime)
+ 
+ 		if (dist.X != 0 || dist.Y != 0)
+ 			input->setMousePos(center.X, center.Y);
+-#ifdef HAVE_TOUCHSCREENGUI
+ 	}
+-#endif
+ 
+ 	if (m_cache_enable_joysticks) {
+ 		f32 sens_scale = getSensitivityScaleFactor();
+@@ -2732,16 +2705,14 @@ void Game::updatePlayerControl(const CameraOrientation &cam)
+ 		control.movement_direction = atan2(dx, 1.0f);
+ 	}
+ 
+-#ifdef HAVE_TOUCHSCREENGUI
+ 	/* For touch, simulate holding down AUX1 (fast move) if the user has
+ 	 * the fast_move setting toggled on. If there is an aux1 key defined for
+ 	 * touch then its meaning is inverted (i.e. holding aux1 means walk and
+ 	 * not fast)
+ 	 */
+-	if (m_cache_hold_aux1) {
++	if (g_settings->getBool("enable_touch") && m_cache_hold_aux1) {
+ 		control.aux1 = control.aux1 ^ true;
+ 	}
+-#endif
+ 
+ 	client->setPlayerControl(control);
+ 
+@@ -3208,10 +3179,8 @@ void Game::updateCamera(f32 dtime)
+ 
+ 		camera->toggleCameraMode();
+ 
+-#ifdef HAVE_TOUCHSCREENGUI
+-		if (g_touchscreengui)
++		if (g_settings->getBool("enable_touch") && g_touchscreengui)
+ 			g_touchscreengui->setUseCrosshair(!isNoCrosshairAllowed());
+-#endif
+ 
+ 		// Make the player visible depending on camera mode.
+ 		playercao->updateMeshCulling();
+@@ -3312,8 +3281,7 @@ void Game::processPlayerInteraction(f32 dtime, bool show_hud)
+ 	}
+ 	shootline.end = shootline.start + camera_direction * BS * d;
+ 
+-#ifdef HAVE_TOUCHSCREENGUI
+-	if (g_touchscreengui && isNoCrosshairAllowed()) {
++	if (g_settings->getBool("enable_touch") && g_touchscreengui && isNoCrosshairAllowed()) {
+ 		shootline = g_touchscreengui->getShootline();
+ 		// Scale shootline to the acual distance the player can reach
+ 		shootline.end = shootline.start +
+@@ -3321,7 +3289,6 @@ void Game::processPlayerInteraction(f32 dtime, bool show_hud)
+ 		shootline.start += intToFloat(camera_offset, BS);
+ 		shootline.end += intToFloat(camera_offset, BS);
+ 	}
+-#endif
+ 
+ 	PointedThing pointed = updatePointedThing(shootline,
+ 			selected_def.liquids_pointable,
+@@ -4282,10 +4249,10 @@ void Game::drawScene(ProfilerGraph *graph, RunStats *stats)
+ 	bool draw_crosshair = (
+ 			(player->hud_flags & HUD_FLAG_CROSSHAIR_VISIBLE) &&
+ 			(this->camera->getCameraMode() != CAMERA_MODE_THIRD_FRONT));
+-#ifdef HAVE_TOUCHSCREENGUI
+-	if (this->isNoCrosshairAllowed())
++
++	if (g_settings->getBool("enable_touch") && isNoCrosshairAllowed())
+ 		draw_crosshair = false;
+-#endif
++
+ 	this->m_rendering_engine->draw_scene(sky_color, this->m_game_ui->m_flags.show_hud,
+ 			this->m_game_ui->m_flags.show_minimap, draw_wield_tool, draw_crosshair);
+ 
+@@ -4409,9 +4376,15 @@ void Game::readSettings()
+ 
+ void Game::showDeathFormspec()
+ {
++	std::string size_tag;
++	if (g_settings->getBool("enable_touch"))
++		size_tag = "size[11,5.5]";
++	else
++		size_tag = "size[11,5.5,true]"; // Fixed size on desktop
++
+ 	static std::string formspec_str =
+ 		std::string("formspec_version[1]") +
+-		SIZE_TAG
++		size_tag +
+ 		"bgcolor[#320000b4;true]"
+ 		"label[4.85,1.35;" + gettext("You died") + "]"
+ 		"button_exit[4,3;3,0.5;btn_respawn;" + gettext("Respawn") + "]"
+@@ -4433,61 +4406,65 @@ void Game::showDeathFormspec()
+ #define GET_KEY_NAME(KEY) gettext(getKeySetting(#KEY).name())
+ void Game::showPauseMenu()
+ {
+-#ifdef HAVE_TOUCHSCREENGUI
+-	static const std::string control_text = strgettext("Controls:\n"
+-		"No menu open:\n"
+-		"- slide finger: look around\n"
+-		"- tap: place/use\n"
+-		"- long tap: dig/punch/use\n"
+-		"Menu/inventory open:\n"
+-		"- double tap (outside):\n"
+-		" --> close\n"
+-		"- touch stack, touch slot:\n"
+-		" --> move stack\n"
+-		"- touch&drag, tap 2nd finger\n"
+-		" --> place single item to slot\n"
++	std::string control_text, size_tag;
++
++	if (g_settings->getBool("enable_touch")) {
++		size_tag = "size[11,5.5]";
++		control_text = strgettext("Controls:\n"
++			"No menu open:\n"
++			"- slide finger: look around\n"
++			"- tap: place/use\n"
++			"- long tap: dig/punch/use\n"
++			"Menu/inventory open:\n"
++			"- double tap (outside):\n"
++			" --> close\n"
++			"- touch stack, touch slot:\n"
++			" --> move stack\n"
++			"- touch&drag, tap 2nd finger\n"
++			" --> place single item to slot\n"
++			);
++	} else {
++		size_tag = "size[11,5.5,true]"; // Fixed size on desktop
++		static const std::string control_text_template = strgettext("Controls:\n"
++			"- %s: move forwards\n"
++			"- %s: move backwards\n"
++			"- %s: move left\n"
++			"- %s: move right\n"
++			"- %s: jump/climb up\n"
++			"- %s: dig/punch/use\n"
++			"- %s: place/use\n"
++			"- %s: sneak/climb down\n"
++			"- %s: drop item\n"
++			"- %s: inventory\n"
++			"- Mouse: turn/look\n"
++			"- Mouse wheel: select item\n"
++			"- %s: chat\n"
+ 		);
+-#else
+-	static const std::string control_text_template = strgettext("Controls:\n"
+-		"- %s: move forwards\n"
+-		"- %s: move backwards\n"
+-		"- %s: move left\n"
+-		"- %s: move right\n"
+-		"- %s: jump/climb up\n"
+-		"- %s: dig/punch/use\n"
+-		"- %s: place/use\n"
+-		"- %s: sneak/climb down\n"
+-		"- %s: drop item\n"
+-		"- %s: inventory\n"
+-		"- Mouse: turn/look\n"
+-		"- Mouse wheel: select item\n"
+-		"- %s: chat\n"
+-	);
+ 
+-	char control_text_buf[600];
+-
+-	porting::mt_snprintf(control_text_buf, sizeof(control_text_buf), control_text_template.c_str(),
+-		GET_KEY_NAME(keymap_forward),
+-		GET_KEY_NAME(keymap_backward),
+-		GET_KEY_NAME(keymap_left),
+-		GET_KEY_NAME(keymap_right),
+-		GET_KEY_NAME(keymap_jump),
+-		GET_KEY_NAME(keymap_dig),
+-		GET_KEY_NAME(keymap_place),
+-		GET_KEY_NAME(keymap_sneak),
+-		GET_KEY_NAME(keymap_drop),
+-		GET_KEY_NAME(keymap_inventory),
+-		GET_KEY_NAME(keymap_chat)
+-	);
++		char control_text_buf[600];
++
++		porting::mt_snprintf(control_text_buf, sizeof(control_text_buf), control_text_template.c_str(),
++			GET_KEY_NAME(keymap_forward),
++			GET_KEY_NAME(keymap_backward),
++			GET_KEY_NAME(keymap_left),
++			GET_KEY_NAME(keymap_right),
++			GET_KEY_NAME(keymap_jump),
++			GET_KEY_NAME(keymap_dig),
++			GET_KEY_NAME(keymap_place),
++			GET_KEY_NAME(keymap_sneak),
++			GET_KEY_NAME(keymap_drop),
++			GET_KEY_NAME(keymap_inventory),
++			GET_KEY_NAME(keymap_chat)
++		);
+ 
+-	std::string control_text = std::string(control_text_buf);
+-	str_formspec_escape(control_text);
+-#endif
++		control_text = std::string(control_text_buf);
++		str_formspec_escape(control_text);
++	}
+ 
+ 	float ypos = simple_singleplayer_mode ? 0.7f : 0.1f;
+ 	std::ostringstream os;
+ 
+-	os << "formspec_version[1]" << SIZE_TAG
++	os << "formspec_version[1]" << size_tag
+ 		<< "button_exit[4," << (ypos++) << ";3,0.5;btn_continue;"
+ 		<< strgettext("Continue") << "]";
+ 
+diff --git a/src/client/hud.cpp b/src/client/hud.cpp
+index 5d3de7bfbf67..f209ce221a6f 100644
+--- a/src/client/hud.cpp
++++ b/src/client/hud.cpp
+@@ -39,10 +39,7 @@ with this program; if not, write to the Free Software Foundation, Inc.,
+ #include "wieldmesh.h"
+ #include "client/renderingengine.h"
+ #include "client/minimap.h"
+-
+-#ifdef HAVE_TOUCHSCREENGUI
+ #include "gui/touchscreengui.h"
+-#endif
+ 
+ #define OBJECT_CROSSHAIR_LINE_SIZE 8
+ #define CROSSHAIR_LINE_SIZE 10
+@@ -292,10 +289,8 @@ void Hud::drawItems(v2s32 upperleftpos, v2s32 screen_offset, s32 itemcount,
+ 
+ 		drawItem(mainlist->getItem(i), item_rect, (i + 1) == selectitem);
+ 
+-#ifdef HAVE_TOUCHSCREENGUI
+-		if (is_hotbar && g_touchscreengui)
++		if (g_settings->getBool("enable_touch") && is_hotbar && g_touchscreengui)
+ 			g_touchscreengui->registerHotbarRect(i, item_rect);
+-#endif
+ 	}
+ }
+ 
+@@ -739,10 +734,8 @@ void Hud::drawStatbar(v2s32 pos, u16 corner, u16 drawdir,
+ 
+ void Hud::drawHotbar(u16 playeritem)
+ {
+-#ifdef HAVE_TOUCHSCREENGUI
+-	if (g_touchscreengui)
++	if (g_settings->getBool("enable_touch") && g_touchscreengui)
+ 		g_touchscreengui->resetHotbarRects();
+-#endif
+ 
+ 	InventoryList *mainlist = inventory->getList("main");
+ 	if (mainlist == NULL) {
+diff --git a/src/client/inputhandler.cpp b/src/client/inputhandler.cpp
+index 7b54ac93d6fc..82303c455883 100644
+--- a/src/client/inputhandler.cpp
++++ b/src/client/inputhandler.cpp
+@@ -102,11 +102,9 @@ bool MyEventReceiver::OnEvent(const SEvent &event)
+ 		React to nothing here if a menu is active
+ 	*/
+ 	if (isMenuActive()) {
+-#ifdef HAVE_TOUCHSCREENGUI
+ 		if (m_touchscreengui) {
+ 			m_touchscreengui->setVisible(false);
+ 		}
+-#endif
+ 		return g_menumgr.preprocessEvent(event);
+ 	}
+ 
+@@ -130,12 +128,10 @@ bool MyEventReceiver::OnEvent(const SEvent &event)
+ 			return true;
+ 		}
+ 
+-#ifdef HAVE_TOUCHSCREENGUI
+ 	} else if (m_touchscreengui && event.EventType == irr::EET_TOUCH_INPUT_EVENT) {
+ 		// In case of touchscreengui, we have to handle different events
+ 		m_touchscreengui->translateEvent(event);
+ 		return true;
+-#endif
+ 
+ 	} else if (event.EventType == irr::EET_JOYSTICK_INPUT_EVENT) {
+ 		// joystick may be nullptr if game is launched with '--random-input' parameter
+diff --git a/src/client/inputhandler.h b/src/client/inputhandler.h
+index 81bed61a8e5f..6d768c4a4ba5 100644
+--- a/src/client/inputhandler.h
++++ b/src/client/inputhandler.h
+@@ -24,10 +24,7 @@ with this program; if not, write to the Free Software Foundation, Inc.,
+ #include <list>
+ #include "keycode.h"
+ #include "renderingengine.h"
+-
+-#ifdef HAVE_TOUCHSCREENGUI
+ #include "gui/touchscreengui.h"
+-#endif
+ 
+ class InputHandler;
+ 
+@@ -203,16 +200,12 @@ class MyEventReceiver : public IEventReceiver
+ 
+ 	MyEventReceiver()
+ 	{
+-#ifdef HAVE_TOUCHSCREENGUI
+ 		m_touchscreengui = NULL;
+-#endif
+ 	}
+ 
+ 	JoystickController *joystick = nullptr;
+ 
+-#ifdef HAVE_TOUCHSCREENGUI
+ 	TouchScreenGUI *m_touchscreengui;
+-#endif
+ 
+ private:
+ 	s32 mouse_wheel = 0;
+@@ -332,11 +325,9 @@ class RealInputHandler : public InputHandler
+ 				return 0.0f;
+ 			return 1.0f; // If there is a keyboard event, assume maximum speed
+ 		}
+-#ifdef HAVE_TOUCHSCREENGUI
+-		return m_receiver->m_touchscreengui->getMovementSpeed();
+-#else
++		if (m_receiver->m_touchscreengui->getMovementSpeed())
++			return m_receiver->m_touchscreengui->getMovementSpeed();
+ 		return joystick.getMovementSpeed();
+-#endif
+ 	}
+ 
+ 	virtual float getMovementDirection()
+@@ -355,12 +346,9 @@ class RealInputHandler : public InputHandler
+ 
+ 		if (x != 0 || z != 0) /* If there is a keyboard event, it takes priority */
+ 			return atan2(x, z);
+-		else
+-#ifdef HAVE_TOUCHSCREENGUI
++		else if (m_receiver->m_touchscreengui->getMovementDirection())
+ 			return m_receiver->m_touchscreengui->getMovementDirection();
+-#else
+-			return joystick.getMovementDirection();
+-#endif
++		return joystick.getMovementDirection();
+ 	}
+ 
+ 	virtual bool cancelPressed()
+diff --git a/src/clientdynamicinfo.h b/src/clientdynamicinfo.h
+index 547329b0660c..2763b7103753 100644
+--- a/src/clientdynamicinfo.h
++++ b/src/clientdynamicinfo.h
+@@ -68,7 +68,7 @@ struct ClientDynamicInfo
+ #ifndef SERVER
+ 	static v2f32 calculateMaxFSSize(v2u32 render_target_size, f32 gui_scaling) {
+ 		f32 factor =
+-#ifdef HAVE_TOUCHSCREENGUI
++#ifdef __ANDROID__
+ 				10 / gui_scaling;
+ #else
+ 				15 / gui_scaling;
+diff --git a/src/defaultsettings.cpp b/src/defaultsettings.cpp
+index 4505bdc2c423..73a885931dcc 100644
+--- a/src/defaultsettings.cpp
++++ b/src/defaultsettings.cpp
+@@ -39,6 +39,11 @@ void set_default_settings()
+ 	// Client
+ 	settings->setDefault("address", "");
+ 	settings->setDefault("enable_sound", "true");
++#if ENABLE_TOUCH
++	settings->setDefault("enable_touch", "true");
++#else
++	settings->setDefault("enable_touch", "false");
++#endif
+ 	settings->setDefault("sound_volume", "0.8");
+ 	settings->setDefault("sound_volume_unfocused", "0.3");
+ 	settings->setDefault("mute_sound", "false");
+@@ -90,7 +95,7 @@ void set_default_settings()
+ 	settings->setDefault("keymap_cmd_local", ".");
+ 	settings->setDefault("keymap_minimap", "KEY_KEY_V");
+ 	settings->setDefault("keymap_console", "KEY_F10");
+-#if HAVE_TOUCHSCREENGUI
++#if ENABLE_TOUCH
+ 	// See https://github.com/minetest/minetest/issues/12792
+ 	settings->setDefault("keymap_rangeselect", "KEY_KEY_R");
+ #else
+@@ -192,7 +197,11 @@ void set_default_settings()
+ 	settings->setDefault("screen_h", "600");
+ 	settings->setDefault("window_maximized", "false");
+ 	settings->setDefault("autosave_screensize", "true");
++#ifdef ENABLE_TOUCH
++	settings->setDefault("fullscreen", "true");
++#else
+ 	settings->setDefault("fullscreen", "false");
++#endif
+ 	settings->setDefault("vsync", "false");
+ 	settings->setDefault("fov", "72");
+ 	settings->setDefault("leaves_style", "fancy");
+@@ -297,7 +306,7 @@ void set_default_settings()
+ 	settings->setDefault("aux1_descends", "false");
+ 	settings->setDefault("doubletap_jump", "false");
+ 	settings->setDefault("always_fly_fast", "true");
+-#ifdef HAVE_TOUCHSCREENGUI
++#ifdef ENABLE_TOUCH
+ 	settings->setDefault("autojump", "true");
+ #else
+ 	settings->setDefault("autojump", "false");
+@@ -476,21 +485,23 @@ void set_default_settings()
+ 	settings->setDefault("keymap_sneak", "KEY_SHIFT");
+ #endif
+ 
+-#ifdef HAVE_TOUCHSCREENGUI
+ 	settings->setDefault("touchscreen_threshold", "20");
+ 	settings->setDefault("touchscreen_sensitivity", "0.2");
++#ifdef ENABLE_TOUCH
+ 	settings->setDefault("touch_use_crosshair", "false");
+ 	settings->setDefault("fixed_virtual_joystick", "false");
+ 	settings->setDefault("virtual_joystick_triggers_aux1", "false");
+ 	settings->setDefault("clickable_chat_weblinks", "false");
+ #else
++	settings->setDefault("touch_use_crosshair", "true");
++	settings->setDefault("fixed_virtual_joystick", "true");
++	settings->setDefault("virtual_joystick_triggers_aux1", "true");
+ 	settings->setDefault("clickable_chat_weblinks", "true");
+ #endif
+ 	// Altered settings for Android
+ #ifdef __ANDROID__
+ 	settings->setDefault("screen_w", "0");
+ 	settings->setDefault("screen_h", "0");
+-	settings->setDefault("fullscreen", "true");
+ 	settings->setDefault("performance_tradeoffs", "true");
+ 	settings->setDefault("max_simultaneous_block_sends_per_client", "10");
+ 	settings->setDefault("emergequeue_limit_diskonly", "16");
+diff --git a/src/gui/CMakeLists.txt b/src/gui/CMakeLists.txt
+index 4434b14a01f2..87575f3203bc 100644
+--- a/src/gui/CMakeLists.txt
++++ b/src/gui/CMakeLists.txt
+@@ -1,8 +1,3 @@
+-set(extra_gui_SRCS "")
+-if(ENABLE_TOUCH)
+-	set(extra_gui_SRCS ${CMAKE_CURRENT_SOURCE_DIR}/touchscreengui.cpp)
+-endif()
+-
+ set(gui_SRCS
+ 	${CMAKE_CURRENT_SOURCE_DIR}/guiAnimatedImage.cpp
+ 	${CMAKE_CURRENT_SOURCE_DIR}/guiBackgroundImage.cpp
+@@ -29,6 +24,6 @@ set(gui_SRCS
+ 	${CMAKE_CURRENT_SOURCE_DIR}/guiVolumeChange.cpp
+ 	${CMAKE_CURRENT_SOURCE_DIR}/modalMenu.cpp
+ 	${CMAKE_CURRENT_SOURCE_DIR}/profilergraph.cpp
+-	${extra_gui_SRCS}
++	${CMAKE_CURRENT_SOURCE_DIR}/touchscreengui.cpp
+ 	PARENT_SCOPE
+ )
+diff --git a/src/gui/guiFormSpecMenu.cpp b/src/gui/guiFormSpecMenu.cpp
+index 398a74d8203d..c8c41e559b48 100644
+--- a/src/gui/guiFormSpecMenu.cpp
++++ b/src/gui/guiFormSpecMenu.cpp
+@@ -315,13 +315,11 @@ void GUIFormSpecMenu::parseSize(parserData* data, const std::string &element)
+ 		data->invsize.Y = MYMAX(0, stof(parts[1]));
+ 
+ 		lockSize(false);
+-#ifndef HAVE_TOUCHSCREENGUI
+-		if (parts.size() == 3) {
++		if (!g_settings->getBool("enable_touch") && parts.size() == 3) {
+ 			if (parts[2] == "true") {
+ 				lockSize(true,v2u32(800,600));
+ 			}
+ 		}
+-#endif
+ 		data->explicit_size = true;
+ 		return;
+ 	}
+@@ -3283,14 +3281,15 @@ void GUIFormSpecMenu::regenerateGui(v2u32 screensize)
+ 
+ 			s32 min_screen_dim = std::min(padded_screensize.X, padded_screensize.Y);
+ 
+-#ifdef HAVE_TOUCHSCREENGUI
+-			// In Android, the preferred imgsize should be larger to accommodate the
+-			// smaller screensize.
+-			double prefer_imgsize = min_screen_dim / 10 * gui_scaling;
+-#else
+-			// Desktop computers have more space, so try to fit 15 coordinates.
+-			double prefer_imgsize = min_screen_dim / 15 * gui_scaling;
+-#endif
++			double prefer_imgsize;
++			if (g_settings->getBool("enable_touch")) {
++				// The preferred imgsize should be larger to accommodate the
++				// smaller screensize.
++				prefer_imgsize = min_screen_dim / 10 * gui_scaling;
++			} else {
++				// Desktop computers have more space, so try to fit 15 coordinates.
++				prefer_imgsize = min_screen_dim / 15 * gui_scaling;
++			}
+ 			// Try to use the preferred imgsize, but if that's bigger than the maximum
+ 			// size, use the maximum size.
+ 			use_imgsize = std::min(prefer_imgsize,
+@@ -3664,7 +3663,7 @@ void GUIFormSpecMenu::drawMenu()
+ 
+ #ifndef __ANDROID__
+ 	gui::ICursorControl *cursor_control = RenderingEngine::get_raw_device()->
+-			getCursorControl();
++		getCursorControl();
+ 	gui::ECURSOR_ICON current_cursor_icon = cursor_control->getActiveIcon();
+ #endif
+ 	bool hovered_element_found = false;
+@@ -3715,7 +3714,6 @@ void GUIFormSpecMenu::drawMenu()
+ 						current_cursor_icon != field.fcursor_icon)
+ 					cursor_control->setActiveIcon(field.fcursor_icon);
+ #endif
+-
+ 				hovered_element_found = true;
+ 
+ 				break;
+diff --git a/src/gui/guiPasswordChange.cpp b/src/gui/guiPasswordChange.cpp
+index e100643a4031..596140b1418b 100644
+--- a/src/gui/guiPasswordChange.cpp
++++ b/src/gui/guiPasswordChange.cpp
+@@ -24,10 +24,7 @@ OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
+ #include <IGUIButton.h>
+ #include <IGUIStaticText.h>
+ #include <IGUIFont.h>
+-
+-#ifdef HAVE_TOUCHSCREENGUI
+-	#include "client/renderingengine.h"
+-#endif
++#include "client/renderingengine.h"
+ 
+ #include "porting.h"
+ #include "gettext.h"
+@@ -66,11 +63,8 @@ void GUIPasswordChange::regenerateGui(v2u32 screensize)
+ 	/*
+ 		Calculate new sizes and positions
+ 	*/
+-#ifdef HAVE_TOUCHSCREENGUI
+ 	const float s = m_gui_scale * RenderingEngine::getDisplayDensity() / 2;
+-#else
+-	const float s = m_gui_scale;
+-#endif
++
+ 	DesiredRect = core::rect<s32>(
+ 		screensize.X / 2 - 580 * s / 2,
+ 		screensize.Y / 2 - 300 * s / 2,
+diff --git a/src/gui/guiTable.cpp b/src/gui/guiTable.cpp
+index b5042802a50d..09b64f9cc83f 100644
+--- a/src/gui/guiTable.cpp
++++ b/src/gui/guiTable.cpp
+@@ -77,11 +77,9 @@ GUITable::GUITable(gui::IGUIEnvironment *env,
+ 	setTabStop(true);
+ 	setTabOrder(-1);
+ 	updateAbsolutePosition();
+-#ifdef HAVE_TOUCHSCREENGUI
+-	float density = 1; // dp scaling is applied by the skin
+-#else
++
+ 	float density = RenderingEngine::getDisplayDensity();
+-#endif
++
+ 	core::rect<s32> relative_rect = m_scrollbar->getRelativePosition();
+ 	s32 width = (relative_rect.getWidth() / (2.0 / 3.0)) * density *
+ 			g_settings->getFloat("gui_scaling", 0.5f, 20.0f);
+diff --git a/src/gui/modalMenu.cpp b/src/gui/modalMenu.cpp
+index 5d4e03bafbc2..c7dbcc5a80d9 100644
+--- a/src/gui/modalMenu.cpp
++++ b/src/gui/modalMenu.cpp
+@@ -25,10 +25,7 @@ with this program; if not, write to the Free Software Foundation, Inc.,
+ #include "gettext.h"
+ #include "porting.h"
+ #include "settings.h"
+-
+-#ifdef HAVE_TOUCHSCREENGUI
+ #include "touchscreengui.h"
+-#endif
+ 
+ GUIModalMenu::GUIModalMenu(gui::IGUIEnvironment* env, gui::IGUIElement* parent,
+ 	s32 id, IMenuManager *menumgr, bool remap_dbl_click) :
+@@ -42,11 +39,12 @@ GUIModalMenu::GUIModalMenu(gui::IGUIEnvironment* env, gui::IGUIElement* parent,
+ {
+ 	m_gui_scale = std::max(g_settings->getFloat("gui_scaling"), 0.5f);
+ 	const float screen_dpi_scale = RenderingEngine::getDisplayDensity();
+-#ifdef HAVE_TOUCHSCREENGUI
+-	m_gui_scale *= 1.1f - 0.3f * screen_dpi_scale + 0.2f * screen_dpi_scale * screen_dpi_scale;
+-#else
+-	m_gui_scale *= screen_dpi_scale;
+-#endif
++
++	if (g_settings->getBool("enable_touch")) {
++		m_gui_scale *= 1.1f - 0.3f * screen_dpi_scale + 0.2f * screen_dpi_scale * screen_dpi_scale;
++	} else {
++		m_gui_scale *= screen_dpi_scale;
++	}
+ 
+ 	setVisible(true);
+ 	m_menumgr->createdMenu(this);
+@@ -103,10 +101,8 @@ void GUIModalMenu::quitMenu()
+ 	Environment->removeFocus(this);
+ 	m_menumgr->deletingMenu(this);
+ 	this->remove();
+-#ifdef HAVE_TOUCHSCREENGUI
+-	if (g_touchscreengui)
++	if (g_settings->getBool("enable_touch") && g_touchscreengui)
+ 		g_touchscreengui->show();
+-#endif
+ }
+ 
+ bool GUIModalMenu::DoubleClickDetection(const SEvent &event)
+diff --git a/src/main.cpp b/src/main.cpp
+index d85afe97a766..57c9486fb0e5 100644
+--- a/src/main.cpp
++++ b/src/main.cpp
+@@ -50,9 +50,7 @@ with this program; if not, write to the Free Software Foundation, Inc.,
+ #include "gui/guiEngine.h"
+ #include "gui/mainmenumanager.h"
+ #endif
+-#ifdef HAVE_TOUCHSCREENGUI
+-	#include "gui/touchscreengui.h"
+-#endif
++#include "gui/touchscreengui.h"
+ 
+ // for version information only
+ extern "C" {
+diff --git a/src/script/cpp_api/s_base.cpp b/src/script/cpp_api/s_base.cpp
+index 73f8c49a10f6..c576b6ce8ab9 100644
+--- a/src/script/cpp_api/s_base.cpp
++++ b/src/script/cpp_api/s_base.cpp
+@@ -153,13 +153,6 @@ ScriptApiBase::ScriptApiBase(ScriptingType type):
+ 	lua_pushstring(m_luastack, porting::getPlatformName());
+ 	lua_setglobal(m_luastack, "PLATFORM");
+ 
+-#ifdef HAVE_TOUCHSCREENGUI
+-	lua_pushboolean(m_luastack, true);
+-#else
+-	lua_pushboolean(m_luastack, false);
+-#endif
+-	lua_setglobal(m_luastack, "TOUCHSCREEN_GUI");
+-
+ 	// Make sure Lua uses the right locale
+ 	setlocale(LC_NUMERIC, "C");
+ }
+
+From 8f512edb11c7a344f420b8f243082cad88567276 Mon Sep 17 00:00:00 2001
+From: David Heidelberg <david@ixit.cz>
+Date: Sat, 16 Dec 2023 14:40:26 +0100
+Subject: [PATCH 6/6] assign R key to rangeselect all the times
+
+When we switching between touchscreen enabled mode and desktop,
+it's useful to have it available all the time.
+
+Ref: https://github.com/minetest/minetest/issues/12792
+
+Signed-off-by: David Heidelberg <david@ixit.cz>
+---
+ src/defaultsettings.cpp | 5 -----
+ 1 file changed, 5 deletions(-)
+
+diff --git a/src/defaultsettings.cpp b/src/defaultsettings.cpp
+index 73a885931dcc..2970d4b05b50 100644
+--- a/src/defaultsettings.cpp
++++ b/src/defaultsettings.cpp
+@@ -95,12 +95,7 @@ void set_default_settings()
+ 	settings->setDefault("keymap_cmd_local", ".");
+ 	settings->setDefault("keymap_minimap", "KEY_KEY_V");
+ 	settings->setDefault("keymap_console", "KEY_F10");
+-#if ENABLE_TOUCH
+-	// See https://github.com/minetest/minetest/issues/12792
+ 	settings->setDefault("keymap_rangeselect", "KEY_KEY_R");
+-#else
+-	settings->setDefault("keymap_rangeselect", "");
+-#endif
+ 	settings->setDefault("keymap_freemove", "KEY_KEY_K");
+ 	settings->setDefault("keymap_pitchmove", "");
+ 	settings->setDefault("keymap_fastmove", "KEY_KEY_J");

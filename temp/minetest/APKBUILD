@@ -1,0 +1,128 @@
+# Contributor: <xmingske@gmail.com>
+# Contributor: Sascha Paunovic <azarus@posteo.net>
+# Contributor: Patrycja Rosa <alpine@ptrcnull.me>
+# Maintainer: Patrycja Rosa <alpine@ptrcnull.me>
+pkgname=minetest
+pkgver=5.9.0
+pkgrel=0
+pkgdesc="An infinite-world block sandbox game and a game engine"
+url="https://www.minetest.net/"
+# ppc64le, riscv64 blocked by luajit
+arch="all !ppc64le !riscv64"
+license="LGPL-2.1-or-later AND CC-BY-SA-3.0"
+pkgusers="minetest"
+pkggroups="minetest"
+install="$pkgname-server.pre-install"
+depends="$pkgname-common"
+makedepends="
+	bzip2-dev
+	cmake
+	curl-dev
+	freetype-dev
+	gettext-dev
+	hiredis-dev
+	libjpeg-turbo-dev
+	libogg-dev
+	libpng-dev
+	libvorbis-dev
+	libxi-dev
+	luajit-dev
+	mesa-dev
+	openal-soft-dev
+	openssl-dev>3
+	samurai
+	sqlite-dev
+	zstd-dev
+	"
+subpackages="$pkgname-doc
+	$pkgname-lang
+	$pkgname-common::noarch
+	$pkgname-server
+	$pkgname-server-openrc:openrc
+	"
+_irrlichtver="1.9.0mt13"
+_commit="46c930cf701087d63eb0e23fb403e45f2eb3966a"
+source="$pkgname-$pkgver.tar.gz::https://codeload.github.com/minetest/minetest/tar.gz/$_commit
+	https://github.com/minetest/irrlicht/archive/refs/tags/$_irrlichtver/irrlichtmt-$_irrlichtver.tar.gz
+	14075.patch
+	minetest-server.confd
+	minetest-server.initd
+	"
+
+builddir="$srcdir/minetest-$_commit"
+
+prepare() {
+	default_prepare
+
+	mv "$srcdir"/irrlicht-$_irrlichtver "$srcdir"/minetest-$_commit/lib/irrlichtmt
+}
+
+build() {
+	cmake -G Ninja -B build_client \
+		-DCMAKE_BUILD_TYPE=Release \
+		-DCUSTOM_BINDIR=/usr/bin \
+		-DCMAKE_INSTALL_PREFIX=/usr \
+		-DCUSTOM_DOCDIR="/usr/share/doc/$pkgname" \
+		-DCUSTOM_SHAREDIR="/usr/share/$pkgname" \
+		-DBUILD_CLIENT=1 \
+		-DBUILD_SERVER=0 \
+		-DENABLE_REDIS=0 \
+		-DENABLE_CURL=1 \
+		-DRUN_IN_PLACE=0
+	cmake --build build_client
+
+	cmake -G Ninja -B build_server \
+		-DCMAKE_BUILD_TYPE=Release \
+		-DCUSTOM_BINDIR=/usr/bin \
+		-DCMAKE_INSTALL_PREFIX=/usr \
+		-DCUSTOM_DOCDIR="/usr/share/doc/minetest" \
+		-DCUSTOM_SHAREDIR="/usr/share/minetest" \
+		-DBUILD_CLIENT=0 \
+		-DBUILD_SERVER=1 \
+		-DENABLE_REDIS=1 \
+		-DENABLE_CURL=1 \
+		-DRUN_IN_PLACE=0
+	cmake --build build_server
+}
+
+package() {
+	DESTDIR="$pkgdir" cmake --install build_client
+}
+
+common() {
+	pkgdesc="Minetest files used by both client & server"
+	depends=""
+
+	install -o minetest -g minetest -d "$subpkgdir"/var/lib/minetest
+	amove \
+		usr/share/minetest/builtin
+}
+
+server() {
+	pkgdesc="Minetest server"
+	depends="$pkgname-common"
+
+	cd "$builddir"
+	install -Dm644 minetest.conf.example \
+		"$subpkgdir"/etc/minetest/minetest.conf
+	install -Dm755 bin/minetestserver \
+		-t "$subpkgdir"/usr/bin
+}
+
+openrc() {
+	pkgdesc="Minetest server (OpenRC init scripts)"
+	install_if="$pkgname-server openrc"
+
+	install -Dm755 "$srcdir"/minetest-server.initd \
+		"$subpkgdir"/etc/init.d/minetest-server
+	install -Dm644 "$srcdir"/minetest-server.confd \
+		"$subpkgdir"/etc/conf.d/minetest-server
+}
+
+sha512sums="
+0cbcdb774c48497a1828900a89449743f5eba6c17f601b96dd98b83095cb20ad9585ae8d102443e4dd77fd6c0c89ddb4bb267743df6605d09d66a6d9e8cfcf6b  minetest-5.9.0.tar.gz
+5226d78eaacf8b56eafbbb6359bfb6137f9d6a555a252224e33d39c0d219fcb7d0d29fd3828961eee37d55940f3aa6e767fea31c96fb772dd5eca3889f5ac16e  irrlichtmt-1.9.0mt13.tar.gz
+cdfd548dc3e510ef51e093c1910fa4a8eef9bff63f6e3280be5990e49e1f1f6812b03d2f67259809256636c99e32077f3182483d299374093f7d9d878e09055c  14075.patch
+7bca17dc0bd59db9c07c160677498aa09297026104e922bf93b7629c274d0aebd226af60c5e82f49ffe3cc5c1e4448e3798b6c2a44144fc6eca4d3aaed3384bb  minetest-server.confd
+c27aea87468538b48b5e0a66fa5cdde4fc67f3c00a0e57f359a2f044a31c5617d1b5f3dec72e015537ee3bf126bd1073878c0f4447de67db9be2c4cf21416dd7  minetest-server.initd
+"
