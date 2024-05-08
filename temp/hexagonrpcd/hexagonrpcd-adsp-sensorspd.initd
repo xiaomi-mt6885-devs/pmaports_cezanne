@@ -6,4 +6,5 @@ description="Daemon to support Qualcomm Hexagon ADSP virtual filesystem for Sens
 
 command=/usr/bin/hexagonrpcd
 command_args="-f /dev/fastrpc-adsp -s ${command_args}"
-command_user=fastrpc:fastrpc
+# run fasdtrpcd as root for now
+# command_user=fastrpc:fastrpc

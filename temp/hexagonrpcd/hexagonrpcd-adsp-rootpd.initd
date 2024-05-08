@@ -6,4 +6,5 @@ description="Daemon to support Qualcomm Hexagon ADSP virtual filesystem for Root
 
 command=/usr/bin/hexagonrpcd
 command_args="-f /dev/fastrpc-adsp ${command_args}"
-command_user=fastrpc:fastrpc
+# run fasdtrpcd as root for now
+# command_user=fastrpc:fastrpc
