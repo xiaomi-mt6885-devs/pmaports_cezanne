@@ -80,22 +80,45 @@ start() {
 	done
 	veinfo "Waited $count seconds for modem to come up"
 
-	# Clear the selected application in case the modem is in a bugged state
+	# Clear the provisionings in case the modem is in a bugged state.
 	if ! printf "%s" "$QMI_CARDS" | grep -Fq "Primary GW:   session doesn't exist"
 	then
-		ewarn 'Application was already selected.'
+		ewarn 'Primary GSM/WCDMA provisioning was already active.'
 		$QMICLI_MODEM --uim-change-provisioning-session='activate=no,session-type=primary-gw-provisioning' > /dev/null
-        fi
+	fi
+	if ! printf "%s" "$QMI_CARDS" | grep -Fq "Secondary GW: session doesn't exist"
+	then
+		ewarn 'Secondary GSM/WCDMA provisioning was already active.'
+		$QMICLI_MODEM --uim-change-provisioning-session='activate=no,session-type=secondary-gw-provisioning' > /dev/null
+	fi
 
-	# Extract first available slot number and AID for usim application
-	# on it. This should select proper slot out of two if only one UIM is
-	# present or select the first one if both slots have UIM's in them.
-	FIRST_PRESENT_SLOT=$(printf "%s" "$QMI_CARDS" | grep "Card state: 'present'" -m1 -B1 | head -n1 | cut -c7-7)
-	FIRST_PRESENT_AID=$(printf "%s" "$QMI_CARDS" | grep "usim (2)" -m1 -A3 | tail -n1 | awk '{print $1}')
+	printf "%s" "$QMI_CARDS" |
+	ruby -e '
+		# Extract and print: a slot number, an application ID, a matching session type.
+		# Only applications of type "usim" shall be considered.
+		#
+		# If there is only one UIM present, then:
+		# Select its slot and activate it with session type "primary GSM/WCDMA provisioning".
+		#
+		# If there are two UIMs present, then:
+		# Select each UIMs respective slot and activate it.
+		# The first UIM shall be activated with session type "primary GSM/WCDMA provisioning".
+		# The second UIM shall be activated with session type "secondary GSM/WCDMA provisioning".
+		remaining_session_types = [
+			"primary-gw-provisioning",
+			"secondary-gw-provisioning",
+		]
+		card_status = STDIN.read
+		card_status.scan(%r{Slot \[(\d+)\]:\n\tCard state: '"'"'present'"'"'\n(?:\t[^\n]*\n)*\tApplication \[\d+\]:\n\t\tApplication type:\s+'"'"'usim \(2\)'"'"'\n(?:\t\t[^\n]*\n)*\t\tApplication ID:\n\t\t\t([0-9A-Fa-f:]+)\n}) do |slot,application|
+			if remaining_session_types.length > 0
+				puts "#{slot} #{application} #{remaining_session_types.shift}"
+			end
+		end' |
+	while read slot application_id session_type; do
+		veinfo "Selecting $application_id on slot $slot"
 
-	veinfo "Selecting $FIRST_PRESENT_AID on slot $FIRST_PRESENT_SLOT"
-
-	# Finally send the new configuration to the modem.
-	$QMICLI_MODEM --uim-change-provisioning-session="slot=$FIRST_PRESENT_SLOT,activate=yes,session-type=primary-gw-provisioning,aid=$FIRST_PRESENT_AID" > /dev/null
+		# Finally send the new configuration to the modem.
+		$QMICLI_MODEM --uim-change-provisioning-session="slot=$slot,activate=yes,session-type=$session_type,aid=$application_id" > /dev/null
+	done
 	eend $?
 }
