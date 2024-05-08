@@ -1,6 +1,6 @@
 pkgname=postmarketos-base
 pkgver=32
-pkgrel=2
+pkgrel=3
 pkgdesc="Meta package for minimal postmarketOS base"
 url="https://postmarketos.org"
 arch="noarch"
@@ -36,14 +36,12 @@ replaces="
 	busybox-initscripts
 	busybox-openrc
 	openrc
-	sudo
-	sudo-ldap
 	zram-init-openrc
 	"
 replaces_priority=100  # leave plenty for alpine
 
 _source440="
-	etc/sudoers
+	etc/sudoers.d/01_postmarketos
 	etc/doas.d/10-postmarketos.conf
 	"
 _source644="
@@ -124,9 +122,8 @@ nofde() {
 	provider_priority=1
 	mkdir "$subpkgdir"
 }
-
 sha512sums="
-e529f5cef1f31481b577f99b8917704f2cfefb963d98bf40a14b017938e55a00134d2033f81d2cb0b8489c5e9b4a92fdc0a788013f1adb4cd46d9580c9988186  rootfs-etc-sudoers
+5ac95ec8c4ee4239784b563d9e32093bb637a2a1fd5eba0a078cbf76b7d7e31be08bbc4b4fa188c3223f908913c666a984eac2ea357c964779128e2292411f7f  rootfs-etc-sudoers.d-01_postmarketos
 9591c9cb2194fa1092505159c9eb3d899bec95b6dbd9a0222be62098db012da113a125e40d70373d60af9880dfa489bdbe12b6b897bdef5613e023800fb6ee1b  rootfs-etc-doas.d-10-postmarketos.conf
 e0d2d48b82a03239a4c0a00acaf83e00d397c23a8d7c71053d4e2a383357c22dcedef9e81b0e12a1d7514e1fdbe0bb3eb82613d18b29034a7ce5447f13c84a53  rootfs-etc-conf.d-swapfile
 4bc9f9c62d2cb75c1e562e070bc5260c9bc2b0abe6941b7cebd9b5a649342cb4121a0713153d3c246d0a284a50fd335638c9738778698a08fcaed7058b69efb9  rootfs-etc-conf.d-zram-init
