@@ -1,7 +1,7 @@
 # Maintainer: Clayton Craft <clayton@craftyguy.net>
 pkgname=postmarketos-base-ui
-pkgver=21
-pkgrel=0
+pkgver=22
+pkgrel=1
 pkgdesc="Meta package for minimal postmarketOS UI base"
 url="https://postmarketos.org"
 arch="noarch"
@@ -12,12 +12,14 @@ depends="
 	font-dejavu
 	haveged
 	nftables
+	pipewire
 	postmarketos-artwork-icons
 	postmarketos-base
 	shadow
 	tzdata
 	util-linux
 	wireless-regdb
+	wireplumber
 	"
 subpackages="
 	$pkgname-audio-pipewire:_audio_pipewire
@@ -62,7 +64,8 @@ _source644="
 	usr/lib/NetworkManager/conf.d/50-random-mac.conf
 	usr/lib/NetworkManager/conf.d/50-tethering.conf
 	usr/lib/NetworkManager/conf.d/50-use-dnsmasq.conf
-	"
+	usr/share/wireplumber/wireplumber.conf.d/50-pulseaudio.conf
+"
 _source600="
 	usr/lib/NetworkManager/system-connections/USB_Networking.nmconnection
 "
@@ -86,10 +89,10 @@ source="$(flatpath $_source644 $_source600 $_source755)"
 
 _pmb_select="postmarketos-base-ui-wifi"
 package() {
-	# wifi-backend is provided by a subpackage in this APKBUILD, and it won't
-	# exist when this is evaluated at the top level. It's moved into this
-	# function to work around this.
-	depends="$depends postmarketos-base-ui-wifi"
+	# wifi and audio backends are provided by a subpackage in this APKBUILD,
+	# and it won't exist when this is evaluated at the top level. It's moved
+	# into this function to work around it.
+	depends="$depends postmarketos-base-ui-wifi postmarketos-base-ui-audio"
 
 	local i
 	for i in $_source644; do
@@ -229,7 +232,7 @@ iwd() {
 
 _audio_pipewire() {
 	pkgdesc="Use pipewire as the audio backend. (but may not work with all devices)"
-	depends="pipewire pipewire-alsa pipewire-pulse wireplumber"
+	depends="pipewire-alsa pipewire-pulse"
 	provides="postmarketos-base-ui-audio=$pkgver-r$pkgrel"
 	provider_priority=90
 
@@ -238,11 +241,12 @@ _audio_pipewire() {
 
 _audio_pulseaudio() {
 	pkgdesc="Use pulseaudio as the audio backend."
-	depends="alsa-plugins-pulse pulseaudio pulseaudio-alsa"
+	depends="alsa-plugins-pulse pulseaudio pulseaudio-alsa !pipewire-pulse"
 	provides="postmarketos-base-ui-audio=$pkgver-r$pkgrel"
 	provider_priority=100
 
 	mkdir "$subpkgdir"
+	amove usr/share/wireplumber/wireplumber.conf.d/50-pulseaudio.conf
 }
 
 flatpak() {
@@ -268,6 +272,7 @@ cac604e25c46e695dd30bd5a10cfd2d69595fcc3bc290096ac94b76b10834d591ea6576afb79c46b
 d4b4c4fed2dee7266f6a87ae266691377593014943e2953e4cd87a59f3110f25bfb5f3f866cc843519f628695e4df7602bfdcd3d79f2c2cd6e8256535c33b038  rootfs-usr-lib-NetworkManager-conf.d-50-random-mac.conf
 6507eb31cdd694a7db0280246433118a650bf5d99fbe639f967ae2d95945429a7e03ca6feb5bb6e7b9fb14fcec21e13e51209a79edd0041e77b5bf76b129ed6f  rootfs-usr-lib-NetworkManager-conf.d-50-tethering.conf
 900554534191fa0797064d35350934cdd8af59f30f0ae7d8ec63c2e11c44a16c643d3024b6543940488cd590fec1d392548bcaacc3be88cddff90f69b17ece07  rootfs-usr-lib-NetworkManager-conf.d-50-use-dnsmasq.conf
+ebb7700018cf64fe6dcb747365cd2fb816deb6e06e7368af779284b51b1f0749e24f8e70b0b72fa6bff4178a02af934f728c3b115c8c1f77aa1a3490879af731  rootfs-usr-share-wireplumber-wireplumber.conf.d-50-pulseaudio.conf
 1b8add60574ec4644197cb93263c0653325c2e88e03673de918be5fb3280c7b81e8e97dce498850a07f2f3307771c44f3c876922e5cbd5207523ede31816296f  rootfs-usr-lib-NetworkManager-system-connections-USB_Networking.nmconnection
 d1ddd43489e6016e3ffd716027ed2bae4a2ab5f213118bdbcb96750e267ab7c0367cd0e0e386300aa5550352653144f5caeddd790621fe0879f83ca1995bb65c  rootfs-etc-tinydm.d-env-wayland.d-50-firefox-wayland.sh
 ecaa57d033a119a53a6574c27636b7c89d659d75ea48a973a6a4ff6f90e5d07202529fd489bfc9dfc7430f5b60f40612f6d5c06f7fab47e681b0a3112a874058  rootfs-etc-tinydm.d-env-wayland.d-50-sdl-wayland.sh

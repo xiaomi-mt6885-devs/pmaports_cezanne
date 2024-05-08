@@ -3,7 +3,7 @@
 pkgname=soc-qcom-sdm845
 pkgdesc="Common package for Qualcomm SDM845 devices"
 pkgver=20
-pkgrel=0
+pkgrel=1
 url="https://postmarketos.org"
 license="BSD-3-Clause"
 arch="aarch64"
@@ -20,7 +20,6 @@ subpackages="
 	$pkgname-qbootctl
 	$pkgname-ucm
 	$pkgname-vulkan
-	$pkgname-wireplumber
 "
 
 _ucm_commit="34a4ee28abe70a5719e4a895333d0796c13ecd16"
@@ -47,6 +46,9 @@ package() {
 
 	install -Dm644 "$srcdir"/10-initramfs-sdm845.files \
 		-t "$pkgdir"/usr/share/mkinitfs/files/
+
+	install -Dm644 "$srcdir"/51-qcom-sdm845.lua \
+		-t "$pkgdir"/usr/share/wireplumber/main.lua.d
 }
 
 modem() {
@@ -118,13 +120,6 @@ pulseaudio() {
 
 	install -Dm644 "$srcdir"/call_audio_idle_suspend_workaround.confd \
 		"$subpkgdir"/etc/conf.d/call_audio_idle_suspend_workaround
-}
-
-wireplumber() {
-	install_if="$pkgname=$pkgver-r$pkgrel wireplumber"
-
-	install -Dm644 "$srcdir"/51-qcom-sdm845.lua \
-		-t "$subpkgdir"/usr/share/wireplumber/main.lua.d
 }
 
 sha512sums="

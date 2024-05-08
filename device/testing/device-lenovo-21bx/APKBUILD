@@ -4,7 +4,7 @@
 pkgname=device-lenovo-21bx
 pkgdesc="Lenovo ThinkPad X13s"
 pkgver=8
-pkgrel=0
+pkgrel=1
 url="https://postmarketos.org"
 license="MIT"
 arch="aarch64"
@@ -33,7 +33,6 @@ source="
 "
 subpackages="
 	$pkgname-usbguard
-	$pkgname-pipewire
 	$pkgname-vulkan
 "
 install="$pkgname.post-install"
@@ -47,6 +46,8 @@ package() {
 
 	install -Dm644 "$srcdir/"/firmware.files \
 		-t "$pkgdir"/usr/share/mkinitfs/files/
+	install -Dm644 "$srcdir"/pipewire.conf \
+		-t "pkgdir"/usr/share/pipewire/pipewire.conf.d/
 }
 
 vulkan() {
@@ -60,12 +61,6 @@ usbguard() {
 	install -Dm600 "$srcdir"/usbguard.conf \
 		"$subpkgdir"/etc/usbguard/rules.d/"$pkgname".conf
 	devicepkg_package $startdir $pkgname
-}
-
-pipewire() {
-	install_if="$pkgname=$pkgver-r$pkgrel pipewire"
-	install -Dm644 "$srcdir"/pipewire.conf \
-		"$subpkgdir"/usr/share/pipewire/pipewire.conf.d/"$pkgname".conf
 }
 
 sha512sums="
