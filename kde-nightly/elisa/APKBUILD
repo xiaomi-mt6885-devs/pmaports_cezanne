@@ -6,7 +6,7 @@
 pkgname=elisa
 pkgver=9999_git20240507
 pkgrel=0
-_commit="c0c12ca76162c5b5b448d73f0b77f6fde208712f"
+_commit="09019741874daba84bbd598bf4f418ddf461ce53"
 # armhf blocked by extra-cmake-modules
 # s390x blocked by vlc
 arch="all !armhf !s390x"
@@ -49,7 +49,7 @@ checkdepends="
 	xvfb-run
 	"
 _repo_url="https://invent.kde.org/multimedia/elisa.git"
-source="https://nightly.postmarketos.org/plasma-mobile/sources/2024-05-07/elisa-$_commit.tar.xz"
+source="https://nightly.postmarketos.org/plasma-mobile/sources/2024-05-08/elisa-$_commit.tar.xz"
 subpackages="$pkgname-doc $pkgname-lang"
 
 options="!check"
@@ -75,5 +75,5 @@ package() {
 }
 
 sha512sums="
-055a11185a051c5f7604414deee5ef1b0eb481b4d681f8c4efec47dd16579c5ae0134c4a969cd91927ff3ae389e8dff979b67feb00b925966709bad82d36f1db  elisa-c0c12ca76162c5b5b448d73f0b77f6fde208712f.tar.xz
+754efd590b99e1698907256f6620b9f25b2fae2538e7ab507a24770ae1ff0b6add523df0ff2778ae64a1fa1d7bcefa34a143a2e6bf48a48fee56b85cf684f388  elisa-09019741874daba84bbd598bf4f418ddf461ce53.tar.xz
 "
