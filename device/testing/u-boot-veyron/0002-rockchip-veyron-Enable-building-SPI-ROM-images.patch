@@ -1,0 +1,53 @@
+From 981b7635d5fbac38a3cafa9d0b78f32135becfca Mon Sep 17 00:00:00 2001
+From: Alper Nebi Yasak <alpernebiyasak@gmail.com>
+Date: Fri, 7 Jul 2023 16:25:37 +0300
+Subject: [PATCH 2/7] rockchip: veyron: Enable building SPI ROM images
+
+Commit 9b312e26fc77 ("rockchip: Enable building a SPI ROM image on
+jerry") produces a u-boot.rom file for chromebook_jerry, intended to be
+written to SPI flash. Build this file for other veyron boards as well,
+especially because they are already configured only to boot from SPI.
+
+Signed-off-by: Alper Nebi Yasak <alpernebiyasak@gmail.com>
+---
+
+ arch/arm/mach-rockchip/rk3288/Kconfig | 6 ++++++
+ 1 file changed, 6 insertions(+)
+
+diff --git a/arch/arm/mach-rockchip/rk3288/Kconfig b/arch/arm/mach-rockchip/rk3288/Kconfig
+index ea94ad114247..69a5614b449a 100644
+--- a/arch/arm/mach-rockchip/rk3288/Kconfig
++++ b/arch/arm/mach-rockchip/rk3288/Kconfig
+@@ -16,7 +16,9 @@ config TARGET_CHROMEBOOK_JERRY
+ 
+ config TARGET_CHROMEBIT_MICKEY
+ 	bool "Google/Rockchip Veyron-Mickey Chromebit"
++	select HAS_ROM
+ 	select BOARD_LATE_INIT
++	select ROCKCHIP_SPI_IMAGE
+ 	help
+ 	  Mickey is a small RK3288-based device with one USB 3.0 port, HDMI
+ 	  and WiFi. It has a separate power port and is designed to connect
+@@ -26,7 +28,9 @@ config TARGET_CHROMEBIT_MICKEY
+ 
+ config TARGET_CHROMEBOOK_MINNIE
+ 	bool "Google/Rockchip Veyron-Minnie Chromebook"
++	select HAS_ROM
+ 	select BOARD_LATE_INIT
++	select ROCKCHIP_SPI_IMAGE
+ 	help
+ 	  Minnie is a RK3288-based convertible clamshell device with 2 USB 3.0
+ 	  ports, micro HDMI, a 10.1-inch 1280x800 EDP display, micro-SD card,
+@@ -37,7 +41,9 @@ config TARGET_CHROMEBOOK_MINNIE
+ 
+ config TARGET_CHROMEBOOK_SPEEDY
+ 	bool "Google/Rockchip Veyron-Speedy Chromebook"
++	select HAS_ROM
+ 	select BOARD_LATE_INIT
++	select ROCKCHIP_SPI_IMAGE
+ 	help
+ 	  Speedy is a RK3288-based clamshell device with 2 USB 2.0 ports,
+ 	  micro HDMI, an 11.6 inch display, micro-SD card,
+-- 
+2.40.1
+

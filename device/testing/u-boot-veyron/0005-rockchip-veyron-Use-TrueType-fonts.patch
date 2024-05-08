@@ -1,0 +1,54 @@
+From 859ada4302ab783367651626960298475d2a0ddc Mon Sep 17 00:00:00 2001
+From: Alper Nebi Yasak <alpernebiyasak@gmail.com>
+Date: Fri, 7 Jul 2023 19:32:13 +0300
+Subject: [PATCH 5/7] rockchip: veyron: Use TrueType fonts
+
+Commit 815ed79d8338 ("video: rockchip: Use TrueType fonts with jerry")
+enables makes chromebook_jerry use TrueType fonts. Make other veyron
+boards switch to it as well.
+
+Signed-off-by: Alper Nebi Yasak <alpernebiyasak@gmail.com>
+---
+I have no idea why that commit disables USE_PRIVATE_LIBGCC, but I'm
+following that change here.
+
+ configs/chromebit_mickey_defconfig  | 2 ++
+ configs/chromebook_minnie_defconfig | 2 ++
+ 2 files changed, 4 insertions(+)
+
+diff --git a/configs/chromebit_mickey_defconfig b/configs/chromebit_mickey_defconfig
+index f45b14b9d3d1..81efa0fd4cc6 100644
+--- a/configs/chromebit_mickey_defconfig
++++ b/configs/chromebit_mickey_defconfig
+@@ -107,9 +107,11 @@ CONFIG_USB_DWC2=y
+ CONFIG_ROCKCHIP_USB2_PHY=y
+ CONFIG_VIDEO=y
+ # CONFIG_VIDEO_BPP8 is not set
++CONFIG_CONSOLE_TRUETYPE=y
+ CONFIG_DISPLAY=y
+ CONFIG_VIDEO_ROCKCHIP=y
+ CONFIG_DISPLAY_ROCKCHIP_HDMI=y
++# CONFIG_USE_PRIVATE_LIBGCC is not set
+ CONFIG_SPL_TINY_MEMSET=y
+ CONFIG_CMD_DHRYSTONE=y
+ CONFIG_ERRNO_STR=y
+diff --git a/configs/chromebook_minnie_defconfig b/configs/chromebook_minnie_defconfig
+index 01964d13754e..e2302074e8b3 100644
+--- a/configs/chromebook_minnie_defconfig
++++ b/configs/chromebook_minnie_defconfig
+@@ -112,10 +112,12 @@ CONFIG_USB_DWC2=y
+ CONFIG_ROCKCHIP_USB2_PHY=y
+ CONFIG_VIDEO=y
+ # CONFIG_VIDEO_BPP8 is not set
++CONFIG_CONSOLE_TRUETYPE=y
+ CONFIG_DISPLAY=y
+ CONFIG_VIDEO_ROCKCHIP=y
+ CONFIG_DISPLAY_ROCKCHIP_EDP=y
+ CONFIG_DISPLAY_ROCKCHIP_HDMI=y
++# CONFIG_USE_PRIVATE_LIBGCC is not set
+ CONFIG_SPL_TINY_MEMSET=y
+ CONFIG_CMD_DHRYSTONE=y
+ CONFIG_ERRNO_STR=y
+-- 
+2.40.1
+

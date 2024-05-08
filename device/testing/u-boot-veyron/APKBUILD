@@ -1,0 +1,72 @@
+# Maintainer: Jenneron <jenneron@protonmail.com>
+pkgname=u-boot-veyron
+pkgver=2023.07_rc6
+pkgrel=0
+pkgdesc="u-boot for Google Veyron chromebooks"
+url="https://www.denx.de/wiki/U-Boot/"
+arch="armv7"
+license="GPL-2.0-or-later OFL-1.1 BSD-2-Clause BSD-3-Clause eCos-2.0 IBM-pibs
+	ISC LGPL-2.0-only LGPL-2.1-only X11"
+options="!check" # no tests in upstream
+makedepends="$depends_dev bc dtc python3-dev swig bison flex openssl-dev
+	py3-setuptools linux-headers u-boot-tools vboot-utils"
+source="
+	https://ftp.denx.de/pub/u-boot/u-boot-${pkgver//_/-}.tar.bz2
+	0001-rockchip-veyron-Enable-RESET-driver.patch
+	0002-rockchip-veyron-Enable-building-SPI-ROM-images.patch
+	0003-rockchip-veyron-Unify-u-boot.dtsi-bootph-all-fragmen.patch
+	0004-rockchip-veyron-Add-serial-logging-silent-console-su.patch
+	0005-rockchip-veyron-Use-TrueType-fonts.patch
+	0006-rockchip-chromebook_jerry-Re-enable-MAX98090-codec-d.patch
+	0007-rockchip-chromebook_speedy-Enable-sound.patch
+	"
+builddir="$srcdir"/u-boot-${pkgver//_/-}
+
+_boards="
+	chromebit_mickey
+	chromebook_jerry
+	chromebook_minnie
+	chromebook_speedy
+	"
+
+subpackages="$(
+	for board in $_boards; do
+		printf "%s-%s:_subpkg\n" "$pkgname" "${board##*_}"
+	done
+)"
+
+prepare() {
+	default_prepare
+}
+
+build() {
+	for board in $_boards
+	do
+		_dir="${board##*_}"
+		mkdir "$_dir"
+		make O="$_dir" "$board"_defconfig all
+	done
+}
+
+package() {
+	mkdir -p "$pkgdir"
+}
+
+_subpkg() {
+	local board=${subpkgname##*u-boot-veyron-}
+	pkgdesc="U-Boot for $board"
+
+	install -Dm644 "$builddir"/"$board"/u-boot.rom \
+		-t "$subpkgdir"/usr/share/u-boot/google-veyron-"$board"
+}
+
+sha512sums="
+022518ca1ca372f3aa0983920d0df71b6d14ecec37a07c2202058923bfa1993ba2a79a96ecc482214619eed97a4d92a4d0e1e2033caf5063c9b2679ee70784d0  u-boot-2023.07-rc6.tar.bz2
+10b8b6bc79df41aefccbe6fe6b61c944c34527ef3e982f425951a8a0deb1fc5f8f9ff9e6b1c3b5d8cf675b14dc9f12291659c4051aa42f1cd635462be43eba67  0001-rockchip-veyron-Enable-RESET-driver.patch
+15cbcb1beb8e0c06424030e06b1bf74134141009930da7f26dd9f09992326a59fa2a2a5f89522636e65b9f94e31b68a092ed7eab1b9afaa16c5ca15d85640c67  0002-rockchip-veyron-Enable-building-SPI-ROM-images.patch
+fe9340247bd5a49d34ca63eff8dca2a0ba634440f422e5a902a8c298e41f1d3765e49420f1931a98621129d248e5337aa2623665cca9205128da0d493681c118  0003-rockchip-veyron-Unify-u-boot.dtsi-bootph-all-fragmen.patch
+8c20dfe4c197416b5fe7023cb02a82fd53d09129818c731187328eeedf15f40739e7413429d31f7a0a2cbca373debb7932032a26468d2a51106fa59fec3ad3ef  0004-rockchip-veyron-Add-serial-logging-silent-console-su.patch
+9e3272db4b4bff10f839464d8b4a343d901f99f67791a2f3d60c12a8f390ee28e503bc164c52814669e4c6762083f6097016a2d328e5161aff8f3c02f7d775c7  0005-rockchip-veyron-Use-TrueType-fonts.patch
+4b61edd48056f49c51252eec66624d39ed17bed5ba6b6ef359e5dc25243ec6d499bc3b92ceaeead7c6156a98d0639d1bd45f6bb1b36eaaf07a1d9c85d7052f2d  0006-rockchip-chromebook_jerry-Re-enable-MAX98090-codec-d.patch
+9edf74da27dbcab094b975a9a4dfec890790a01222fd1119c43db50efad12a79edacdec8128b71e5bf17d984b4e47f06bb7c64c6195b2354fd2a6c21ba2303cf  0007-rockchip-chromebook_speedy-Enable-sound.patch
+"

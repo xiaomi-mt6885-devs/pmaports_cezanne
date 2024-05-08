@@ -1,0 +1,71 @@
+From 83ced846c7ec6cf4c965b0397686bee27049de31 Mon Sep 17 00:00:00 2001
+From: Alper Nebi Yasak <alpernebiyasak@gmail.com>
+Date: Fri, 7 Jul 2023 16:49:18 +0300
+Subject: [PATCH 7/7] rockchip: chromebook_speedy: Enable sound
+
+Commit ec107f04b619 ("rockchip: chromebook_minnie: Enable sound") and
+commit 2d0c01b8f0ad ("sound: rockchip: Add sound support for jerry")
+enable audio support for chromebook_minnie and chromebook_jerry. Enable
+it for chromebook_speedy as well, but put the non-upstream sound node
+in the board -u-boot.dtsi instead.
+
+Signed-off-by: Alper Nebi Yasak <alpernebiyasak@gmail.com>
+---
+Not enabling these for chromebit_mickey, as that'd use HDMI in a way I
+don't know how.
+
+ arch/arm/dts/rk3288-veyron-speedy-u-boot.dtsi | 14 ++++++++++++++
+ configs/chromebook_speedy_defconfig           |  5 +++++
+ 2 files changed, 19 insertions(+)
+
+diff --git a/arch/arm/dts/rk3288-veyron-speedy-u-boot.dtsi b/arch/arm/dts/rk3288-veyron-speedy-u-boot.dtsi
+index 2a4ba44e0bf9..6bfa84906e35 100644
+--- a/arch/arm/dts/rk3288-veyron-speedy-u-boot.dtsi
++++ b/arch/arm/dts/rk3288-veyron-speedy-u-boot.dtsi
+@@ -5,6 +5,20 @@
+ 
+ #include "rk3288-veyron-u-boot.dtsi"
+ 
++/ {
++	sound {
++		compatible = "rockchip,audio-max98090-jerry";
++
++		cpu {
++			sound-dai = <&i2s 0>;
++		};
++
++		codec {
++			sound-dai = <&max98090 0>;
++		};
++	};
++};
++
+ &dmc {
+ 	rockchip,pctl-timing = <0x215 0xc8 0x0 0x35 0x26 0x2 0x70 0x2000d
+ 		0x6 0x0 0x8 0x4 0x17 0x24 0xd 0x6
+diff --git a/configs/chromebook_speedy_defconfig b/configs/chromebook_speedy_defconfig
+index f8f2a280f6cf..15b6e21095db 100644
+--- a/configs/chromebook_speedy_defconfig
++++ b/configs/chromebook_speedy_defconfig
+@@ -52,6 +52,7 @@ CONFIG_CMD_USB=y
+ # CONFIG_CMD_SETEXPR is not set
+ CONFIG_CMD_CACHE=y
+ CONFIG_CMD_TIME=y
++CONFIG_CMD_SOUND=y
+ CONFIG_CMD_PMIC=y
+ CONFIG_CMD_REGULATOR=y
+ # CONFIG_SPL_DOS_PARTITION is not set
+@@ -99,6 +100,10 @@ CONFIG_SPL_RAM=y
+ CONFIG_DEBUG_UART_SHIFT=2
+ CONFIG_SYS_NS16550_MEM32=y
+ CONFIG_ROCKCHIP_SERIAL=y
++CONFIG_SOUND=y
++CONFIG_I2S=y
++CONFIG_I2S_ROCKCHIP=y
++CONFIG_SOUND_MAX98090=y
+ CONFIG_ROCKCHIP_SPI=y
+ CONFIG_SYSRESET=y
+ CONFIG_USB=y
+-- 
+2.40.1
+

@@ -1,0 +1,59 @@
+From a7bf5a5461e682e3a1f7f2cebce0a01e1f348c76 Mon Sep 17 00:00:00 2001
+From: Alper Nebi Yasak <alpernebiyasak@gmail.com>
+Date: Fri, 7 Jul 2023 16:21:08 +0300
+Subject: [PATCH 3/7] rockchip: veyron: Unify u-boot.dtsi bootph-all fragments
+
+The rk3288-veyron-speedy-u-boot.dtsi file duplicates the bootphase dts
+fragments from rk3288-veyron-u-boot.dtsi even though it #inclues that.
+Deduplicate these into the latter file, which should also make the eMMC
+available to the other veyron boards' SPL.
+
+Signed-off-by: Alper Nebi Yasak <alpernebiyasak@gmail.com>
+---
+
+ arch/arm/dts/rk3288-veyron-speedy-u-boot.dtsi | 16 ----------------
+ arch/arm/dts/rk3288-veyron-u-boot.dtsi        |  4 ++++
+ 2 files changed, 4 insertions(+), 16 deletions(-)
+
+diff --git a/arch/arm/dts/rk3288-veyron-speedy-u-boot.dtsi b/arch/arm/dts/rk3288-veyron-speedy-u-boot.dtsi
+index 90ce9e1395de..2a4ba44e0bf9 100644
+--- a/arch/arm/dts/rk3288-veyron-speedy-u-boot.dtsi
++++ b/arch/arm/dts/rk3288-veyron-speedy-u-boot.dtsi
+@@ -15,19 +15,3 @@ &dmc {
+ 		0x0 0xc3 0x6 0x1>;
+ 	rockchip,sdram-params = <0x20D266A4 0x5B6 6 533000000 6 13 0>;
+ };
+-
+-&sdmmc {
+-	bootph-all;
+-};
+-
+-&emmc {
+-	bootph-all;
+-};
+-
+-&uart2 {
+-	bootph-all;
+-};
+-
+-&pinctrl {
+-	bootph-all;
+-};
+diff --git a/arch/arm/dts/rk3288-veyron-u-boot.dtsi b/arch/arm/dts/rk3288-veyron-u-boot.dtsi
+index ab564e73ed00..4f9c59c67573 100644
+--- a/arch/arm/dts/rk3288-veyron-u-boot.dtsi
++++ b/arch/arm/dts/rk3288-veyron-u-boot.dtsi
+@@ -31,6 +31,10 @@ &dmc {
+ 	>;
+ };
+ 
++&emmc {
++	bootph-all;
++};
++
+ &gpio3 {
+ 	bootph-all;
+ };
+-- 
+2.40.1
+
