@@ -32,7 +32,7 @@ index 306d666..f978034 100644
 +						hfs_map("platform_version",
 +						"/sys/kernel/debug/qcom_socinfo/platform_version"),
 +						hfs_map("revision",
-+						"/sys/devies/soc0/revision"),
++						"/sys/devices/soc0/revision"),
 +						hfs_map("soc_id",
 +						"/sys/devices/soc0/soc_id")
 +					)
