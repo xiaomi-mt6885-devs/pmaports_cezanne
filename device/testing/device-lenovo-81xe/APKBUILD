@@ -1,9 +1,9 @@
 # Reference: <https://postmarketos.org/devicepkg>
 # Maintainer: Jenneron <jenneron@protonmail.com>
-pkgname=device-lenovo-yoga-5g
+pkgname=device-lenovo-81xe
 pkgdesc="Lenovo Yoga 5G"
-pkgver=2
-pkgrel=2
+pkgver=3
+pkgrel=0
 url="https://postmarketos.org"
 license="MIT"
 arch="aarch64"
@@ -17,6 +17,14 @@ depends="
 makedepends="devicepkg-dev"
 source="deviceinfo modules-initfs"
 subpackages="$pkgname-nonfree-firmware:nonfree_firmware"
+provides="
+	device-lenovo-yoga-5g=$pkgver-r$pkgrel
+	device-lenovo-flex-5g=$pkgver-r$pkgrel
+"
+replaces="
+	device-lenovo-yoga-5g
+	device-lenovo-flex-5g
+"
 
 build() {
 	devicepkg_build $startdir $pkgname
@@ -27,13 +35,15 @@ package() {
 }
 
 nonfree_firmware() {
-	pkgdesc="WiFi firmware"
+	pkgdesc="WiFi/BT, GPU firmware"
 	depends="firmware-lenovo-yoga-5g linux-firmware-ath10k soc-qcom-sc8180x-nonfree-firmware"
+	provides="device-lenovo-yoga-5g-nonfree-firmware=$pkgver-r$pkgrel"
+	replaces="device-lenovo-yoga-5g-nonfree-firmware"
 	mkdir "$subpkgdir"
 }
 
 
 sha512sums="
-6ce114352091fe995d47496e36c1aeca2b47e73b7991c0a9c5f8e315f8f0d3b122d3da0ef4ee0e355fc850d076abb0ee861c2fc4dcff596cf4b3d20df5251d86  deviceinfo
+8574dd8fb30ca07f4073ab6a863265e3ac1efabce0d26c379ad01d8ea2c79c95cb0e1fe958ef28e24de9205559fba5f3c4d86fb1823f55f24a5edc4bb00a927e  deviceinfo
 438f30d14ad15fa87e5fa3b5127e5430af35cdddc400d2a01acbba6487792a602fcf3400e2c42ee991e6785fe62b083030ea977292efa88dacb3fcbe03bc32d7  modules-initfs
 "
