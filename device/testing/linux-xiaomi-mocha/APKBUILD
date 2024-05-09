@@ -1,0 +1,74 @@
+# Reference: <https://postmarketos.org/vendorkernel>
+# Kernel config based on: arch/arm/configs/(CHANGEME!)
+
+pkgname=linux-xiaomi-mocha
+pkgver=6.8.0_rc6
+pkgrel=1
+pkgdesc="Xiaomi Mi Pad Mainline kernel fork"
+arch="armv7"
+_carch="arm"
+_flavor="xiaomi-mocha"
+url="https://kernel.org"
+license="GPL-2.0-only"
+options="!strip !check !tracedeps pmb:cross-native"
+makedepends="bash bc bison devicepkg-dev flex openssl-dev perl gmp-dev mpc1-dev mpfr-dev findutils postmarketos-installkernel"
+
+# Source
+_repository="linux-6"
+_commit="42f0773b5b230b5b1074d0c98e523972c11e099b"
+_config="config-$_flavor.$arch"
+source="
+	$pkgname-$_commit.tar.gz::https://github.com/MiPadLinux/$_repository/archive/$_commit.tar.gz
+	$_config
+"
+builddir="$srcdir/$_repository-$_commit"
+_outdir="."
+
+prepare() {
+	default_prepare
+	cp "$srcdir/config-$_flavor.$arch" .config
+}
+
+build() {
+	unset LDFLAGS
+	make ARCH="$_carch" CC="${CC:-gcc}" \
+		KBUILD_BUILD_VERSION="$((pkgrel + 1 ))-postmarketOS"
+
+	# Master DTB (deviceinfo_bootimg_qcdt)
+	# dtbTool -o "$_outdir/arch/$_carch/boot"/dt.img \
+	#	"$_outdir/arch/$_carch/boot/"
+	# Ignore dtbTool use install instead (deal with strange package)
+	 install -Dm644 "$_outdir/arch/$_carch/boot/dts/nvidia"/tegra124-mocha.dtb \
+		"$_outdir/arch/$_carch/boot"/dt.img
+}
+
+package() {
+	mkdir -p "$pkgdir"/boot
+	make zinstall modules_install dtbs_install \
+		ARCH="$_carch" \
+		INSTALL_MOD_STRIP=1 \
+		INSTALL_PATH="$pkgdir"/boot \
+		INSTALL_MOD_PATH="$pkgdir" \
+		INSTALL_DTBS_PATH="$pkgdir/usr/share/dtb"
+
+	install -D "$builddir"/include/config/kernel.release \
+		"$pkgdir/usr/share/kernel/$_flavor/kernel.release"
+	# Master DTB
+	install -Dm644 "$builddir/arch/arm/boot/dt.img" \
+		"$pkgdir/boot/dt.img"
+
+}
+
+#package() {
+#	downstreamkernel_package "$builddir" "$pkgdir" "$_carch" "$_flavor"
+#
+#	# Master DTB
+#	install -Dm644 "$builddir/arch/arm/boot/dt.img" \
+#		"$pkgdir/boot/dt.img"
+#}
+
+
+sha512sums="
+95b43f8ac78647306e86dfa81affab5ef15f6367244f9b0fc53a3884db5be2a700ef54e816d38b698666bd2080225ea02b911410dd43f1c47aa826dc4079bc55  linux-xiaomi-mocha-42f0773b5b230b5b1074d0c98e523972c11e099b.tar.gz
+622509369503a8bf79e320c4865906eb0c9bc4fe94f72d85aa8dbfe541e5045908c2275ffb6b0b7ca9386947494ebcf81c06c76806abe42756fb241488d62dfe  config-xiaomi-mocha.armv7
+"
