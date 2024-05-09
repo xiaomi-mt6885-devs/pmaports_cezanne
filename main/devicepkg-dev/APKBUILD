@@ -8,6 +8,7 @@ license="MIT"
 source="
 	compiler-gcc.h
 	devicepkg_build.sh
+	devicepkg_generate_machine_info.sh
 	devicepkg_package.sh
 	devicepkg_pmtest_post_install.sh
 	downstreamkernel_prepare.sh
@@ -61,6 +62,8 @@ check() {
 package() {
 	install -Dm755 "$srcdir/devicepkg_build.sh" \
 		"$pkgdir/usr/bin/devicepkg_build"
+	install -Dm755 "devicepkg_generate_machine_info.sh" \
+		"$pkgdir/usr/bin/devicepkg_generate_machine_info"
 	install -Dm755 "$srcdir/devicepkg_package.sh" \
 		"$pkgdir/usr/bin/devicepkg_package"
 	install -Dm755 "$srcdir/devicepkg_pmtest_post_install.sh" \
@@ -76,7 +79,8 @@ package() {
 }
 sha512sums="
 d69930dd790b00fb39760a37d95a10899f0d167e10e2804feb05d9ce04f94185dc32d36edc90214aba2ea2aa09bf18f7dab93f1d2eff23f67beb2cc83be30e7c  compiler-gcc.h
-a483a970f6cf3e1f2724d8ec1039c2a935cc3e75efd016b3f134cef8a6e53820428bff0f1cb2bcfbd8ccda33c69fdb250be1cf061b2dc53c6063d2ab49023f97  devicepkg_build.sh
+382337bf9c422b68a221e10c3627415df9a947c2ff0b0b124011724dbc5079c2b98d22b278088186058ef7518fb6eb2e4ea2e246ba61bb791c1c245c478ad8cd  devicepkg_build.sh
+d130de16487b231f8b69821f4251be7c8370ab1b153fbb8912bd708b0653dbdeb532ce2d3800ac3c074539bd7b7bdd2ec9c443bf046c832b2e7e0e4b2e9b3d4b  devicepkg_generate_machine_info.sh
 5b83255dabd2019ea07a589d185bee5dad6760e28ab02de3480a0adfd1cf20d0c2e0b4a978e56757899ef683819091cee99d168a48e24a3f604b725e1ba26849  devicepkg_package.sh
 3b997a00e76be7d4540290275585026c5b83832c0b9a7214346763f03ec196b3f1bea9f50a9928a5cab0bc22dc557af136ffe146bd45d3666b5c05589891047d  devicepkg_pmtest_post_install.sh
 f81e74e45ae8e55686ae459f550e229e7398daeafa72bd023c2d8c3a0d50e60bf53d5bbdfec931e9fbabe1cd71de57b2192805aaef091ab90bc7203cbaf66ba6  downstreamkernel_prepare.sh
