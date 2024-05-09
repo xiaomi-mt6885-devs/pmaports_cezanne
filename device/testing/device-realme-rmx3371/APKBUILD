@@ -1,0 +1,40 @@
+# Reference: <https://postmarketos.org/devicepkg>
+pkgname=device-realme-rmx3371
+pkgdesc="Realme GT Neo 3T"
+pkgver=0.1
+pkgrel=0
+url="https://postmarketos.org"
+license="MIT"
+arch="aarch64"
+options="!check !archcheck"
+depends="
+	linux-postmarketos-qcom-sm8250
+	make-dynpart-mappings
+	mesa-vulkan-freedreno
+	mkbootimg
+	postmarketos-base
+	postmarketos-update-kernel
+	qbootctl
+	swclock-offset
+"
+makedepends="devicepkg-dev"
+source="deviceinfo modules-initfs"
+
+build() {
+	devicepkg_build $startdir $pkgname
+}
+
+package() {
+	devicepkg_package $startdir $pkgname
+}
+
+kernel_oplus() {
+	pkgdesc="oplus Panel."
+	depends="linux-postmarketos-qcom-sm8250"
+	devicepkg_subpackage_kernel $startdir $pkgname $subpkgname
+}
+
+sha512sums="
+ac916142a74a84775f89ce56fd25014ec734667dd82a58116bf3f97ef4f6fc5506967f1264084ea74763aae9f30effd36b5d2bc5227e8c9ff07b9a895eeb12d8  deviceinfo
+e70bae17df23dcaaaea0e2d3616556f04baa23f8ee1357785c0f539bf97282d8ddff53953e155b72689bb73beb38c2da3d08de2a61e866684edfa10a6593885d  modules-initfs
+"
