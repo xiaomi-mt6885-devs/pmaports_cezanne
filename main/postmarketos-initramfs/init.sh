@@ -78,7 +78,8 @@ unlock_root_partition
 resize_root_filesystem
 mount_root_partition
 
-# Mount boot partition into sysroot, so OpenRC doesn't need to do it (#664)
+# Mount boot partition into sysroot, so we do not depend on /etc/fstab, as
+# not all old installations have a proper /etc/fstab file. See #2800
 umount /boot
 mount_boot_partition /sysroot/boot "rw"
 
