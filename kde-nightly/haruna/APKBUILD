@@ -4,9 +4,9 @@
 # The group tag is just to easily find this APKBUILD by some scripts for automation
 # group=kde-other
 pkgname=haruna
-pkgver=9999_git20240506
+pkgver=9999_git20240508
 pkgrel=0
-_commit="9b91b96c1a8610db5d9f319200844b21e7b013fe"
+_commit="c32a8dee24ca8ad09f3fd41d103746fb3ad0ee26"
 # armhf blocked by extra-cmake-modules
 arch="all !armhf"
 url="https://invent.kde.org/multimedia/haruna"
@@ -35,7 +35,7 @@ makedepends="
 	samurai
 	"
 _repo_url="https://invent.kde.org/multimedia/haruna.git"
-source="https://nightly.postmarketos.org/plasma-mobile/sources/2024-05-08/haruna-$_commit.tar.xz"
+source="https://nightly.postmarketos.org/plasma-mobile/sources/2024-05-09/haruna-$_commit.tar.xz"
 subpackages="$pkgname-lang "
 
 options="!check"
@@ -58,5 +58,5 @@ package() {
 }
 
 sha512sums="
-fa3a153b86601dbcf6105013a38a38304ae078055a31e0a6232955e60b43075b3787e32cf1432e93d2c732bba952975285a1433a67d762325d02db7040c53111  haruna-9b91b96c1a8610db5d9f319200844b21e7b013fe.tar.xz
+da2a7789db316ed8e24268f330770ca1f1ef47e554be91154b7f76338c4a23bf5a52b8ca029b56fe719e5bbc5ab5073608dd9db2df63f8e6d8453aeab166828c  haruna-c32a8dee24ca8ad09f3fd41d103746fb3ad0ee26.tar.xz
 "

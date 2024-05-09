@@ -5,10 +5,10 @@
 # group=kde-other
 pkgname=atlantik
 # 3.5.10 is 15 years old but the latest commit is actually modern and even updated to Qt6
-pkgver=9999_git20240507
+pkgver=9999_git20240508
 pkgrel=0
-_commit="cf37d78d3d00f7e1ab13d35ab7f75b198577a28f"
-_commit="cf37d78d3d00f7e1ab13d35ab7f75b198577a28f"
+_commit="7e8f69a900811b09b16ce4e073a734645a92997f"
+_commit="7e8f69a900811b09b16ce4e073a734645a92997f"
 # armhf blocked by extra-cmake-modules
 arch="all !armhf"
 url="https://apps.kde.org/atlantik/"
@@ -32,7 +32,7 @@ makedepends="
 	samurai
 	"
 _repo_url="https://invent.kde.org/games/atlantik.git"
-source="https://nightly.postmarketos.org/plasma-mobile/sources/2024-05-08/atlantik-$_commit.tar.xz"
+source="https://nightly.postmarketos.org/plasma-mobile/sources/2024-05-09/atlantik-$_commit.tar.xz"
 subpackages="$pkgname-doc $pkgname-lang"
 options="!check" # No tests
 builddir="$srcdir/$pkgname-$_commit"
@@ -53,5 +53,5 @@ package() {
 }
 
 sha512sums="
-e89d728077912b244427cdf690a2dc15111354e7642d4a96654defe31a8b92b4e3d18f5e26a1c6c927eeaca3f8345f25a432b37d6c54f51c9e9ff8c003ab5fd2  atlantik-cf37d78d3d00f7e1ab13d35ab7f75b198577a28f.tar.xz
+5615c76afb77037d7ac37949c015186c729082e9d39543db1527a0acd9163e22890a3e74c1dc284cc68f34599d0ae304d63b3a455deeff4945a6ee3c04144161  atlantik-7e8f69a900811b09b16ce4e073a734645a92997f.tar.xz
 "

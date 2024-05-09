@@ -45,7 +45,7 @@ makedepends="
 	"
 checkdepends="xvfb-run"
 _repo_url="https://invent.kde.org/pim/akonadiconsole.git"
-source="https://nightly.postmarketos.org/plasma-mobile/sources/2024-05-08/akonadiconsole-$_commit.tar.xz"
+source="https://nightly.postmarketos.org/plasma-mobile/sources/2024-05-09/akonadiconsole-$_commit.tar.xz"
 
 options="!check"
 builddir="$srcdir/akonadiconsole-$_commit"
