@@ -36,8 +36,7 @@ depends="
 	u-boot-tools
 	fwupd>=1.8.6
 	"
-# FIXME: use upstream alsa-ucm-conf instead, once it works the same (pma#2115)
-replaces="alsa-ucm-conf"
+
 makedepends="devicepkg-dev dtc"
 install="$pkgname.post-install $pkgname.post-upgrade $pkgname.pre-upgrade"
 source="
@@ -63,9 +62,6 @@ source="
 	sun50i-a64-psci.dts
 	uboot-script.cmd
 	uboot-user.cmd
-	ucm/HiFi.conf
-	ucm/PinePhone.conf
-	ucm/VoiceCall.conf
 	ppkb.sh
 	sway-pinephone-keyboard.conf
 	x11-pinephone-keyboard.conf
@@ -134,14 +130,6 @@ package() {
 		"$pkgdir"/usr/lib/udev/rules.d/10-pinephone-proximity.rules
 	install -Dm644 "$srcdir"/60-flashlight.rules -t "$pkgdir"/usr/lib/udev/rules.d/
 
-	# Alsa usecase manager config
-	install -Dm644 -t "$pkgdir"/usr/share/alsa/ucm2/PinePhone \
-		"$srcdir"/HiFi.conf \
-		"$srcdir"/PinePhone.conf \
-		"$srcdir"/VoiceCall.conf
-	mkdir -p "$pkgdir"/usr/share/alsa/ucm2/conf.d/simple-card
-	ln -s /usr/share/alsa/ucm2/PinePhone/PinePhone.conf \
-		"$pkgdir"/usr/share/alsa/ucm2/conf.d/simple-card/PinePhone.conf
 
 	# Pulseaudio config
 	install -Dm644 "$srcdir"/pulse-pinephone.conf \
