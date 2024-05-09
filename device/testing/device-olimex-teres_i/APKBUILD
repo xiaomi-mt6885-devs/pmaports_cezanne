@@ -1,0 +1,34 @@
+# Reference: <https://postmarketos.org/devicepkg>
+# Maintainer: Jacob Hrbek <kreyren@fsfe.org>
+
+# Credit: Milan P. Stanić for maintaining the device on Alpine Linux including u-boot, arm-trusted-firmware, crust and finding a solution to broken display when compiled on alpine.
+
+
+pkgname=device-olimex-teres_i
+pkgdesc="OLIMEX Teres-I"
+pkgver=1.0
+pkgrel=0
+url="https://wiki.postmarketos.org/wiki/OLIMEX_Teres_i"
+license="MIT"
+arch="aarch64"
+depends="
+	linux-postmarketos-allwinner>=5.14
+	postmarketos-base
+	linux-firmware-rtlwifi
+	u-boot-sunxi
+	"
+makedepends="devicepkg-dev"
+source="deviceinfo"
+options="!check" # We don't have any tests to run
+
+build() {
+	devicepkg_build "$startdir" "$pkgname"
+}
+
+package() {
+	devicepkg_package "$startdir" $pkgname
+}
+
+sha512sums="
+dafc4323210cd1ec646ec9f658333c1f5e31e741272c58cdc14b9f03bfdf7babae0a05cb5bfb2907ad4d17ef00179a92894be5988cd2b28aa887f8922d082107  deviceinfo
+"

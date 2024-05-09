@@ -1,0 +1,30 @@
+# Reference: <https://postmarketos.org/deviceinfo>
+# Please use double quotes only. You can source this file in shell scripts.
+
+deviceinfo_format_version="0"
+deviceinfo_name="OLIMEX Teres-I"
+deviceinfo_manufacturer="OLIMEX"
+deviceinfo_codename="olimex-teres_i"
+deviceinfo_year="2017"
+deviceinfo_arch="aarch64"
+
+# Device related
+deviceinfo_gpu_accelerated="true"
+deviceinfo_chassis="laptop"
+deviceinfo_keyboard="true"
+deviceinfo_external_storage="true"
+deviceinfo_getty="ttyS0;115200"
+deviceinfo_external_storage="true"
+deviceinfo_dev_internal_storage="/dev/mmcblk2"
+deviceinfo_dev_internal_storage_repartition="true"
+# twice the on-board RAM for suspensions + 1 GB reserve
+deviceinfo_swap_size_recommended="5120"
+
+
+# Bootloader related
+deviceinfo_flash_method="none"
+deviceinfo_sd_embed_firmware_step_size="1024"
+deviceinfo_sd_embed_firmware="u-boot/teres_i/u-boot-sunxi-with-spl.bin:8"
+
+# EXTLINUX
+deviceinfo_generate_extlinux_config=true
