@@ -1,0 +1,51 @@
+# Reference: <https://postmarketos.org/devicepkg>
+# Maintainer: Danct12 <danct12@disroot.org>
+pkgname=device-pine64-pinetab2
+pkgdesc="Pine64 PineTab 2"
+pkgver=0.1
+pkgrel=0
+url="https://postmarketos.org"
+license="MIT"
+arch="aarch64"
+options="!check !archcheck"
+depends="
+	mesa-egl
+	postmarketos-base
+"
+makedepends="devicepkg-dev"
+subpackages="
+	$pkgname-nonfree-firmware:nonfree_firmware
+	$pkgname-kernel-v0:kernel_v0
+	$pkgname-kernel-v2:kernel_v2
+	"
+source="deviceinfo"
+
+build() {
+	devicepkg_build $startdir $pkgname
+}
+
+package() {
+	devicepkg_package $startdir $pkgname
+}
+
+nonfree_firmware() {
+	pkgdesc="WLAN and Bluetooth Firmware"
+	depends="firmware-bes2600"
+	mkdir "$subpkgdir"
+}
+
+kernel_v0() {
+	pkgdesc="PineTab2 kernel for PineTab 2 Dev Units"
+	depends="linux-pine64-pinetab2"
+	devicepkg_subpackage_kernel $startdir $pkgname $subpkgname
+}
+
+kernel_v2() {
+	pkgdesc="PineTab2 kernel for PineTab 2 Early Adopter"
+	depends="linux-pine64-pinetab2"
+	devicepkg_subpackage_kernel $startdir $pkgname $subpkgname
+}
+
+sha512sums="
+80ba9d116dfaf3cdc0c3baf6048974160150d3b59d6fcd5188801edb938ca8caa7e0d1581f2fe9340bb0b23635432405fad0ecdd45e94cd82c32adb5eeb8e804  deviceinfo
+"
