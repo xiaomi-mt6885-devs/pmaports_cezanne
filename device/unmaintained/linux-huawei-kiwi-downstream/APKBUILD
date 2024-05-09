@@ -4,7 +4,7 @@
 
 pkgname=linux-huawei-kiwi-downstream
 pkgver=3.10.108
-pkgrel=1
+pkgrel=2
 pkgdesc="Huawei Honor 5X downstream kernel fork"
 arch="aarch64"
 _carch="arm64"
@@ -31,6 +31,9 @@ source="
 	gcc8-fix-put-user.patch
 	gcc10-extern_YYLOC_global_declaration.patch
 	wlan_nv_template_builtin.patch
+	linux3.4-ARM-8933-1-replace-Sun-Solaris-style-flag-on-section.patch
+	linux3.4-fix-piggy.gzip.S.patch
+	linux3.7to4.5-ARM64-remove-Sun-Solaris-style-flag-on-section.patch
 "
 builddir="$srcdir/$_repository-$_commit"
 _outdir="out"
@@ -62,4 +65,7 @@ ddbbc59dbf7a1cde1f66ecdc66b5e00a5633ed0ff33d0ae2b90b06eb16204abb0cbbe708f39a9b86
 197d40a214ada87fcb2dfc0ae4911704b9a93354b75179cd6b4aadbb627a37ec262cf516921c84a8b1806809b70a7b440cdc8310a4a55fca5d2c0baa988e3967  gcc8-fix-put-user.patch
 2b48f1bf0e3f70703d2cdafc47d5e615cc7c56c70bec56b2e3297d3fa4a7a1321d649a8679614553dde8fe52ff1051dae38d5990e3744c9ca986d92187dcdbeb  gcc10-extern_YYLOC_global_declaration.patch
 edebf62a38a558369eb914475bc341d1fedc1c0bbeb2989172f9f99a2bc57c231a995176702335cd754701449b145e0231c1f2860d9ea93e84f52916a64d8d98  wlan_nv_template_builtin.patch
+9e3b067fa1b19ad02500c4fce1b6142051df3845c508e615788beb650c4f953683107ac2d80670c4e3df38f532e0e91060d2d13ec04c9ec985abd2dfa82e900b  linux3.4-ARM-8933-1-replace-Sun-Solaris-style-flag-on-section.patch
+080745ca4ecaa804ee1df26ea81975ca93b74372e0c08322a6c481e97807495ae6ceb6cc77653afa24f9f2df45da8ebf8e5de6b06037fbb08e0279877ce42188  linux3.4-fix-piggy.gzip.S.patch
+75545ccd0082a119b9ad95fcef3523c939a5c946f8f3a5c3dde15cee1502f6c1011050a0ad5359426f018bb7ceea1c97a28c7665941bc89f365c8d11065ce0f6  linux3.7to4.5-ARM64-remove-Sun-Solaris-style-flag-on-section.patch
 "
