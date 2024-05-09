@@ -1,8 +1,8 @@
 # Maintainer: Caleb Connolly <caleb@connolly.tech>
 
 pkgname=firmware-oneplus-sdm845
-pkgver=9
-pkgrel=1
+pkgver=10
+pkgrel=0
 pkgdesc="Firmware for OnePlus 6 / 6T"
 url="https://gitlab.com/sdm845-mainline/firmware-oneplus-sdm845"
 arch="aarch64"
@@ -25,14 +25,9 @@ subpackages="
 "
 
 package() {
-	cd "$srcdir/$pkgname-$_version/"
 	while IFS="" read -r _i || [ -n "$_i" ]; do
-		install -Dm644 "$_i" "$pkgdir/$_i"
+		install -Dm644 "$srcdir/$pkgname-$_version/$_i" "$pkgdir/$_i"
 	done < "$srcdir/firmware.files"
-
-	# Install board-2.bin until upstream
-	install -Dm644 "$srcdir"/board-2.bin \
-		"$pkgdir"/lib/firmware/postmarketos/ath10k/WCN3990/hw1.0/board-2.bin
 }
 
 pmtest() {
@@ -59,7 +54,7 @@ firmware_sensors() {
 sha512sums="
 d14b22434016cb12b8c04a3e7ac186451d77b92284e926a2771d958960d4da8ffb10cb9db555a200babcedd7be3379d2840882d19c26edc88805eee943310c2f  firmware-oneplus-sdm845-dc9c77f220d104d7224c03fcbfc419a03a58765e.tar.gz
 23e4ea891f688bf5669e4b8479aab06b56c5478429b759c22fa417e1ad09cb413e55856140b456c6b676b8920ecec40aa0215d8fd61a23ac2c5c02240552f247  firmware.files
-4e5c4f55d4b084c6c21810b93a63a75ad86dd04cd1c079497bd2387f8bd0a411053ca1e894974af8bfda77ddc79c92a6669550be3a48fbef01cf797b54d6cb67  sensor.files
+4589e015f2a4f6a2a67a571eda338f00fba7a38231d6fabee29b8bef33b6efdafe59471d63093d5e6c27d0b179484f0cc6b7d18e4661bdbc20189969808ca801  sensor.files
 a8eaab63f467553a65789a316d6f58cc15b0ad9bf3f698e6dbe51efa841db7f62a69d0c24b69da4f36de4a01dc29b723911d9cf17f925d3ce1170cbfa6b16029  board-2.bin
 d6a81ab4697e763eebf2b428e8a63dbdd0a44743691d9277e9d3c7de26dbcbddaea1928a6cfa5509f8f41506d8812022f200ec47f87d28e05af77302683ffcf4  30-oneplus-sdm845-firmware-ci.files
 "
