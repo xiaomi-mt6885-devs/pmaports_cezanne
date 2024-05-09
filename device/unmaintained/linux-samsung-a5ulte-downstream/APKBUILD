@@ -5,7 +5,7 @@
 
 pkgname=linux-samsung-a5ulte-downstream
 pkgver=3.10.49
-pkgrel=1
+pkgrel=2
 pkgdesc="Samsung Galaxy A5 (SM-A500FU) kernel fork"
 arch="armv7"
 _carch="arm"
@@ -34,6 +34,9 @@ source="
 	memshare-debug.patch
 	remove-gcc-wrapper.patch
 	samsung-usb-ethaddr.patch
+	linux3.4-ARM-8933-1-replace-Sun-Solaris-style-flag-on-section.patch
+	linux3.4-fix-piggy.gzip.S.patch
+	linux3.7to4.5-ARM64-remove-Sun-Solaris-style-flag-on-section.patch
 "
 builddir="$srcdir/$_repository-$_commit"
 _outdir="out"
@@ -64,4 +67,7 @@ e9f809b6659375cd7e854821f9925faa263d287c06e44071017cd4afb32f79c47e63760c9c95b4f0
 56083a8b290a7b1b1ffc9c8e3333db6d786a20d6e91ee400e895ecee8d31cccc75d809be13bcfe5cfb7d5b53a687b25281e8fd454cf420468ded3f77dcea9897  memshare-debug.patch
 4a09fdcf99a4716a4ced11b7d74b7867423e5f6fa6c62674e57f496a10647c0b704fd5f91c46711e363337b54d3b7917b6c685230568eab44b6303bd285a2b61  remove-gcc-wrapper.patch
 04f7df03f4c9e4b144c24c33b6fadc98381dacf891535ba18d791c250366550c59dba19418e47dbe575671e253d19a1e8076dd7f46743c0123e624a65366aaa6  samsung-usb-ethaddr.patch
+9e3b067fa1b19ad02500c4fce1b6142051df3845c508e615788beb650c4f953683107ac2d80670c4e3df38f532e0e91060d2d13ec04c9ec985abd2dfa82e900b  linux3.4-ARM-8933-1-replace-Sun-Solaris-style-flag-on-section.patch
+080745ca4ecaa804ee1df26ea81975ca93b74372e0c08322a6c481e97807495ae6ceb6cc77653afa24f9f2df45da8ebf8e5de6b06037fbb08e0279877ce42188  linux3.4-fix-piggy.gzip.S.patch
+75545ccd0082a119b9ad95fcef3523c939a5c946f8f3a5c3dde15cee1502f6c1011050a0ad5359426f018bb7ceea1c97a28c7665941bc89f365c8d11065ce0f6  linux3.7to4.5-ARM64-remove-Sun-Solaris-style-flag-on-section.patch
 "
