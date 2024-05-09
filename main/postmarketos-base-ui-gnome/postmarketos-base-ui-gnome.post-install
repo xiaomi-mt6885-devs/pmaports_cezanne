@@ -6,3 +6,7 @@ rc-update add elogind default
 rc-update add iio-sensor-proxy default
 rc-update add modemmanager default
 rc-update add networkmanager default
+
+if [ -f "/etc/init.d/pmos_upgrader_dbus" ]; then
+    rc-update add pmos_upgrader_dbus default upgrade
+fi

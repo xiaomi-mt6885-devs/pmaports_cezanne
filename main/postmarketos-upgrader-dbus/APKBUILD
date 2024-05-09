@@ -1,0 +1,30 @@
+# Maintainer: andrisas <sebokandris2009@gmail.com>
+pkgname=postmarketos-upgrader-dbus
+pkgver=0.1
+pkgrel=0
+pkgdesc="dbus api for upgrading postmarketos"
+url="https://postmarketos.org/"
+arch="noarch"
+license="GPL-3.0"
+depends="pbsplash dbus py3-distro py3-packaging py3-dbus"
+makedepends="build-base meson ninja"
+_commit=3961a50182f9ab5b79d077999749dd828c66e5e5
+source="
+	https://gitlab.com/andrisas/postmarketos-upgrader-dbus/-/archive/$_commit/postmarketos-upgrader-dbus-$_commit.tar.gz
+	pmos_upgrader_dbus"
+options="!check"
+
+build() {
+	abuild-meson "$srcdir/$pkgname-$_commit" "$srcdir/output"
+}
+
+package() {
+	DESTDIR="$pkgdir" ninja -C "$srcdir/output" install
+	mkdir -p "$pkgdir"/etc/runlevels/upgrade
+	install -Dm755 "$srcdir/pmos_upgrader_dbus" -t "$pkgdir"/etc/init.d/
+}
+
+sha512sums="
+9af9363b07eb59171527b07e496fd3e8d7f2d7d931b4ab8278d70c195b3c876c4c20eafcd88c0de4e64f94ac4c6a6f6058f5656258411b2c00b2a1c6f78e4456  postmarketos-upgrader-dbus-3961a50182f9ab5b79d077999749dd828c66e5e5.tar.gz
+2565e3c36cc32063d2e80140e54276ce180315ddaa3ce730df05a110884f7479fdd7f4301b7725c63e66917d37e8b07e8de20e1d08b57f3462a19a438de8c9a5  pmos_upgrader_dbus
+"

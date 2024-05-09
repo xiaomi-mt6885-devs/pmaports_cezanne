@@ -1,0 +1,12 @@
+#!/sbin/openrc-run
+name="pmos_upgrader_dbus"
+description="PostmarketOS Upgrader dbus service"
+
+command="/usr/bin/python3"
+command_args="/etc/pmos_upgrader/dbus_api/main.py &"
+
+
+depend() {
+    need dbus
+    before display-manager
+}

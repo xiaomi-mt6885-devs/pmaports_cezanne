@@ -116,6 +116,8 @@ device/*/u-boot-librem5/			@craftyguy @alistair23 @Newbyte
 device/*/u-boot-pinebookpro/			@QC8086
 device/*/u-boot-pinephone/			@Arnavion @PsychoGame
 device/*/wl1251-cal/				@Danct12
+main/gnome-software-plugin-pmos/	@andrisas
 main/postmarketos-ui-plasma-mobile/		@bshah
+main/postmarketos-upgrader-dbus/	@andrisas
 main/shutdown-clear-rtc-wakealarm/		@Arnavion
 main/ttyescape/					@calebccff
