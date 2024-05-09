@@ -2,7 +2,6 @@
 # shellcheck disable=SC1091
 
 IN_CI="false"
-LOG_PREFIX="[pmOS-rd]"
 
 [ -e /hooks/10-verbose-initfs.sh ] && set -x
 
@@ -34,6 +33,7 @@ if [ "$IN_CI" = "false" ]; then
 	show_splash "Loading..."
 	setup_mdev
 	setup_dynamic_partitions "${deviceinfo_super_partitions:=}"
+	mount_subpartitions
 else
 	# loads all modules
 	setup_udev
@@ -46,12 +46,11 @@ if [ "$IN_CI" = "true" ]; then
 	fail_halt_boot
 fi
 
+# Always run dhcp daemon/usb networking for now (later this should only
+# be enabled, when having the debug-shell hook installed for debugging,
+# or get activated after the initramfs is done with an OpenRC service).
 setup_usb_network
 start_unudhcpd
-
-check_keys true
-
-mount_subpartitions
 
 wait_boot_partition
 mount_boot_partition /boot
@@ -86,25 +85,13 @@ mount_boot_partition /sysroot/boot "rw"
 init="/sbin/init"
 setup_bootchart2
 
-# Restore stdout and stderr to their original values
-exec 1>&3 2>&4
-
-# Re-enable kmsg ratelimiting (might have been disabled for logging)
-echo ratelimit > /proc/sys/kernel/printk_devkmsg
-
-killall telnetd mdev udevd msm-fb-refresher syslogd 2>/dev/null
-
-# Kill any getty shells that might be running
-for pid in $(pidof sh); do
-	if ! [ "$pid" = "1" ]; then
-		kill -9 "$pid"
-	fi
-done
+# Switch root
+killall telnetd mdev udevd msm-fb-refresher 2>/dev/null
 
 # shellcheck disable=SC2093
 exec switch_root /sysroot "$init"
 
-echo "$LOG_PREFIX ERROR: switch_root failed!" > /dev/kmsg
-echo "$LOG_PREFIX Looping forever. Install and use the debug-shell hook to debug this." > /dev/kmsg
-echo "$LOG_PREFIX For more information, see <https://postmarketos.org/debug-shell>" > /dev/kmsg
+echo "ERROR: switch_root failed!"
+echo "Looping forever. Install and use the debug-shell hook to debug this."
+echo "For more information, see <https://postmarketos.org/debug-shell>"
 fail_halt_boot

@@ -2,7 +2,7 @@
 pkgname=device-google-spring
 pkgdesc="HP Chromebook 11 G1"
 pkgver=2
-pkgrel=1
+pkgrel=2
 url="https://postmarketos.org"
 license="MIT"
 arch="armv7"
@@ -13,6 +13,7 @@ depends="
 	linux-postmarketos-exynos5
 	postmarketos-base
 	postmarketos-cros-common
+	postmarketos-initramfs-minimal
 "
 makedepends="devicepkg-dev"
 source="deviceinfo modules-initfs"

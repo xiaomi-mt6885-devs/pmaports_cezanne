@@ -1,18 +1,16 @@
 # Maintainer: Ferenc Bakonyi <bakonyi.ferenc@gmail.com>
 pkgname=postmarketos-mkinitfs-hook-console-shell
-pkgver=0.3.1
+pkgver=0.4.0
 pkgrel=0
 pkgdesc="Root console shell in the initramfs (security hole, for debugging only)"
 url="https://postmarketos.org"
 depends="postmarketos-mkinitfs devicepkg-utils fbdebug evtest linuxconsoletools reboot-mode fbkeyboard font-dejavu"
-source="console-shell.sh console-shell.files console-shell.modules"
+source="console-shell.files console-shell.modules"
 arch="noarch"
 license="GPL-2.0-or-later"
 options="!check" # No tests
 
 package() {
-	install -Dm644 "$srcdir"/console-shell.sh \
-		"$pkgdir"/usr/share/mkinitfs/hooks/30-console-shell.sh
 	install -Dm644 "$srcdir"/console-shell.files \
 		"$pkgdir"/usr/share/mkinitfs/files/30-console-shell.files
 	install -Dm644 "$srcdir"/console-shell.modules \
@@ -20,7 +18,6 @@ package() {
 }
 
 sha512sums="
-0753bf2e2bb011309a906db08b5fc13dba90e55bd5d11c8da0c34c89faf04dbf5915785cc0ed2a164f2e4c5fede06c7e80b5f592f4deb306cf5cec2371ef88f9  console-shell.sh
 17b65cb24103e4c1459ae72bc036c1f06cdfcccf480389ecf6a28253d104b9b06d394cf53314a1ef4ace4ffc88b6b1384ef4894b7270d6b2cfdfc83592e12b2c  console-shell.files
 a9b069ed121ffeee887e0583d8cb46035ecf1fa90a26a4ecb3aa11ff03178b2b08621f6676db6b2350f290694c04aabcf36f2ce3e0813a76dde9a33555edb112  console-shell.modules
 "

@@ -20,7 +20,6 @@ sh_files="
 	./main/postmarketos-installkernel/installkernel-pmos
 	./main/postmarketos-initramfs/init.sh
 	./main/postmarketos-initramfs/init_functions.sh
-	./main/postmarketos-mkinitfs-hook-debug-shell/20-debug-shell.sh
 	./main/postmarketos-mkinitfs-hook-debug-shell/setup_usb_storage.sh
 	./main/postmarketos-mkinitfs-hook-netboot/netboot.sh
 	./main/ttyescape/*.post-install

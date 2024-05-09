@@ -1,6 +1,6 @@
 pkgname=postmarketos-base
 pkgver=32
-pkgrel=2
+pkgrel=3
 pkgdesc="Meta package for minimal postmarketOS base"
 url="https://postmarketos.org"
 arch="noarch"
@@ -12,7 +12,7 @@ depends="
 	logbookd
 	openssh
 	postmarketos-bootsplash
-	postmarketos-initramfs
+	postmarketos-ramdisk
 	postmarketos-mvcfg
 	postmarketos-keys
 	sudo-virt
