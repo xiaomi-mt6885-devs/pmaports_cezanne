@@ -45,3 +45,7 @@ fi
 
 # Run testcases
 pytest -vv -x --tb=native "$pmaports/.ci/testcases" "$@"
+
+# This test was split off from testcases/test_ui to support checking only
+# changed UI packages (see pma#2658)
+python "$pmaports/.ci/lib/check_ui.py"

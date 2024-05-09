@@ -3,22 +3,25 @@
 # SPDX-License-Identifier: GPL-3.0-or-later
 
 import glob
-import pytest
 import sys
 import os
+
+# Same dir
+import common
 
 import add_pmbootstrap_to_import_path
 import pmb.parse
 
-@pytest.mark.skip(reason="needs to option to skip unchanged packages (for CI), see pma#2658")
-def test_aports_ui(args):
+
+def check_aports_ui(args, pkgnames):
     """
     Raise an error if package in _pmb_recommends is not found
     """
     pmaports_cfg = pmb.config.pmaports.read_config(args)
 
     for arch in pmaports_cfg["supported_arches"].split(","):
-        for path in glob.iglob(args.aports + "/main/postmarketos-ui-*/APKBUILD"):
+        for pkg in pkgnames:
+            path = os.path.join(args.aports, "main", pkg, "APKBUILD")
             apkbuild = pmb.parse.apkbuild(path)
             # Skip if arch isn't enabled
             if not pmb.helpers.package.check_arch(args, apkbuild["pkgname"], arch, False):
@@ -40,3 +43,25 @@ def test_aports_ui(args):
                     if depend is None or not pmb.helpers.package.check_arch(args, package, arch):
                         raise RuntimeError(f"{path}: package '{package}' from _pmb_recommends "
                                            f"of -extras subpackage is not found for arch '{arch}'")
+
+
+if __name__ == "__main__":
+    common.add_upstream_git_remote()
+    pkgnames = common.get_changed_ui()
+
+    if len(pkgnames) == 0:
+        print("No UI packages changes in this branch")
+        exit(0)
+
+    print(f"Changed UI packages: {' '.join(pkgnames)}")
+
+    # Initialize args (so we can use pmbootstrap's kconfig parsing)
+    sys.argv = ["pmbootstrap", "kconfig", "check"]
+    args = pmb.parse.arguments()
+    pmb.helpers.logging.init(args)
+
+    print("Checking changed UI packages...")
+    last_failed = check_aports_ui(args, pkgnames)
+    if last_failed:
+        print(f"UI package check failed: {last_failed}")
+        exit(1)

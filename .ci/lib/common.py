@@ -196,10 +196,16 @@ def get_changed_packages():
 
     return ret
 
-
 def get_changed_kernels():
     ret = []
     for pkgname in get_changed_packages():
         if pkgname.startswith("linux-"):
+            ret += [pkgname]
+    return ret
+
+def get_changed_ui():
+    ret = []
+    for pkgname in get_changed_packages():
+        if pkgname.startswith("postmarketos-ui"):
             ret += [pkgname]
     return ret
