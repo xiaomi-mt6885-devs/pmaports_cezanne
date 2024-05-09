@@ -1,0 +1,29 @@
+# Maintainer: Petr Hodina <phodina@protonmail.com>
+pkgname=amlogic-usbdl-payload-s905x2
+pkgver=0_git20222708
+_commit="2960e52503c60cd3a0e1b62d8e66003eba2e5cce"
+pkgrel=0
+pkgdesc="Dump Bootrom BL1"
+url="https://github.com/Raxone/amlogic-usbdl_s905x3"
+arch="aarch64"
+license="GPL-3.0-or-later"
+source="$pkgname-$_commit.tar.gz::https://github.com/Raxone/amlogic-usbdl_s905x2/archive/$_commit.tar.gz"
+builddir="$srcdir/amlogic-usbdl_s905x2-$_commit/payloads/src"
+options="!check" # No tests
+
+build() {
+	export CROSS_COMPILER=""
+	make
+}
+
+package() {
+	install -Dm644 dump_bootrom_uart.bin "$pkgdir"/usr/share/"$pkgname"
+	install -Dm644 fix_usb.bin "$pkgdir"/usr/share/"$pkgname"
+	install -Dm644 memdump_over_usb_all.bin "$pkgdir"/usr/share/"$pkgname"
+	install -Dm644 memdump_over_usb_bl1.bin "$pkgdir"/usr/share/"$pkgname"
+	install -Dm644 memdump_over_usb_efuse.bin "$pkgdir"/usr/share/"$pkgname"
+	install -Dm644 run_fastboot.bin "$pkgdir"/usr/share/"$pkgname"
+	install -Dm644 sleep_n_reset.bin "$pkgdir"/usr/share/"$pkgname"
+}
+
+sha512sums="d16df0bbc731edb70671d848d7b1d369c59d75ac3abef6cbf5ec751631e047e1626989dc3a256abe09f83fed0d315e0682325d0f912a8f9f9bd2bb3fbc331bda  amlogic-usbdl-payload-s905x2-2960e52503c60cd3a0e1b62d8e66003eba2e5cce.tar.gz"
