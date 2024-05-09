@@ -1,0 +1,100 @@
+# Forked from Alpine to add systemd!
+
+pkgname=gnome-desktop
+pkgver=99944.0
+_pkgver=44.0
+pkgrel=2
+pkgdesc="GNOME desktop core libraries"
+url="https://gitlab.gnome.org/GNOME/gnome-desktop"
+arch="all"
+license="GPL-2.0-or-later AND LGPL-2.1-or-later"
+depends_dev="gobject-introspection-dev gsettings-desktop-schemas-dev"
+makedepends="$depends_dev
+	eudev-dev
+	fontconfig-dev
+	gdk-pixbuf-dev
+	glib-dev
+	gtk-doc
+	gtk+3.0-dev
+	gtk4.0-dev
+	iso-codes-dev
+	itstool
+	libseccomp-dev
+	libxml2-utils
+	meson
+	systemd-dev
+	xkeyboard-config-dev
+	"
+options="!check" # Can't find its own GSettings schemas
+subpackages="
+	$pkgname-dev
+	$pkgname-doc
+	$pkgname-lang
+	$pkgname-dbg
+	$pkgname-debug
+	libgnome-bg-4:bg_four
+	libgnome-desktop-3:three
+	libgnome-desktop-4:four
+	libgnome-rr-4:rr_four
+	"
+# Patch: https://gitlab.gnome.org/GNOME/gnome-desktop/-/merge_requests/158
+source="https://download.gnome.org/sources/gnome-desktop/${_pkgver%.*}/gnome-desktop-$_pkgver.tar.xz
+	utf8-explicit.patch
+	"
+builddir="$srcdir/$pkgname-$_pkgver"
+
+build() {
+	abuild-meson \
+		-Db_lto=true \
+		-Dudev=enabled \
+		-Dbuild_gtk4=true \
+		-Dsystemd=enabled \
+		-Dlegacy_library=true \
+		. output
+	meson compile -C output
+}
+
+check() {
+	meson test --no-rebuild --print-errorlogs -C output
+}
+
+package() {
+	depends="
+		libgnome-bg-4=$_pkgver-r$pkgrel
+		libgnome-desktop-3=$_pkgver-r$pkgrel
+		libgnome-desktop-4=$_pkgver-r$pkgrel
+		libgnome-rr-4=$_pkgver-r$pkgrel
+		"
+	DESTDIR="$pkgdir" meson install --no-rebuild -C output
+}
+
+bg_four() {
+	amove usr/lib/girepository-*/GnomeBG-4.0.typelib
+	amove usr/lib/libgnome-bg-4.so.*
+}
+
+three() {
+	depends="bubblewrap"
+	amove usr/lib/girepository-*/GnomeDesktop-3.0.typelib
+	amove usr/lib/libgnome-desktop-3.so.*
+}
+
+four() {
+	depends="bubblewrap"
+	amove usr/lib/girepository-*/GnomeDesktop-4.0.typelib
+	amove usr/lib/libgnome-desktop-4.so.*
+}
+
+rr_four() {
+	amove usr/lib/girepository-*/GnomeRR-4.0.typelib
+	amove usr/lib/libgnome-rr-4.so.*
+}
+
+debug() {
+	amove usr/libexec/gnome-desktop-debug
+}
+
+sha512sums="
+707e96ffe1bbe27c448dd007b5a005e06ea3bba945c1c6708c61b8cec204cef6f5ed540f8ba0f5e566c2fdbc825fc6f9f0440706e0aea132490ca6d48823e180  gnome-desktop-44.0.tar.xz
+b50843e018121df5c426916cce919aae65570e373a26bb49cd53549963b41eeddf6bd439050f307646883e0777d8a5d8a266c3792c0c688ab02e892031b05f8e  utf8-explicit.patch
+"
