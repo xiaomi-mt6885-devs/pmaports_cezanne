@@ -1,0 +1,136 @@
+# Reference: <https://postmarketos.org/devicepkg>
+# Maintainer: Siddharth Manthan <siddharth.manthan@gmail.com>
+# Co-Maintainer: Raymond Hackley <raymondhackley@protonmail.com>
+pkgname=device-samsung-fortuna
+pkgdesc="Samsung Galaxy Grand Prime"
+pkgver=4
+pkgrel=0
+url="https://postmarketos.org"
+license="MIT"
+arch="aarch64"
+options="!check !archcheck"
+depends="
+	mkbootimg
+	postmarketos-base
+	soc-qcom-msm8916
+	soc-qcom-msm8916-rproc
+"
+makedepends="devicepkg-dev"
+source="deviceinfo modules-initfs"
+subpackages="
+	$pkgname-nonfree-firmware:nonfree_firmware
+	$pkgname-kernel-fortuna3g:kernel_fortuna3g
+	$pkgname-kernel-gprimeltecan:kernel_fortuna3g
+	$pkgname-kernel-grandprimelte:kernel_grandprimelte
+"
+_variants="
+	fortuna3g
+	gprimeltecan
+	grandprimelte
+"
+
+for _variant in $_variants; do
+	subpackages="
+		$subpackages
+		${pkgname%-fortuna}-$_variant-nonfree-firmware:nonfree_firmware_$_variant
+	"
+done
+
+_pmb_select="soc-qcom-msm8916-rproc"
+
+build() {
+	devicepkg_build $startdir $pkgname
+}
+
+package() {
+	devicepkg_package $startdir $pkgname
+}
+
+kernel_fortuna3g() {
+	pkgdesc="$pkgdesc (SM-G530H)"
+	depends="$pkgname=$pkgver-r$pkgrel linux-postmarketos-qcom-msm8916"
+
+	# Backwards compatibility for old device package name
+	local _old_pkgname="device-samsung-fortuna3g"
+	replaces="$_old_pkgname"
+	provides="$_old_pkgname=$pkgver-r$pkgrel"
+
+	devicepkg_subpackage_kernel $startdir $pkgname $subpkgname
+}
+
+kernel_gprimeltecan() {
+	pkgdesc="$pkgdesc (SM-G530W)"
+	depends="$pkgname=$pkgver-r$pkgrel linux-postmarketos-qcom-msm8916"
+
+	# Backwards compatibility for old device package name
+	local _old_pkgname="device-samsung-gprimeltecan"
+	replaces="$_old_pkgname"
+	provides="$_old_pkgname=$pkgver-r$pkgrel"
+
+	devicepkg_subpackage_kernel $startdir $pkgname $subpkgname
+}
+
+kernel_grandprimelte() {
+	pkgdesc="$pkgdesc (SM-G530FZ)"
+	depends="$pkgname=$pkgver-r$pkgrel linux-postmarketos-qcom-msm8916"
+
+	# Backwards compatibility for old device package name
+	local _old_pkgname="device-samsung-gprimeltexx"
+	replaces="$_old_pkgname"
+	provides="$_old_pkgname=$pkgver-r$pkgrel"
+
+	devicepkg_subpackage_kernel $startdir $pkgname $subpkgname
+}
+
+nonfree_firmware() {
+	pkgdesc="GPU/WiFi/BT/Modem/Video firmware"
+	depends="firmware-qcom-adreno-a300 msm-firmware-loader"
+
+	mkdir "$subpkgdir"
+}
+
+nonfree_firmware_fortuna3g() {
+	local _variant="fortuna3g"
+	pkgdesc="WiFi/BT firmware configuration (SM-G530H)"
+	depends="firmware-samsung-$_variant-wcnss-nv"
+	install_if="
+		$pkgname-kernel-$_variant=$pkgver-r$pkgrel
+		$pkgname-nonfree-firmware=$pkgver-r$pkgrel
+	"
+
+	mkdir "$subpkgdir"
+}
+
+nonfree_firmware_gprimeltecan() {
+	local _variant="gprimeltecan"
+	pkgdesc="WiFi/BT firmware configuration (SM-G530W)"
+	depends="firmware-samsung-$_variant-wcnss-nv"
+	install_if="
+		$pkgname-kernel-$_variant=$pkgver-r$pkgrel
+		$pkgname-nonfree-firmware=$pkgver-r$pkgrel
+	"
+
+	mkdir "$subpkgdir"
+}
+
+nonfree_firmware_grandprimelte() {
+	local _variant="grandprimelte"
+	pkgdesc="WiFi/BT firmware configuration (SM-G530FZ)"
+	depends="firmware-samsung-$_variant-wcnss-nv"
+	install_if="
+		$pkgname-kernel-$_variant=$pkgver-r$pkgrel
+		$pkgname-nonfree-firmware=$pkgver-r$pkgrel
+	"
+
+	# Backwards compatibility for old device package name
+	local _old_pkgname="device-samsung-gprimeltexx-nonfree-firmware"
+	replaces="$_old_pkgname"
+	provides="$_old_pkgname=$pkgver-r$pkgrel"
+
+	mkdir "$subpkgdir"
+}
+
+sha512sums="
+b9d240adc37c3a4fdc3f3d687e1f3b18dc5665602be015a4bc74bf2928900372968c1b9aade6293a304f7cb894a180e21c41dd6e4c5b58fe3e246186dcf17859  deviceinfo
+02b6d383149ba2ec3a31b206767be7ead31d9f0e7ee5cab11047000c53ccad387a118cbddb06093bca5cae3e82f884c02194de47b8e7a9c76102ac46506bb111  modules-initfs
+"
