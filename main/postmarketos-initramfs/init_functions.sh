@@ -297,6 +297,15 @@ find_boot_partition() {
 		done
 	fi
 
+	if grep -q "pmos.stowaway" /proc/cmdline; then
+		mount_root_partition
+		PMOS_BOOT="/sysroot/boot"
+		mount --bind /sysroot/boot /boot
+
+		echo "$PMOS_BOOT"
+		return
+	fi
+
 	PMOS_BOOT=$(pretty_dm_path "$PMOS_BOOT")
 	echo "$PMOS_BOOT"
 }
@@ -313,6 +322,11 @@ get_partition_type() {
 # switch_root to /sysroot and have the boot partition properly mounted.
 mount_boot_partition() {
 	partition=$(find_boot_partition)
+
+	# We dont need to do this when using stowaways
+	if grep -q "pmos.stowaway" /proc/cmdline; then
+		return
+	fi
 
 	if [ "$2" = "rw" ]; then
 		mount_opts=""
@@ -513,6 +527,11 @@ resize_root_filesystem() {
 }
 
 mount_root_partition() {
+	# Don't mount root if it is already mounted
+	if mountpoint -q /sysroot; then
+		return
+	fi
+
 	partition="$(find_root_partition)"
 	rootfsopts=""
 
@@ -542,7 +561,15 @@ mount_root_partition() {
 		fail_halt_boot
 	fi
 
-	if ! [ -e /sysroot/usr ]; then
+	if [ -e /sysroot/.stowaways/pmos/etc/os-release ]; then
+		umount /sysroot
+
+		mkdir /stowaway
+		mount -t "$type" -o rw"$rootfsopts" "$partition" /stowaway
+		mount --bind /stowaway/.stowaways/pmos/ /sysroot
+	fi
+
+	if ! [ -e /sysroot/etc/os-release ]; then
 		echo "ERROR: root partition appeared to mount but does not contain a root filesystem!"
 		show_splash "ERROR: root partition does not contain a root filesystem\\nhttps://postmarketos.org/troubleshooting"
 		fail_halt_boot
