@@ -3,7 +3,7 @@
 
 pkgname=systemd
 pkgver=255.2
-pkgrel=1
+pkgrel=2
 pkgdesc="System and service manager"
 url="https://github.com/systemd/systemd"
 arch="all !ppc64le !armhf !s390x" # blocked by pmboostrap not supporting
@@ -386,7 +386,7 @@ journald_zcomp() {
 
 x11() {
 	pkgdesc="systemd x11"
-	install_if="$pkgname=$pkgver-r$pkgrel xorg-server"
+	install_if="$pkgname=$pkgver-r$pkgrel xorg-server-common"
 
 	amove usr/lib/tmpfiles.d/x11.conf
 	amove etc/X11/xinit/xinitrc.d/50-systemd-user.sh
