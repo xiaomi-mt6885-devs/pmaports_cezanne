@@ -1,0 +1,53 @@
+From 1461e3aa397469c26d194ab2d268854f252ce711 Mon Sep 17 00:00:00 2001
+From: cool <cool@gayhub.eu.org>
+Date: Fri, 10 May 2024 01:35:00 +0800
+Subject: [PATCH] 1
+
+---
+ drivers/misc/mediatek/typec/tcpc_cezanne/inc/tcpci_typec.h | 2 +-
+ drivers/misc/mediatek/typec/tcpc_cezanne/tcpci_typec.c     | 2 +-
+ drivers/power/supply/ti_cezanne/bq2597x_charger.c          | 2 +-
+ 3 files changed, 3 insertions(+), 3 deletions(-)
+
+diff --git a/drivers/misc/mediatek/typec/tcpc_cezanne/inc/tcpci_typec.h b/drivers/misc/mediatek/typec/tcpc_cezanne/inc/tcpci_typec.h
+index e5372d042955..78b3e4e1d5d5 100644
+--- a/drivers/misc/mediatek/typec/tcpc_cezanne/inc/tcpci_typec.h
++++ b/drivers/misc/mediatek/typec/tcpc_cezanne/inc/tcpci_typec.h
+@@ -49,7 +49,7 @@ extern int tcpc_typec_change_role(
+ 
+ #ifdef CONFIG_USB_POWER_DELIVERY
+ extern int tcpc_typec_handle_pe_pr_swap(struct tcpc_device *tcpc_dev);
+-extern inline int typec_pd_start_entry(struct tcpc_device *tcpc_dev);
++extern int typec_pd_start_entry(struct tcpc_device *tcpc_dev);
+ #endif /* CONFIG_USB_POWER_DELIVERY */
+ 
+ #ifdef CONFIG_TYPEC_CAP_ROLE_SWAP
+diff --git a/drivers/misc/mediatek/typec/tcpc_cezanne/tcpci_typec.c b/drivers/misc/mediatek/typec/tcpc_cezanne/tcpci_typec.c
+index 650a47bece68..9c77e36aec85 100644
+--- a/drivers/misc/mediatek/typec/tcpc_cezanne/tcpci_typec.c
++++ b/drivers/misc/mediatek/typec/tcpc_cezanne/tcpci_typec.c
+@@ -2154,7 +2154,7 @@ static inline int typec_handle_pe_idle(struct tcpc_device *tcpc_dev)
+ 	return 0;
+ }
+ 
+-inline int typec_pd_start_entry(struct tcpc_device *tcpc_dev)
++int typec_pd_start_entry(struct tcpc_device *tcpc_dev)
+ {
+ 	return pd_put_cc_attached_event(tcpc_dev, tcpc_dev->typec_attach_new);
+ }
+diff --git a/drivers/power/supply/ti_cezanne/bq2597x_charger.c b/drivers/power/supply/ti_cezanne/bq2597x_charger.c
+index f4efacb50aef..178fbc001906 100644
+--- a/drivers/power/supply/ti_cezanne/bq2597x_charger.c
++++ b/drivers/power/supply/ti_cezanne/bq2597x_charger.c
+@@ -58,7 +58,7 @@ enum {
+ 
+ #define NOT_SUPPORT	-1
+ 
+-static float sc8551_adc_lsb[] = {
++static unsigned int sc8551_adc_lsb[] = {
+ 	[ADC_IBUS]	= SC8551_IBUS_ADC_LSB,
+ 	[ADC_VBUS]	= SC8551_VBUS_ADC_LSB,
+ 	[ADC_VAC]	= SC8551_VAC_ADC_LSB,
+-- 
+2.45.0
+

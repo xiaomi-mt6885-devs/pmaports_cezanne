@@ -1,0 +1,69 @@
+# Kernel config based on: arch/arm64/configs/vendor/cezanne_user_defconfig
+
+pkgname=linux-xiaomi-cezanne
+pkgver=4.14.186
+pkgrel=0
+pkgdesc="Xiaomi Redmi K30 Ultra kernel fork"
+arch="aarch64"
+_carch="arm64"
+_flavor="xiaomi-cezanne"
+url="https://kernel.org"
+license="GPL-2.0-only"
+options="!strip !check !tracedeps pmb:cross-native"
+makedepends="
+	bash
+	bc
+	bison
+	devicepkg-dev
+	findutils
+	flex
+	openssl-dev
+	perl
+	xz
+	dtc
+"
+
+# Source
+_repository="android_kernel_xiaomi_mt6885"
+_commit="79cdb8ba0f134d629cc463abc394156562226276"
+_config="config-$_flavor.$arch"
+source="
+	$pkgname-$_commit.tar.gz::https://github.com/NijikaChan/$_repository/archive/$_commit.tar.gz
+	$_config
+	selinux_include_generated_headers.patch
+	use_system_cpio.patch
+	stop-inlining-blk_crypto_flock-and-ksm_flock.patch
+	use_system_dtc.patch
+	fix_some_build_error.patch
+"
+builddir="$srcdir/$_repository-$_commit"
+_outdir="out"
+
+prepare() {
+	default_prepare
+	REPLACE_GCCH=0 . downstreamkernel_prepare
+}
+
+build() {
+	unset LDFLAGS
+	make O="$_outdir" ARCH="$_carch" CC="${CC:-gcc}" \
+		KBUILD_BUILD_VERSION="$((pkgrel + 1 ))-postmarketOS"
+}
+
+package() {
+	downstreamkernel_package "$builddir" "$pkgdir" "$_carch" \
+		"$_flavor" "$_outdir"
+
+	make dtbs_install O="$_outdir" ARCH="$_carch" \
+		INSTALL_DTBS_PATH="$pkgdir"/boot/dtbs
+}
+
+sha512sums="
+11ad361712f855cd13040182c00d44b98fa605dbd7150e21bac9a92ed7577f32df989204b246ad8cd23b27d243821bcfd76c683aec2d4fe720b814c6d9645cce  linux-xiaomi-cezanne-79cdb8ba0f134d629cc463abc394156562226276.tar.gz
+75c136427f20709dc7e3bfbc5e57b455e9b9614c90317dfed23ebd33c30203f16e2a74cef75f6cd2d434524ce6aaf7ebb92e87a83b8ce22d8f67d394051c04c9  config-xiaomi-cezanne.aarch64
+6ab9db01d35f7f5cc2c19ebe5f65a7dc479a1c68de587300cdde9a6c759d34610666c72f0f321cd450cf56c13df3b54a774e0f7ebdbf0f8608fbfd66b49d04e7  selinux_include_generated_headers.patch
+03cf8db8f9760fbbe7d265a987b69d4eb212ca0eda2442e11cb823a20200a954c73036dfa6bbfd4b98ed0dbb07e25a8f29070cdc044074aeebba528297721dad  use_system_cpio.patch
+e448a1093c09414be36333fbdb0d4a3bc5b59018d571b702c6607cb32927cf1563bf03aa1f2d502e6040490e0b26198dd8204306ebaad41be810ba2d47a2721c  stop-inlining-blk_crypto_flock-and-ksm_flock.patch
+c9e562403cd572c66def9adea434731b77617f7561f1ce1079e21e8f02e8fd9cc1febd7e52c581e8e4b1c4aca21c5ca8c5813d2006be13051048d681a640ab3d  use_system_dtc.patch
+2428bb5cee7e95c538ef27621fb4b11acd974ff33aa5e659a233f16900b6e4d602292266e3a6fc76a682048a01d3f59efbed287c790d7a0781640399ff1f8801  fix_some_build_error.patch
+"

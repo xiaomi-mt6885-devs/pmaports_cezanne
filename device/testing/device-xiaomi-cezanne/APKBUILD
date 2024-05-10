@@ -1,0 +1,29 @@
+# Reference: <https://postmarketos.org/devicepkg>
+pkgname=device-xiaomi-cezanne
+pkgdesc="Xiaomi Redmi K30 Ultra"
+pkgver=1
+pkgrel=0
+url="https://postmarketos.org"
+license="MIT"
+arch="aarch64"
+options="!check !archcheck"
+depends="
+	linux-xiaomi-cezanne
+	mkbootimg
+	postmarketos-base
+	postmarketos-base-downstream
+"
+makedepends="devicepkg-dev"
+source="deviceinfo"
+
+build() {
+	devicepkg_build $startdir $pkgname
+}
+
+package() {
+	devicepkg_package $startdir $pkgname
+}
+
+sha512sums="
+60a9cb05e7ef02302db5a9caaa6673b385d7ee7a9c67cbf9a2f3bb7476792c3a83f1b8f68f8103db86d62a8a4ca03ca54374fdb5c8f2bc39d085c6b92dac3c12  deviceinfo
+"

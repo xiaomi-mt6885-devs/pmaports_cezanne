@@ -1,0 +1,16 @@
+diff --git a/kernel/gen_kheaders.sh b/kernel/gen_kheaders.sh
+index 8ffa6b894ef0..62848829c16e 100755
+--- a/kernel/gen_kheaders.sh
++++ b/kernel/gen_kheaders.sh
+@@ -8,7 +8,7 @@ sfile="$(readlink -f "$0")"
+ outdir="$(pwd)"
+ tarfile=$1
+ cpio_dir=$outdir/$tarfile.tmp
+-cpio=$KBUILD_SRC/tools/build/cpio
++cpio=cpio
+ dir_list="
+ include/
+ arch/$SRCARCH/include/
+-- 
+2.45.0
+
