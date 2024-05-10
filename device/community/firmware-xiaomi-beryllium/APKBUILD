@@ -1,37 +1,47 @@
 # Maintainer: Joel Selvaraj <joelselvaraj.oss@gmail.com>
 
 pkgname=firmware-xiaomi-beryllium
-pkgver=7
+pkgver=9
 pkgrel=0
 pkgdesc="Firmware for Xiaomi Poco F1"
 url="https://gitlab.com/sdm845-mainline/firmware-xiaomi-beryllium"
 arch="aarch64"
 depends="linux-firmware-qcom linux-firmware-qca linux-firmware-ath10k"
 license="proprietary"
-options="!strip !check !archcheck !tracedeps pmb:cross-native"
+options="!strip !check !archcheck !tracedeps textrels pmb:cross-native"
 
-_commit="b4937f06a796cd30b8ddecd6cf7ed416eecc06a0"
+_commit="33071b2803f93cd31ddfdd516ef799e065c71029"
 _board2_commit="fc750b3f1bda29c08cfe9329eb781c0ae3608456"
 
 source="$pkgname.tar.gz::$url/-/archive/$_commit/$pkgname-$_commit.tar.gz
 	firmware.files
+	sensor.files
 	board-2.bin::https://gitlab.com/dylanvanassche/ath10k-firmware/-/raw/$_board2_commit/linux-firmware/board-2.bin"
 
+subpackages="$pkgname-sensors:firmware_sensors"
+
 package() {
-	cd "$srcdir/$pkgname-$_commit/"
 	while IFS="" read -r _i || [ -n "$_i" ]; do
 		[ ! -d $(dirname $_i) ] && mkdir -p $(dirname $_i)
-		echo $_i
-		install -Dm644 $_i "$pkgdir/$_i"
+		install -Dm644 "$srcdir/$pkgname-$_commit/$_i" "$pkgdir/$_i"
 	done < "$srcdir/firmware.files"
+}
 
-	# Install board-2.bin until upstream
-	install -Dm644 "$srcdir"/board-2.bin \
-		"$pkgdir"/lib/firmware/postmarketos/ath10k/WCN3990/hw1.0/board-2.bin
+firmware_sensors() {
+	pkgdesc="Files to be included to add sensor support"
+	depends="$pkgname"
+	install_if="$pkgname-nonfree-firmware"
+	mkdir "$subpkgdir"
+
+	while IFS="" read -r _i || [ -n "$_i" ]; do
+		[ ! -d $(dirname $_i) ] && mkdir -p $(dirname $_i)
+		install -Dm644 "$srcdir/$pkgname-$_commit/$_i" "$pkgdir/$_i"
+	done < "$srcdir/sensor.files"
 }
 
 sha512sums="
-41fdd771fe73e31bdce6088fdeb7686205f61b9888612fa83ac914e4bb524d22bba63894376a671d3acb19e90316a3d2eafdfb5425360ba53e41a38b9fd753ae  firmware-xiaomi-beryllium.tar.gz
-db32c8df77632e763c1ca3e80cee1ee2528c4986c944511c726add6e13fca6552ae63f6d436800439b7e615fd0c09f234888a68e4a6ff6663afe3dc593d6a7b0  firmware.files
+fee2c9a10598684fe7b9646f61dda7e3949061087cb30d2ccf021e7faf7fcf593ddbfa8318e5a75b2529ee7e6e2d2c5762f27c6d335e8501d099be6443aa26a2  firmware-xiaomi-beryllium.tar.gz
+d41eb4cfd7b1fa932a6471162e1edb15f637be9b3b66648827916d5f3a03ebcae24b158b574916070a6d8a22cd8c0ac1bbcbafab8de6aba3b4932fa6bfb23bb1  firmware.files
+51bb41b4232a242026cee6f7ec6fcf7abb493ed6c2efc87f63988ff1e3a4085297c07923cc3c75ec403729630c252d5701daabcbcdc2007d5ab208945bdda45d  sensor.files
 a8eaab63f467553a65789a316d6f58cc15b0ad9bf3f698e6dbe51efa841db7f62a69d0c24b69da4f36de4a01dc29b723911d9cf17f925d3ce1170cbfa6b16029  board-2.bin
 "

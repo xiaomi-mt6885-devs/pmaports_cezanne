@@ -4,7 +4,7 @@
 pkgname=device-xiaomi-beryllium
 pkgdesc="Xiaomi Poco F1"
 pkgver=10
-pkgrel=4
+pkgrel=6
 url="https://postmarketos.org"
 license="MIT"
 arch="aarch64"
@@ -24,9 +24,11 @@ subpackages="
 
 source="
 	deviceinfo
+	hexagonrpcd.confd
 	modules-initfs.ebbg
 	modules-initfs.tianma
 	q6voiced.conf
+	81-libssc-xiaomi-beryllium.rules
 "
 
 build() {
@@ -38,12 +40,21 @@ package() {
 }
 
 nonfree_firmware() {
-	pkgdesc="GPU, venus, modem firmware"
-	depends="firmware-xiaomi-beryllium soc-qcom-sdm845-nonfree-firmware
-		 soc-qcom-sdm845-modem"
+	pkgdesc="GPU, venus, modem and sensor firmware"
+	install="$subpkgname.post-install $subpkgname.post-upgrade"
+	depends="
+		firmware-xiaomi-beryllium
+		hexagonrpcd
+		soc-qcom-sdm845-nonfree-firmware
+		soc-qcom-sdm845-modem
+	"
 	mkdir "$subpkgdir"
 
 	install -Dm644 q6voiced.conf "$subpkgdir"/etc/conf.d/q6voiced
+	install -Dm644 81-libssc-xiaomi-beryllium.rules \
+		"$subpkgdir"/etc/udev/rules.d/81-libssc-xiaomi-beryllium.rules
+
+	install -Dm644 "$srcdir"/hexagonrpcd.confd "$subpkgdir"/etc/conf.d/hexagonrpcd-sdsp
 }
 
 kernel_tianma() {
@@ -60,7 +71,9 @@ kernel_ebbg() {
 
 sha512sums="
 3d6247e3d1d045fea5cec78dd2a41b4cf81a84fa27550e9502d44152fbfa8246302d5ecb52837a05652a599a6e11dd87acf656b2235dff9dd0717cedb7afd8ab  deviceinfo
+a45bfe5b7043aa543bb94588f5cdb50413827cd3226b7f5cd0d551332edcaf8216a2c8086fd2ff71a1237f6bb3518c0f3cca82e3f09ef093558ef20e4ff84b73  hexagonrpcd.confd
 cab76675b9c48eb1ce0691b31667d17ee73ecf21439a7f7c9c2ba96344e3bf4ad713ebc685298d6e32ad589ba26f429cd6b0d200338b50d136ad1a29758e4214  modules-initfs.ebbg
 175a7d859956a029b91a1105b93c4113b07ab5cfe932294dd369808059ed03471625f64ce90e5146a65c0bb26417470d8f7c02e48dfacf2d016ce5b2c28cee76  modules-initfs.tianma
 3a4a9322839d4b3ef9d79668a37840a9f444954759ae3c512e694051d2f9a2573db42ad6c4c1a5c75eeb861232a27ba1a8cef9b503decd54ead25a96e3dd6f98  q6voiced.conf
+2c16ba75e0077b2b1eaefa4c73b287475505a1aeb291ec29316d41cc094277320f9d2aaabfd91eb1dc0f488ab2d61a94faef16e7afe0f1e226779113761b9a37  81-libssc-xiaomi-beryllium.rules
 "
