@@ -52,9 +52,9 @@ nonfree_firmware() {
 
 	install -Dm644 q6voiced.conf "$subpkgdir"/etc/conf.d/q6voiced
 	install -Dm644 81-libssc-xiaomi-beryllium.rules \
-		"subpkgdir"/etc/udev/rules.d/81-libssc-xiaomi-beryllium.rules
+		"$subpkgdir"/etc/udev/rules.d/81-libssc-xiaomi-beryllium.rules
 
-	install -Dm644 "$srcdir"/hexagonrpcd.confd "pkgdir"/etc/conf.d/hexagonrpcd-sdsp
+	install -Dm644 "$srcdir"/hexagonrpcd.confd "$subpkgdir"/etc/conf.d/hexagonrpcd-sdsp
 }
 
 kernel_tianma() {
