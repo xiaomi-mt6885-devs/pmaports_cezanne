@@ -10,7 +10,7 @@ depends="linux-firmware-qcom linux-firmware-qca linux-firmware-ath10k"
 license="proprietary"
 options="!strip !check !archcheck !tracedeps textrels pmb:cross-native"
 
-_commit="ca704b88931c61957d4c605a548bdef716214a97"
+_commit="33071b2803f93cd31ddfdd516ef799e065c71029"
 _board2_commit="fc750b3f1bda29c08cfe9329eb781c0ae3608456"
 
 source="$pkgname.tar.gz::$url/-/archive/$_commit/$pkgname-$_commit.tar.gz
@@ -42,6 +42,6 @@ firmware_sensors() {
 sha512sums="
 fee2c9a10598684fe7b9646f61dda7e3949061087cb30d2ccf021e7faf7fcf593ddbfa8318e5a75b2529ee7e6e2d2c5762f27c6d335e8501d099be6443aa26a2  firmware-xiaomi-beryllium.tar.gz
 d41eb4cfd7b1fa932a6471162e1edb15f637be9b3b66648827916d5f3a03ebcae24b158b574916070a6d8a22cd8c0ac1bbcbafab8de6aba3b4932fa6bfb23bb1  firmware.files
-cc2b1ce78d9ba1af9e1b894f5dfcd69cbc3c9738d8b7aaa1566d0cf2f94c45320a8feb66ee35c2a3341e687dfde8fd4c075ce3aabf3c16494d44a2736f789ae6  sensor.files
+51bb41b4232a242026cee6f7ec6fcf7abb493ed6c2efc87f63988ff1e3a4085297c07923cc3c75ec403729630c252d5701daabcbcdc2007d5ab208945bdda45d  sensor.files
 a8eaab63f467553a65789a316d6f58cc15b0ad9bf3f698e6dbe51efa841db7f62a69d0c24b69da4f36de4a01dc29b723911d9cf17f925d3ce1170cbfa6b16029  board-2.bin
 "
