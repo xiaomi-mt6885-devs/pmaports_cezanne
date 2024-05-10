@@ -40,6 +40,7 @@ package() {
 
 nonfree_firmware() {
 	pkgdesc="GPU, venus, modem and sensor firmware"
+	install="$subpkgname.post-install $subpkgname.post-upgrade"
 	depends="
 		firmware-xiaomi-beryllium
 		hexagonrpcd
